@@ -1,6 +1,19 @@
+sudo: required
+dist: trusty
 language: node_js
+git:
+  depth: 5
+
 node_js:
   - "5"
 
+before_install:
+  - sudo apt-get -y install zip
+  - sudo apt-get -y install sshpass
+
 script:
   - node_modules/.bin/karma start karma.conf.js --no-auto-watch --single-run
+
+deploy:
+  provider: script
+  script: deploy.sh
