@@ -1,0 +1,7 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "Wrong username.", "source": {"pointer": "/data/attributes/username"}},
+    {"detail": "Wrong password.", "source": {"pointer": "/data/attributes/password"}}
+  ]
+}

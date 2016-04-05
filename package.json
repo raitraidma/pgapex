@@ -1,0 +1,24 @@
+{
+  "name": "pgapex",
+  "private": true,
+  "version": "1.0.0",
+  "description": "pgapex",
+  "repository": "https://github.com/raitraidma/pgapex",
+  "license": "MIT",
+  "devDependencies": {
+    "jasmine-core": "^2.3.4",
+    "karma": "~0.13",
+    "phantomjs-prebuilt": "~2.1.7",
+    "karma-phantomjs-launcher": "1.0.0",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.5",
+    "karma-junit-reporter": "^0.2.2"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js --single-run"
+  }
+}

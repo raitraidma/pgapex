@@ -1,0 +1,28 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+label {
+  cursor: pointer;
+}
+
+.dropdown-menu .checkbox {
+  padding-left: 20px;
+}
+
+.input-group-addon.clean {
+  background-color: #ffffff;
+}
+
+.text-lg {
+  font-size: 18px;
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.login-form {
+  width: 350px;
+  margin: 0 auto;
+}

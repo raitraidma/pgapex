@@ -1,0 +1,5 @@
+{"meta":{"status":"OK","code":"200"},"data":[
+{"id":1,"name":"Theme 1","isActive":true},
+{"id":2,"name":"Theme 2","isActive":false},
+{"id":3,"name":"Theme 3","isActive":false}
+]}

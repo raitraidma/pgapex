@@ -1,0 +1,11 @@
+{"meta":{"status":"OK","code":"200"},"data":[
+{"id":1,"type":"Page","name":"Page template 1","references":0},
+{"id":2,"type":"Page","name":"Page template 2","references":4},
+{"id":3,"type":"Page","name":"Page template 3","references":1},
+{"id":4,"type":"Page","name":"Page template 4","references":0},
+{"id":5,"type":"Page","name":"Page template 5","references":2},
+{"id":6,"type":"Page","name":"Page template 6","references":0},
+{"id":7,"type":"Navigation","name":"Navigation template 1","references":3},
+{"id":8,"type":"Navigation","name":"Navigation template 2","references":4},
+{"id":9,"type":"Navigation","name":"Navigation template 3","references":0}
+]}
