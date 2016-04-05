@@ -17,6 +17,4 @@ before_script:
 script:
   - node_modules/.bin/karma start karma.conf.js --no-auto-watch --single-run
 
-deploy:
-  provider: script
-  script: deploy.sh
+after_success: ./deploy.sh
