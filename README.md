@@ -46,9 +46,8 @@ Stop VM
 * Go to the folder where is Vagrantfile
 * Run command: `vagrant halt`
 
-
 Run tests in VM
 ---------------
-* Web server has to be running
-* Go to /vagrant/pgapex folder: `cd /vagrant/pgapex`
-* Run tests: `phpunit`
+* Go to /vagrant folder: `cd /vagrant`
+* Run tests once: `npm run test-single-run`
+* Run tests when code changes: `npm run test`
