@@ -40,9 +40,6 @@ apt-get install -y git
 curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 apt-get install -y nodejs
 
-# Bower
-npm install -g bower
-
 # Postgresql (postgres:postgres)
 apt-get install -y postgresql-$POSTGRESQL_VERSION postgresql-contrib-$POSTGRESQL_VERSION postgresql-client-$POSTGRESQL_VERSION
 sudo -u postgres psql -U postgres -d postgres -c "alter user postgres with password 'postgres';"
@@ -80,5 +77,4 @@ apt-get install -y libfontconfig
 
 # Install dependencies
 cd /vagrant
-npm install
-bower install --allow-root
+npm install --unsafe-perm
