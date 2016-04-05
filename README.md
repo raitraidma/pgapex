@@ -1,3 +1,5 @@
+![CI build](https://travis-ci.org/raitraidma/pgapex.svg)
+
 pgApex
 ======
 
@@ -51,3 +53,7 @@ Run tests in VM
 * Go to /vagrant folder: `cd /vagrant`
 * Run tests once: `npm run test-single-run`
 * Run tests when code changes: `npm run test`
+
+CI
+--
+https://travis-ci.org/
