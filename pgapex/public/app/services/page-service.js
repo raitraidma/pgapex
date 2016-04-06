@@ -8,7 +8,7 @@
   }
 
   PageService.prototype.getPages = function (applicationId) {
-    return this.apiService.get('api/page/pages.json');
+    return this.apiService.get('api/page/pages.json', {"applicationId": applicationId});
   };
 
   function init() {

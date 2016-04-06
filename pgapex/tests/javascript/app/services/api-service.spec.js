@@ -15,11 +15,11 @@ describe("api-service", function() {
 
     it("should call bindResultHandling when get is called", function() {
       spyOn(apiService, "bindResultHandling").and.returnValue("result");
-      spyOn(apiService, "getTimestamp").and.returnValue(123456);
+      spyOn(apiService, "createGetParams").and.returnValue("get-params");
       spyOn(apiService.http, "get");
 
       expect(apiService.get("api/url")).toEqual("result");
-      expect(apiService.http.get).toHaveBeenCalledWith("api/url", {"params": {"ts": 123456}});
+      expect(apiService.http.get).toHaveBeenCalledWith("api/url", {"params": "get-params"});
     });
 
     it("should call bindResultHandling when post is called", function() {
@@ -28,6 +28,22 @@ describe("api-service", function() {
 
       expect(apiService.post("api/url", {"post": "data"})).toEqual("result");
       expect(apiService.http.post).toHaveBeenCalledWith("api/url", {"post": "data"});
+    });
+
+    describe("createGetParams", function() {
+      it("should merge params with timestamp", function() {
+        spyOn(apiService, "getTimestamp").and.returnValue(123456);
+        var getParams = apiService.createGetParams({"id": 123, "name": "value", "ts": 666});
+        expect(getParams.id).toEqual(123);
+        expect(getParams.name).toEqual("value");
+        expect(getParams.ts).toEqual(123456);
+      });
+
+      it("should allow undefined params", function() {
+        spyOn(apiService, "getTimestamp").and.returnValue(123456);
+        var getParams = apiService.createGetParams();
+        expect(getParams.ts).toEqual(123456);
+      });
     });
 
     describe("bindResultHandling", function() {
@@ -53,10 +69,10 @@ describe("api-service", function() {
         spyOn(apiService, "createApiResponse");
         spyOn(apiService.q, "reject");
         apiService.bindResultHandling(promise);
-        deferred.reject("reason");
+        deferred.reject("api-service test reason");
         $rootScope.$apply();
         expect(apiService.createApiResponse).not.toHaveBeenCalled();
-        expect(apiService.q.reject).toHaveBeenCalledWith("reason");
+        expect(apiService.q.reject).toHaveBeenCalledWith("api-service test reason");
       });
     });
   });

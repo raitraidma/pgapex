@@ -56,4 +56,5 @@ Run tests in VM
 
 CI
 --
-https://travis-ci.org/
+* https://travis-ci.org/
+* `deploy.sh` (`SERVER_PASSWORD` and `SERVER_USER_HOST` are variables defined in repository settings)

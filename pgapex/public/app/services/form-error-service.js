@@ -22,11 +22,10 @@
 
   FormError.prototype.parseApiResponse = function() {
     if (this.apiResponse == null || !this.apiResponse.hasErrors()) { return; }
-    var self = this;
     this.apiResponse.getPointers().forEach(function(pointer) {
       var fieldName = pointer.split('/').pop();
-      self.errors[fieldName] = self.apiResponse.getErrorDetailsWhereSourcePointerIs(pointer);
-    });
+      this.errors[fieldName] = this.apiResponse.getErrorDetailsWhereSourcePointerIs(pointer);
+    }.bind(this));
   };
 
   FormError.prototype.hasErrors = function(fieldName) {
