@@ -8,8 +8,14 @@
     this.q = $q;
   }
 
-  ApiService.prototype.get = function (url) {
-    return this.bindResultHandling(this.http.get(url, {"params": {"ts": this.getTimestamp()}}));
+  ApiService.prototype.get = function (url, params) {
+    return this.bindResultHandling(this.http.get(url, {"params": this.createGetParams(params)}));
+  };
+
+  ApiService.prototype.createGetParams = function (params) {
+    var urlParams = params || {};
+    urlParams.ts = this.getTimestamp();
+    return urlParams;
   };
 
   ApiService.prototype.post = function (url, postData) {

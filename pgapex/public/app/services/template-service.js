@@ -8,11 +8,11 @@
   }
 
   TemplateService.prototype.getTemplates = function (themeId) {
-    return this.apiService.get('api/template/templates.json');
+    return this.apiService.get('api/template/templates.json', {"themeId" : themeId});
   };
 
   TemplateService.prototype.getThemes = function (applicationId) {
-    return this.apiService.get('api/template/themes.json');
+    return this.apiService.get('api/template/themes.json', {"applicationId": applicationId});
   };
 
   function init() {

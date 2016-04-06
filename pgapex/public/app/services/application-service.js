@@ -20,7 +20,7 @@
   };
 
   ApplicationService.prototype.getApplication = function (applicationId) {
-    return this.apiService.get('api/application/application.json');
+    return this.apiService.get('api/application/application.json', {"id": applicationId});
   };
 
   ApplicationService.prototype.saveApplication =
