@@ -18,4 +18,13 @@ describe("utils", function() {
       expect("abcdef".startsWith("xyz")).toBe(false);
     });
   });
+
+  it("should return unique values when calling getUniqueObjectFiledValues on array of objects", function() {
+    expect([
+      {"key": "value-1", "key2": "do not care"},
+      {"key": "value-2", "key2": "do not care"},
+      {"key": "value-1", "key2": "do not care"},
+      {"key": "value-3", "key2": "do not care"},
+    ].getUniqueObjectFiledValues("key")).toEqual(["value-1", "value-2", "value-3"]);
+  });
 });

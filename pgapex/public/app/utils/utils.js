@@ -9,3 +9,13 @@ if(!String.prototype.contains) {
     return this.indexOf(searchString) !== -1;
   }
 }
+
+if(!Array.prototype.getUniqueObjectFiledValues) {
+  Array.prototype.getUniqueObjectFiledValues = function (field) {
+    return this.map(function (object) {
+                      return object[field];
+                    }).filter(function (value, index, self) {
+                      return self.indexOf(value) === index;
+                    });
+  }
+}

@@ -7,7 +7,7 @@ describe("pgApexApp.page.PagesController", function() {
     $controller = _$controller_;
   }));
 
-  describe("pages", function() {
+  describe("PagesController", function() {
     var $rootScope;
     var deferred;
     var promise;

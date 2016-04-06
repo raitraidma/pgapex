@@ -7,7 +7,7 @@ describe("pgApexApp.template.ThemesController", function() {
     $controller = _$controller_;
   }));
 
-  describe("themes", function() {
+  describe("ThemesController", function() {
     var $rootScope;
     var deferred;
     var promise;

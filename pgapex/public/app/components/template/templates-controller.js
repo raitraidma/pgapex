@@ -13,18 +13,10 @@
       if (response.hasData()) {
         var templates = response.getData();
         $scope.templates = templates;
-        $scope.types = self.getUniqueFieldValues(templates, 'type');
+        $scope.types = templates.getUniqueObjectFiledValues('type');
       }  
     });
   }
-
-  TemplatesController.prototype.getUniqueFieldValues = function(templates, field) {
-    return templates.map(function (template) {
-                      return template[field];
-                    }).filter(function (value, index, self) {
-                      return self.indexOf(value) === index;
-                    });
-  };
 
   TemplatesController.prototype.initScopeVariables = function($scope) {
     $scope.typeFilter = '';

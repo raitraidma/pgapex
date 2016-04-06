@@ -7,7 +7,7 @@ describe("pgApexApp.auth.LogoutController", function() {
     $controller = _$controller_;
   }));
 
-  describe("logout", function() {
+  describe("LogoutController", function() {
     var $rootScope;
     var deferred;
     var promise;
