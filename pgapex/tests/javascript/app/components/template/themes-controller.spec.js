@@ -1,5 +1,5 @@
-describe("pgApexApp.page.PagesController", function() {
-  beforeEach(module("pgApexApp.page"));
+describe("pgApexApp.template.ThemesController", function() {
+  beforeEach(module("pgApexApp.template"));
 
   var $controller;
 
@@ -7,7 +7,7 @@ describe("pgApexApp.page.PagesController", function() {
     $controller = _$controller_;
   }));
 
-  describe("pages", function() {
+  describe("themes", function() {
     var $rootScope;
     var deferred;
     var promise;
@@ -23,35 +23,35 @@ describe("pgApexApp.page.PagesController", function() {
 
       prepareMockData();
 
-      controller = $controller("pgApexApp.page.PagesController", injections);
+      controller = $controller("pgApexApp.template.ThemesController", injections);
     }));
 
     function prepareMockData() {
       response = {
         "hasData": function() {},
-        "getData": function() { return "page-data"; }
+        "getData": function() { return "themes-data"; }
       };
 
       injections = {
         "$scope": {},
         "$routeParams": {"applicationId": 123},
-        "pageService": {"getPages": function() { return promise; }}
+        "templateService": {"getThemes": function() { return promise; }}
       };
     }
 
-    it("should populate $scope.pages with data when data exists", function() {
+    it("should populate $scope.themes with data when data exists", function() {
       spyOn(response, "hasData").and.returnValue(true);
       deferred.resolve(response);
       $rootScope.$apply(); 
-      expect(injections.$scope.pages).toEqual("page-data");
+      expect(injections.$scope.themes).toEqual("themes-data");
       expect(injections.$scope.applicationId).toEqual(123);
     });
 
-    it("should populate $scope.pages with an empty array when data is missing", function() {
+    it("should populate $scope.themes with an empty array when data is missing", function() {
       spyOn(response, "hasData").and.returnValue(false);
       deferred.resolve(response);
       $rootScope.$apply(); 
-      expect(injections.$scope.pages).toEqual([]);
+      expect(injections.$scope.themes).toEqual([]);
       expect(injections.$scope.applicationId).toEqual(123); 
     });
   });
