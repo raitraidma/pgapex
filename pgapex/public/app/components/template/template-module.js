@@ -8,10 +8,6 @@
       controller: 'pgApexApp.template.ThemesController',
       templateUrl: 'app/partials/template/themes.html'
     })
-    .when('/application-builder/app/:applicationId/themes/create', {
-      controller: 'pgApexApp.template.CreateThemeController',
-      templateUrl: 'app/partials/template/create-theme.html'
-    })
     .when('/application-builder/app/:applicationId/themes/:themeId/templates', {
       controller: 'pgApexApp.template.TemplatesController',
       templateUrl: 'app/partials/template/templates.html'

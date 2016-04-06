@@ -9,9 +9,9 @@
           <th class="col-md-9">{{'template.name'|translate}}</th>
           <th class="col-md-2">{{'template.active'|translate}}</th>
           <th class="col-md-1 text-right">
-            <a ng-href="#/application-builder/app/{{applicationId}}/themes/create" class="btn btn-sm btn-primary" title="{{'template.createTheme'|translate}}">
+            <button disabled class="btn btn-sm btn-primary" title="{{'template.createTheme'|translate}}">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'template.createTheme'|translate}}
-            </a>
+            </button>
           </th>
         </tr>
       </thead>
@@ -20,10 +20,10 @@
           <td><a ng-href="#/application-builder/app/{{applicationId}}/themes/{{theme.id}}/templates">{{theme.name}}</a></td>
           <td><span ng-show="theme.isActive" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
           <td class="text-right">
-            <button class="btn btn-sm btn-success" title="{{'template.edit'|translate}}">
+            <button disabled class="btn btn-sm btn-success" title="{{'template.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-sm btn-danger" title="{{'template.delete'|translate}}">
+            <button disabled class="btn btn-sm btn-danger" title="{{'template.delete'|translate}}">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </button>
           </td>
