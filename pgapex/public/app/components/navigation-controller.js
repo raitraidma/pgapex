@@ -29,7 +29,7 @@
   }
 
   function init() {
-    module.controller('NavigationController', ['$scope', '$location', '$routeParams', NavigationController]);
+    module.controller('pgApexApp.NavigationController', ['$scope', '$location', '$routeParams', NavigationController]);
   }
 
   init();
