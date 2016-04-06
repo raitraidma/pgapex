@@ -12,7 +12,9 @@ module.exports = function(config){
       'pgapex/public/vendor/bootstrap/dist/js/bootstrap.min.js',
       'pgapex/public/vendor/angular-route/angular-route.js',
       'pgapex/public/vendor/angular-mocks/angular-mocks.js',
-      
+      'pgapex/public/vendor/angular-translate/angular-translate.js',
+      'pgapex/public/vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
+
       'pgapex/public/app/utils/*.js',
       'pgapex/public/app/*.js',
       'pgapex/public/app/services/*.js',
@@ -20,6 +22,7 @@ module.exports = function(config){
       'pgapex/public/app/components/**/*-module.js',
       'pgapex/public/app/components/**/*-controller.js',
 
+      'pgapex/tests/javascript/helper.js',
       'pgapex/tests/javascript/app/**/*.spec.js'
     ],
 
