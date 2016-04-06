@@ -5,10 +5,10 @@
     <table class="table table-striped table-condensed">
       <thead>
         <tr>
-          <th class="col-md-11">Application</th>
-          <th class="col-md-1">
-            <a ng-href="#/application-builder/applications/create" class="btn btn-sm btn-primary" title="Create Application">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Application
+          <th class="col-xs-6 col-sm-8 col-md-9 col-lg-10">{{'application.application'|translate}}</th>
+          <th class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-right">
+            <a ng-href="#/application-builder/applications/create" class="btn btn-sm btn-primary" title="{{'application.createApplication'|translate}}">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'application.createApplication'|translate}}
             </a>
           </th>
         </tr>
@@ -16,14 +16,14 @@
       <tbody>
         <tr ng-repeat="application in applications">
           <td><a ng-href="#/application-builder/app/{{application.id}}/pages">{{application.name}}</a></td>
-          <td>
-            <button class="btn btn-sm btn-default" ng-click="runApplication(application.id)">
-              <span>Run</span>
+          <td class="text-right">
+            <button class="btn btn-sm btn-default" ng-click="runApplication(application.id)" title="{{'application.run'|translate}}">
+              <span>{{'application.run'|translate}}</span>
             </button>
-            <a ng-href="#/application-builder/applications/{{application.id}}/edit" class="btn btn-sm btn-success" title="Edit">
+            <a ng-href="#/application-builder/applications/{{application.id}}/edit" class="btn btn-sm btn-success" title="{{'application.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>
-            <button class="btn btn-sm btn-danger" title="Delete">
+            <button class="btn btn-sm btn-danger" title="{{'application.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>

@@ -1,0 +1,16 @@
+{
+  "template": {
+    "themes": "Kujundused",
+    "name": "Nimi",
+    "active": "Aktiivne",
+    "createTheme": "Loo kujundus",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "type": "Tüüp",
+    "all": "Kõik",
+    "references": "Viiteid",
+    "createTemplate": "Loo mall",
+    "themeName": "Kujunduse nimi",
+    "themeNameIsMandatory": "Kujunduse nimi on kohustuslik."
+  }
+}

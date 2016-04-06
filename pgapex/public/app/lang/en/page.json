@@ -1,0 +1,11 @@
+{
+  "page": {
+    "pageId": "Page ID",
+    "alias": "Alias",
+    "name": "Name",
+    "createPage": "Create page",
+    "edit": "Edit",
+    "delete": "Delete",
+    "pages": "Pages"
+  }
+}

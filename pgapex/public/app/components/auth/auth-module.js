@@ -14,10 +14,15 @@
     });
   }
 
+  function translatePartialLoaderProviderConfig($translatePartialLoaderProvider) {
+    $translatePartialLoaderProvider.addPart('auth');
+  }
+
   function init() {
     angular
     .module('pgApexApp.auth', ['pgApexApp'])
-    .config(['$routeProvider', routeProviderConfig]);
+    .config(['$routeProvider', routeProviderConfig])
+    .config(['$translatePartialLoaderProvider', translatePartialLoaderProviderConfig]);
   }
 
   init();

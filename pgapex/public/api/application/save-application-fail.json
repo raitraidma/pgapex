@@ -1,11 +1,10 @@
 {
   "meta": {"status": "Forbidden", "code": "403"},
   "errors": [
-    {"detail": "Application already exists.", "source": {"pointer": "/data/attributes/name"}},
-    {"detail": "Application name second error.", "source": {"pointer": "/data/attributes/name"}},
-    {"detail": "Alias already exists.", "source": {"pointer": "/data/attributes/alias"}},
-    {"detail": "Schema does not exist", "source": {"pointer": "/data/attributes/schema"}},
-    {"detail": "Authentication scheme is mandatory", "source": {"pointer": "/data/attributes/authenticationScheme"}},
-    {"detail": "Authentication function is mandatory when authentication scheme is \"user function\"", "source": {"pointer": "/data/attributes/authenticationFunction"}}
+    {"detail": "application.applicationNameAlreadyExists", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "application.aliasAlreadyExists", "source": {"pointer": "/data/attributes/alias"}},
+    {"detail": "application.schemaIsMandatory", "source": {"pointer": "/data/attributes/schema"}},
+    {"detail": "application.authenticationSchemeIsMandatory", "source": {"pointer": "/data/attributes/authenticationScheme"}},
+    {"detail": "application.authenticationFunctionIsMandatory", "source": {"pointer": "/data/attributes/authenticationFunction"}}
   ]
 }

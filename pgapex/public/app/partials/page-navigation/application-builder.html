@@ -1,13 +1,13 @@
 <div class="container" ng-controller="pgApexApp.NavigationController">
   <ul class="nav nav-tabs nav-justified">
     <li role="presentation" ng-class="{'active': isPagesPage()}">
-      <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages">Pages</a>
+      <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages">{{'page.pages'|translate}}</a>
     </li>
     <li role="presentation" ng-class="{'active': isNavigationPage()}">
       <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigation">Navigation</a>
     </li>
     <li role="presentation" ng-class="{'active': isThemesPage()}">
-      <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/themes">Themes</a>
+      <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/themes">{{'template.themes'|translate}}</a>
     </li>
   </ul>
 </div>

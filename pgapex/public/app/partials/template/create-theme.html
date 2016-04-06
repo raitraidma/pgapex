@@ -2,26 +2,26 @@
 <div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
 
 <div class="container">
-  <h2>Create theme</h2>
+  <h2>{{'template.createTheme'|translate}}</h2>
   <form name="createThemeForm" class="form-horizontal" ng-submit="createTheme()" novalidate>
     <div class="form-group" ng-class="{'has-error': (createThemeForm.themeName.$touched && createThemeForm.themeName.$invalid)}">
-      <label for="themeName" class="col-sm-2 control-label">Theme name *</label>
+      <label for="themeName" class="col-sm-2 control-label">{{'template.themeName'|translate}} *</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="themeName" ng-model="theme.name" id="themeName" placeholder="Theme name" required autofocus>
+        <input type="text" class="form-control" name="themeName" ng-model="theme.name" id="themeName" placeholder="{{'template.themeName'|translate}}" required autofocus>
         <div ng-show="createThemeForm.themeName.$touched && createThemeForm.themeName.$invalid">
-          <span ng-show="createThemeForm.themeName.$error.required" class="help-block">Theme name is mandatory.</span>
+          <span ng-show="createThemeForm.themeName.$error.required" class="help-block">{{'template.themeNameIsMandatory'|translate}}</span>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label for="themeIsActive" class="col-sm-2 control-label">Active</label>
+      <label for="themeIsActive" class="col-sm-2 control-label">{{'template.active'|translate}}</label>
       <div class="col-sm-10" class="checkbox">
         <input id="themeIsActive" ng-model="theme.is.active" type="checkbox">
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary" ng-disabled="createThemeForm.$invalid">Create theme</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="createThemeForm.$invalid">{{'template.createTheme'|translate}}</button>
       </div>
     </div>
   </form>

@@ -10,10 +10,15 @@
     });
   }
 
+  function translatePartialLoaderProviderConfig($translatePartialLoaderProvider) {
+    $translatePartialLoaderProvider.addPart('page');
+  }
+
   function init() {
     angular
     .module('pgApexApp.page', ['pgApexApp'])
-    .config(['$routeProvider', routeProviderConfig]);
+    .config(['$routeProvider', routeProviderConfig])
+    .config(['$translatePartialLoaderProvider', translatePartialLoaderProviderConfig]);
   }
 
   init();

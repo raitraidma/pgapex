@@ -1,0 +1,11 @@
+{
+  "page": {
+    "pageId": "Lehe ID",
+    "alias": "Alias",
+    "name": "Nimi",
+    "createPage": "Loo leht",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "pages": "Lehed"
+  }
+}

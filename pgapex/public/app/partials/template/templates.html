@@ -9,14 +9,14 @@
           <th class="col-md-2">
             <div class="dropdown">
               <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="templatesTypeFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <strong>Type</strong><span ng-show="typeFilter !== ''"><strong>:</strong> {{typeFilter}}</span>
+                <strong>{{'template.type'|translate}}</strong><span ng-show="typeFilter !== ''"><strong>:</strong> {{typeFilter}}</span>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="templatesTypeFilter">
                 <li>
                   <label class="checkbox">
                     <input name="typeFilter" type="radio" ng-model="typeFilter" value="">
-                    All
+                    {{'template.all'|translate}}
                   </label>
                 </li>
                 <li ng-repeat="type in types">
@@ -30,14 +30,14 @@
           </th>
           <th class="col-md-8">
             <div class="input-group input-group-sm col-md-12">
-              <span class="input-group-addon clean"><strong>Name</strong></span>
+              <span class="input-group-addon clean"><strong>{{'template.name'|translate}}</strong></span>
               <input type="text" class="form-control" ng-model="nameFilter">
             </div>
           </th>
-          <th class="col-md-1">References</th>
-          <th class="col-md-1">
-            <button class="btn btn-sm btn-primary" title="Create Template">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create Template
+          <th class="col-md-1">{{'template.references'|translate}}</th>
+          <th class="col-md-1 text-right">
+            <button class="btn btn-sm btn-primary" title="{{'template.createTemplate'|translate}}">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'template.createTemplate'|translate}}
             </button>
           </th>
         </tr>
@@ -47,11 +47,11 @@
           <td>{{template.type}}</td>
           <td>{{template.name}}</td>
           <td>{{template.references}}</td>
-          <td>
-            <button class="btn btn-sm btn-success" title="Edit">
+          <td class="text-right">
+            <button class="btn btn-sm btn-success" title="{{'template.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-sm btn-danger" title="Delete">
+            <button class="btn btn-sm btn-danger" title="{{'template.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>

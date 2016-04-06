@@ -1,4 +1,4 @@
-<div class="navbar navbar-default" role="navigation" ng-controller="NavigationController">
+<div class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" ng-href="#/">pgApex</a>
@@ -10,30 +10,30 @@
   <form name="authLoginForm" class="form-horizontal login-form" ng-submit="login()" novalidate autocomplete="off">
     <div class="form-group">
       <div class="col-sm-12">
-        <h2>Login</h2>
+        <h2>{{'auth.login'|translate}}</h2>
       </div>
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(authLoginForm.username, 'username')}">
       <div class="col-sm-12">
-        <input id="inputUsername" name="username" type="text" ng-model="auth.login.username" class="form-control" placeholder="Username" required autofocus>
+        <input id="inputUsername" name="username" type="text" ng-model="auth.login.username" class="form-control" placeholder="{{'auth.username'|translate}}" required autofocus>
         <div ng-show="formError.showErrors(authLoginForm.username, 'username')">
-          <span ng-show="authLoginForm.username.$error.required" class="help-block">Username is mandatory.</span>
-          <span ng-repeat="error in formError.getErrors('username')" class="help-block">{{error}}</span>
+          <span ng-show="authLoginForm.username.$error.required" class="help-block">{{'auth.usernameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('username')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(authLoginForm.password, 'password')}">
       <div class="col-sm-12">
-        <input id="inputPassword" name="password" type="password" ng-model="auth.login.password" class="form-control" placeholder="Password" required>
+        <input id="inputPassword" name="password" type="password" ng-model="auth.login.password" class="form-control" placeholder="{{'auth.password'|translate}}" required>
         <div ng-show="formError.showErrors(authLoginForm.password, 'password')">
-          <span ng-show="authLoginForm.password.$error.required" class="help-block">Password is mandatory.</span>
-          <span ng-repeat="error in formError.getErrors('password')" class="help-block">{{error}}</span>
+          <span ng-show="authLoginForm.password.$error.required" class="help-block">{{'auth.passwordIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('password')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary btn-block" ng-disabled="authLoginForm.$invalid">Login</button>
+        <button type="submit" class="btn btn-primary btn-block" ng-disabled="authLoginForm.$invalid">{{'auth.login'|translate}}</button>
       </div>
     </div>
   </form>

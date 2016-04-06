@@ -1,0 +1,16 @@
+{
+  "template": {
+    "themes": "Themes",
+    "name": "Name",
+    "active": "Active",
+    "createTheme": "Create theme",
+    "edit": "Edit",
+    "delete": "Delete",
+    "type": "Type",
+    "all": "All",
+    "references": "References",
+    "createTemplate": "Create template",
+    "themeName": "Theme name",
+    "themeNameIsMandatory": "Theme name is mandatory."
+  }
+}

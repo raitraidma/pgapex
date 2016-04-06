@@ -1,0 +1,24 @@
+{
+  "application": {
+    "application": "Application",
+    "run": "Run",
+    "edit": "Edit",
+    "delete": "Delete",
+    "createApplication": "Create application",
+    "editApplication": "Edit application",
+    "applicationName": "Application name",
+    "applicationNameIsMandatory": "Application name is mandatory.",
+    "alias": "Alias",
+    "schema": "Schema",
+    "schemaIsMandatory": "Schema is mandatory.",
+    "authenticationScheme": "Authentication scheme",
+    "authenticationSchemeNone": "None",
+    "authenticationSchemeDatabaseUser": "Database user",
+    "authenticationSchemeUserFunction": "User function",
+    "authenticationSchemeIsMandatory": "Authentication scheme is mandatory.",
+    "authenticationFunction": "Authentication function",
+    "authenticationFunctionIsMandatory": "Authentication function is mandatory when authentication scheme is \"user function\".",
+    "applicationNameAlreadyExists": "Application name already exists",
+    "aliasAlreadyExists": "Alias already exists."
+  }
+}

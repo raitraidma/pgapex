@@ -1,0 +1,24 @@
+{
+  "application": {
+    "application": "Rakendus",
+    "run": "Jooksuta",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "createApplication": "Loo rakendus",
+    "editApplication": "Muuda rakendust",
+    "applicationName": "Rakenduse nimi",
+    "applicationNameIsMandatory": "Rakenduse nimi on kohustuslik.",
+    "alias": "Alias",
+    "schema": "Skeem",
+    "schemaIsMandatory": "Skeem on kohustuslik.",
+    "authenticationScheme": "Autentimise plaan",
+    "authenticationSchemeNone": "Puudub",
+    "authenticationSchemeDatabaseUser": "Andmebaasi kasutaja",
+    "authenticationSchemeUserFunction": "Kasutaja funktsioon",
+    "authenticationSchemeIsMandatory": "Autentimise plaan on kohustuslik.",
+    "authenticationFunction": "Autentimise funktsioon",
+    "authenticationFunctionIsMandatory": "Autentimise funktsioon on kohustuslik, kui autentimise plaan on \"kasutaja funktsioon\".",
+    "applicationNameAlreadyExists": "Rakenduse nimi on juba kasutusel.",
+    "aliasAlreadyExists": "Alias on juba kasutusel."
+  }
+}
