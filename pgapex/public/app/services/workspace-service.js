@@ -11,6 +11,10 @@
     return this.apiService.get('api/workspace/workspaces.json');
   };
 
+  WorkspaceService.prototype.getWorkspace = function (workspaceId) {
+    return this.apiService.get('api/workspace/workspace.json', {"id": workspaceId});
+  };
+
   WorkspaceService.prototype.saveWorkspace = function (workspaceId, name, schemas, administrators) {
       var postData = {
         "id" : workspaceId,

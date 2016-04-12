@@ -11,6 +11,10 @@
     .when('/administration/workspaces/create', {
       controller: 'pgApexApp.workspace.ManageWorkspaceController',
       templateUrl: 'app/partials/workspace/manage-workspace.html'
+    })
+    .when('/administration/workspaces/:workspaceId/edit', {
+      controller: 'pgApexApp.workspace.ManageWorkspaceController',
+      templateUrl: 'app/partials/workspace/manage-workspace.html'
     });
   }
 

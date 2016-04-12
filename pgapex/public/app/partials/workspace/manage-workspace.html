@@ -18,7 +18,7 @@
       <div class="col-sm-9">
         <select name="workspaceSchemas"
                 ng-model="workspace.schemas"
-                ng-options="schema.name for schema in schemas track by schema.name"
+                ng-options="schema.name as schema.name for schema in schemas"
                 filter="false"
                 info-all="0"
                 info-filtered="0"
@@ -38,7 +38,7 @@
       <div class="col-sm-9">
         <select name="workspaceAdministrators"
                 ng-model="workspace.administrators"
-                ng-options="user.username for user in users track by user.id"
+                ng-options="user.id as user.username for user in users"
                 filter="false"
                 info-all="0"
                 info-filtered="0"
