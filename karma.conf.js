@@ -4,7 +4,7 @@ module.exports = function(config){
     basePath : './',
 
     files : [
-      'pgapex/public/vendor/jquery/dist/jquery.min.js',
+      'pgapex/public/vendor/jquery/jquery.min.js',
       'pgapex/public/vendor/angular/angular.min.js',
       'pgapex/public/vendor/angular-route/angular-route.min.js',
       'pgapex/public/vendor/angular-animate/angular-animate.min.js',
@@ -14,6 +14,8 @@ module.exports = function(config){
       'pgapex/public/vendor/angular-mocks/angular-mocks.js',
       'pgapex/public/vendor/angular-translate/angular-translate.js',
       'pgapex/public/vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
+      'pgapex/public/vendor/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js',
+      'pgapex/public/vendor/angular-bootstrap-duallistbox/dist/angular-bootstrap-duallistbox.min.js',
 
       'pgapex/public/app/utils/*.js',
       'pgapex/public/app/*.js',

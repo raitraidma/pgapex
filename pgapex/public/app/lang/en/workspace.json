@@ -10,7 +10,6 @@
     "workspaceNameAlreadyExists": "Workspace name already exists.",
     "atLeastOneSchemaMustBeSelected": "At least one schema must be selected.",
     "selectedUsersDoNotExist": "Selected users do not exist.",
-    "workspaceNameIsMandatory": "Workspace name is mandatory.",
-    "": ""
+    "workspaceNameIsMandatory": "Workspace name is mandatory."
   }
 }
