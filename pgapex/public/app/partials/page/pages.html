@@ -10,9 +10,9 @@
           <th class="col-md-2">{{'page.alias'|translate}}</th>
           <th class="col-md-7">{{'page.name'|translate}}</th>
           <th class="col-md-2 text-right">
-            <button class="btn btn-sm btn-primary" title="{{'page.createPage'|translate}}">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/create" class="btn btn-sm btn-primary" title="{{'page.createPage'|translate}}">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'page.createPage'|translate}}
-            </button>
+            </a>
           </th>
         </tr>
       </thead>

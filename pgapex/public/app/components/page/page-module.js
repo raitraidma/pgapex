@@ -7,6 +7,10 @@
     .when('/application-builder/app/:applicationId/pages', {
       controller: 'pgApexApp.page.PagesController',
       templateUrl: 'app/partials/page/pages.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/create', {
+      controller: 'pgApexApp.page.CreatePageController',
+      templateUrl: 'app/partials/page/create-page.html'
     });
   }
 

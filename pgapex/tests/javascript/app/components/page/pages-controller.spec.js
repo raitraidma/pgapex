@@ -44,7 +44,7 @@ describe("pgApexApp.page.PagesController", function() {
       deferred.resolve(response);
       $rootScope.$apply(); 
       expect(injections.$scope.pages).toEqual("page-data");
-      expect(injections.$scope.applicationId).toEqual(123);
+      expect(injections.$scope.routeParams.applicationId).toEqual(123);
     });
 
     it("should populate $scope.pages with an empty array when data is missing", function() {
@@ -52,7 +52,7 @@ describe("pgApexApp.page.PagesController", function() {
       deferred.resolve(response);
       $rootScope.$apply(); 
       expect(injections.$scope.pages).toEqual([]);
-      expect(injections.$scope.applicationId).toEqual(123); 
+      expect(injections.$scope.routeParams.applicationId).toEqual(123); 
     });
   });
 });
