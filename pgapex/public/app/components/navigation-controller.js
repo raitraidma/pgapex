@@ -11,8 +11,8 @@
       return path.startsWith('/application-builder');
     }
 
-    $scope.isSettingsPage = function () {
-      return path.startsWith('/settings');
+    $scope.isAdministrationPage = function () {
+      return path.startsWith('/administration');
     }
 
     $scope.isPagesPage = function () {

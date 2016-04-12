@@ -1,0 +1,16 @@
+{
+  "workspace": {
+    "workspaces": "Workspaces",
+    "name": "Name",
+    "createWorkspace": "Create workspace",
+    "edit": "Edit",
+    "delete": "Delete",
+    "schemas": "Schemas",
+    "administrators": "Administrators",
+    "workspaceNameAlreadyExists": "Workspace name already exists.",
+    "atLeastOneSchemaMustBeSelected": "At least one schema must be selected.",
+    "selectedUsersDoNotExist": "Selected users do not exist.",
+    "workspaceNameIsMandatory": "Workspace name is mandatory.",
+    "": ""
+  }
+}

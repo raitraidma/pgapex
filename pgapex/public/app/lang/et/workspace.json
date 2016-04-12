@@ -1,0 +1,15 @@
+{
+  "workspace": {
+    "workspaces": "Tööruumid",
+    "name": "Nimi",
+    "createWorkspace": "Loo tööruum",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "schemas": "Skeemid",
+    "administrators": "Administraatorid",
+    "workspaceNameAlreadyExists": "Tööruumi nimi juba eksisteerib.",
+    "atLeastOneSchemaMustBeSelected": "Vähemalt üks skeem peab olema valitud.",
+    "selectedUsersDoNotExist": "Valitud kasutajaid ei eksisteeri.",
+    "workspaceNameIsMandatory": "Tööruumi nimi on kohustuslik."
+  }
+}

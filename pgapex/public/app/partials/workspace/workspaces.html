@@ -1,0 +1,32 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="col-md-7">{{'workspace.name'|translate}}</th>
+          <th class="col-md-2 text-right">
+            <a ng-href="#/administration/workspaces/create" class="btn btn-sm btn-primary" title="{{'workspace.createWorkspace'|translate}}">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'workspace.createWorkspace'|translate}}
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="workspace in workspaces">
+          <td>{{workspace.name}}</td>
+          <td class="text-right">
+            <button class="btn btn-sm btn-success" title="{{'workspace.edit'|translate}}">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-sm btn-danger" title="{{'workspace.delete'|translate}}">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

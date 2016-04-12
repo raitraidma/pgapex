@@ -1,0 +1,60 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+
+<div class="container">
+  <h2>{{'workspace.createWorkspace'|translate}}</h2>
+  <form name="createWorkspaceForm" class="form-horizontal" ng-submit="saveWorkspace()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceName, 'name')}">
+      <label for="workspaceName" class="col-sm-3 control-label">{{'workspace.name'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="workspaceName" ng-model="workspace.name" id="workspaceName" placeholder="{{'workspace.name'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceName, 'name')">
+          <span ng-show="createWorkspaceForm.workspaceName.$error.required" class="help-block">{{'workspace.workspaceNameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('name')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceSchemas, 'schemas')}">
+      <label class="col-sm-3 control-label">{{'workspace.schemas'|translate}} *</label>
+      <div class="col-sm-9">
+        <select name="workspaceSchemas"
+                ng-model="workspace.schemas"
+                ng-options="schema.name for schema in schemas track by schema.name"
+                filter="false"
+                info-all="0"
+                info-filtered="0"
+                info-empty="0"
+                multiple
+                bs-duallistbox
+                required>
+        </select>
+        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceSchemas, 'schemas')">
+          <span ng-show="createWorkspaceForm.workspaceSchemas.$error.required" class="help-block">{{'workspace.atLeastOneSchemaMustBeSelected'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('schemas')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceAdministrators, 'administrators')}">
+      <label class="col-sm-3 control-label">{{'workspace.administrators'|translate}}</label>
+      <div class="col-sm-9">
+        <select name="workspaceAdministrators"
+                ng-model="workspace.administrators"
+                ng-options="user.username for user in users track by user.id"
+                filter="false"
+                info-all="0"
+                info-filtered="0"
+                info-empty="0"
+                multiple
+                bs-duallistbox>
+        </select>
+        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceAdministrators, 'administrators')">
+          <span ng-repeat="error in formError.getErrors('administrators')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="createWorkspaceForm.$invalid">{{'workspace.createWorkspace'|translate}}</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,8 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "workspace.workspaceNameAlreadyExists", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "workspace.atLeastOneSchemaMustBeSelected", "source": {"pointer": "/data/attributes/schemas"}},
+    {"detail": "workspace.selectedUsersDoNotExist", "source": {"pointer": "/data/attributes/administrators"}}
+  ]
+}

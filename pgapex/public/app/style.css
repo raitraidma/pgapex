@@ -26,3 +26,11 @@ label {
   width: 350px;
   margin: 0 auto;
 }
+
+.bootstrap-duallistbox-container .info-container {
+  display: none;
+}
+
+select[multiple] option {
+  cursor: pointer;
+}

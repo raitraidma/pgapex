@@ -33,15 +33,15 @@ describe("NavigationController", function() {
       });
     });
 
-    describe("$scope.isSettingsPage", function() {
-      it("should return true when url path begins with /settings", function() {
-        prepareTest("/settings/xxx");
-        expect(injections.$scope.isSettingsPage()).toBe(true);
+    describe("$scope.isAdministrationPage", function() {
+      it("should return true when url path begins with /administration", function() {
+        prepareTest("/administration/xxx");
+        expect(injections.$scope.isAdministrationPage()).toBe(true);
       });
 
-      it("should return false when url path does not begin with /settings", function() {
-        prepareTest("/xxx-settings/xxx");
-        expect(injections.$scope.isSettingsPage()).toBe(false);
+      it("should return false when url path does not begin with /administration", function() {
+        prepareTest("/xxx-administration/xxx");
+        expect(injections.$scope.isAdministrationPage()).toBe(false);
       });
     });
 

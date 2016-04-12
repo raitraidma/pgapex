@@ -1,7 +1,8 @@
 'use strict';
 (function (window) {
   var angular = window.angular;
-  var modules = ['pascalprecht.translate', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application', 'pgApexApp.page', 'pgApexApp.template'];
+  var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
+                'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace'];
 
   function routeProviderConfig ($routeProvider) {
     $routeProvider
@@ -14,6 +15,7 @@
     });
     $translateProvider.useSanitizeValueStrategy('escape');
     $translateProvider.preferredLanguage('en');
+    $translatePartialLoaderProvider.addPart('general');
   }
 
   function loadPgApexApplication(angular) {

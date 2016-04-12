@@ -3,7 +3,7 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.application');
 
-  function ApplicationsController($scope, $location, $window, applicationService) {
+  function ApplicationsController($scope, $window, applicationService) {
     $scope.applications = [];
 
     function init() {
@@ -21,7 +21,7 @@
 
   function init() {
     module.controller('pgApexApp.application.ApplicationsController',
-      ['$scope', '$location', '$window', 'applicationService', ApplicationsController]);
+      ['$scope', '$window', 'applicationService', ApplicationsController]);
   }
 
   init();
