@@ -3,6 +3,11 @@
 pgApex
 ======
 
+pgApex requirements
+------------------
+* Postgresql 9.4
+* PHP 5.5
+
 Prerequisites
 -------------
 * Install Oracle VirtualBox 5.0.16 or greater (https://www.virtualbox.org/wiki/Downloads)
@@ -58,3 +63,7 @@ CI
 --
 * https://travis-ci.org/
 * `deploy.sh` (`SERVER_PASSWORD` and `SERVER_USER_HOST` are variables defined in repository settings)
+
+Demo
+----
+* http://apex.ttu.ee/t143682/pgapex
