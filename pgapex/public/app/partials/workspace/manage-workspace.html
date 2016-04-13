@@ -1,7 +1,8 @@
 <div ng-include="'app/partials/page-navigation/main.html'"></div>
 
 <div class="container">
-  <h2>{{'workspace.createWorkspace'|translate}}</h2>
+  <h2 ng-show="mode === 'create'">{{'workspace.createWorkspace'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'workspace.editWorkspace'|translate}}</h2>
   <form name="createWorkspaceForm" class="form-horizontal" ng-submit="saveWorkspace()" novalidate>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceName, 'name')}">
       <label for="workspaceName" class="col-sm-3 control-label">{{'workspace.name'|translate}} *</label>
@@ -53,7 +54,10 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">
-        <button type="submit" class="btn btn-primary" ng-disabled="createWorkspaceForm.$invalid">{{'workspace.createWorkspace'|translate}}</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="createWorkspaceForm.$invalid">
+          <span ng-show="mode === 'create'">{{'workspace.createWorkspace'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'workspace.editWorkspace'|translate}}</span>
+        </button>
       </div>
     </div>
   </form>

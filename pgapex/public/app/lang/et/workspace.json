@@ -3,6 +3,7 @@
     "workspaces": "Tööruumid",
     "name": "Nimi",
     "createWorkspace": "Loo tööruum",
+    "editWorkspace": "Muuda tööruumi",
     "edit": "Muuda",
     "delete": "Kustuta",
     "schemas": "Skeemid",
@@ -10,6 +11,9 @@
     "workspaceNameAlreadyExists": "Tööruumi nimi juba eksisteerib.",
     "atLeastOneSchemaMustBeSelected": "Vähemalt üks skeem peab olema valitud.",
     "selectedUsersDoNotExist": "Valitud kasutajaid ei eksisteeri.",
-    "workspaceNameIsMandatory": "Tööruumi nimi on kohustuslik."
+    "workspaceNameIsMandatory": "Tööruumi nimi on kohustuslik.",
+    "deleteWorkspace": "Kustuta tööruum",
+    "areYouSureThatYouWantToDeleteThisWorkspace": "Oled kindel, et soovid antud tööruumi kustutada?",
+    "cancel": "Katkesta"
   }
 }

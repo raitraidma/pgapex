@@ -12,7 +12,11 @@
   };
 
   WorkspaceService.prototype.getWorkspace = function (workspaceId) {
-    return this.apiService.get('api/workspace/workspace.json', {"id": workspaceId});
+    return this.apiService.get('api/workspace/workspace.json', {"workspaceId": workspaceId});
+  };
+
+  WorkspaceService.prototype.deleteWorkspace = function (workspaceId) {
+    return this.apiService.post('api/workspace/delete-workspace.json', {"workspaceId": workspaceId});
   };
 
   WorkspaceService.prototype.saveWorkspace = function (workspaceId, name, schemas, administrators) {

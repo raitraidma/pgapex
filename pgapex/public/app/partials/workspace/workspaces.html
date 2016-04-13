@@ -20,7 +20,7 @@
             <a ng-href="#/administration/workspaces/{{workspace.id}}/edit" class="btn btn-sm btn-success" title="{{'workspace.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>
-            <button class="btn btn-sm btn-danger" title="{{'workspace.delete'|translate}}">
+            <button ng-click="deleteWorkspace(workspace.id)" class="btn btn-sm btn-danger" title="{{'workspace.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>
@@ -29,4 +29,3 @@
     </table>
   </div>
 </div>
-

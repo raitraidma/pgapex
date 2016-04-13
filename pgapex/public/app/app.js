@@ -1,7 +1,8 @@
 'use strict';
 (function (window) {
   var angular = window.angular;
-  var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
+  var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox',
+                'ui.bootstrap', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
                 'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace'];
 
   function routeProviderConfig ($routeProvider) {

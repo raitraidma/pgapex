@@ -16,6 +16,7 @@
   }
 
   ManageWorkspaceController.prototype.init = function() {
+    this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.schemas = [];
     this.$scope.users = [];
     this.$scope.workspace = {};
@@ -61,14 +62,14 @@
       this.$scope.workspace.name,
       this.$scope.workspace.schemas,
       this.$scope.workspace.administrators
-    ).then(this.handleResponse.bind(this));
+    ).then(this.handleSaveResponse.bind(this));
   };
 
   ManageWorkspaceController.prototype.getWorkspaceId = function() {
     return this.$routeParams.workspaceId || null;
   };
 
-  ManageWorkspaceController.prototype.handleResponse = function(response) {
+  ManageWorkspaceController.prototype.handleSaveResponse = function(response) {
     if (!response.hasErrors()) {
       this.$location.path('/administration/workspaces');
       return;
