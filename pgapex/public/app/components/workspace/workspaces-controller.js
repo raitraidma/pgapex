@@ -10,17 +10,28 @@
 
     this.init();
     $scope.deleteWorkspace = this.deleteWorkspace.bind(this);
+    $scope.pageChanged = this.selectVisibleWorkspaces.bind(this);
   }
 
   WorkspacesController.prototype.init = function() {
+    this.$scope.itemsPerPage = 10;
+    this.$scope.currentPage = 1;
+    this.$scope.allWorkspaces = [];
     this.$scope.workspaces = [];
     this.loadWorkspaces();
-  }
+  };
 
   WorkspacesController.prototype.loadWorkspaces = function() {
     this.workspaceService.getWorkspaces().then(function (response) {
-      this.$scope.workspaces = response.getDataOrDefault([]);
+      this.$scope.allWorkspaces = response.getDataOrDefault([]);
+      this.selectVisibleWorkspaces();
     }.bind(this));
+  };
+
+  WorkspacesController.prototype.selectVisibleWorkspaces = function() {
+    var start = (this.$scope.currentPage - 1) * this.$scope.itemsPerPage;
+    var end = start + this.$scope.itemsPerPage;
+    this.$scope.workspaces = this.$scope.allWorkspaces.slice(start, end);
   };
 
   WorkspacesController.prototype.deleteWorkspace = function(workspaceId) {

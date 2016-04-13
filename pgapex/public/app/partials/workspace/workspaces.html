@@ -28,4 +28,16 @@
       </tbody>
     </table>
   </div>
+
+  <uib-pagination boundary-links="true"
+                  total-items="allWorkspaces.length"
+                  items-per-page="itemsPerPage"
+                  ng-model="currentPage"
+                  ng-change="pageChanged()"
+                  class="pagination-sm"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;">
+  </uib-pagination>
 </div>

@@ -3,25 +3,60 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.application');
 
-  function ApplicationsController($scope, $window, applicationService) {
-    $scope.applications = [];
+  function ApplicationsController($scope, $window, applicationService, helperService) {
+    this.$scope = $scope;
+    this.$window = $window;
+    this.applicationService = applicationService;
+    this.helperService = helperService;
 
-    function init() {
-      applicationService.getApplications().then(function (response) {
-        $scope.applications = response.getDataOrDefault([]);
-      });
-    }
-
-    $scope.runApplication = function(applicationId) {
-      $window.open('/app/' + applicationId, '_blank');
-    };
-    
-    init();
+    $scope.runApplication = this.runApplication.bind(this);
+    $scope.deleteApplication = this.deleteApplication.bind(this);
+    $scope.pageChanged = this.selectVisibleApplications.bind(this);
+    this.init();
   }
+
+  ApplicationsController.prototype.init = function() {
+    this.$scope.itemsPerPage = 10;
+    this.$scope.currentPage = 1;
+    this.$scope.allApplications = [];
+    this.$scope.applications = [];
+    this.loadApplications();
+  };
+
+  ApplicationsController.prototype.runApplication = function(applicationId) {
+    this.$window.open('/app/' + applicationId, '_blank');
+  };
+
+  ApplicationsController.prototype.loadApplications = function() {
+    this.applicationService.getApplications().then(function (response) {
+      this.$scope.allApplications = response.getDataOrDefault([]);
+      this.selectVisibleApplications();
+    }.bind(this));
+  };
+
+  ApplicationsController.prototype.selectVisibleApplications = function() {
+    var start = (this.$scope.currentPage - 1) * this.$scope.itemsPerPage;
+    var end = start + this.$scope.itemsPerPage;
+    this.$scope.applications = this.$scope.allApplications.slice(start, end);
+  };
+
+  ApplicationsController.prototype.deleteApplication = function(applicationId) {
+    this.helperService.confirm('application.deleteApplication',
+                               'application.areYouSureThatYouWantToDeleteThisApplication',
+                               'application.deleteApplication',
+                               'application.cancel')
+    .result.then(this.sendDeleteRequest(applicationId).bind(this));
+  };
+
+  ApplicationsController.prototype.sendDeleteRequest = function(applicationId) {
+    return function() {
+      return this.applicationService.deleteApplication(applicationId).then(this.loadApplications.bind(this));
+    };
+  };
 
   function init() {
     module.controller('pgApexApp.application.ApplicationsController',
-      ['$scope', '$window', 'applicationService', ApplicationsController]);
+      ['$scope', '$window', 'applicationService', 'helperService', ApplicationsController]);
   }
 
   init();

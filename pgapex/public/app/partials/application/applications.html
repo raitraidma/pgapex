@@ -23,7 +23,7 @@
             <a ng-href="#/application-builder/applications/{{application.id}}/edit" class="btn btn-sm btn-success" title="{{'application.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>
-            <button class="btn btn-sm btn-danger" title="{{'application.delete'|translate}}">
+            <button ng-click="deleteApplication(application.id)"  class="btn btn-sm btn-danger" title="{{'application.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>
@@ -31,5 +31,17 @@
       </tbody>
     </table>
   </div>
+
+  <uib-pagination boundary-links="true"
+                total-items="allApplications.length"
+                items-per-page="itemsPerPage"
+                ng-model="currentPage"
+                ng-change="pageChanged()"
+                class="pagination-sm"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;">
+  </uib-pagination>
 </div>
 

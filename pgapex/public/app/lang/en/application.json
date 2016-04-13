@@ -19,6 +19,9 @@
     "authenticationFunction": "Authentication function",
     "authenticationFunctionIsMandatory": "Authentication function is mandatory when authentication scheme is \"user function\".",
     "applicationNameAlreadyExists": "Application name already exists",
-    "aliasAlreadyExists": "Alias already exists."
+    "aliasAlreadyExists": "Alias already exists.",
+    "deleteApplication": "Delete application",
+    "areYouSureThatYouWantToDeleteThisApplication": "Are you sure that you want to delete this application?",
+    "cancel": "Cancel"
   }
 }

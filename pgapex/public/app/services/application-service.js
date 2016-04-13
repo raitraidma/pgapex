@@ -23,6 +23,10 @@
     return this.apiService.get('api/application/application.json', {"id": applicationId});
   };
 
+  ApplicationService.prototype.deleteApplication = function (applicationId) {
+    return this.apiService.post('api/application/delete-application.json', {"applicationId": applicationId});
+  };
+
   ApplicationService.prototype.saveApplication =
     function (applicationId, name, alias, schema, authenticationScheme, authenticationFunction) {
       var postData = {

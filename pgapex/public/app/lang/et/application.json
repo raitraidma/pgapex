@@ -19,6 +19,9 @@
     "authenticationFunction": "Autentimise funktsioon",
     "authenticationFunctionIsMandatory": "Autentimise funktsioon on kohustuslik, kui autentimise plaan on \"kasutaja funktsioon\".",
     "applicationNameAlreadyExists": "Rakenduse nimi on juba kasutusel.",
-    "aliasAlreadyExists": "Alias on juba kasutusel."
+    "aliasAlreadyExists": "Alias on juba kasutusel.",
+    "deleteApplication": "Kustuta rakendus",
+    "areYouSureThatYouWantToDeleteThisApplication": "Oled kindel, et soovid selle rakenduse kustutada?",
+    "cancel": "Katkesta"
   }
 }
