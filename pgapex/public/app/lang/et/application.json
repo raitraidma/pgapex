@@ -6,7 +6,7 @@
     "delete": "Kustuta",
     "createApplication": "Loo rakendus",
     "editApplication": "Muuda rakendust",
-    "applicationName": "Rakenduse nimi",
+    "name": "Rakenduse nimi",
     "applicationNameIsMandatory": "Rakenduse nimi on kohustuslik.",
     "alias": "Alias",
     "schema": "Skeem",
@@ -22,6 +22,8 @@
     "aliasAlreadyExists": "Alias on juba kasutusel.",
     "deleteApplication": "Kustuta rakendus",
     "areYouSureThatYouWantToDeleteThisApplication": "Oled kindel, et soovid selle rakenduse kustutada?",
-    "cancel": "Katkesta"
+    "cancel": "Katkesta",
+    "developers": "Arendajad",
+    "selectedUsersDoNotExist": "Valitud kasutajaid ei eksisteeri."
   }
 }

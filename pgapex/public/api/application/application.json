@@ -3,6 +3,7 @@
 "name":"Name",
 "alias":"Alias",
 "schema":"schema-2",
-"authenticationScheme":"user-function",
-"authenticationFunction":"function-2"
+"authenticationScheme":"USER_FUNCTION",
+"authenticationFunction":"function-2",
+"developers":[1,3,5]
 }}

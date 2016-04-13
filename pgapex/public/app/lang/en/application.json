@@ -6,7 +6,7 @@
     "delete": "Delete",
     "createApplication": "Create application",
     "editApplication": "Edit application",
-    "applicationName": "Application name",
+    "name": "Application name",
     "applicationNameIsMandatory": "Application name is mandatory.",
     "alias": "Alias",
     "schema": "Schema",
@@ -22,6 +22,8 @@
     "aliasAlreadyExists": "Alias already exists.",
     "deleteApplication": "Delete application",
     "areYouSureThatYouWantToDeleteThisApplication": "Are you sure that you want to delete this application?",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "developers": "Developers",
+    "selectedUsersDoNotExist": "Selected users do not exist."
   }
 }

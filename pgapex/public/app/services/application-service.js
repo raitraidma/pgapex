@@ -28,14 +28,15 @@
   };
 
   ApplicationService.prototype.saveApplication =
-    function (applicationId, name, alias, schema, authenticationScheme, authenticationFunction) {
+    function (applicationId, name, alias, schema, authenticationScheme, authenticationFunction, developers) {
       var postData = {
         "id" : applicationId,
         "name" : name,
         "alias": alias,
         "schema": schema,
         "authenticationScheme": authenticationScheme,
-        "authenticationFunction": authenticationFunction
+        "authenticationFunction": authenticationFunction,
+        "developers": developers
       };
       if (name === 'fail') {
         return this.apiService.post('api/application/save-application-fail.json', postData);

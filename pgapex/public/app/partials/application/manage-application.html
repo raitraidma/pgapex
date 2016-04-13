@@ -1,0 +1,90 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'application.createApplication'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'application.editApplication'|translate}}</h2>
+  <form name="manageApplicationForm" class="form-horizontal" ng-submit="saveApplication()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.applicationName, 'name')}">
+      <label for="applicationName" class="col-sm-3 control-label">{{'application.name'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="applicationName" ng-model="application.name" id="applicationName" placeholder="{{'application.name'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageApplicationForm.applicationName, 'name')">
+          <span ng-show="manageApplicationForm.applicationName.$error.required" class="help-block">{{'application.applicationNameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('name')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.alias, 'alias')}">
+      <label for="alias" class="col-sm-3 control-label">{{'application.alias'|translate}}</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="alias" ng-model="application.alias" id="alias" placeholder="{{'application.alias'|translate}}">
+        <div ng-show="formError.showErrors(manageApplicationForm.alias, 'alias')">
+          <span ng-repeat="error in formError.getErrors('alias')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.schema, 'schema')}">
+      <label for="schema" class="col-sm-3 control-label">{{'application.schema'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" ng-model="application.schema" name="schema" id="schema" required>
+          <option ng-repeat="schema in schemas" ng-value="schema">{{schema}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.schema, 'schema')">
+          <span ng-show="manageApplicationForm.schema.$error.required" class="help-block">{{'application.schemaIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('schema')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.authenticationScheme, 'authenticationScheme')}">
+      <label for="authenticationScheme" class="col-sm-3 control-label">{{'application.authenticationScheme'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="authenticationScheme" id="authenticationScheme" ng-model="application.authenticationScheme" required>
+          <option value="DATABASE_USER">{{'application.authenticationSchemeDatabaseUser'|translate}}</option>
+          <option value="USER_FUNCTION">{{'application.authenticationSchemeUserFunction'|translate}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.authenticationScheme, 'authenticationScheme')">
+          <span ng-show="manageApplicationForm.authenticationScheme.$error.required" class="help-block">{{'application.authenticationSchemeIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('authenticationScheme')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-show="application.authenticationScheme == 'USER_FUNCTION'" ng-class="{'has-error': formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')}">
+      <label for="authenticationFunction" class="col-sm-3 control-label">{{'application.authenticationFunction'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="authenticationFunction" id="authenticationFunction" ng-model="application.authenticationFunction" ng-required="application.authenticationScheme == 'USER_FUNCTION'">
+          <option ng-repeat="authenticationFunction in authenticationFunctions" ng-value="authenticationFunction">{{authenticationFunction}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')">
+          <span ng-show="manageApplicationForm.authenticationFunction.$error.required" class="help-block">{{'application.authenticationFunctionIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('authenticationFunction')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.developers, 'developers')}">
+      <label class="col-sm-3 control-label">{{'application.developers'|translate}}</label>
+      <div class="col-sm-9">
+        <select name="developers"
+                ng-model="application.developers"
+                ng-options="user.id as user.username for user in users"
+                filter="false"
+                info-all="0"
+                info-filtered="0"
+                info-empty="0"
+                multiple
+                bs-duallistbox>
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.developers, 'developers')">
+          <span ng-repeat="error in formError.getErrors('developers')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageApplicationForm.$invalid">
+          <span ng-show="mode === 'create'">{{'application.createApplication'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'application.editApplication'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>  

@@ -9,12 +9,12 @@
       templateUrl: 'app/partials/application/applications.html'
     })
     .when('/application-builder/applications/create', {
-      controller: 'pgApexApp.application.CreateApplicationController',
-      templateUrl: 'app/partials/application/application.html'
+      controller: 'pgApexApp.application.ManageApplicationController',
+      templateUrl: 'app/partials/application/manage-application.html'
     })
     .when('/application-builder/applications/:applicationId/edit', {
-      controller: 'pgApexApp.application.EditApplicationController',
-      templateUrl: 'app/partials/application/application.html'
+      controller: 'pgApexApp.application.ManageApplicationController',
+      templateUrl: 'app/partials/application/manage-application.html'
     });
   }
 
