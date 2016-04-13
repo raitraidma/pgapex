@@ -1,0 +1,83 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'user.createUser'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'user.editUser'|translate}}</h2>
+  <form name="manageUserForm" class="form-horizontal" ng-submit="saveUser()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.username, 'username')}">
+      <label for="username" class="col-sm-3 control-label">{{'user.username'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="username" ng-model="user.username" id="username" placeholder="{{'user.username'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageUserForm.username, 'username')">
+          <span ng-show="manageUserForm.username.$error.required" class="help-block">{{'user.usernameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('username')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.forename, 'forename')}">
+      <label for="forename" class="col-sm-3 control-label">{{'user.forename'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="forename" ng-model="user.forename" id="forename" placeholder="{{'user.forename'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageUserForm.forename, 'forename')">
+          <span ng-show="manageUserForm.forename.$error.required" class="help-block">{{'user.forenameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('forename')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.surname, 'surname')}">
+      <label for="surname" class="col-sm-3 control-label">{{'user.surname'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="surname" ng-model="user.surname" id="surname" placeholder="{{'user.surname'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageUserForm.surname, 'surname')">
+          <span ng-show="manageUserForm.surname.$error.required" class="help-block">{{'user.surnameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('surname')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.isActive, 'isActive')}">
+      <label for="isActive" class="col-sm-3 control-label">{{'user.isActive'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="isActive" name="isActive" ng-model="user.isActive" type="checkbox">
+        <div ng-show="formError.showErrors(manageUserForm.isActive, 'isActive')">
+          <span ng-repeat="error in formError.getErrors('isActive')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.isAdministrator, 'isAdministrator')}">
+      <label for="isAdministrator" class="col-sm-3 control-label">{{'user.isAdministrator'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="isAdministrator" name="isAdministrator" ng-model="user.isAdministrator" type="checkbox">
+        <div ng-show="formError.showErrors(manageUserForm.isAdministrator, 'isAdministrator')">
+          <span ng-repeat="error in formError.getErrors('isAdministrator')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-show="mode === 'edit'">
+      <div class="col-sm-offset-3 col-sm-9">{{'user.insertPasswordOnlyWhenYouWantToChangePassword'|translate}}</div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageUserForm.password, 'password')}">
+      <label for="password" class="col-sm-3 control-label">{{'user.password'|translate}} <span ng-show="mode === 'create'">*</span></label>
+      <div class="col-sm-9">
+        <input type="{{passwordFieldType}}" class="form-control" name="password" ng-model="user.password" id="password" placeholder="{{'user.password'|translate}}" ng-required="mode === 'create'" autofocus>
+        <div>
+          <a ng-click="togglePasswordFieldType()" class="toggle">
+            <span ng-show="passwordFieldType === 'password'">{{'user.showPassword'|translate}}</span>
+            <span ng-show="passwordFieldType === 'text'">{{'user.hidePassword'|translate}}</span>
+          </a>
+        </div>
+        <div ng-show="formError.showErrors(manageUserForm.password, 'password')">
+          <span ng-show="manageUserForm.password.$error.required" class="help-block">{{'user.passwordIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('password')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageUserForm.$invalid">
+          <span ng-show="mode === 'create'">{{'user.createUser'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'user.editUser'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

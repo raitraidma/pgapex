@@ -1,0 +1,25 @@
+{
+  "user": {
+    "users": "Kasutajad",
+    "username": "Kasutajanimi",
+    "createUser": "Loo kasutaja",
+    "editUser": "Muuda kasutajat",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "deleteUser": "Kustuta kasutaja",
+    "areYouSureThatYouWantToDeleteThisUser": "Oled kindel, et soovid seda kasutajat kustutada?",
+    "cancel": "Katkesta",
+    "forename": "Eesnimi",
+    "surname": "Perekonnanimi",
+    "isActive": "On aktiivne",
+    "isAdministrator": "On administraator",
+    "password": "Parool",
+    "insertPasswordOnlyWhenYouWantToChangePassword": "Sisesta parool ainult siis, kui soovid parooli muuta",
+    "showPassword": "Näita parooli",
+    "hidePassword": "Peida parool",
+    "usernameIsMandatory": "Kasutajanimi on kohustuslik.",
+    "forenameIsMandatory": "Eesnimi on kohustuslik.",
+    "surnameIsMandatory": "Perekonnanimi on kohustuslik.",
+    "passwordIsMandatory": "Parool on kohustuslik."
+  }
+}

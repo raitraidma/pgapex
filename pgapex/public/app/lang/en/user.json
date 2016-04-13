@@ -1,0 +1,25 @@
+{
+  "user": {
+    "users": "Users",
+    "username": "Username",
+    "createUser": "Create user",
+    "editUser": "Edit user",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteUser": "Delete user",
+    "areYouSureThatYouWantToDeleteThisUser": "Are you sure that you want to delete this user?",
+    "cancel": "Cancel",
+    "forename": "Forename",
+    "surname": "Surname",
+    "isActive": "Is active",
+    "isAdministrator": "Is administrator",
+    "password": "Password",
+    "insertPasswordOnlyWhenYouWantToChangePassword": "Insert password only when you want to change password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "usernameIsMandatory": "Username is mandatory.",
+    "forenameIsMandatory": "Forename is mandatory.",
+    "surnameIsMandatory": "Surname is mandatory.",
+    "passwordIsMandatory": "Password is mandatory."
+  }
+}

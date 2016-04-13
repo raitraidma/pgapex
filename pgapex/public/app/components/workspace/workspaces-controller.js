@@ -3,9 +3,8 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.workspace');
 
-  function WorkspacesController($scope, $uibModal, workspaceService, helperService) {
+  function WorkspacesController($scope, workspaceService, helperService) {
     this.$scope = $scope;
-    this.$uibModal = $uibModal;
     this.workspaceService = workspaceService;
     this.helperService = helperService;
 
@@ -40,7 +39,7 @@
 
   function init() {
     module.controller('pgApexApp.workspace.WorkspacesController',
-      ['$scope', '$uibModal', 'workspaceService', 'helperService', WorkspacesController]);
+      ['$scope', 'workspaceService', 'helperService', WorkspacesController]);
   }
 
   init();

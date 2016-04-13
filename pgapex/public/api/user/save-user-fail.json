@@ -1,0 +1,11 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "user.usernameIsMandatory", "source": {"pointer": "/data/attributes/username"}},
+    {"detail": "user.forenameIsMandatory", "source": {"pointer": "/data/attributes/forename"}},
+    {"detail": "user.surnameIsMandatory", "source": {"pointer": "/data/attributes/surname"}},
+    {"detail": "user.passwordIsMandatory", "source": {"pointer": "/data/attributes/password"}},
+    {"detail": "Error message for is active field", "source": {"pointer": "/data/attributes/isActive"}},
+    {"detail": "Error message for is administrator field", "source": {"pointer": "/data/attributes/isAdministrator"}}
+  ]
+}

@@ -3,18 +3,18 @@
 <div class="container">
   <h2 ng-show="mode === 'create'">{{'workspace.createWorkspace'|translate}}</h2>
   <h2 ng-show="mode === 'edit'">{{'workspace.editWorkspace'|translate}}</h2>
-  <form name="createWorkspaceForm" class="form-horizontal" ng-submit="saveWorkspace()" novalidate>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceName, 'name')}">
+  <form name="manageWorkspaceForm" class="form-horizontal" ng-submit="saveWorkspace()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageWorkspaceForm.workspaceName, 'name')}">
       <label for="workspaceName" class="col-sm-3 control-label">{{'workspace.name'|translate}} *</label>
       <div class="col-sm-9">
         <input type="text" class="form-control" name="workspaceName" ng-model="workspace.name" id="workspaceName" placeholder="{{'workspace.name'|translate}}" required autofocus>
-        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceName, 'name')">
-          <span ng-show="createWorkspaceForm.workspaceName.$error.required" class="help-block">{{'workspace.workspaceNameIsMandatory'|translate}}</span>
+        <div ng-show="formError.showErrors(manageWorkspaceForm.workspaceName, 'name')">
+          <span ng-show="manageWorkspaceForm.workspaceName.$error.required" class="help-block">{{'workspace.workspaceNameIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('name')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceSchemas, 'schemas')}">
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageWorkspaceForm.workspaceSchemas, 'schemas')}">
       <label class="col-sm-3 control-label">{{'workspace.schemas'|translate}} *</label>
       <div class="col-sm-9">
         <select name="workspaceSchemas"
@@ -28,13 +28,13 @@
                 bs-duallistbox
                 required>
         </select>
-        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceSchemas, 'schemas')">
-          <span ng-show="createWorkspaceForm.workspaceSchemas.$error.required" class="help-block">{{'workspace.atLeastOneSchemaMustBeSelected'|translate}}</span>
+        <div ng-show="formError.showErrors(manageWorkspaceForm.workspaceSchemas, 'schemas')">
+          <span ng-show="manageWorkspaceForm.workspaceSchemas.$error.required" class="help-block">{{'workspace.atLeastOneSchemaMustBeSelected'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('schemas')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(createWorkspaceForm.workspaceAdministrators, 'administrators')}">
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageWorkspaceForm.workspaceAdministrators, 'administrators')}">
       <label class="col-sm-3 control-label">{{'workspace.administrators'|translate}}</label>
       <div class="col-sm-9">
         <select name="workspaceAdministrators"
@@ -47,14 +47,14 @@
                 multiple
                 bs-duallistbox>
         </select>
-        <div ng-show="formError.showErrors(createWorkspaceForm.workspaceAdministrators, 'administrators')">
+        <div ng-show="formError.showErrors(manageWorkspaceForm.workspaceAdministrators, 'administrators')">
           <span ng-repeat="error in formError.getErrors('administrators')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">
-        <button type="submit" class="btn btn-primary" ng-disabled="createWorkspaceForm.$invalid">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageWorkspaceForm.$invalid">
           <span ng-show="mode === 'create'">{{'workspace.createWorkspace'|translate}}</span>
           <span ng-show="mode === 'edit'">{{'workspace.editWorkspace'|translate}}</span>
         </button>
