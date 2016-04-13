@@ -48,12 +48,13 @@ describe("pgApexApp.workspace.WorkspacesController", function() {
       spyOn(response, "getDataOrDefault").and.returnValue("workspace-data");
       deferred.resolve(response);
       $rootScope.$apply();
-      expect(injections.$scope.workspaces).toEqual("workspace-data");
+      expect(injections.$scope.allWorkspaces).toEqual("workspace-data");
     });
 
     it("should ask confirmation before deleting workspace", function() {
       spyOn(injections.helperService, "confirm").and.returnValue({"result": promise});
       spyOn(injections.workspaceService, "deleteWorkspace").and.returnValue({"then": function() {}});
+      spyOn(response, "getDataOrDefault").and.returnValue([]);
       controller.deleteWorkspace(123);
       deferred.resolve(response);
       $rootScope.$apply();
