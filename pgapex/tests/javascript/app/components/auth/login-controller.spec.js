@@ -33,7 +33,7 @@ describe("pgApexApp.auth.LoginController", function() {
       };
 
       injections = {
-        "$scope": {"auth": {"login": {"username": "user", "password": "pass"}}},
+        "$scope": {"auth": {"login": {"workspace": "ws-1", "username": "user", "password": "pass"}}},
         "$location": {"path": function() {}},
         "authService": {"login": function() { return promise; }},
         "formErrorService": {"empty": function() {}, "parseApiResponse": function() { return "error-response"; }}

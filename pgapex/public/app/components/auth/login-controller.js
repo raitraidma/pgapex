@@ -7,7 +7,7 @@
     $scope.formError = formErrorService.empty();
 
     $scope.login = function() {
-      authService.login($scope.auth.login.username, $scope.auth.login.password)
+      authService.login($scope.auth.login.workspace, $scope.auth.login.username, $scope.auth.login.password)
       .then(function(response) {
         if (!response.hasErrors()) {
           $location.path('/application-builder/applications');
