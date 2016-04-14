@@ -1,0 +1,13 @@
+{"meta":{"status":"OK","code":"200"},"data":{
+  "pageId":123,
+  "title":"Page title",
+  "alias":"page-alias",
+  "template":3,
+  "isHomepage":true,
+  "isAuthenticationPage":true,
+  "pageCondition":"schema1.dateBetween",
+  "pageConditionArguments": {
+    "date_start":"2015-05-06",
+    "date_end":"2015-05-16"
+  }
+}}

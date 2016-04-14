@@ -8,7 +8,9 @@
         <tr>
           <th class="col-md-1">{{'page.pageId'|translate}}</th>
           <th class="col-md-2">{{'page.alias'|translate}}</th>
-          <th class="col-md-7">{{'page.name'|translate}}</th>
+          <th class="col-md-5">{{'page.title'|translate}}</th>
+          <th class="col-md-1"><span class="glyphicon glyphicon-home" title="{{'page.isHomepage'|translate}}" aria-hidden="true"></span></th>
+          <th class="col-md-1"><span class="glyphicon glyphicon-log-in" title="{{'page.isAuthenticationPage'|translate}}" aria-hidden="true"></span></th>
           <th class="col-md-2 text-right">
             <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/create" class="btn btn-sm btn-primary" title="{{'page.createPage'|translate}}">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'page.createPage'|translate}}
@@ -20,12 +22,14 @@
         <tr ng-repeat="page in pages">
           <td>{{page.id}}</td>
           <td>{{page.alias}}</td>
-          <td>{{page.name}}</td>
+          <td>{{page.title}}</td>
+          <td><span ng-show="page.isHomepage" title="{{'page.isHomepage'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
+          <td><span ng-show="page.isAuthenticationPage" title="{{'page.isAuthenticationPage'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
           <td class="text-right">
-            <button class="btn btn-sm btn-success" title="{{'page.edit'|translate}}">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/{{page.id}}/edit" class="btn btn-sm btn-success" title="{{'page.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </button>
-            <button class="btn btn-sm btn-danger" title="{{'page.delete'|translate}}">
+            </a>
+            <button ng-click="deletePage(page.id)" class="btn btn-sm btn-danger" title="{{'page.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>
@@ -33,5 +37,17 @@
       </tbody>
     </table>
   </div>
+
+  <uib-pagination boundary-links="true"
+                  total-items="allPages.length"
+                  items-per-page="itemsPerPage"
+                  ng-model="currentPage"
+                  ng-change="pageChanged()"
+                  class="pagination-sm"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;">
+  </uib-pagination>
 </div>
 

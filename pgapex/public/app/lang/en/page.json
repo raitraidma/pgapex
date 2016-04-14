@@ -2,10 +2,22 @@
   "page": {
     "pageId": "Page ID",
     "alias": "Alias",
-    "name": "Name",
+    "title": "Title",
     "createPage": "Create page",
+    "editPage": "Edit page",
     "edit": "Edit",
     "delete": "Delete",
-    "pages": "Pages"
+    "pages": "Pages",
+    "isHomepage": "Is homepage",
+    "isAuthenticationPage": "Is authentication page",
+    "deletePage": "Delete page",
+    "areYouSureThatYouWantToDeleteThisPage": "Are you sure that you want to delete this page?",
+    "cancel": "Cancel",
+    "titleIsMandatory": "Title is mandatory",
+    "aliasAlreadyExists": "Alias already exists",
+    "templateIsMandatory": "Template is mandatory",
+    "functionDoesNotExist": "Function does not exist",
+    "template": "Template",
+    "pageCondition": "Page condition"
   }
 }

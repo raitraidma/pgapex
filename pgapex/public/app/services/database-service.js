@@ -11,6 +11,10 @@
     return this.apiService.get('api/database/schemas.json');
   };
 
+  DatabaseService.prototype.getBooleanFunctions = function () {
+    return this.apiService.get('api/database/boolean-functions.json');
+  };
+
   function init() {
     module.service('databaseService', ['apiService', DatabaseService]);
   }

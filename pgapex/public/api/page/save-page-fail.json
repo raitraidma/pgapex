@@ -1,0 +1,11 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "page.titleIsMandatory", "source": {"pointer": "/data/attributes/title"}},
+    {"detail": "page.aliasAlreadyExists", "source": {"pointer": "/data/attributes/alias"}},
+    {"detail": "page.templateIsMandatory", "source": {"pointer": "/data/attributes/template"}},
+    {"detail": "Error for is homepage field", "source": {"pointer": "/data/attributes/isHomepage"}},
+    {"detail": "Error for is authentication page field", "source": {"pointer": "/data/attributes/isAuthenticationPage"}},
+    {"detail": "page.functionDoesNotExist", "source": {"pointer": "/data/attributes/pageCondition"}}
+  ]
+}

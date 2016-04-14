@@ -1,11 +1,23 @@
 {
   "page": {
-    "pageId": "Lehe ID",
+    "pageId": "Lahe ID",
     "alias": "Alias",
-    "name": "Nimi",
+    "title": "Pealkiri",
     "createPage": "Loo leht",
+    "editPage": "Muuda lehte",
     "edit": "Muuda",
     "delete": "Kustuta",
-    "pages": "Lehed"
+    "pages": "Lehed",
+    "isHomepage": "On avaleht",
+    "isAuthenticationPage": "On autentimise leht",
+    "deletePage": "Kustuta leht",
+    "areYouSureThatYouWantToDeleteThisPage": "Oled kindel, et soovid seda lehte kustutada?",
+    "cancel": "Katkesta",
+    "titleIsMandatory": "Pealkiri on kohustuslik.",
+    "aliasAlreadyExists": "Alias juba eksisteerib.",
+    "templateIsMandatory": "Mall on kohustuslik.",
+    "functionDoesNotExist": "Funktsiooni ei eksisteeri",
+    "template": "Mall",
+    "pageCondition": "Lehe tingimus"
   }
 }

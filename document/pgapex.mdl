@@ -3087,15 +3087,6 @@
 					    (object ClassAttribute "footer"
 						quid       	"570A262D0000"
 						type       	"String")
-					    (object ClassAttribute "notification_message_begin"
-						quid       	"570A295D0034"
-						type       	"String")
-					    (object ClassAttribute "notification_message"
-						quid       	"570A297801D8"
-						type       	"String")
-					    (object ClassAttribute "notification_message_end"
-						quid       	"570A299200C6"
-						type       	"String")
 					    (object ClassAttribute "error_message_begin"
 						quid       	"570A29A70107"
 						type       	"String")
@@ -3870,6 +3861,7 @@
 |- error_message
 |- success_message
 |- message (notification, error, success)
+|- logout_link
 						    )
 						line_color 	3342489
 						fill_color 	13434879
@@ -4376,19 +4368,19 @@
 						    default_color 	TRUE)
 						label      	(object ItemLabel
 						    Parent_View 	@146
-						    location   	(498, 1462)
+						    location   	(515, 1532)
 						    fill_color 	13434879
 						    nlines     	1
-						    max_width  	668
+						    max_width  	634
 						    justify    	0
 						    label      	"page_template")
 						stereotype 	(object ItemLabel
 						    Parent_View 	@146
-						    location   	(498, 1415)
+						    location   	(515, 1485)
 						    fill_color 	13434879
 						    anchor     	10
 						    nlines     	1
-						    max_width  	668
+						    max_width  	634
 						    justify    	0
 						    label      	"<<entity>>")
 						icon       	"entity"
@@ -4398,7 +4390,7 @@
 						quidu      	"570949140282"
 						compartment 	(object Compartment
 						    Parent_View 	@146
-						    location   	(498, 1520)
+						    location   	(515, 1590)
 						    font       	(object Font
 							size       	9
 							face       	"Arial"
@@ -4412,11 +4404,11 @@
 						    icon_style 	"Label"
 						    fill_color 	16777215
 						    anchor     	2
-						    nlines     	13
-						    max_width  	665
+						    nlines     	10
+						    max_width  	631
 						    justify    	1)
-						width      	686
-						height     	744
+						width      	652
+						height     	604
 						annotation 	8
 						autoResize 	TRUE)
 					    (object InheritView "" @147
@@ -4426,10 +4418,10 @@
 						client     	@146
 						supplier   	@105
 						vertices   	(list Points
-						    (897, 1403)
+						    (897, 1474)
 						    (897, 1362))
 						line_style 	3
-						origin_attachment 	(897, 1403)
+						origin_attachment 	(897, 1474)
 						terminal_attachment 	(897, 1362)
 						drawSupplier 	@137)
 					    (object AttachView "" @148
@@ -4439,7 +4431,7 @@
 						supplier   	@146
 						vertices   	(list Points
 						    (627, 1259)
-						    (684, 1403))
+						    (711, 1473))
 						line_style 	0)
 					    (object ClassView "Class" "Logical View::Analysis Model::Conceptual data model::template subsystem::page_template_display_point" @149
 						ShowCompartmentStereotypes 	TRUE
@@ -4483,14 +4475,14 @@
 						annotation 	8
 						autoResize 	TRUE)
 					    (object AssociationViewNew "$UNNAMED$39" @150
-						location   	(1311, 1776)
+						location   	(1302, 1776)
 						stereotype 	TRUE
 						line_color 	3342489
 						quidu      	"570B6B110318"
 						roleview_list 	(list RoleViews
 						    (object RoleView "$UNNAMED$40" @151
 							Parent_View 	@150
-							location   	(431, -224)
+							location   	(422, -224)
 							font       	(object Font
 							    size       	9
 							    face       	"Arial"
@@ -4507,12 +4499,12 @@
 							client     	@150
 							supplier   	@146
 							vertices   	(list Points
-							    (1311, 1776)
-							    (1175, 1776))
+							    (1302, 1776)
+							    (1158, 1776))
 							line_style 	0
 							label      	(object SegLabel @152
 							    Parent_View 	@151
-							    location   	(1205, 1750)
+							    location   	(1190, 1750)
 							    font       	(object Font
 								size       	9
 								face       	"Arial"
@@ -4534,7 +4526,7 @@
 							    orientation 	1))
 						    (object RoleView "$UNNAMED$41" @153
 							Parent_View 	@150
-							location   	(431, -224)
+							location   	(422, -224)
 							font       	(object Font
 							    size       	9
 							    face       	"Arial"
@@ -4551,12 +4543,12 @@
 							client     	@150
 							supplier   	@149
 							vertices   	(list Points
-							    (1311, 1776)
+							    (1302, 1776)
 							    (1447, 1776))
 							line_style 	0
 							label      	(object SegLabel @154
 							    Parent_View 	@153
-							    location   	(1385, 1750)
+							    location   	(1381, 1750)
 							    font       	(object Font
 								size       	9
 								face       	"Arial"
@@ -4788,8 +4780,8 @@
 						client     	@162
 						supplier   	@150
 						vertices   	(list Points
-						    (1352, 1931)
-						    (1311, 1776))
+						    (1349, 1931)
+						    (1302, 1776))
 						line_style 	0)
 					    (object ClassView "Class" "Logical View::Analysis Model::Conceptual data model::application subsystem::application" @164
 						ShowCompartmentStereotypes 	TRUE
