@@ -27,9 +27,15 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.template, 'template')}">
       <label for="template" class="col-sm-3 control-label">{{'page.template'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="template" name="template" ng-model="page.template" class="form-control" required>
-          <option ng-repeat="template in templates" ng-value="template.id">{{template.name}}</option>
+        <select id="template" name="template" ng-model="page.template" class="form-control" required ng-options="template.id as template.name for template in templates">
+          <!--option ng-repeat="template in templates" ng-value="template.id">{{template.name}}</option-->
         </select>
+        <!--select id="template" name="template" ng-model="page.template" class="form-control" required>
+          <option value="1">t1</option>
+          <option value="2">t2</option>
+          <option value="3">t3</option>
+          <option value="4">t4</option>
+        </select-->
         <div ng-show="formError.showErrors(managePageForm.template, 'template')">
           <span ng-show="managePageForm.template.$error.required" class="help-block">{{'page.templateIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('template')" class="help-block">{{error|translate}}</span>

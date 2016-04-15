@@ -14,13 +14,6 @@
     <div class="collapse navbar-collapse" id="toolbarNavigationCollapse">
       <ul class="nav navbar-nav">
         <li ng-class="{'active': isApplicationBuilderPage()}"><a ng-href="#/application-builder/applications">{{'general.applicationBuilder'|translate}}</a></li>
-        <li class="dropdown" ng-class="{'active': isAdministrationPage()}">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{'general.administration'|translate}} <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a ng-href="#/administration/workspaces">{{'workspace.workspaces'|translate}}</a></li>
-            <li><a ng-href="#/administration/users">{{'user.users'|translate}}</a></li>
-          </ul>
-        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
