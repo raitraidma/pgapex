@@ -1,0 +1,81 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'navigation.createNavigationItem'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'navigation.editNavigationItem'|translate}}</h2>
+  <form name="manageNavigationItemForm" class="form-horizontal" ng-submit="saveNavigationItem()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.name, 'name')}">
+      <label for="name" class="col-sm-3 control-label">{{'navigation.name'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="name" ng-model="navigationItem.name" id="name" placeholder="{{'navigation.name'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageNavigationItemForm.name, 'name')">
+          <span ng-show="manageNavigationItemForm.name.$error.required" class="help-block">{{'navigation.nameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('name')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.sequence, 'sequence')}">
+      <label for="sequence" class="col-sm-3 control-label">{{'navigation.sequence'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="number" min="0" class="form-control" name="sequence" ng-model="navigationItem.sequence" id="sequence" placeholder="{{'navigation.sequence'|translate}}" required>
+        <div ng-show="formError.showErrors(manageNavigationItemForm.sequence, 'sequence')">
+          <span ng-show="manageNavigationItemForm.sequence.$error.required" class="help-block">{{'navigation.sequenceIsMandatory'|translate}}</span>
+          <span ng-show="manageNavigationItemForm.sequence.$error.min" class="help-block">{{'navigation.minValueIsZero'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('sequence')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.parentNavigationItem, 'parentNavigationItem')}">
+      <label for="parentNavigationItem" class="col-sm-3 control-label">{{'navigation.parentNavigationItem'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="parentNavigationItem" id="parentNavigationItem" ng-model="navigationItem.parentNavigationItem">
+          <option value=""></option>
+          <option ng-repeat="navigationItem in navigationItems" value="{{navigationItem.id}}">{{'&nbsp;'.repeat(navigationItem.level * 5)}}{{navigationItem.name}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageNavigationItemForm.parentNavigationItem, 'parentNavigationItem')">
+          <span ng-repeat="error in formError.getErrors('parentNavigationItem')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.target, 'target')}">
+      <label for="target" class="col-sm-3 control-label">{{'navigation.target'|translate}}</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="target" id="target" ng-model="navigationItem.target">
+          <option value="PAGE">{{'navigation.page'|translate}}</option>
+          <option value="URL">{{'navigation.url'|translate}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" ng-show="navigationItem.target === 'PAGE'" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.page, 'page')}">
+      <label for="page" class="col-sm-3 control-label">{{'navigation.page'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="page" id="page" ng-model="navigationItem.page" ng-required="navigationItem.target === 'PAGE'">
+          <option ng-repeat="page in pages" value="{{page.id}}">{{page.title}} ({{'navigation.pageId'|translate}}: {{page.id}})</option>
+        </select>
+        <div ng-show="formError.showErrors(manageNavigationItemForm.page, 'page')">
+          <span ng-show="manageNavigationItemForm.page.$error.required" class="help-block">{{'navigation.pageIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('page')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-show="navigationItem.target === 'URL'" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.url, 'url')}">
+      <label for="url" class="col-sm-3 control-label">{{'navigation.url'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="url" class="form-control" name="url" ng-model="navigationItem.url" id="url" placeholder="{{'navigation.url'|translate}}" ng-required="navigationItem.target === 'URL'">
+        <div ng-show="formError.showErrors(manageNavigationItemForm.url, 'url')">
+          <span ng-show="manageNavigationItemForm.url.$error.required" class="help-block">{{'navigation.urlIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('url')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageNavigationItemForm.$invalid">
+          <span ng-show="mode === 'create'">{{'navigation.createNavigationItem'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'navigation.editNavigationItem'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

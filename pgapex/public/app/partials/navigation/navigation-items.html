@@ -1,0 +1,44 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="col-md-4">{{'navigation.name'|translate}}</th>
+          <th class="col-md-1"><span class="glyphicon glyphicon-globe" title="{{'navigation.isUrl'|translate}}" aria-hidden="true"></span></th>
+          <th class="col-md-5">{{'navigation.referencesTo'|translate}}</th>
+          <th class="col-md-2 text-right">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigations/{{routeParams.navigationId}}/items/create" class="btn btn-sm btn-primary" title="{{'navigation.createNavigationItem'|translate}}">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'navigation.createNavigationItem'|translate}}
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="navigationItem in navigationItems">
+          <td>
+            <span style="margin-left: {{navigationItem.level * 20}}px">
+              {{navigationItem.name}}
+            </span>
+          </td>
+          <td><span ng-show="navigationItem.url !== null" title="{{'navigation.isUrl'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
+          <td>
+            <span ng-show="navigationItem.url !== null">{{navigationItem.url}}</span>
+            <span ng-show="navigationItem.page !== null">{{navigationItem.page.title}}</span>
+          </td>
+          <td class="text-right">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigations/{{routeParams.navigationId}}/items/{{navigationItem.id}}/edit" class="btn btn-sm btn-success" title="{{'navigation.edit'|translate}}">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+            <button ng-click="deleteNavigationItem(navigationItem.id)" class="btn btn-sm btn-danger" title="{{'navigation.delete'|translate}}">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

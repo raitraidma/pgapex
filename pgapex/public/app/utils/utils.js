@@ -16,6 +16,29 @@ if(!String.prototype.endsWith) {
   };
 }
 
+if (!String.prototype.repeat) {
+  String.prototype.repeat = function(count) {
+    if (this == null) {
+      throw new TypeError('can\'t convert ' + this + ' to object');
+    }    
+    if (count < 0) {
+      throw new RangeError('repeat count must be non-negative');
+    }
+    if (count == Infinity) {
+      throw new RangeError('repeat count must be less than infinity');
+    }
+
+    var str = '' + this;
+    var result = '';
+
+    for (var i = 0; i < count; i++) {
+      result += str;
+    }
+
+    return result;
+  }
+}
+
 if(!Array.prototype.getUniqueObjectFiledValues) {
   Array.prototype.getUniqueObjectFiledValues = function (field) {
     return this.map(function (object) {

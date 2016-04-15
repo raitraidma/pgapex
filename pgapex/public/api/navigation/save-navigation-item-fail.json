@@ -1,0 +1,10 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "navigation.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "navigation.sequenceAlreadyExists", "source": {"pointer": "/data/attributes/sequence"}},
+    {"detail": "navigation.navigationItemDoesNotExist", "source": {"pointer": "/data/attributes/parentNavigationItem"}},
+    {"detail": "navigation.pageIsMandatory", "source": {"pointer": "/data/attributes/page"}},
+    {"detail": "navigation.urlIsMandatory", "source": {"pointer": "/data/attributes/url"}}
+  ]
+}

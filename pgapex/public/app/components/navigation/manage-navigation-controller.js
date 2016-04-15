@@ -3,12 +3,11 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.navigation');
 
-  function ManageNavigationController($scope, $location, $routeParams, navigationService, pageService, formErrorService) {
+  function ManageNavigationController($scope, $location, $routeParams, navigationService, formErrorService) {
     this.$scope = $scope;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.navigationService = navigationService;
-    this.pageService = pageService;
     this.formErrorService = formErrorService;
 
     this.init();
@@ -66,7 +65,7 @@
   function init() {
     module.controller('pgApexApp.navigation.ManageNavigationController',
       ['$scope', '$location', '$routeParams', 'navigationService',
-      'pageService', 'formErrorService', ManageNavigationController]);
+      'formErrorService', ManageNavigationController]);
   }
 
   init();

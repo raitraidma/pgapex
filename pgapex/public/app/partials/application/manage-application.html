@@ -27,7 +27,7 @@
       <label for="database" class="col-sm-3 control-label">{{'application.database'|translate}} *</label>
       <div class="col-sm-9">
         <select class="form-control" ng-model="application.database" name="database" id="database" ng-change="application.authenticationFunction = ''" required>
-          <option ng-repeat="database in databases" ng-value="database.name">{{database.name}}</option>
+          <option ng-repeat="database in databases" value="{{database.name}}">{{database.name}}</option>
         </select>
         <div ng-show="formError.showErrors(manageApplicationForm.database, 'database')">
           <span ng-show="manageApplicationForm.database.$error.required" class="help-block">{{'application.databaseIsMandatory'|translate}}</span>

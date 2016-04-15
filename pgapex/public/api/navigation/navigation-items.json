@@ -1,0 +1,8 @@
+{"meta":{"status":"OK","code":"200"},"data":[
+{"id":5,"name":"Navigation-item-2-2","parentNavigationItemId":2,"sequence":2,"url":null,"page":{"id":4,"title":"Page-4"}},
+{"id":1,"name":"Navigation-item-1","parentNavigationItemId":null,"sequence":1,"url":null,"page":{"id":1,"title":"Page-1"}},
+{"id":2,"name":"Navigation-item-2","parentNavigationItemId":null,"sequence":2,"url":null,"page":{"id":2,"title":"Page-2"}},
+{"id":3,"name":"Navigation-item-3","parentNavigationItemId":null,"sequence":3,"url":"http://www.ttu.ee","page":null},
+{"id":6,"name":"Navigation-item-2-1-1","parentNavigationItemId":4,"sequence":1,"url":"http://www.google.com","page":null},
+{"id":4,"name":"Navigation-item-2-1","parentNavigationItemId":2,"sequence":1,"url":null,"page":{"id":3,"title":"Page-3"}}
+]}

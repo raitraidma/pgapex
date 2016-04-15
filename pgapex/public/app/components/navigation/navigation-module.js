@@ -15,6 +15,18 @@
     .when('/application-builder/app/:applicationId/navigations/:navigationId/edit', {
       controller: 'pgApexApp.navigation.ManageNavigationController',
       templateUrl: 'app/partials/navigation/manage-navigation.html'
+    })
+    .when('/application-builder/app/:applicationId/navigations/:navigationId/items', {
+      controller: 'pgApexApp.navigation.NavigationItemsController',
+      templateUrl: 'app/partials/navigation/navigation-items.html'
+    })
+    .when('/application-builder/app/:applicationId/navigations/:navigationId/items/create', {
+      controller: 'pgApexApp.navigation.ManageNavigationItemController',
+      templateUrl: 'app/partials/navigation/manage-navigation-item.html'
+    })
+    .when('/application-builder/app/:applicationId/navigations/:navigationId/items/:navigationItemId/edit', {
+      controller: 'pgApexApp.navigation.ManageNavigationItemController',
+      templateUrl: 'app/partials/navigation/manage-navigation-item.html'
     });
   }
 

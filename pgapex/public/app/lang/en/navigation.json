@@ -10,6 +10,23 @@
     "areYouSureThatYouWantToDeleteThisNavigation": "Are you sure that you want to delete this navigation?",
     "cancel": "Cancel",
     "nameAlreadyExists": "Name already exists.",
-    "nameIsMandatory": "Name is mandatory."
+    "nameIsMandatory": "Name is mandatory.",
+    "referencesTo": "References to",
+    "isUrl": "Is URL",
+    "createNavigationItem": "Create navigation item",
+    "deleteNavigationItem": "Delete navigation item",
+    "areYouSureThatYouWantToDeleteThisNavigationItem": "Are you sure than you want to delete this navigation item? When deleting this item, subitems will be deleted as well.",
+    "editNavigationItem": "Edit navigation item",
+    "sequence": "Sequence",
+    "parentNavigationItem": "Parent navigation item",
+    "page": "Page",
+    "url": "URL",
+    "target": "Target",
+    "sequenceIsMandatory": "Sequence is mandatory.",
+    "minValueIsZero": "Min value is 0.",
+    "pageIsMandatory": "Page is mandatory.",
+    "urlIsMandatory": "URL is mandatory.",
+    "sequenceAlreadyExists": "Sequence already exists.",
+    "navigationItemDoesNotExist": "Navigation item does not exist."
   }
 }
