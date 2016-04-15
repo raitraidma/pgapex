@@ -50,20 +50,20 @@ describe("NavigationController", function() {
       });
     });
 
-    describe("$scope.isNavigationPage", function() {
-      it("should return true when url path begins with /application-builder and contains /navigation", function() {
-        prepareTest("/application-builder/xxx/navigation/yyy");
-        expect(injections.$scope.isNavigationPage()).toBe(true);
+    describe("$scope.isNavigationsPage", function() {
+      it("should return true when url path begins with /application-builder and contains /navigations", function() {
+        prepareTest("/application-builder/xxx/navigations/yyy");
+        expect(injections.$scope.isNavigationsPage()).toBe(true);
       });
 
       it("should return false when url path does not begin with /application-builder", function() {
-        prepareTest("/zzz-application-builder/xxx/navigation/yyy");
-        expect(injections.$scope.isNavigationPage()).toBe(false);
+        prepareTest("/zzz-application-builder/xxx/navigations/yyy");
+        expect(injections.$scope.isNavigationsPage()).toBe(false);
       });
 
-      it("should return false when url path does not contain /navigation", function() {
+      it("should return false when url path does not contain /navigations", function() {
         prepareTest("/application-builder/xxx/");
-        expect(injections.$scope.isNavigationPage()).toBe(false);
+        expect(injections.$scope.isNavigationsPage()).toBe(false);
       });
     });
   });

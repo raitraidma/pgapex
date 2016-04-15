@@ -15,8 +15,8 @@
       return path.startsWith('/application-builder') && path.contains('/pages');
     }
 
-    $scope.isNavigationPage = function () {
-      return path.startsWith('/application-builder') && path.contains('/navigation');
+    $scope.isNavigationsPage = function () {
+      return path.startsWith('/application-builder') && path.contains('/navigations');
     }
   }
 

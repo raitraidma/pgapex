@@ -3,7 +3,8 @@
   var angular = window.angular;
   var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox',
                 'ui.bootstrap', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
-                'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace', 'pgApexApp.user'];
+                'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace',
+                'pgApexApp.user', 'pgApexApp.navigation'];
 
   function routeProviderConfig ($routeProvider) {
     $routeProvider

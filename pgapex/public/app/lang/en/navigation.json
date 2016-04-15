@@ -1,0 +1,15 @@
+{
+  "navigation": {
+    "navigations": "Navigations",
+    "name": "Name",
+    "createNavigation": "Create navigation",
+    "editNavigation": "Edit navigation",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteNavigation": "Delete navigation",
+    "areYouSureThatYouWantToDeleteThisNavigation": "Are you sure that you want to delete this navigation?",
+    "cancel": "Cancel",
+    "nameAlreadyExists": "Name already exists.",
+    "nameIsMandatory": "Name is mandatory."
+  }
+}

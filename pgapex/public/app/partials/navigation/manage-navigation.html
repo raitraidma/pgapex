@@ -1,0 +1,27 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'navigation.createNavigation'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'navigation.editNavigation'|translate}}</h2>
+  <form name="manageNavigationForm" class="form-horizontal" ng-submit="saveNavigation()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationForm.name, 'name')}">
+      <label for="name" class="col-sm-3 control-label">{{'navigation.name'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="name" ng-model="navigation.name" id="name" placeholder="{{'navigation.name'|translate}}" required autofocus>
+        <div ng-show="formError.showErrors(manageNavigationForm.name, 'name')">
+          <span ng-show="manageNavigationForm.name.$error.required" class="help-block">{{'navigation.nameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('name')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageNavigationForm.$invalid">
+          <span ng-show="mode === 'create'">{{'navigation.createNavigation'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'navigation.editNavigation'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

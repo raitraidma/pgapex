@@ -1,0 +1,15 @@
+{
+  "navigation": {
+    "navigations": "Menüüd",
+    "name": "Nimi",
+    "createNavigation": "Loo menüü",
+    "editNavigation": "Muuda menüüd",
+    "edit": "Muuda",
+    "delete": "Kustuta",
+    "deleteNavigation": "Kustuta menüü",
+    "areYouSureThatYouWantToDeleteThisNavigation": "Oled kindel, et soovid selle menüü kustutada?",
+    "cancel": "Katkesta",
+    "nameAlreadyExists": "Nimi juba eksisteerib.",
+    "nameIsMandatory": "Nimi on kohustuslik."
+  }
+}

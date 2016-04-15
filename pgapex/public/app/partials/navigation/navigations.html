@@ -1,0 +1,45 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th class="col-md-1">{{'navigation.name'|translate}}</th>
+          <th class="col-md-2 text-right">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigations/create" class="btn btn-sm btn-primary" title="{{'navigation.createNavigation'|translate}}">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'navigation.createNavigation'|translate}}
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="navigation in navigations">
+          <td>{{navigation.name}}</td>
+          <td class="text-right">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigations/{{navigation.id}}/edit" class="btn btn-sm btn-success" title="{{'navigation.edit'|translate}}">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+            <button ng-click="deleteNavigation(navigation.id)" class="btn btn-sm btn-danger" title="{{'navigation.delete'|translate}}">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <uib-pagination boundary-links="true"
+                  total-items="allNavigations.length"
+                  items-per-page="itemsPerPage"
+                  ng-model="currentPage"
+                  ng-change="pageChanged()"
+                  class="pagination-sm"
+                  previous-text="&lsaquo;"
+                  next-text="&rsaquo;"
+                  first-text="&laquo;"
+                  last-text="&raquo;">
+  </uib-pagination>
+</div>
+
