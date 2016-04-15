@@ -19,16 +19,16 @@
     return this.apiService.post('api/page/delete-page.json', {"pageId": pageId});
   };
 
-  PageService.prototype.savePage = function (pageId, title, alias, template, isHomepage, isAuthenticationPage, pageCondition, pageConditionArguments) {
+  PageService.prototype.savePage = function (applicationId, pageId, title, alias, template, isHomepage, isAuthenticationPage, isAuthenticationRequired) {
     var postData = {
+      "applicationId": applicationId,
       "pageId": pageId,
       "title": title,
       "alias": alias,
       "template": template,
       "isHomepage": isHomepage,
       "isAuthenticationPage": isAuthenticationPage,
-      "pageCondition": pageCondition,
-      "pageConditionArguments": pageConditionArguments
+      "isAuthenticationRequired": isAuthenticationRequired
     };
     if (title === 'fail') {
       return this.apiService.post('api/page/save-page-fail.json', postData);

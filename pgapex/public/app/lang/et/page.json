@@ -10,6 +10,7 @@
     "pages": "Lehed",
     "isHomepage": "On avaleht",
     "isAuthenticationPage": "On autentimise leht",
+    "isAuthenticationRequired": "On autentimine nõutud",
     "deletePage": "Kustuta leht",
     "areYouSureThatYouWantToDeleteThisPage": "Oled kindel, et soovid seda lehte kustutada?",
     "cancel": "Katkesta",

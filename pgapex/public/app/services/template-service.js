@@ -11,8 +11,8 @@
     return this.apiService.get('api/template/templates.json', {"themeId" : themeId});
   };
 
-  TemplateService.prototype.getPageTemplates = function (applicationId) {
-    return this.apiService.get('api/template/page-templates.json', {"applicationId" : applicationId});
+  TemplateService.prototype.getPageTemplates = function () {
+    return this.apiService.get('api/template/page-templates.json');
   };
 
   TemplateService.prototype.getThemes = function (applicationId) {

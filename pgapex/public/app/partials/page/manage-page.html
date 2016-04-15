@@ -28,14 +28,7 @@
       <label for="template" class="col-sm-3 control-label">{{'page.template'|translate}} *</label>
       <div class="col-sm-9">
         <select id="template" name="template" ng-model="page.template" class="form-control" required ng-options="template.id as template.name for template in templates">
-          <!--option ng-repeat="template in templates" ng-value="template.id">{{template.name}}</option-->
         </select>
-        <!--select id="template" name="template" ng-model="page.template" class="form-control" required>
-          <option value="1">t1</option>
-          <option value="2">t2</option>
-          <option value="3">t3</option>
-          <option value="4">t4</option>
-        </select-->
         <div ng-show="formError.showErrors(managePageForm.template, 'template')">
           <span ng-show="managePageForm.template.$error.required" class="help-block">{{'page.templateIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('template')" class="help-block">{{error|translate}}</span>
@@ -51,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationPage, 'isAuthenticationPage')}">
+    <div ng-hide="page.isAuthenticationRequired" class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationPage, 'isAuthenticationPage')}">
       <label for="isAuthenticationPage" class="col-sm-3 control-label">{{'page.isAuthenticationPage'|translate}}</label>
       <div class="col-sm-9" class="checkbox">
         <input id="isAuthenticationPage" name="isAuthenticationPage" ng-model="page.isAuthenticationPage" type="checkbox">
@@ -60,23 +53,12 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.pageCondition, 'pageCondition')}">
-      <label for="pageCondition" class="col-sm-3 control-label">{{'page.pageCondition'|translate}}</label>
-      <div class="col-sm-9">
-        <select id="pageCondition" name="pageCondition" ng-model="page.pageCondition" class="form-control" required>
-          <option ng-value=""></option>
-          <option ng-repeat="function in functions" ng-value="function.name">{{function.name}}</option>
-        </select>
-        <div ng-repeat="function in functions" ng-show="function.name === page.pageCondition">
-          <div class="row" ng-repeat="argument in function.arguments">
-            <div class="col-sm-3">{{argument.name}}</div>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" ng-model="page.pageConditionAttribute[argument.name]">
-            </div>
-          </div>
-        </div>
-        <div ng-show="formError.showErrors(managePageForm.pageCondition, 'pageCondition')">
-          <span ng-repeat="error in formError.getErrors('pageCondition')" class="help-block">{{error|translate}}</span>
+    <div ng-hide="page.isAuthenticationPage" class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationRequired, 'isAuthenticationRequired')}">
+      <label for="isAuthenticationRequired" class="col-sm-3 control-label">{{'page.isAuthenticationRequired'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="isAuthenticationRequired" name="isAuthenticationRequired" ng-model="page.isAuthenticationRequired" type="checkbox">
+        <div ng-show="formError.showErrors(managePageForm.isAuthenticationRequired, 'isAuthenticationRequired')">
+          <span ng-repeat="error in formError.getErrors('isAuthenticationRequired')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>

@@ -17,14 +17,12 @@
 
   ManagePageController.prototype.init = function() {
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
-    this.$scope.functions = [];
     this.$scope.templates = [];
     this.$scope.page = {};
     this.$scope.formError = this.formErrorService.empty();
 
     this.$scope.savePage = this.savePage.bind(this);
 
-    this.initFunctions();
     this.initPageTemplates();
     this.loadPage();
   };
@@ -37,14 +35,8 @@
     return this.$location.path().endsWith('/edit');
   };
 
-  ManagePageController.prototype.initFunctions = function() {
-    this.databaseService.getBooleanFunctions().then(function (response) {
-      this.$scope.functions = response.getDataOrDefault([]);
-    }.bind(this));
-  };
-
   ManagePageController.prototype.initPageTemplates = function() {
-    this.templateService.getPageTemplates(this.getApplicationId()).then(function (response) {
+    this.templateService.getPageTemplates().then(function (response) {
       this.$scope.templates = response.getDataOrDefault([]);
     }.bind(this));
   };
@@ -54,19 +46,19 @@
   };
   
   ManagePageController.prototype.getPageId = function() {
-    return this.$routeParams.getPageId || null;
+    return this.$routeParams.pageId || null;
   };
 
   ManagePageController.prototype.savePage = function() {
     this.pageService.savePage(
+      this.getApplicationId(),
       this.getPageId(),
       this.$scope.page.title,
       this.$scope.page.alias,
       this.$scope.page.template,
-      this.$scope.page.isHomepage,
-      this.$scope.page.isAuthenticationPage,
-      this.$scope.page.pageCondition,
-      this.$scope.page.pageConditionAttribute
+      this.$scope.page.isHomepage || false,
+      this.$scope.page.isAuthenticationPage || false,
+      this.$scope.page.isAuthenticationRequired || false
     ).then(this.handleSaveResponse.bind(this));
   };
 
