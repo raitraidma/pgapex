@@ -7,8 +7,8 @@
     this.apiService = apiService;
   }
 
-  AuthService.prototype.login = function (workspace, username, password) {
-    var postData = {"workspace": workspace, "username" : username, "password": password};
+  AuthService.prototype.login = function (username, password) {
+    var postData = {"username" : username, "password": password};
     if (username === 'admin' && password === 'pass') {
       return this.apiService.post('api/auth/login-ok.json', postData);
     }

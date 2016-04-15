@@ -13,15 +13,6 @@
         <h2>{{'auth.login'|translate}}</h2>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(authLoginForm.workspace, 'workspace')}">
-      <div class="col-sm-12">
-        <input id="inputWorkspace" name="workspace" type="text" ng-model="auth.login.workspace" class="form-control" placeholder="{{'auth.workspace'|translate}}" required autofocus>
-        <div ng-show="formError.showErrors(authLoginForm.workspace, 'workspace')">
-          <span ng-show="authLoginForm.workspace.$error.required" class="help-block">{{'auth.workspaceIsMandatory'|translate}}</span>
-          <span ng-repeat="error in formError.getErrors('workspace')" class="help-block">{{error|translate}}</span>
-        </div>
-      </div>
-    </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(authLoginForm.username, 'username')}">
       <div class="col-sm-12">
         <input id="inputUsername" name="username" type="text" ng-model="auth.login.username" class="form-control" placeholder="{{'auth.username'|translate}}" required autofocus>
