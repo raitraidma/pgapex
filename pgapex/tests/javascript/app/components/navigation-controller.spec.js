@@ -33,18 +33,6 @@ describe("NavigationController", function() {
       });
     });
 
-    describe("$scope.isAdministrationPage", function() {
-      it("should return true when url path begins with /administration", function() {
-        prepareTest("/administration/xxx");
-        expect(injections.$scope.isAdministrationPage()).toBe(true);
-      });
-
-      it("should return false when url path does not begin with /administration", function() {
-        prepareTest("/xxx-administration/xxx");
-        expect(injections.$scope.isAdministrationPage()).toBe(false);
-      });
-    });
-
     describe("$scope.isPagesPage", function() {
       it("should return true when url path begins with /application-builder and contains /pages", function() {
         prepareTest("/application-builder/xxx/pages/yyy");
@@ -76,23 +64,6 @@ describe("NavigationController", function() {
       it("should return false when url path does not contain /navigation", function() {
         prepareTest("/application-builder/xxx/");
         expect(injections.$scope.isNavigationPage()).toBe(false);
-      });
-    });
-
-    describe("$scope.isThemesPage", function() {
-      it("should return true when url path begins with /application-builder and contains /themes", function() {
-        prepareTest("/application-builder/xxx/themes/yyy");
-        expect(injections.$scope.isThemesPage()).toBe(true);
-      });
-
-      it("should return false when url path does not begin with /application-builder", function() {
-        prepareTest("/zzz-application-builder/xxx/themes/yyy");
-        expect(injections.$scope.isThemesPage()).toBe(false);
-      });
-
-      it("should return false when url path does not contain /themes", function() {
-        prepareTest("/application-builder/xxx/");
-        expect(injections.$scope.isThemesPage()).toBe(false);
       });
     });
   });

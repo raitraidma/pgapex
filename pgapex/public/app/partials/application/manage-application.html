@@ -23,15 +23,15 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.schema, 'schema')}">
-      <label for="schema" class="col-sm-3 control-label">{{'application.schema'|translate}} *</label>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.database, 'database')}">
+      <label for="database" class="col-sm-3 control-label">{{'application.database'|translate}} *</label>
       <div class="col-sm-9">
-        <select class="form-control" ng-model="application.schema" name="schema" id="schema" required>
-          <option ng-repeat="schema in schemas" ng-value="schema">{{schema}}</option>
+        <select class="form-control" ng-model="application.database" name="database" id="database" ng-change="application.authenticationFunction = ''" required>
+          <option ng-repeat="database in databases" ng-value="database.name">{{database.name}}</option>
         </select>
-        <div ng-show="formError.showErrors(manageApplicationForm.schema, 'schema')">
-          <span ng-show="manageApplicationForm.schema.$error.required" class="help-block">{{'application.schemaIsMandatory'|translate}}</span>
-          <span ng-repeat="error in formError.getErrors('schema')" class="help-block">{{error|translate}}</span>
+        <div ng-show="formError.showErrors(manageApplicationForm.database, 'database')">
+          <span ng-show="manageApplicationForm.database.$error.required" class="help-block">{{'application.databaseIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('database')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
       <label for="authenticationScheme" class="col-sm-3 control-label">{{'application.authenticationScheme'|translate}} *</label>
       <div class="col-sm-9">
         <select class="form-control" name="authenticationScheme" id="authenticationScheme" ng-model="application.authenticationScheme" required>
-          <option value="DATABASE_USER">{{'application.authenticationSchemeDatabaseUser'|translate}}</option>
+          <option value="NO_AUTHENTICATION">{{'application.authenticationSchemeNoAuthentication'|translate}}</option>
           <option value="USER_FUNCTION">{{'application.authenticationSchemeUserFunction'|translate}}</option>
         </select>
         <div ng-show="formError.showErrors(manageApplicationForm.authenticationScheme, 'authenticationScheme')">
@@ -51,8 +51,9 @@
     <div class="form-group" ng-show="application.authenticationScheme == 'USER_FUNCTION'" ng-class="{'has-error': formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')}">
       <label for="authenticationFunction" class="col-sm-3 control-label">{{'application.authenticationFunction'|translate}} *</label>
       <div class="col-sm-9">
-        <select class="form-control" name="authenticationFunction" id="authenticationFunction" ng-model="application.authenticationFunction" ng-required="application.authenticationScheme == 'USER_FUNCTION'">
-          <option ng-repeat="authenticationFunction in authenticationFunctions" ng-value="authenticationFunction">{{authenticationFunction}}</option>
+        <div ng-hide="application.database" class="alert alert-warning" role="alert">{{'application.databaseMustBeSelected'|translate}}</div>
+        <select ng-show="application.database" class="form-control" name="authenticationFunction" id="authenticationFunction" ng-model="application.authenticationFunction" ng-required="application.authenticationScheme == 'USER_FUNCTION'">
+          <option ng-repeat="authenticationFunction in authenticationFunctions" ng-show="authenticationFunction.database === application.database" value="{{authenticationFunction.database}}.{{authenticationFunction.schema}}.{{authenticationFunction.function}}">{{authenticationFunction.schema}}.{{authenticationFunction.function}}</option>
         </select>
         <div ng-show="formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')">
           <span ng-show="manageApplicationForm.authenticationFunction.$error.required" class="help-block">{{'application.authenticationFunctionIsMandatory'|translate}}</span>
@@ -60,21 +61,29 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.developers, 'developers')}">
-      <label class="col-sm-3 control-label">{{'application.developers'|translate}}</label>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.databaseUsername, 'databaseUsername')}">
+      <label for="databaseUsername" class="col-sm-3 control-label">{{'application.databaseUsername'|translate}} *</label>
       <div class="col-sm-9">
-        <select name="developers"
-                ng-model="application.developers"
-                ng-options="user.id as user.username for user in users"
-                filter="false"
-                info-all="0"
-                info-filtered="0"
-                info-empty="0"
-                multiple
-                bs-duallistbox>
-        </select>
-        <div ng-show="formError.showErrors(manageApplicationForm.developers, 'developers')">
-          <span ng-repeat="error in formError.getErrors('developers')" class="help-block">{{error|translate}}</span>
+        <input type="text" class="form-control" name="databaseUsername" ng-model="application.databaseUsername" id="databaseUsername" placeholder="{{'application.databaseUsername'|translate}}" required>
+        <div ng-show="formError.showErrors(manageApplicationForm.databaseUsername, 'databaseUsername')">
+          <span ng-show="manageApplicationForm.databaseUsername.$error.required" class="help-block">{{'application.databaseUsernameIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('databaseUsername')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.databasePassword, 'databasePassword')}">
+      <label for="databasePassword" class="col-sm-3 control-label">{{'application.databasePassword'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="{{passwordFieldType}}" class="form-control" name="databasePassword" ng-model="application.databasePassword" id="databasePassword" placeholder="{{'application.databasePassword'|translate}}" required>
+        <div>
+          <a ng-click="togglePasswordFieldType()" class="toggle">
+            <span ng-show="passwordFieldType === 'password'">{{'application.showPassword'|translate}}</span>
+            <span ng-show="passwordFieldType === 'text'">{{'application.hidePassword'|translate}}</span>
+          </a>
+        </div>
+        <div ng-show="formError.showErrors(manageApplicationForm.databasePassword, 'databasePassword')">
+          <span ng-show="manageApplicationForm.databasePassword.$error.required" class="help-block">{{'application.databasePasswordIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('databasePassword')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>

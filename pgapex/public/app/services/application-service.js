@@ -11,14 +11,6 @@
     return this.apiService.get('api/application/applications.json');
   };
 
-  ApplicationService.prototype.getSchemas = function () {
-    return this.apiService.get('api/application/schemas.json');
-  };
-
-  ApplicationService.prototype.getAuthenticationFunctions = function () {
-    return this.apiService.get('api/application/authentication-functions.json');
-  };
-
   ApplicationService.prototype.getApplication = function (applicationId) {
     return this.apiService.get('api/application/application.json', {"id": applicationId});
   };
@@ -28,15 +20,16 @@
   };
 
   ApplicationService.prototype.saveApplication =
-    function (applicationId, name, alias, schema, authenticationScheme, authenticationFunction, developers) {
+    function (applicationId, name, alias, database, authenticationScheme, authenticationFunction, databaseUsername, databasePassword) {
       var postData = {
         "id" : applicationId,
         "name" : name,
         "alias": alias,
-        "schema": schema,
+        "database": database,
         "authenticationScheme": authenticationScheme,
         "authenticationFunction": authenticationFunction,
-        "developers": developers
+        "databaseUsername": databaseUsername,
+        "databasePassword": databasePassword
       };
       if (name === 'fail') {
         return this.apiService.post('api/application/save-application-fail.json', postData);

@@ -9,11 +9,10 @@
     "name": "Rakenduse nimi",
     "applicationNameIsMandatory": "Rakenduse nimi on kohustuslik.",
     "alias": "Alias",
-    "schema": "Skeem",
-    "schemaIsMandatory": "Skeem on kohustuslik.",
+    "database": "Andmebaas",
+    "databaseIsMandatory": "Andmebaas on kohustuslik.",
     "authenticationScheme": "Autentimise plaan",
-    "authenticationSchemeNone": "Puudub",
-    "authenticationSchemeDatabaseUser": "Andmebaasi kasutaja",
+    "authenticationSchemeNoAuthentication": "Autentimine puudub",
     "authenticationSchemeUserFunction": "Kasutaja funktsioon",
     "authenticationSchemeIsMandatory": "Autentimise plaan on kohustuslik.",
     "authenticationFunction": "Autentimise funktsioon",
@@ -23,7 +22,11 @@
     "deleteApplication": "Kustuta rakendus",
     "areYouSureThatYouWantToDeleteThisApplication": "Oled kindel, et soovid selle rakenduse kustutada?",
     "cancel": "Katkesta",
-    "developers": "Arendajad",
-    "selectedUsersDoNotExist": "Valitud kasutajaid ei eksisteeri."
+    "databaseUsername": "Andmebaasi kasutajanimi",
+    "databaseUsernameIsMandatory": "Andmebaasi kasutajanimi on kohustuslik.",
+    "databasePassword": "Andmebaasi parool",
+    "databasePasswordIsMandatory": "Andmebaasi parool on kohustuslik.",
+    "showPassword": "Näita parooli",
+    "hidePassword": "Peida parool"
   }
 }

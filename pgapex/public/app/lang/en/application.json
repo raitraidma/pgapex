@@ -9,11 +9,10 @@
     "name": "Application name",
     "applicationNameIsMandatory": "Application name is mandatory.",
     "alias": "Alias",
-    "schema": "Schema",
-    "schemaIsMandatory": "Schema is mandatory.",
+    "database": "Database",
+    "databaseIsMandatory": "Database is mandatory.",
     "authenticationScheme": "Authentication scheme",
-    "authenticationSchemeNone": "None",
-    "authenticationSchemeDatabaseUser": "Database user",
+    "authenticationSchemeNoAuthentication": "No authentication",
     "authenticationSchemeUserFunction": "User function",
     "authenticationSchemeIsMandatory": "Authentication scheme is mandatory.",
     "authenticationFunction": "Authentication function",
@@ -23,7 +22,11 @@
     "deleteApplication": "Delete application",
     "areYouSureThatYouWantToDeleteThisApplication": "Are you sure that you want to delete this application?",
     "cancel": "Cancel",
-    "developers": "Developers",
-    "selectedUsersDoNotExist": "Selected users do not exist."
+    "databaseUsername": "Database username",
+    "databaseUsernameIsMandatory": "Database username is mandatory.",
+    "databasePassword": "Database password",
+    "databasePasswordIsMandatory": "Database password is mandatory.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   }
 }

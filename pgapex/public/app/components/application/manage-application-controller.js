@@ -3,12 +3,12 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.application');
 
-  function ManageApplicationController($scope, $location, $routeParams, applicationService, userService, formErrorService) {
+  function ManageApplicationController($scope, $location, $routeParams, applicationService, databaseService, formErrorService) {
     this.$scope = $scope;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.applicationService = applicationService;
-    this.userService = userService;
+    this.databaseService = databaseService;
     this.formErrorService = formErrorService;
 
     this.init();
@@ -17,19 +17,23 @@
   ManageApplicationController.prototype.init = function() {
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.application = {
-      "authenticationScheme": "DATABASE_USER"
+      "authenticationScheme": "NO_AUTHENTICATION"
     };
     this.$scope.formError = this.formErrorService.empty();
-    this.$scope.schemas = [];
+    this.$scope.databases = [];
     this.$scope.authenticationFunctions = [];
-    this.$scope.users = [];
+    this.$scope.passwordFieldType = 'password';
 
+    this.$scope.togglePasswordFieldType = this.togglePasswordFieldType.bind(this);
     this.$scope.saveApplication = this.saveApplication.bind(this);
 
-    this.initSchemas();
+    this.initDatabases();
     this.initAuthenticationFunctions();
-    this.initUsers();
     this.loadApplication();
+  };
+
+  ManageApplicationController.prototype.togglePasswordFieldType = function() {
+    this.$scope.passwordFieldType = (this.$scope.passwordFieldType == 'text') ? 'password' : 'text';
   };
 
   ManageApplicationController.prototype.isCreatePage = function() {
@@ -44,14 +48,14 @@
     return this.$routeParams.applicationId || null;
   };
 
-  ManageApplicationController.prototype.initSchemas = function() {
-    this.applicationService.getSchemas().then(function (response) {
-      this.$scope.schemas = response.getDataOrDefault([]);
+  ManageApplicationController.prototype.initDatabases = function() {
+    this.databaseService.getDatabases().then(function (response) {
+      this.$scope.databases = response.getDataOrDefault([]);
     }.bind(this));
   };
 
   ManageApplicationController.prototype.initAuthenticationFunctions = function() {
-    this.applicationService.getAuthenticationFunctions().then(function (response) {
+    this.databaseService.getAuthenticationFunctions().then(function (response) {
       this.$scope.authenticationFunctions = response.getDataOrDefault([]);
     }.bind(this));
   };
@@ -74,10 +78,11 @@
       this.getApplicationId(),
       this.$scope.application.name,
       this.$scope.application.alias,
-      this.$scope.application.schema,
+      this.$scope.application.database,
       this.$scope.application.authenticationScheme,
       this.$scope.application.authenticationFunction,
-      this.$scope.application.developers
+      this.$scope.application.databaseUsername,
+      this.$scope.application.databasePassword
     ).then(this.handleSaveResponse.bind(this));
   };
 
@@ -92,7 +97,7 @@
 
   function init() {
     module.controller('pgApexApp.application.ManageApplicationController',
-      ['$scope', '$location', '$routeParams', 'applicationService', 'userService', 'formErrorService', ManageApplicationController]);
+      ['$scope', '$location', '$routeParams', 'applicationService', 'databaseService', 'formErrorService', ManageApplicationController]);
   }
 
   init();

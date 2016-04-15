@@ -7,10 +7,15 @@
     this.apiService = apiService;
   }
 
-  DatabaseService.prototype.getSchemas = function () {
-    return this.apiService.get('api/database/schemas.json');
+  DatabaseService.prototype.getDatabases = function () {
+    return this.apiService.get('api/database/databases.json');
   };
 
+  DatabaseService.prototype.getAuthenticationFunctions = function () {
+    return this.apiService.get('api/database/boolean-functions-with-two-string-parameters.json');
+  };
+
+  // Deprecated
   DatabaseService.prototype.getBooleanFunctions = function () {
     return this.apiService.get('api/database/boolean-functions.json');
   };

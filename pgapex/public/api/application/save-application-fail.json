@@ -3,9 +3,10 @@
   "errors": [
     {"detail": "application.applicationNameAlreadyExists", "source": {"pointer": "/data/attributes/name"}},
     {"detail": "application.aliasAlreadyExists", "source": {"pointer": "/data/attributes/alias"}},
-    {"detail": "application.schemaIsMandatory", "source": {"pointer": "/data/attributes/schema"}},
-    {"detail": "application.selectedUsersDoNotExist", "source": {"pointer": "/data/attributes/developers"}},
+    {"detail": "application.databaseIsMandatory", "source": {"pointer": "/data/attributes/database"}},
     {"detail": "application.authenticationSchemeIsMandatory", "source": {"pointer": "/data/attributes/authenticationScheme"}},
-    {"detail": "application.authenticationFunctionIsMandatory", "source": {"pointer": "/data/attributes/authenticationFunction"}}
+    {"detail": "application.authenticationFunctionIsMandatory", "source": {"pointer": "/data/attributes/authenticationFunction"}},
+    {"detail": "application.databaseUsernameIsMandatory", "source": {"pointer": "/data/attributes/databaseUsername"}},
+    {"detail": "application.databasePasswordIsMandatory", "source": {"pointer": "/data/attributes/databasePassword"}}
   ]
 }

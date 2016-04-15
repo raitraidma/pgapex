@@ -19,15 +19,16 @@ describe("application-service", function() {
 
   it("should pass on application data when calling saveApplication", function() {
     spyOn(applicationService.apiService, "post");
-    applicationService.saveApplication(123, "app-name", "app-alias", "app-schema", "auth-scheme", "auth-function", [1,2,3]);
+    applicationService.saveApplication(123, "app-name", "app-alias", "app-database", "auth-scheme", "auth-function", "user", "pass");
     expect(applicationService.apiService.post).toHaveBeenCalledWith(jasmine.any(String), {
       "id" : 123,
       "name" : "app-name",
       "alias": "app-alias",
-      "schema": "app-schema",
+      "database": "app-database",
       "authenticationScheme": "auth-scheme",
       "authenticationFunction": "auth-function",
-      "developers": [1,2,3]
+      "databaseUsername": "user",
+      "databasePassword": "pass"
     });
   });
 });

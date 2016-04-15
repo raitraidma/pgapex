@@ -11,20 +11,12 @@
       return path.startsWith('/application-builder');
     }
 
-    $scope.isAdministrationPage = function () {
-      return path.startsWith('/administration');
-    }
-
     $scope.isPagesPage = function () {
       return path.startsWith('/application-builder') && path.contains('/pages');
     }
 
     $scope.isNavigationPage = function () {
       return path.startsWith('/application-builder') && path.contains('/navigation');
-    }
-
-    $scope.isThemesPage = function () {
-      return path.startsWith('/application-builder') && path.contains('/themes');
     }
   }
 
