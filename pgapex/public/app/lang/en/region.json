@@ -1,7 +1,7 @@
 {
   "region": {
     "regions": "Regions",
-    "create": "Create",
+    "createRegion": "Create",
     "edit": "Edit",
     "delete": "Delete",
     "html": "HTML",
@@ -20,9 +20,9 @@
     "content": "Content",
     "name": "Name",
     "sequence": "Sequence",
-    "nameIsMandatory": "Name is mandatory",
-    "sequenceIsMandatory": "Sequence is mandatory",
-    "minValueIsZero": "Min value is zero",
+    "nameIsMandatory": "Name is mandatory.",
+    "sequenceIsMandatory": "Sequence is mandatory.",
+    "minValueIsZero": "Min value is zero.",
     "type": "Type",
     "regionTemplate": "Region template",
     "regionTemplateIsMandatory": "Region template is mandatory.",
