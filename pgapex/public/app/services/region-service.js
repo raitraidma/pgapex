@@ -15,6 +15,10 @@
     return this.apiService.get('api/region/html-region.json', {"regionId": regionId});
   };
 
+  RegionService.prototype.getNavigationRegion = function (regionId) {
+    return this.apiService.get('api/region/navigation-region.json', {"regionId": regionId});
+  };
+
   RegionService.prototype.deleteRegion = function (regionId) {
     return this.apiService.post('api/region/delete-region.json', {"regionId": regionId});
   };
@@ -27,20 +31,40 @@
     });
   };
 
-  RegionService.prototype.saveHtmlRegion = function (pageId, displayPoint, regionId, name, sequence, template, content) {
+  RegionService.prototype.saveHtmlRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, content) {
     var postData = {
       "pageId": pageId,
       "displayPoint": displayPoint,
       "regionId": regionId,
       "name": name,
       "sequence": sequence,
-      "template": template,
+      "regionTemplate": regionTemplate,
       "content": content
     };
     if (name === 'fail') {
       return this.apiService.post('api/region/save-html-region-fail.json', postData);
     }
     return this.apiService.post('api/region/save-html-region-ok.json', postData);
+  };
+
+  RegionService.prototype.saveNavigationRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+                                                          navigationTemplate, navigationType, navigation, repeatLastLevel) {
+    var postData = {
+      "pageId": pageId,
+      "displayPoint": displayPoint,
+      "regionId": regionId,
+      "name": name,
+      "sequence": sequence,
+      "regionTemplate": regionTemplate,
+      "navigationTemplate": navigationTemplate,
+      "navigationType": navigationType,
+      "navigation": navigation,
+      "repeatLastLevel": repeatLastLevel
+    };
+    if (name === 'fail') {
+      return this.apiService.post('api/region/save-navigation-region-fail.json', postData);
+    }
+    return this.apiService.post('api/region/save-navigation-region-ok.json', postData);
   };
 
   function init() {

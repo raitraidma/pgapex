@@ -7,8 +7,14 @@
     this.apiService = apiService;
   }
 
+  // Deprecated
   TemplateService.prototype.getTemplates = function (themeId) {
     return this.apiService.get('api/template/templates.json', {"themeId" : themeId});
+  };
+
+  // Deprecated
+  TemplateService.prototype.getThemes = function (applicationId) {
+    return this.apiService.get('api/template/themes.json', {"applicationId": applicationId});
   };
 
   TemplateService.prototype.getPageTemplates = function () {
@@ -19,8 +25,8 @@
     return this.apiService.get('api/template/region-templates.json');
   };
 
-  TemplateService.prototype.getThemes = function (applicationId) {
-    return this.apiService.get('api/template/themes.json', {"applicationId": applicationId});
+  TemplateService.prototype.getNavigationTemplates = function () {
+    return this.apiService.get('api/template/navigation-templates.json');
   };
 
   function init() {

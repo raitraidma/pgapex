@@ -17,7 +17,7 @@
   ManageHtmlRegionController.prototype.init = function() {
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.region = {};
-    this.$scope.tempates = [];
+    this.$scope.regionTemplates = [];
     this.$scope.formError = this.formErrorService.empty();
     
     this.$scope.saveRegion = this.saveRegion.bind(this);
@@ -27,7 +27,7 @@
 
   ManageHtmlRegionController.prototype.initRegionTemplates = function() {
     this.templateService.getRegionTemplates().then(function (response) {
-      this.$scope.templates = response.getDataOrDefault([]);
+      this.$scope.regionTemplates = response.getDataOrDefault([]);
     }.bind(this));
   };
 
@@ -62,7 +62,7 @@
       this.getRegionId(),
       this.$scope.region.name,
       this.$scope.region.sequence,
-      this.$scope.region.template,
+      this.$scope.region.regionTemplate,
       this.$scope.region.content
     ).then(this.handleSaveResponse.bind(this));
   };

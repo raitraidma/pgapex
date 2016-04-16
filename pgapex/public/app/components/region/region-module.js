@@ -15,6 +15,14 @@
     .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/html/:regionId/edit', {
       controller: 'pgApexApp.region.ManageHtmlRegionController',
       templateUrl: 'app/partials/region/manage-html-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/navigation/create', {
+      controller: 'pgApexApp.region.ManageNavigationRegionController',
+      templateUrl: 'app/partials/region/manage-navigation-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/navigation/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageNavigationRegionController',
+      templateUrl: 'app/partials/region/manage-navigation-region.html'
     });
   }
 

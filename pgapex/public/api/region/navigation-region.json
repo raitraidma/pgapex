@@ -3,5 +3,8 @@
   "name":"Region name",
   "sequence":2,
   "regionTemplate":3,
-  "content":"<strong>Hello!</strong>"
+  "navigationTemplate": 4,
+  "navigationType": "SITEMAP",
+  "navigation": 10,
+  "repeatLastLevel": true
 }}

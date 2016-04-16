@@ -1,0 +1,12 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
+    {"detail": "region.regionTemplateIsMandatory", "source": {"pointer": "/data/attributes/regionTemplate"}},
+    {"detail": "region.navigationTemplateIsMandatory", "source": {"pointer": "/data/attributes/navigationTemplate"}},
+    {"detail": "region.navigationTypeIsMandatory", "source": {"pointer": "/data/attributes/navigationType"}},
+    {"detail": "region.navigationIsMandatory", "source": {"pointer": "/data/attributes/navigation"}},
+    {"detail": "Error for repeat last level field.", "source": {"pointer": "/data/attributes/repeatLastLevel"}}
+  ]
+}

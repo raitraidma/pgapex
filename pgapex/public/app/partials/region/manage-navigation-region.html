@@ -1,0 +1,63 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'region.createNavigationRegion'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'region.editNavigationRegion'|translate}}</h2>
+  <form name="manageRegionForm" class="form-horizontal" ng-submit="saveRegion()" novalidate>
+    <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.navigationTemplate, 'navigationTemplate')}">
+      <label for="navigationTemplate" class="col-sm-3 control-label">{{'region.navigationTemplate'|translate}} *</label>
+      <div class="col-sm-9">
+        <select id="navigationTemplate" name="navigationTemplate" ng-model="region.navigationTemplate" class="form-control" required ng-options="navigationTemplate.id as navigationTemplate.name for navigationTemplate in navigationTemplates">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.navigationTemplate, 'navigationTemplate')">
+          <span ng-show="manageRegionForm.navigationTemplate.$error.required" class="help-block">{{'region.navigationTemplateIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('navigationTemplate')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.navigationType, 'navigationType')}">
+      <label for="navigationType" class="col-sm-3 control-label">{{'region.navigationType'|translate}} *</label>
+      <div class="col-sm-9">
+        <select id="navigationType" name="navigationType" ng-model="region.navigationType" class="form-control" required>
+          <option value="MENU">{{'region.navigationTypeMenu'|translate}}</option>
+          <option value="BREADCRUMB">{{'region.navigationTypeBreadcrumb'|translate}}</option>
+          <option value="SITEMAP">{{'region.navigationTypeSitemap'|translate}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.navigationType, 'navigationType')">
+          <span ng-show="manageRegionForm.navigationType.$error.required" class="help-block">{{'region.navigationTypeIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('navigationType')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.navigation, 'navigation')}">
+      <label for="navigation" class="col-sm-3 control-label">{{'region.navigation'|translate}} *</label>
+      <div class="col-sm-9">
+        <select id="navigation" name="navigation" ng-model="region.navigation" class="form-control" required ng-options="navigation.id as navigation.name for navigation in navigations">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.navigation, 'navigation')">
+          <span ng-show="manageRegionForm.navigation.$error.required" class="help-block">{{'region.navigationIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('navigation')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.repeatLastLevel, 'repeatLastLevel')}">
+      <label for="repeatLastLevel" class="col-sm-3 control-label">{{'region.repeatLastLevel'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="repeatLastLevel" name="repeatLastLevel" ng-model="region.repeatLastLevel" type="checkbox">
+        <div ng-show="formError.showErrors(manageRegionForm.repeatLastLevel, 'repeatLastLevel')">
+          <span ng-repeat="error in formError.getErrors('repeatLastLevel')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageRegionForm.$invalid">
+          <span ng-show="mode === 'create'">{{'region.createNavigationRegion'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'region.editNavigationRegion'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

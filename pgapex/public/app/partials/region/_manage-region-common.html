@@ -19,14 +19,14 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.template, 'template')}">
-      <label for="template" class="col-sm-3 control-label">{{'region.template'|translate}} *</label>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.regionTemplate, 'regionTemplate')}">
+      <label for="regionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="template" name="template" ng-model="region.template" class="form-control" required ng-options="template.id as template.name for template in templates">
+        <select id="regionTemplate" name="regionTemplate" ng-model="region.regionTemplate" class="form-control" required ng-options="regionTemplate.id as regionTemplate.name for regionTemplate in regionTemplates">
         </select>
-        <div ng-show="formError.showErrors(manageRegionForm.template, 'template')">
-          <span ng-show="manageRegionForm.template.$error.required" class="help-block">{{'region.templateIsMandatory'|translate}}</span>
-          <span ng-repeat="error in formError.getErrors('template')" class="help-block">{{error|translate}}</span>
+        <div ng-show="formError.showErrors(manageRegionForm.regionTemplate, 'regionTemplate')">
+          <span ng-show="manageRegionForm.regionTemplate.$error.required" class="help-block">{{'region.regionTemplateIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('regionTemplate')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
     </div>
