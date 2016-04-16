@@ -1,0 +1,33 @@
+'use strict';
+(function (window) {
+  var angular = window.angular;
+
+  function routeProviderConfig ($routeProvider) {
+    $routeProvider
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions', {
+      controller: 'pgApexApp.region.RegionsController',
+      templateUrl: 'app/partials/region/regions.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/html/create', {
+      controller: 'pgApexApp.region.ManageHtmlRegionController',
+      templateUrl: 'app/partials/region/manage-html-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/html/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageHtmlRegionController',
+      templateUrl: 'app/partials/region/manage-html-region.html'
+    });
+  }
+
+  function translatePartialLoaderProviderConfig($translatePartialLoaderProvider) {
+    $translatePartialLoaderProvider.addPart('region');
+  }
+
+  function init() {
+    angular
+    .module('pgApexApp.region', ['pgApexApp'])
+    .config(['$routeProvider', routeProviderConfig])
+    .config(['$translatePartialLoaderProvider', translatePartialLoaderProviderConfig]);
+  }
+
+  init();
+})(window);

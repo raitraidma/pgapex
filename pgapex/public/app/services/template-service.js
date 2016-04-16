@@ -15,6 +15,10 @@
     return this.apiService.get('api/template/page-templates.json');
   };
 
+  TemplateService.prototype.getRegionTemplates = function () {
+    return this.apiService.get('api/template/region-templates.json');
+  };
+
   TemplateService.prototype.getThemes = function (applicationId) {
     return this.apiService.get('api/template/themes.json', {"applicationId": applicationId});
   };

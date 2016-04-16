@@ -28,6 +28,9 @@
           <td><span ng-show="page.isAuthenticationPage" title="{{'page.isAuthenticationPage'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
           <td><span ng-show="page.isAuthenticationRequired" title="{{'page.isAuthenticationRequired'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
           <td class="text-right">
+            <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/{{page.id}}/regions" class="btn btn-sm btn-info" title="{{'page.regions'|translate}}">
+              <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+            </a>
             <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/{{page.id}}/edit" class="btn btn-sm btn-success" title="{{'page.edit'|translate}}">
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>

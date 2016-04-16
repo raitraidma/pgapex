@@ -1,0 +1,32 @@
+{
+  "region": {
+    "regions": "Regions",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "html": "HTML",
+    "navigation": "Navigation",
+    "report": "Report",
+    "form": "Form",
+    "HTML": "HTML",
+    "NAVIGATION": "NAVIGATION",
+    "REPORT": "REPORT",
+    "FORM": "FORM",
+    "deleteRegion": "Delete region",
+    "areYouSureThatYouWantToDeleteThisRegion": "Are you sure that you want to delete this region?",
+    "cancel": "Cancel",
+    "createHtmlRegion": "Create HTML region",
+    "editHtmlRegion": "Edit HTML region",
+    "content": "Content",
+    "name": "Name",
+    "sequence": "Sequence",
+    "nameIsMandatory": "Name is mandatory",
+    "sequenceIsMandatory": "Sequence is mandatory",
+    "minValueIsZero": "Min value is zero",
+    "type": "Type",
+    "template": "Template",
+    "templateIsMandatory": "Template is mandatory.",
+    "": "",
+    "": ""
+  }
+}

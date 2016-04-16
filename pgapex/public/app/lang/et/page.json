@@ -19,6 +19,7 @@
     "templateIsMandatory": "Mall on kohustuslik.",
     "functionDoesNotExist": "Funktsiooni ei eksisteeri",
     "template": "Mall",
-    "pageCondition": "Lehe tingimus"
+    "pageCondition": "Lehe tingimus",
+    "regions": "Regioonid"
   }
 }

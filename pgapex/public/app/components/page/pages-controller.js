@@ -24,8 +24,12 @@
     this.loadPages();
   };
 
+  PagesController.prototype.getApplicationId = function() {
+    return this.$routeParams.applicationId || null;
+  };
+
   PagesController.prototype.loadPages = function() {
-    this.pageService.getPages(this.$routeParams.applicationId).then(function (response) {
+    this.pageService.getPages(this.getApplicationId()).then(function (response) {
       this.$scope.allPages = response.hasData() ? response.getData() : [];
       this.selectVisiblePages();
     }.bind(this));

@@ -1,0 +1,27 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'region.createHtmlRegion'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'region.editHtmlRegion'|translate}}</h2>
+  <form name="manageRegionForm" class="form-horizontal" ng-submit="saveRegion()" novalidate>
+    <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.content, 'content')}">
+      <label for="content" class="col-sm-3 control-label">{{'region.content'|translate}}</label>
+      <div class="col-sm-9">
+        <textarea class="form-control" rows="9" name="content" ng-model="region.content" id="content"></textarea>
+        <div ng-show="formError.showErrors(manageRegionForm.content, 'content')">
+          <span ng-repeat="error in formError.getErrors('content')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageRegionForm.$invalid">
+          <span ng-show="mode === 'create'">{{'region.createHtmlRegion'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'region.editHtmlRegion'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

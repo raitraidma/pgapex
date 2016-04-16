@@ -35,10 +35,6 @@ select[multiple] option {
   cursor: pointer;
 }
 
-.nav, .pagination, .carousel, .panel-title a {
-  cursor: pointer;
-}
-
 a.toggle {
   cursor: pointer;
 }

@@ -1,0 +1,7 @@
+{"meta":{"status":"OK","code":"200"},"data":{
+  "regionId":123,
+  "name":"Region name",
+  "sequence":2,
+  "template":3,
+  "content":"<strong>Hello!</strong>"
+}}

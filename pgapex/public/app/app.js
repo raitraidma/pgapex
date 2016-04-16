@@ -4,7 +4,7 @@
   var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox',
                 'ui.bootstrap', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
                 'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace',
-                'pgApexApp.user', 'pgApexApp.navigation'];
+                'pgApexApp.user', 'pgApexApp.navigation', 'pgApexApp.region'];
 
   function routeProviderConfig ($routeProvider) {
     $routeProvider

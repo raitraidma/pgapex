@@ -1,0 +1,9 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
+    {"detail": "region.templateIsMandatory", "source": {"pointer": "/data/attributes/template"}},
+    {"detail": "Error for content field", "source": {"pointer": "/data/attributes/content"}}
+  ]
+}

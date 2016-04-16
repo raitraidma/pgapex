@@ -19,6 +19,7 @@
     "templateIsMandatory": "Template is mandatory",
     "functionDoesNotExist": "Function does not exist",
     "template": "Template",
-    "pageCondition": "Page condition"
+    "pageCondition": "Page condition",
+    "regions": "Regions"
   }
 }
