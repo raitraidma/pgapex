@@ -1,0 +1,19 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
+    {"detail": "region.regionTemplateIsMandatory", "source": {"pointer": "/data/attributes/regionTemplate"}},
+    {"detail": "region.reportTemplateIsMandatory", "source": {"pointer": "/data/attributes/reportTemplate"}},
+    {"detail": "region.viewIsMandatory", "source": {"pointer": "/data/attributes/view"}},
+    {"detail": "Error for show header field.", "source": {"pointer": "/data/attributes/showHeader"}},
+    {"detail": "region.minValueIsOne", "source": {"pointer": "/data/attributes/itemsPerPage"}},
+    {"detail": "region.paginationQueryParameterIsMandatory", "source": {"pointer": "/data/attributes/paginationQueryParameter"}},
+    {"detail": "region.atLeastOneColumnMustBeAdded", "source": {"pointer": "/data/attributes/reportColumns"}},
+    {"detail": "region.headingIsMandatory", "source": {"pointer": "/data/attributes/reportColumns"}},
+    {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/reportColumns"}},
+    {"detail": "region.columnIsMandatory", "source": {"pointer": "/data/attributes/reportColumns"}},
+    {"detail": "region.linkUrlIsMandatory", "source": {"pointer": "/data/attributes/reportColumns"}},
+    {"detail": "region.linkTextIsMandatory", "source": {"pointer": "/data/attributes/reportColumns"}}
+  ]
+}

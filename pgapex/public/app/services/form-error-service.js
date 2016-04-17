@@ -37,7 +37,7 @@
   };
 
   FormError.prototype.showErrors = function(formField, fieldName) {
-    return (formField.$touched && formField.$invalid) || this.hasErrors(fieldName);
+    return (!!formField && formField.$touched && formField.$invalid) || this.hasErrors(fieldName);
   }
 
   function init() {

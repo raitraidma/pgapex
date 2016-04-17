@@ -29,6 +29,10 @@
     return this.apiService.get('api/template/navigation-templates.json');
   };
 
+  TemplateService.prototype.getReportTemplates = function () {
+    return this.apiService.get('api/template/report-templates.json');
+  };
+
   function init() {
     module.service('templateService', ['apiService', TemplateService]);
   }

@@ -19,6 +19,10 @@
     return this.apiService.get('api/region/navigation-region.json', {"regionId": regionId});
   };
 
+  RegionService.prototype.getReportRegion = function (regionId) {
+    return this.apiService.get('api/region/report-region.json', {"regionId": regionId});
+  };
+
   RegionService.prototype.deleteRegion = function (regionId) {
     return this.apiService.post('api/region/delete-region.json', {"regionId": regionId});
   };
@@ -65,6 +69,29 @@
       return this.apiService.post('api/region/save-navigation-region-fail.json', postData);
     }
     return this.apiService.post('api/region/save-navigation-region-ok.json', postData);
+  };
+
+  RegionService.prototype.saveReportRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+                                                        reportTemplate, view, showHeader, itemsPerPage,
+                                                        paginationQueryParameter, reportColumns) {
+    var postData = {
+      "pageId": pageId,
+      "displayPoint": displayPoint,
+      "regionId": regionId,
+      "name": name,
+      "sequence": sequence,
+      "regionTemplate": regionTemplate,
+      "reportTemplate": reportTemplate,
+      "view": view,
+      "showHeader": showHeader,
+      "itemsPerPage": itemsPerPage,
+      "paginationQueryParameter": paginationQueryParameter,
+      "reportColumns": reportColumns
+    };
+    if (name === 'fail') {
+      return this.apiService.post('api/region/save-report-region-fail.json', postData);
+    }
+    return this.apiService.post('api/region/save-report-region-ok.json', postData);
   };
 
   function init() {

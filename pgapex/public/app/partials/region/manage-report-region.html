@@ -1,0 +1,161 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'region.createReportRegion'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'region.editReportRegion'|translate}}</h2>
+  <form name="manageRegionForm" class="form-horizontal" ng-submit="saveRegion()" novalidate>
+    <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')}">
+      <label for="reportTemplate" class="col-sm-3 control-label">{{'region.reportTemplate'|translate}} *</label>
+      <div class="col-sm-9">
+        <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control" required ng-options="reportTemplate.id as reportTemplate.name for reportTemplate in reportTemplates">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')">
+          <span ng-show="manageRegionForm.reportTemplate.$error.required" class="help-block">{{'region.reportTemplateIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('reportTemplate')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.view, 'view')}">
+      <label for="view" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
+      <div class="col-sm-9">
+        <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control" required ng-options="view.name as view.name for view in viewsWithColumns">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.view, 'view')">
+          <span ng-show="manageRegionForm.view.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('view')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.showHeader, 'showHeader')}">
+      <label for="showHeader" class="col-sm-3 control-label">{{'region.showHeader'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="showHeader" name="showHeader" ng-model="region.showHeader" type="checkbox">
+        <div ng-show="formError.showErrors(manageRegionForm.showHeader, 'showHeader')">
+          <span ng-repeat="error in formError.getErrors('showHeader')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')}">
+      <label for="itemsPerPage" class="col-sm-3 control-label">{{'region.itemsPerPage'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="number" min="1" class="form-control" name="itemsPerPage" ng-model="region.itemsPerPage" id="itemsPerPage" placeholder="{{'region.itemsPerPage'|translate}}" required>
+        <div ng-show="formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')">
+          <span ng-show="manageRegionForm.itemsPerPage.$error.required" class="help-block">{{'region.itemsPerPageIsMandatory'|translate}}</span>
+          <span ng-show="manageRegionForm.itemsPerPage.$error.min" class="help-block">{{'region.minValueIsOne'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('itemsPerPage')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')}">
+      <label for="paginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}} *</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="paginationQueryParameter" ng-model="region.paginationQueryParameter" id="paginationQueryParameter" placeholder="{{'region.paginationQueryParameter'|translate}}" required>
+        <div ng-show="formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')">
+          <span ng-show="manageRegionForm.paginationQueryParameter.$error.required" class="help-block">{{'region.paginationQueryParameterIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('paginationQueryParameter')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div ng-show="region.view">
+      <div class="row">
+        <div class="col-xs-10">
+          <h3>{{'region.columns'|translate}}</h3>
+        </div>
+        <div class="col-xs-2 text-right">
+            <div class="dropdown">
+              <button title="{{'region.addReportColumn'|translate}}" class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="" ng-click="addReportColumn('COLUMN')">{{'region.column'|translate}}</a></li>
+                <li><a href="" ng-click="addReportColumn('LINK')">{{'region.link'|translate}}</a></li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      
+      <div class="alert alert-danger" ng-show="formError.showErrors(null, 'reportColumns')">
+        <div ng-repeat="error in formError.getErrors('reportColumns')">{{error|translate}}</div>
+      </div>
+
+      <div class="row form-group hidden-xs hidden-sm">
+        <div class="col-md-2">{{'region.heading'|translate}}</div>
+        <div class="col-md-1">{{'region.sequence'|translate}}</div>
+        <div class="col-md-1">{{'region.isTextEscaped'|translate}}</div>
+        <div class="col-md-8"></div>
+      </div>
+      
+      <div class="alert alert-info" ng-show="region.reportColumns.length < 1">
+        {{'region.atLeastOneColumnMustBeAdded'|translate}}
+      </div>
+
+      <div ng-repeat="reportColumn in region.reportColumns">
+        <ng-form name="reportColumnForm">
+          <div class="row form-group">
+            <div class="col-md-2" ng-class="{'has-error': formError.showErrors(reportColumnForm.heading)}">
+              <input required ng-model="reportColumn.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}}">
+            </div>
+            <div class="col-md-1" ng-class="{'has-error': formError.showErrors(reportColumnForm.sequence)}">
+              <input required ng-model="reportColumn.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}}">
+            </div>
+            <div class="col-md-1">
+              <label>
+                <input ng-model="reportColumn.isTextEscaped" type="checkbox" title="{{'region.isTextEscaped'|translate}}">
+                <span class="visible-xs-inline-block visible-sm-inline-block">{{'region.isTextEscaped'|translate}}</span>
+              </label>
+            </div>
+            <!-- COLUMN -->
+            <div class="col-md-7" ng-show="reportColumn.type === 'COLUMN'" ng-class="{'has-error': formError.showErrors(reportColumnForm.column)}">
+              <select class="form-control" name="column" ng-required="reportColumn.type === 'COLUMN'" ng-model="reportColumn.column">
+                <option ng-repeat="viewColumn in viewColumns" ng-value="viewColumn" value="{{viewColumn}}">{{viewColumn}}</option>
+              </select>
+            </div>
+            <!-- LINK -->
+            <div class="col-md-3" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkUrl)}">
+              <input ng-required="reportColumn.type === 'LINK'" name="linkUrl" ng-model="reportColumn.linkUrl" type="url" class="form-control" placeholder="{{'region.url'|translate}}">
+            </div>
+            <div class="col-md-2" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkText)}">
+              <input ng-required="reportColumn.type === 'LINK'" name="linkText" ng-model="reportColumn.linkText" type="text" class="form-control" placeholder="{{'region.text'|translate}}">
+            </div>
+            <div class="col-md-2" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkAttributes)}">
+              <input ng-model="reportColumn.linkAttributes" name="linkAttributes" type="text" class="form-control" placeholder="{{'region.attributes'|translate}}">
+            </div>
+
+            <div class="col-md-1 text-right">
+              <button title="{{'region.deleteReportColumn'|translate}}" ng-click="deleteReportColumn(reportColumn)" class="btn btn-sm btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+          <div class="row form-group has-error" ng-show="
+            formError.showErrors(reportColumnForm.heading) ||
+            formError.showErrors(reportColumnForm.sequence) ||
+            formError.showErrors(reportColumnForm.column) ||
+            formError.showErrors(reportColumnForm.linkUrl) ||
+            formError.showErrors(reportColumnForm.linkText) ||
+            formError.showErrors(reportColumnForm.linkAttributes)
+          ">
+            <div class="col-sm-12">
+              <span ng-show="formError.showErrors(reportColumnForm.heading)" class="help-block">{{'region.headingIsMandatory'|translate}}</span>
+              <span ng-show="formError.showErrors(reportColumnForm.sequence)" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
+              <span ng-show="formError.showErrors(reportColumnForm.column)" class="help-block">{{'region.columnIsMandatory'|translate}}</span>
+              <span ng-show="formError.showErrors(reportColumnForm.linkUrl)" class="help-block">{{'region.linkUrlIsMandatory'|translate}}</span>
+              <span ng-show="formError.showErrors(reportColumnForm.linkText)" class="help-block">{{'region.linkTextIsMandatory'|translate}}</span>
+            </div>
+          </div>
+        <ng-form>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageRegionForm.$invalid || region.reportColumns.length < 1">
+          <span ng-show="mode === 'create'">{{'region.createReportRegion'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'region.editReportRegion'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

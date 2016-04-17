@@ -23,6 +23,14 @@
     .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/navigation/:regionId/edit', {
       controller: 'pgApexApp.region.ManageNavigationRegionController',
       templateUrl: 'app/partials/region/manage-navigation-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report/create', {
+      controller: 'pgApexApp.region.ManageReportRegionController',
+      templateUrl: 'app/partials/region/manage-report-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageReportRegionController',
+      templateUrl: 'app/partials/region/manage-report-region.html'
     });
   }
 

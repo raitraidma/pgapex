@@ -15,6 +15,10 @@
     return this.apiService.get('api/database/boolean-functions-with-two-string-parameters.json');
   };
 
+  DatabaseService.prototype.getViewsWithColumns = function () {
+    return this.apiService.get('api/database/views-with-columns.json');
+  };
+
   // Deprecated
   DatabaseService.prototype.getBooleanFunctions = function () {
     return this.apiService.get('api/database/boolean-functions.json');

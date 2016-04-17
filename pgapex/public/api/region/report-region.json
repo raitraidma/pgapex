@@ -1,0 +1,30 @@
+{"meta":{"status":"OK","code":"200"},"data":{
+  "pageId":1,
+  "displayPoint":1,
+  "regionId":123,
+  "name":"Report region name",
+  "sequence":1,
+  "regionTemplate":2,
+  "reportTemplate":3,
+  "view":"view-4",
+  "showHeader":true,
+  "itemsPerPage":20,
+  "paginationQueryParameter":"page",
+  "reportColumns":[
+    {
+      "type":"COLUMN",
+      "isTextEscaped":true,
+      "heading":"First name",
+      "sequence":1,
+      "column":"column-4-2"
+    },{
+      "type":"LINK",
+      "isTextEscaped":true,
+      "heading":"Show",
+      "sequence":2,
+      "linkUrl":"http://www.google.com",
+      "linkText":"Link text",
+      "linkAttributes":"class=\"btn btn-success\""
+    }
+  ]
+}}
