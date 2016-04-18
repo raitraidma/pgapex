@@ -76,6 +76,7 @@
   ManageReportRegionController.prototype.initViewsWithColumns = function() {
     this.databaseService.getViewsWithColumns().then(function (response) {
       this.$scope.viewsWithColumns = response.getDataOrDefault([]);
+      this.setViewColumns();
     }.bind(this));
   };
 
@@ -107,11 +108,9 @@
     this.$scope.region.reportColumns.push({'type': type, 'isTextEscaped': true});
   };
 
-  ManageReportRegionController.prototype.deleteReportColumn = function(reportColumn) {
-    var position = this.$scope.region.reportColumns.indexOf(reportColumn);
-    if(position != -1) {
-      this.$scope.region.reportColumns.splice(position, 1);
-    }
+  ManageReportRegionController.prototype.deleteReportColumn = function(reportColumnPosition) {
+    this.$scope.region.reportColumns.splice(reportColumnPosition, 1);
+    this.$scope.formError = this.formErrorService.empty();
   };
 
   ManageReportRegionController.prototype.saveRegion = function() {

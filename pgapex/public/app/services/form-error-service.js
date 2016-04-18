@@ -18,22 +18,24 @@
   function FormError(apiResponse) {
     this.apiResponse = apiResponse;
     this.errors = {};
+    this.pointerPrefix = '/data/attributes/';
   }
 
   FormError.prototype.parseApiResponse = function() {
     if (this.apiResponse == null || !this.apiResponse.hasErrors()) { return; }
     this.apiResponse.getPointers().forEach(function(pointer) {
-      var fieldName = pointer.split('/').pop();
-      this.errors[fieldName] = this.apiResponse.getErrorDetailsWhereSourcePointerIs(pointer);
+      this.errors[pointer] = this.apiResponse.getErrorDetailsWhereSourcePointerIs(pointer);
     }.bind(this));
   };
 
   FormError.prototype.hasErrors = function(fieldName) {
-    return this.errors.hasOwnProperty(fieldName);
+    var pointer = this.pointerPrefix + fieldName;
+    return this.errors.hasOwnProperty(pointer);
   };
 
   FormError.prototype.getErrors = function(fieldName) {
-    return this.hasErrors(fieldName) ? this.errors[fieldName] : [];
+    var pointer = this.pointerPrefix + fieldName;
+    return this.hasErrors(fieldName) ? this.errors[pointer] : [];
   };
 
   FormError.prototype.showErrors = function(formField, fieldName) {

@@ -21,7 +21,7 @@ describe("form-error-service", function() {
 
     describe("hasErrors", function() {
       it("should return true when errors exist for given field", function() {
-        fromError.errors.field1 = [];
+        fromError.errors["/data/attributes/field1"] = [];
         expect(fromError.hasErrors("field1")).toBe(true);
       });
 
@@ -32,7 +32,7 @@ describe("form-error-service", function() {
 
     describe("getErrors", function() {
       it("should return errors when errors exist for given field", function() {
-        fromError.errors.field1 = "errors";
+        fromError.errors["/data/attributes/field1"] = "errors";
         spyOn(fromError, "hasErrors").and.returnValue(true);
         expect(fromError.getErrors("field1")).toEqual("errors");
       });
@@ -92,8 +92,8 @@ describe("form-error-service", function() {
         spyOn(fromError.apiResponse, "hasErrors").and.returnValue(true);
 
         fromError.parseApiResponse();
-        expect(fromError.errors.p1).toEqual("error-1");
-        expect(fromError.errors.p2).toEqual("error-2");
+        expect(fromError.errors["data/attribute/p1"]).toEqual("error-1");
+        expect(fromError.errors["data/attribute/p2"]).toEqual("error-2");
       });
     });
   });
