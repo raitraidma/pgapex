@@ -33,6 +33,29 @@
     return this.apiService.get('api/template/report-templates.json');
   };
 
+  TemplateService.prototype.getFormTemplates = function () {
+    return this.apiService.get('api/template/form-templates.json');
+  };
+
+  TemplateService.prototype.getButtonTemplates = function () {
+    return this.apiService.get('api/template/button-templates.json');
+  };
+
+
+  TemplateService.prototype.getInputTemplates = function () {
+    return this.apiService.get('api/template/input-templates.json');
+  };
+
+
+  TemplateService.prototype.getTextareaTemplates = function () {
+    return this.apiService.get('api/template/textarea-templates.json');
+  };
+
+
+  TemplateService.prototype.getDropDownTemplates = function () {
+    return this.apiService.get('api/template/drop-down-templates.json');
+  };
+
   function init() {
     module.service('templateService', ['apiService', TemplateService]);
   }

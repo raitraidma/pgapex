@@ -1,0 +1,29 @@
+{
+  "meta": {"status": "Forbidden", "code": "403"},
+  "errors": [
+    {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
+    {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
+    {"detail": "region.regionTemplateIsMandatory", "source": {"pointer": "/data/attributes/regionTemplate"}},
+    {"detail": "region.formTemplateIsMandatory", "source": {"pointer": "/data/attributes/formTemplate"}},
+    {"detail": "region.buttonTemplateIsMandatory", "source": {"pointer": "/data/attributes/buttonTemplate"}},
+    {"detail": "region.buttonLabelIsMandatory", "source": {"pointer": "/data/attributes/buttonLabel"}},
+    {"detail": "Error for success message field.", "source": {"pointer": "/data/attributes/successMessage"}},
+    {"detail": "Error for error message field.", "source": {"pointer": "/data/attributes/errorMessage"}},
+    {"detail": "Error for redirect url field.", "source": {"pointer": "/data/attributes/redirectUrl"}},
+    {"detail": "region.functionIsMandatory", "source": {"pointer": "/data/attributes/function"}},
+    {"detail": "Error for form pre fill field.", "source": {"pointer": "/data/attributes/formPreFill"}},
+    {"detail": "region.viewIsMandatory", "source": {"pointer": "/data/attributes/formPreFillView"}},
+    {"detail": "region.atLeastOneColumnConditionMustBeAdded", "source": {"pointer": "/data/attributes/formPreFillColumns"}},
+    {"detail": "region.labelIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/label"}},
+    {"detail": "region.fieldTypeIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/sequence"}},
+    {"detail": "Error for is mandatory field.", "source": {"pointer": "/data/attributes/functionParameters/0/isMandatory"}},
+    {"detail": "Error for is visible field.", "source": {"pointer": "/data/attributes/functionParameters/0/isVisible"}},
+    {"detail": "Error for default value field.", "source": {"pointer": "/data/attributes/functionParameters/0/defaultValue"}},
+    {"detail": "region.fieldTypeIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/fieldType"}},
+    {"detail": "region.fieldTemplateIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/fieldTemplate"}},
+    {"detail": "region.listOfValuesViewIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesView"}},
+    {"detail": "region.listOfValuesValueIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesValue"}},
+    {"detail": "region.listOfValuesLabelIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesLabel"}},
+    {"detail": "Error for pre fill column.", "source": {"pointer": "/data/attributes/functionParameters/0/preFillColumn"}}
+  ]
+}

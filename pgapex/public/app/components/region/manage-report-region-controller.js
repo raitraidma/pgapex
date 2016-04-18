@@ -74,7 +74,7 @@
   };
 
   ManageReportRegionController.prototype.initViewsWithColumns = function() {
-    this.databaseService.getViewsWithColumns().then(function (response) {
+    this.databaseService.getViewsWithColumns(this.getApplicationId()).then(function (response) {
       this.$scope.viewsWithColumns = response.getDataOrDefault([]);
       this.setViewColumns();
     }.bind(this));

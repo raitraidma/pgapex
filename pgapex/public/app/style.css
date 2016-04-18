@@ -6,6 +6,10 @@ label {
   cursor: pointer;
 }
 
+label.normal-label {
+  font-weight: normal;
+}
+
 .dropdown-menu .checkbox {
   padding-left: 20px;
 }
@@ -37,4 +41,8 @@ select[multiple] option {
 
 a.toggle {
   cursor: pointer;
+}
+
+.form-group.form-group-striped:nth-child(even) {
+  background-color: #f9f9f9;
 }

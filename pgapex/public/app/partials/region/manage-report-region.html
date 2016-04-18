@@ -87,14 +87,14 @@
         {{'region.atLeastOneColumnMustBeAdded'|translate}}
       </div>
 
-      <div ng-repeat="reportColumn in region.reportColumns">
+      <div class="form-group form-group-striped" ng-repeat="reportColumn in region.reportColumns">
         <ng-form name="reportColumnForm">
-          <div class="row form-group">
+          <div class="row">
             <div class="col-md-2" ng-class="{'has-error': formError.showErrors(reportColumnForm.heading, 'reportColumns/' + $index + '/heading')}">
-              <input required ng-model="reportColumn.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}}">
+              <input required ng-model="reportColumn.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}} *">
             </div>
             <div class="col-md-1" ng-class="{'has-error': formError.showErrors(reportColumnForm.sequence, 'reportColumns/' + $index + '/sequence')}">
-              <input required ng-model="reportColumn.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}}">
+              <input required ng-model="reportColumn.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
             </div>
             <div class="col-md-1" ng-class="{'has-error': formError.showErrors(reportColumnForm.isTextEscaped, 'reportColumns/' + $index + '/isTextEscaped')}">
               <label>
@@ -105,6 +105,7 @@
             <!-- COLUMN -->
             <div class="col-md-7" ng-show="reportColumn.type === 'COLUMN'" ng-class="{'has-error': formError.showErrors(reportColumnForm.column, 'reportColumns/' + $index + '/column')}">
               <select class="form-control" name="column" ng-required="reportColumn.type === 'COLUMN'" ng-model="reportColumn.column">
+                <option value="">-- {{'region.column'|translate}} * --</option>
                 <option ng-repeat="viewColumn in viewColumns" ng-value="viewColumn" value="{{viewColumn}}">{{viewColumn}}</option>
               </select>
             </div>
@@ -125,7 +126,7 @@
               </a>
             </div>
           </div>
-          <div class="row form-group has-error" ng-show="
+          <div class="row has-error" ng-show="
             formError.showErrors(reportColumnForm.heading, 'reportColumns/' + $index + '/heading') ||
             formError.showErrors(reportColumnForm.sequence, 'reportColumns/' + $index + '/sequence') ||
             formError.showErrors(reportColumnForm.column, 'reportColumns/' + $index + '/column') ||
@@ -134,11 +135,12 @@
             formError.showErrors(reportColumnForm.linkAttributes, 'reportColumns/' + $index + '/linkAttributes')
           ">
             <div class="col-sm-12">
-              <span ng-show="reportColumnForm.heading.$error.required" class="help-block">{{'region.headingIsMandatory'|translate}}</span>
-              <span ng-show="reportColumnForm.sequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
-              <span ng-show="reportColumnForm.column.$error.required" class="help-block">{{'region.columnIsMandatory'|translate}}</span>
-              <span ng-show="reportColumnForm.linkUrl.$error.required" class="help-block">{{'region.linkUrlIsMandatory'|translate}}</span>
-              <span ng-show="reportColumnForm.linkText.$error.required" class="help-block">{{'region.linkTextIsMandatory'|translate}}</span>
+              <span ng-show="reportColumnForm.heading.$touched && reportColumnForm.heading.$error.required" class="help-block">{{'region.headingIsMandatory'|translate}}</span>
+              <span ng-show="reportColumnForm.sequence.$touched && reportColumnForm.sequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
+              <span ng-show="reportColumnForm.column.$touched && reportColumnForm.column.$error.required" class="help-block">{{'region.columnIsMandatory'|translate}}</span>
+              <span ng-show="reportColumnForm.linkUrl.$touched && reportColumnForm.linkUrl.$error.required" class="help-block">{{'region.linkUrlIsMandatory'|translate}}</span>
+              <span ng-show="reportColumnForm.linkText.$touched && reportColumnForm.linkText.$error.required" class="help-block">{{'region.linkTextIsMandatory'|translate}}</span>
+              
               <span ng-repeat="error in formError.getErrors('reportColumns/' + $index + '/heading')" class="help-block">{{error|translate}}</span>
               <span ng-repeat="error in formError.getErrors('reportColumns/' + $index + '/sequence')" class="help-block">{{error|translate}}</span>
               <span ng-repeat="error in formError.getErrors('reportColumns/' + $index + '/column')" class="help-block">{{error|translate}}</span>

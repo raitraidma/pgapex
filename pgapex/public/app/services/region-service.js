@@ -23,6 +23,10 @@
     return this.apiService.get('api/region/report-region.json', {"regionId": regionId});
   };
 
+  RegionService.prototype.getFormRegion = function (regionId) {
+    return this.apiService.get('api/region/form-region.json', {"regionId": regionId});
+  };
+
   RegionService.prototype.deleteRegion = function (regionId) {
     return this.apiService.post('api/region/delete-region.json', {"regionId": regionId});
   };
@@ -92,6 +96,35 @@
       return this.apiService.post('api/region/save-report-region-fail.json', postData);
     }
     return this.apiService.post('api/region/save-report-region-ok.json', postData);
+  };
+
+  RegionService.prototype.saveFormRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+                                                        formTemplate, buttonTemplate, buttonLabel, successMessage,
+                                                        errorMessage, redirectUrl, func, functionParameters,
+                                                        formPreFill, formPreFillView, formPreFillColumns) {
+    var postData = {
+      "pageId": pageId,
+      "displayPoint": displayPoint,
+      "regionId": regionId,
+      "name": name,
+      "sequence": sequence,
+      "regionTemplate": regionTemplate,
+      "formTemplate": formTemplate,
+      "buttonTemplate": buttonTemplate,
+      "buttonLabel": buttonLabel,
+      "successMessage": successMessage,
+      "errorMessage": errorMessage,
+      "redirectUrl": redirectUrl,
+      "function": func,
+      "functionParameters": functionParameters,
+      "formPreFill": formPreFill,
+      "formPreFillView": formPreFillView,
+      "formPreFillColumns": formPreFillColumns
+    };
+    if (name === 'fail') {
+      return this.apiService.post('api/region/save-form-region-fail.json', postData);
+    }
+    return this.apiService.post('api/region/save-form-region-ok.json', postData);
   };
 
   function init() {
