@@ -11,6 +11,7 @@ echo "Create package"
 git clone --depth=5 --branch=master https://github.com/raitraidma/pgapex.git ~/deploy/pgapex
 cd ~/deploy/pgapex
 npm install --unsafe-perm
+composer install --no-dev
 rm -rf ~/deploy/pgapex/pgapex/tests
 zip -r "pgapex-$TIMESTAMP.zip" ./pgapex/
 
