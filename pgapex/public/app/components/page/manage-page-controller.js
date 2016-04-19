@@ -57,7 +57,6 @@
       this.$scope.page.alias,
       this.$scope.page.template,
       this.$scope.page.isHomepage || false,
-      this.$scope.page.isAuthenticationPage || false,
       this.$scope.page.isAuthenticationRequired || false
     ).then(this.handleSaveResponse.bind(this));
   };

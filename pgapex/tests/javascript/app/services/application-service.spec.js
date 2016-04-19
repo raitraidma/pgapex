@@ -19,7 +19,8 @@ describe("application-service", function() {
 
   it("should pass on application data when calling saveApplication", function() {
     spyOn(applicationService.apiService, "post");
-    applicationService.saveApplication(123, "app-name", "app-alias", "app-database", "auth-scheme", "auth-function", "user", "pass");
+    applicationService.saveApplication(123, "app-name", "app-alias", "app-database", "auth-scheme", "auth-function",
+                                      "login-page-template", "user", "pass");
     expect(applicationService.apiService.post).toHaveBeenCalledWith(jasmine.any(String), {
       "id" : 123,
       "name" : "app-name",
@@ -27,6 +28,7 @@ describe("application-service", function() {
       "database": "app-database",
       "authenticationScheme": "auth-scheme",
       "authenticationFunction": "auth-function",
+      "loginPageTemplate": "login-page-template",
       "databaseUsername": "user",
       "databasePassword": "pass"
     });

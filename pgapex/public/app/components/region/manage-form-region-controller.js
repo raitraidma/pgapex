@@ -38,7 +38,7 @@
     this.$scope.atLeastOneFormPreFillColumnHasValue = this.atLeastOneFormPreFillColumnHasValue.bind(this);
 
     this.$scope.trackFunction = function(func) {
-      if (!func) return func;
+      if (!func) { return func; }
       this.addDisplayTextToFunction(func);
       return func.displayText;
     }.bind(this);

@@ -3,12 +3,14 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.application');
 
-  function ManageApplicationController($scope, $location, $routeParams, applicationService, databaseService, formErrorService) {
+  function ManageApplicationController($scope, $location, $routeParams, applicationService,
+                                      databaseService, templateService, formErrorService) {
     this.$scope = $scope;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.applicationService = applicationService;
     this.databaseService = databaseService;
+    this.templateService = templateService;
     this.formErrorService = formErrorService;
 
     this.init();
@@ -22,13 +24,21 @@
     this.$scope.formError = this.formErrorService.empty();
     this.$scope.databases = [];
     this.$scope.authenticationFunctions = [];
+    this.$scope.loginPageTemplates = [];
     this.$scope.passwordFieldType = 'password';
 
     this.$scope.togglePasswordFieldType = this.togglePasswordFieldType.bind(this);
     this.$scope.saveApplication = this.saveApplication.bind(this);
+    this.$scope.trackAuthenticationFunction = function(authenticationFunction) {
+      if (!authenticationFunction) { return authenticationFunction; }
+      return (authenticationFunction.database + '.'
+            + authenticationFunction.schema + '.'
+            + authenticationFunction.function);
+    }
 
     this.initDatabases();
     this.initAuthenticationFunctions();
+    this.initLoginPageTemplates();
     this.loadApplication();
   };
 
@@ -60,6 +70,12 @@
     }.bind(this));
   };
 
+  ManageApplicationController.prototype.initLoginPageTemplates = function() {
+    this.templateService.getLoginTemplates().then(function (response) {
+      this.$scope.loginPageTemplates = response.getDataOrDefault([]);
+    }.bind(this));
+  };
+
   ManageApplicationController.prototype.initUsers = function() {
     this.userService.getUsers().then(function (response) {
       this.$scope.users = response.getDataOrDefault([]);
@@ -81,6 +97,7 @@
       this.$scope.application.database,
       this.$scope.application.authenticationScheme,
       this.$scope.application.authenticationFunction,
+      this.$scope.application.loginPageTemplate,
       this.$scope.application.databaseUsername,
       this.$scope.application.databasePassword
     ).then(this.handleSaveResponse.bind(this));
@@ -97,7 +114,8 @@
 
   function init() {
     module.controller('pgApexApp.application.ManageApplicationController',
-      ['$scope', '$location', '$routeParams', 'applicationService', 'databaseService', 'formErrorService', ManageApplicationController]);
+      ['$scope', '$location', '$routeParams', 'applicationService', 'databaseService',
+      'templateService', 'formErrorService', ManageApplicationController]);
   }
 
   init();

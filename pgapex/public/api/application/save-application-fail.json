@@ -6,6 +6,7 @@
     {"detail": "application.databaseIsMandatory", "source": {"pointer": "/data/attributes/database"}},
     {"detail": "application.authenticationSchemeIsMandatory", "source": {"pointer": "/data/attributes/authenticationScheme"}},
     {"detail": "application.authenticationFunctionIsMandatory", "source": {"pointer": "/data/attributes/authenticationFunction"}},
+    {"detail": "application.loginPageTemplateIsMandatory", "source": {"pointer": "/data/attributes/loginPageTemplate"}},
     {"detail": "application.databaseUsernameIsMandatory", "source": {"pointer": "/data/attributes/databaseUsername"}},
     {"detail": "application.databasePasswordIsMandatory", "source": {"pointer": "/data/attributes/databasePassword"}}
   ]

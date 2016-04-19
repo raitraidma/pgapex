@@ -20,7 +20,7 @@
   };
 
   ApplicationService.prototype.saveApplication =
-    function (applicationId, name, alias, database, authenticationScheme, authenticationFunction, databaseUsername, databasePassword) {
+    function (applicationId, name, alias, database, authenticationScheme, authenticationFunction, loginPageTemplate, databaseUsername, databasePassword) {
       var postData = {
         "id" : applicationId,
         "name" : name,
@@ -28,6 +28,7 @@
         "database": database,
         "authenticationScheme": authenticationScheme,
         "authenticationFunction": authenticationFunction,
+        "loginPageTemplate": loginPageTemplate,
         "databaseUsername": databaseUsername,
         "databasePassword": databasePassword
       };

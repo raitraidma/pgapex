@@ -27,6 +27,8 @@
     "databasePassword": "Andmebaasi parool",
     "databasePasswordIsMandatory": "Andmebaasi parool on kohustuslik.",
     "showPassword": "Näita parooli",
-    "hidePassword": "Peida parool"
+    "hidePassword": "Peida parool",
+    "loginPageTemplate": "Sisse logimise lehe mall",
+    "loginPageTemplateIsMandatory": "Sisse logimise lehe mall on kohustuslik."
   }
 }

@@ -19,7 +19,7 @@
     return this.apiService.post('api/page/delete-page.json', {"pageId": pageId});
   };
 
-  PageService.prototype.savePage = function (applicationId, pageId, title, alias, template, isHomepage, isAuthenticationPage, isAuthenticationRequired) {
+  PageService.prototype.savePage = function (applicationId, pageId, title, alias, template, isHomepage, isAuthenticationRequired) {
     var postData = {
       "applicationId": applicationId,
       "pageId": pageId,
@@ -27,7 +27,6 @@
       "alias": alias,
       "template": template,
       "isHomepage": isHomepage,
-      "isAuthenticationPage": isAuthenticationPage,
       "isAuthenticationRequired": isAuthenticationRequired
     };
     if (title === 'fail') {

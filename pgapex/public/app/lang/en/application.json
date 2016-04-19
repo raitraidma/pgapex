@@ -27,6 +27,8 @@
     "databasePassword": "Database password",
     "databasePasswordIsMandatory": "Database password is mandatory.",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "loginPageTemplate": "Login page template",
+    "loginPageTemplateIsMandatory": "Login page template is mandatory."
   }
 }

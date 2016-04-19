@@ -4,6 +4,5 @@
   "alias":"page-alias",
   "template":3,
   "isHomepage":true,
-  "isAuthenticationPage":false,
   "isAuthenticationRequired":false
 }}

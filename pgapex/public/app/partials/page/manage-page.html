@@ -44,16 +44,7 @@
         </div>
       </div>
     </div>
-    <div ng-hide="page.isAuthenticationRequired" class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationPage, 'isAuthenticationPage')}">
-      <label for="isAuthenticationPage" class="col-sm-3 control-label">{{'page.isAuthenticationPage'|translate}}</label>
-      <div class="col-sm-9" class="checkbox">
-        <input id="isAuthenticationPage" name="isAuthenticationPage" ng-model="page.isAuthenticationPage" type="checkbox">
-        <div ng-show="formError.showErrors(managePageForm.isAuthenticationPage, 'isAuthenticationPage')">
-          <span ng-repeat="error in formError.getErrors('isAuthenticationPage')" class="help-block">{{error|translate}}</span>
-        </div>
-      </div>
-    </div>
-    <div ng-hide="page.isAuthenticationPage" class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationRequired, 'isAuthenticationRequired')}">
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.isAuthenticationRequired, 'isAuthenticationRequired')}">
       <label for="isAuthenticationRequired" class="col-sm-3 control-label">{{'page.isAuthenticationRequired'|translate}}</label>
       <div class="col-sm-9" class="checkbox">
         <input id="isAuthenticationRequired" name="isAuthenticationRequired" ng-model="page.isAuthenticationRequired" type="checkbox">

@@ -4,6 +4,7 @@
   "alias":"Alias",
   "database":"database-2",
   "authenticationScheme":"USER_FUNCTION",
-  "authenticationFunction":"database-2.schema-2.function-1",
+  "authenticationFunction":{"database":"database-2","schema":"schema-2","function":"function-1"},
+  "loginPageTemplate":4,
   "databaseUsername":"user"
 }}

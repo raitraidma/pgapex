@@ -17,6 +17,10 @@
     return this.apiService.get('api/template/themes.json', {"applicationId": applicationId});
   };
 
+  TemplateService.prototype.getLoginTemplates = function () {
+    return this.apiService.get('api/template/login-templates.json');
+  };
+
   TemplateService.prototype.getPageTemplates = function () {
     return this.apiService.get('api/template/page-templates.json');
   };
