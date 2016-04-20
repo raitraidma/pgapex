@@ -16,18 +16,24 @@ describe("api-service", function() {
     it("should call bindResultHandling when get is called", function() {
       spyOn(apiService, "bindResultHandling").and.returnValue("result");
       spyOn(apiService, "createGetParams").and.returnValue("get-params");
+      spyOn(apiService, "getHeaders").and.returnValue("headers-data");
+      spyOn(apiService, "getPath").and.returnValue("path");
       spyOn(apiService.http, "get");
 
       expect(apiService.get("api/url")).toEqual("result");
-      expect(apiService.http.get).toHaveBeenCalledWith("api/url", {"params": "get-params"});
+      expect(apiService.getPath).toHaveBeenCalledWith("api/url");
+      expect(apiService.http.get).toHaveBeenCalledWith("path", {"params": "get-params", "headers": "headers-data"});
     });
 
     it("should call bindResultHandling when post is called", function() {
       spyOn(apiService, "bindResultHandling").and.returnValue("result");
+      spyOn(apiService, "getHeaders").and.returnValue("headers-data");
+      spyOn(apiService, "getPath").and.returnValue("path");
       spyOn(apiService.http, "post");
 
       expect(apiService.post("api/url", {"post": "data"})).toEqual("result");
-      expect(apiService.http.post).toHaveBeenCalledWith("api/url", {"post": "data"});
+      expect(apiService.getPath).toHaveBeenCalledWith("api/url");
+      expect(apiService.http.post).toHaveBeenCalledWith("path", {"post": "data"}, {"headers": "headers-data"});
     });
 
     describe("createGetParams", function() {

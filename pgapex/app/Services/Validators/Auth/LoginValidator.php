@@ -1,0 +1,22 @@
+<?php
+namespace App\Services\Validators\Auth;
+
+use App\Services\Validators\Validator;
+use App\Http\Request;
+
+class LoginValidator extends Validator {
+  public function validate(Request $request) {
+    $username = $request->getApiAttribute('username');
+    $password = $request->getApiAttribute('password');
+
+    if ($username === null) {
+      $this->addError('auth.usernameIsMandatory', '/data/attributes/username');
+    }
+    if ($password === null) {
+      $this->addError('auth.passwordIsMandatory', '/data/attributes/password');
+    }
+    if ($username !== null and $password !== null and $username !== 'admin' and $password !== 'pass') {
+      $this->addError('auth.wrongUsernameOrPassword', '/data/attributes/username');
+    }
+  }
+}

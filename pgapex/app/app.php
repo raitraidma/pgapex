@@ -1,11 +1,18 @@
 <?php
 
+defined('DEBUG') or define('DEBUG', false);
+
+if (DEBUG) {
+  error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new \Slim\App;
+$services = require __DIR__ . '/services.php';
 
-$app->get('/', function ($request, $response) {
-    return file_get_contents(__DIR__ . '/views/index.html');
-});
+$app = new \Slim\App($services);
+
+require __DIR__ . '/routes.php';
 
 $app->run();

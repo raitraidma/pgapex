@@ -8,15 +8,18 @@
   }
 
   AuthService.prototype.login = function (username, password) {
-    var postData = {"username" : username, "password": password};
-    if (username === 'admin' && password === 'pass') {
-      return this.apiService.post('api/auth/login-ok.json', postData);
-    }
-    return this.apiService.post('api/auth/login-fail.json', postData);
+    var attributes = {
+      'username': username,
+      'password': password
+    };
+    var request = this.apiService.createApiRequest()
+                                .setAttributes(attributes)
+                                .getRequest();
+    return this.apiService.post('auth/login', request);
   }
 
   AuthService.prototype.logout = function () {
-    return this.apiService.get('api/auth/logout.json');
+    return this.apiService.get('auth/logout');
   }
 
   function init() {

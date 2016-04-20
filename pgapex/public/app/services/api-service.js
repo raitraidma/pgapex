@@ -8,25 +8,48 @@
     this.q = $q;
   }
 
-  ApiService.prototype.get = function (url, params) {
-    return this.bindResultHandling(this.http.get(url, {"params": this.createGetParams(params)}));
+  ApiService.prototype.getPath = function(url) {
+    if (url.startsWith('api')) {
+      // For mock data.
+      // TODO: TO BE REMOVED!!!
+      return url;
+    }
+    var path = !!window.pgApexPath ? window.pgApexPath : '';
+    path += '/api';
+    path += url.startsWith('/') ? '' : '/';
+    return path + url;
   };
 
-  ApiService.prototype.createGetParams = function (params) {
+  ApiService.prototype.createGetParams = function(params) {
     var urlParams = params || {};
     urlParams.ts = this.getTimestamp();
     return urlParams;
   };
 
-  ApiService.prototype.post = function (url, postData) {
-    return this.bindResultHandling(this.http.post(url, postData));
+  ApiService.prototype.getHeaders = function() {
+    return {
+      "X-Requested-With": "XMLHttpRequest"
+    };
   };
 
-  ApiService.prototype.getTimestamp = function () {
+  ApiService.prototype.get = function(url, params) {
+    return this.bindResultHandling(this.http.get(this.getPath(url), {
+      "params": this.createGetParams(params),
+      "headers": this.getHeaders()
+    }));
+  };
+
+  ApiService.prototype.post = function(url, postData) {
+    return this.bindResultHandling(this.http.post(this.getPath(url), postData, {
+      "headers": this.getHeaders()
+    }));
+  };
+
+  ApiService.prototype.getTimestamp = function() {
     return new Date().getTime();
   };
 
-  ApiService.prototype.bindResultHandling = function (request) {
+  ApiService.prototype.bindResultHandling = function(request) {
     return request.then(function (response) {
       return this.createApiResponse(response);
     }.bind(this)).catch(function (response) {
@@ -35,8 +58,43 @@
     }.bind(this));
   };
 
-  ApiService.prototype.createApiResponse = function (response) {
+  ApiService.prototype.createApiRequest = function() {
+    return new ApiRequest();
+  };
+
+  ApiService.prototype.createApiResponse = function(response) {
     return new ApiResponse(response);
+  };
+
+  function ApiRequest() {
+    this.attributes = {};
+    this.id = null;
+    this.type = null;
+  }
+
+  ApiRequest.prototype.setAttributes = function(attributes) {
+    this.attributes = attributes;
+    return this;
+  };
+
+  ApiRequest.prototype.setId = function(id) {
+    this.id = id;
+    return this;
+  };
+
+  ApiRequest.prototype.setType = function(type) {
+    this.type = type;
+    return this;
+  };
+
+  ApiRequest.prototype.getRequest = function() {
+    return {
+      'data': {
+        'id': this.id,
+        'type': this.type,
+        'attributes': this.attributes
+      }
+    };
   };
 
   function ApiResponse(response) {
