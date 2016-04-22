@@ -39,7 +39,7 @@
     });
   };
 
-  RegionService.prototype.saveHtmlRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, content) {
+  RegionService.prototype.saveHtmlRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible, content) {
     var postData = {
       "pageId": pageId,
       "displayPoint": displayPoint,
@@ -47,6 +47,7 @@
       "name": name,
       "sequence": sequence,
       "regionTemplate": regionTemplate,
+      "isVisible": isVisible,
       "content": content
     };
     if (name === 'fail') {
@@ -55,7 +56,7 @@
     return this.apiService.post('api/region/save-html-region-ok.json', postData);
   };
 
-  RegionService.prototype.saveNavigationRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+  RegionService.prototype.saveNavigationRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
                                                           navigationTemplate, navigationType, navigation, repeatLastLevel) {
     var postData = {
       "pageId": pageId,
@@ -64,6 +65,7 @@
       "name": name,
       "sequence": sequence,
       "regionTemplate": regionTemplate,
+      "isVisible": isVisible,
       "navigationTemplate": navigationTemplate,
       "navigationType": navigationType,
       "navigation": navigation,
@@ -75,7 +77,7 @@
     return this.apiService.post('api/region/save-navigation-region-ok.json', postData);
   };
 
-  RegionService.prototype.saveReportRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+  RegionService.prototype.saveReportRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
                                                         reportTemplate, view, showHeader, itemsPerPage,
                                                         paginationQueryParameter, reportColumns) {
     var postData = {
@@ -85,6 +87,7 @@
       "name": name,
       "sequence": sequence,
       "regionTemplate": regionTemplate,
+      "isVisible": isVisible,
       "reportTemplate": reportTemplate,
       "view": view,
       "showHeader": showHeader,
@@ -98,7 +101,7 @@
     return this.apiService.post('api/region/save-report-region-ok.json', postData);
   };
 
-  RegionService.prototype.saveFormRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate,
+  RegionService.prototype.saveFormRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
                                                         formTemplate, buttonTemplate, buttonLabel, successMessage,
                                                         errorMessage, redirectUrl, func, functionParameters,
                                                         formPreFill, formPreFillView, formPreFillColumns) {
@@ -109,6 +112,7 @@
       "name": name,
       "sequence": sequence,
       "regionTemplate": regionTemplate,
+      "isVisible": isVisible,
       "formTemplate": formTemplate,
       "buttonTemplate": buttonTemplate,
       "buttonLabel": buttonLabel,

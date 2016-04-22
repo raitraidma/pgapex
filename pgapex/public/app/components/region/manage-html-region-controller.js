@@ -63,6 +63,7 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
+      this.$scope.region.isVisible,
       this.$scope.region.content
     ).then(this.handleSaveResponse.bind(this));
   };

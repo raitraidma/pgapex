@@ -30,3 +30,12 @@
         </div>
       </div>
     </div>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.isVisible, 'isVisible')}">
+      <label for="isVisible" class="col-sm-3 control-label">{{'region.isVisible'|translate}}</label>
+      <div class="col-sm-9" class="checkbox">
+        <input id="isVisible" name="isVisible" ng-model="region.isVisible" type="checkbox">
+        <div ng-show="formError.showErrors(manageRegionForm.isVisible, 'isVisible')">
+          <span ng-repeat="error in formError.getErrors('isVisible')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>

@@ -5,6 +5,7 @@
   "name":"Report region name",
   "sequence":1,
   "regionTemplate":2,
+  "isVisible":true,
   "reportTemplate":3,
   "view":"view-4",
   "showHeader":true,

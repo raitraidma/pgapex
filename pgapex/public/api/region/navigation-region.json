@@ -3,6 +3,7 @@
   "name":"Region name",
   "sequence":2,
   "regionTemplate":3,
+  "isVisible":true,
   "navigationTemplate": 4,
   "navigationType": "SITEMAP",
   "navigation": 10,

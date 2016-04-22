@@ -1,11 +1,11 @@
 {"meta":{"status":"OK","code":"200"},"data":[
   {"id":1,"displayPointName":"HEADER","description":"Header-display-point-1","regions":[
-    {"id": 2, "name": "Navigation-region-4", "sequence": "1", "type": "NAVIGATION"}
+    {"id": 2, "name": "Navigation-region-4", "sequence": "1", "type": "NAVIGATION", "isVisible": true}
   ]},
   {"id":2,"displayPointName":"BODY","description":"Body-display-point-2","regions":[
-    {"id": 5, "name": "Report-region-2", "sequence": "2", "type": "REPORT"},
-    {"id": 6, "name": "Html-region-1", "sequence": "1", "type": "HTML"},
-    {"id": 7, "name": "Form-region-3", "sequence": "3", "type": "FORM"}
+    {"id": 5, "name": "Report-region-2", "sequence": "2", "type": "REPORT", "isVisible": true},
+    {"id": 6, "name": "Html-region-1", "sequence": "1", "type": "HTML", "isVisible": false},
+    {"id": 7, "name": "Form-region-3", "sequence": "3", "type": "FORM", "isVisible": true}
   ]},
   {"id":3,"displayPointName":"FOOTER","description":"Footer-display-point-3","regions":[]}
 ]}

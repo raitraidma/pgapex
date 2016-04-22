@@ -4,6 +4,7 @@
     {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
     {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
     {"detail": "region.regionTemplateIsMandatory", "source": {"pointer": "/data/attributes/regionTemplate"}},
+    {"detail": "Error for is visible field.", "source": {"pointer": "/data/attributes/isVisible"}},
     {"detail": "region.reportTemplateIsMandatory", "source": {"pointer": "/data/attributes/reportTemplate"}},
     {"detail": "region.viewIsMandatory", "source": {"pointer": "/data/attributes/view"}},
     {"detail": "Error for show header field.", "source": {"pointer": "/data/attributes/showHeader"}},

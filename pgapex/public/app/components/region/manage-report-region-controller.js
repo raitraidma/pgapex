@@ -121,6 +121,7 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
+      this.$scope.region.isVisible,
       this.$scope.region.reportTemplate,
       this.$scope.region.view,
       this.$scope.region.showHeader,

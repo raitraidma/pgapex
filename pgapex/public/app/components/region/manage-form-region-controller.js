@@ -182,6 +182,7 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
+      this.$scope.region.isVisible,
       this.$scope.region.formTemplate,
       this.$scope.region.buttonTemplate,
       this.$scope.region.buttonLabel,

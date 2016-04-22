@@ -4,6 +4,7 @@
     {"detail": "region.nameIsMandatory", "source": {"pointer": "/data/attributes/name"}},
     {"detail": "region.sequenceIsMandatory", "source": {"pointer": "/data/attributes/sequence"}},
     {"detail": "region.regionTemplateIsMandatory", "source": {"pointer": "/data/attributes/regionTemplate"}},
+    {"detail": "Error for is visible field.", "source": {"pointer": "/data/attributes/isVisible"}},
     {"detail": "region.formTemplateIsMandatory", "source": {"pointer": "/data/attributes/formTemplate"}},
     {"detail": "region.buttonTemplateIsMandatory", "source": {"pointer": "/data/attributes/buttonTemplate"}},
     {"detail": "region.buttonLabelIsMandatory", "source": {"pointer": "/data/attributes/buttonLabel"}},
