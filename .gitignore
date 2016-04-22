@@ -3,3 +3,10 @@
 /document/pgapex.md~
 /test-reports
 /pgapex/vendor
+
+/document/*
+!/document/diagrams
+!/document/pgapex.bib
+!/document/pgapex.tex
+!/document/pgapex.pdf
+!/document/pgapex.mdl

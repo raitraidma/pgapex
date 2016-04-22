@@ -375,15 +375,19 @@ Valitud sai MIT litsents, kuna see seab kasutajatele kõige vähem piiranguid ni
 \subsection{Tegutsejad}
 \begin{itemize}
 \item Administraator.
+\item Kasutaja.
 \end{itemize}
 \subsection{Terviksüsteemi tükeldus allsüsteemideks}
 \subsubsection{Pädevusalad}
 \begin{itemize}
 \item Administraatori pädevusala.
+\item Kasutaja pädevusala.
 \end{itemize}
-Antud pädevusala kasutab kõiki allsüsteeme.
+Administraatori pädevusala kasutab kõiki allsüsteeme.\par
+Kasutaja pädevusala kasutab ainult rakenduse allsüsteemi.
 \subsubsection{Funktsionaalsed allsüsteemid}
 \begin{itemize}
+\item Rakenduse funktsionaalne allsüsteem.
 \item Rakenduste funktsionaalne allsüsteem.
 \item Lehtede funktsionaalne allsüsteem.
 \item Regioonide funktsionaalne allsüsteem.
@@ -401,6 +405,58 @@ Antud töös ei realiseerita mallide funktsionaalset allsüsteemi.
 \item Mallide register.
 \end{itemize}
 
+\subsection{Rakenduse funktsionaalne allsüsteem}
+\subsubsection{Eesmärgid}
+\begin{itemize}
+\item Võimaldada administraatoril ja kasutajal kasutada loodud rakendust.
+\end{itemize}
+\subsubsection{Allsüsteemi poolt kasutatavad registrid}
+Allsüsteem ei teeninda ühtegi registrit.\par
+Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit, mallide registrit.
+\subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
+Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 432 301,scale=1]{./diagrams/application-subsystem-use-case-digram.png}
+\caption{Rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\end{center}
+\end{figure}
+
+\underline{\textbf{Kasutusjuht:} Rakenduse kasutamine}
+\par
+\textbf{Tegutsejad:} Kasutaja
+\par
+\textbf{Kirjeldus:} Kasutaja saab kasutada loodud rakendust.
+\par
+
+\underline{\textbf{Kasutusjuht:} Rakenduse kasutaja identifitseerimine}
+\par
+\textbf{Tegutsejad:} Kasutaja
+\par
+\textbf{Kirjeldus:} Kui rakenduses kuvatav lehekülg nõuab, et kasutaja on autenditud, siis kuvatakse kasutajale autentimisvorm, kus küsitakse kasutajanime ja parooli. Kui kasutaja poolt sisestatud kasutajanimi ja parool on korrektsed, siis lubatakse kasutajal näha kaitstud lehekülgi. Kasutaja peab sessiooni jooksul autentima ainult ühe korra.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehe vaatamine}
+\par
+\textbf{Tegutsejad:} Kasutaja
+\par
+\textbf{Kirjeldus:} Kasutaja näeb lehel loodud regioonide sisu. Lehel võidakse kuvada navigatsioone, raporteid, vorme ja HTML teksti.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehtede vahel navigeerimine}
+\par
+\textbf{Tegutsejad:} Kasutaja
+\par
+\textbf{Kirjeldus:} Kasutaja saab navigeerida erinevate lehtede vahel vajutades navigatsioonil olevatele linkidele.
+\par
+
+\underline{\textbf{Kasutusjuht:} Vormi esitamine}
+\par
+\textbf{Tegutsejad:} Kasutaja
+\par
+\textbf{Kirjeldus:} Kasutajale kuvatakse vorm, mis võib olla juba eelnevalt täidetud. Kasutaja sisestab ormi väljadesse andmed ning saadab need vormi esitamisega töötlemisse.
+\par
+
 \subsection{Rakenduste funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
@@ -412,7 +468,49 @@ Antud töös ei realiseerita mallide funktsionaalset allsüsteemi.
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab rakenduste registrit.\par
 Allsüsteem kasutab andmebaasiobjektide registrit.
+\subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
+Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 494 223,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
+\caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\end{center}
+\end{figure}
+\underline{\textbf{Kasutusjuht:} Kasutaja identifitseerimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator identifitseerib ennast sisestades kasutajanime ja parooli. Kui sellise kasutajanime ja parooliga kasutaja on andmebaasis olemas ning kasutajal on SUPERUSER õigused, siis lubatakse administraatoril süsteemi siseneda, vastasel juhul mitte.
+\par
+\textit{Märkus:} Kasutusjuht "Kasutaja identifitseerimine" on kasutusel ka järgnevates allsüsteemides: lehtede funktsionaalne allsüsteem, regioonide funktsionaalne allsüsteem, navigatsioonide funktsionaalne allsüsteem.\par
 
+\underline{\textbf{Kasutusjuht:} Rakenduste loetelu vaatamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator vaatab, mis rakendused on loodud. Süsteem kuvab administraatorile loetelu rakendustest, kus on esitatud rakenduse nimi.
+\par
+
+\underline{\textbf{Kasutusjuht:} Rakenduse lisamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib rakendusele nime, aliase, andmebaasi, mille põhjal rakendus luuakse ning sisestab andmebaasi kasutajanime ja parooli, kellena süsteem andmebaasiga suhtleb. Kui sisestatud andmed on korrektsed ning sellise kasutajanime ja parooliga kasutaja eksisteerib, siis luuakse uus rakendus.
+\par
+
+\underline{\textbf{Kasutusjuht:} Rakenduse muutmine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib muuta. Administraatorile kuvatakse rakenduse nimi, alias, andmebaas, mille põhjal rakendus on loodud ning andmebaasi kasutajanimi. Administraator saab kuvatud andmeid muuta. Salvestamiseks peab ta sisestama ka andmebaasi kasutajale vastava parooli. Kui sisestatud andmed on korrektsed, siis muudatused salvestatakse.
+\par
+
+\underline{\textbf{Kasutusjuht:} Rakenduse kustutamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis rakendus ning sellega seotud info kustutatakse.
+\par
 \subsection{Lehtede funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
@@ -424,6 +522,14 @@ Allsüsteem kasutab andmebaasiobjektide registrit.
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab lehtede registrit.\par
 Allsüsteem kasutab mallide registrit.
+\subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
+Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 483 304,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
+\caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\end{center}
+\end{figure}
 
 \subsection{Regioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
@@ -439,6 +545,14 @@ Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab regioonide registrit.\par
 Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobjektide registrit.
+\subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
+Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 709 615,scale=0.85]{./diagrams/regions-subsystem-use-case-digram.png}
+\caption{Regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\end{center}
+\end{figure}
 
 \subsection{Navigatsioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
@@ -454,6 +568,14 @@ Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobje
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab navigatsioonide registrit.\par
 Allsüsteem kasutab lehtede registrit.
+\subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
+Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 582 434,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
+\caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\end{center}
+\end{figure}
 
 \subsection{Mittefunktsionaalsed nõuded}
 \begin{table}[H]%[!htb]
