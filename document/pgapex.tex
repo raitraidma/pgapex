@@ -6,12 +6,14 @@
 \usepackage{multirow} %Vajalik, kui tahta tabelites mitut rida kokku panna
 \usepackage{todonotes} %Vajalik, kui tahta lisada töösse todo märkmeid
 \usepackage{url} %Vajalik, kui töös on kasutusel URL aadress. Sel juhul märkida URL tagi vahele ning LaTeX ei hakka seda lahti kompileerima eraldi käskudeks vms
+\usepackage[figure,table,page,section]{totalcount} %Jooniste, tabelite, lehtede ja peatükkide arv
 \usepackage{float} %Vajalik töös olevate tabelite ja jooniste vormistamiseks
 \usepackage{longtable} %Korda tabeli päist uuel lehel
-\usepackage{color}% Värvid
+\usepackage{color,xcolor,colortbl}% Värvid
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{rowgray}{gray}{0.85}
 \usepackage{listings} %Koodi värvimiseks
 \lstset{
     breaklines=true,
@@ -68,7 +70,7 @@
 
 \usepackage{hyperref} %Muudab lingid klikitavaks
 
-\hyphenation{} %Ebakorrektse poolitamise parandamine kujul: üliõpilas-kood lehe-küljed
+\hyphenation{} %Ebakorrektse poolitamise parandamine kujul: \hyphenation{üliõpilas-kood lehe-küljed}
 
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{16pt}{} %Sectioni tekstisuurus
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{14pt}{} %Subsectioni tekstisuurus
@@ -139,13 +141,13 @@ Kinnitan, et olen koostanud antud lõputöö iseseisvalt  ning seda ei ole kelle
 Annotatsioon
 \end{center}}
 
-Lõputöö on kirjutatud eesti keeles ning sisaldab teksti [lehekülgede arv] leheküljel, [peatükkide arv] peatükki, [jooniste arv] joonist, [tabelite arv] tabelit.
+Lõputöö on kirjutatud eesti keeles ning sisaldab teksti \totalpages{} leheküljel, \totalsections{} peatükki, \totalfigures{} joonist, \totaltables{} tabelit.
 \pagebreak
 %-----------------------------ABSTRACT-----------------------------------
 \section*{\begin{center}
 Abstract
 \end{center}}
-The thesis is in estonian and contains [pages] pages of text, [chapters] chapters, [figures] figures, [tables] tables.
+The thesis is in estonian and contains \totalpages{} pages of text, \totalsections{} chapters, \totalfigures{} figures, \totaltables{} tables.
 \pagebreak
 %---------------------LÜHENDITE JA MÕISTETE SÕNASTIK---------------------
 \section*{\begin{center}
@@ -333,7 +335,7 @@ Vabadus levitada (vabadused 2 ja 3) tähendab vabadust jagada antud tarkvara muu
 \textit{Open Source} kriteeriumid on veidi vabamad kui \textit{Free Software} omad. Kõik eksisteerivad \textit{Free Software} programmid kvalifitseeruvad \textit{Open Source} tarkvara alla. Enamik \textit{Open Source} tarkvarast on \textit{Free Software}, kuid leidub ka erandeid.
 \cite{OS_VS_FS}
 \begin{itemize}
-\item Mõlemad nimed ei väljenda täpselt seda, mida nende all tegelikult on mõeldud
+\item Mõlemad nimed ei väljenda täpselt seda, mida nende all tegelikult on mõeldud.
 \item Mõlemad lubavad tarkvara jagada tasuta või seda müüa.
 \item \textit{Open Source} kriteeriumid kehtivad ainult lähtekoodile, mitte aga kompilleeritud programmile.
 \end{itemize}
@@ -344,14 +346,15 @@ Kõik eelpool nimetatud litsentsid täidavad nii \textit{Open Source} kui ka \te
 
 \begin{table}[H]%[!htb]
 \begin{center}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
+\rowcolor{rowgray}
  & Nõutud & Lubatud & Keelatud \\ \hline
 MIT & Litsents ja copyright märge & Kaubanduslik kasutamine & Võtta vastutusele \\
  &  & Jagamine &  \\
  &  & Muutmine &  \\
  &  & Privaatne kasutamine &  \\ \hline
-Apache License 2.0 & Litsents ja copyright märge & Kaubanduslik kasutamine & Võtta vastutusele \\
+Apache \newline License 2.0 & Litsents ja copyright märge & Kaubanduslik kasutamine & Võtta vastutusele \\
  & Teavitus muudatustest & Jagamine & Kasutada kaubamärki \\
  &  & Muutmine &  \\
  &  & Patendi kasutamine &  \\
@@ -369,6 +372,120 @@ GNU GPLv2 & Litsents ja copyright märge & Jagamine &  \\
 \end{table}
 Valitud sai MIT litsents, kuna see seab kasutajatele kõige vähem piiranguid ning arendajale kõige vähem kohustusi.
 \section{Süsteemi analüüs}
+\subsection{Tegutsejad}
+\begin{itemize}
+\item Administraator.
+\end{itemize}
+\subsection{Terviksüsteemi tükeldus allsüsteemideks}
+\subsubsection{Pädevusalad}
+\begin{itemize}
+\item Administraatori pädevusala.
+\end{itemize}
+Antud pädevusala kasutab kõiki allsüsteeme.
+\subsubsection{Funktsionaalsed allsüsteemid}
+\begin{itemize}
+\item Rakenduste funktsionaalne allsüsteem.
+\item Lehtede funktsionaalne allsüsteem.
+\item Regioonide funktsionaalne allsüsteem.
+\item Navigatsioonide funktsionaalne allsüsteem.
+\item Mallide funktsionaalne allsüsteem.
+\end{itemize}
+Antud töös ei realiseerita mallide funktsionaalset allsüsteemi.
+\subsubsection{Registrid}
+\begin{itemize}
+\item Andmebaasiobjektide register.
+\item Rakenduste register.
+\item Lehtede register.
+\item Regioonide register.
+\item Navigatsioonide register.
+\item Mallide register.
+\end{itemize}
+
+\subsection{Rakenduste funktsionaalne allsüsteem}
+\subsubsection{Eesmärgid}
+\begin{itemize}
+\item Võimaldada administraatoril saada ülevaade loodud rakendustest.
+\item Võimaldada administraatoril luua uus rakendus.
+\item Võimaldada administraatoril muuta olemasolevate rakenduste seadeid.
+\item Võimaldada administraatoril kustutada olemasolevaid rakendusi.
+\end{itemize}
+\subsubsection{Allsüsteemi poolt kasutatavad registrid}
+Allsüsteem teenindab rakenduste registrit.\par
+Allsüsteem kasutab andmebaasiobjektide registrit.
+
+\subsection{Lehtede funktsionaalne allsüsteem}
+\subsubsection{Eesmärgid}
+\begin{itemize}
+\item Võimaldada administraatoril saada ülevaade rakendusele kuuluvatest lehtekülgedest.
+\item Võimaldada administraatoril luua uusi lehekülgi.
+\item Võimaldada administraatoril muuta olemasolevate lehekülgede seadeid.
+\item Võimaldada administraatoril kustutada olemasolevaid lehekülgi.
+\end{itemize}
+\subsubsection{Allsüsteemi poolt kasutatavad registrid}
+Allsüsteem teenindab lehtede registrit.\par
+Allsüsteem kasutab mallide registrit.
+
+\subsection{Regioonide funktsionaalne allsüsteem}
+\subsubsection{Eesmärgid}
+\begin{itemize}
+\item Võimaldada administraatoril saada ülevaade lehel olevatest regioonidest.
+\item Võimaldada administraatoril luua navigatsiooni tüüpi regioone.
+\item Võimaldada administraatoril luua HTML tüüpi regioone.
+\item Võimaldada administraatoril luua raporti tüüpi regioone.
+\item Võimaldada administraatoril luua vormi tüüpi regioone.
+\item Võimaldada administraatoril muuta olemasolevaid regioone.
+\item Võimaldada administraatoril kustutada olemasolevaid regioone.
+\end{itemize}
+\subsubsection{Allsüsteemi poolt kasutatavad registrid}
+Allsüsteem teenindab regioonide registrit.\par
+Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobjektide registrit.
+
+\subsection{Navigatsioonide funktsionaalne allsüsteem}
+\subsubsection{Eesmärgid}
+\begin{itemize}
+\item Võimaldada administraatoril saada ülevaade rakendusele kuuluvatest navigatsioonidest.
+\item Võimaldada administraatoril luua uusi navigatsioone.
+\item Võimaldada administraatoril muuta olemasolevate navigatsioonide seadeid.
+\item Võimaldada administraatoril kustutada olemasolevaid navigatsioone.
+\item Võimaldada administraatoril lisada olemasoleva navigatsiooni alla navigatsioonipunkte.
+\item Võimaldada administraatoril muuta olemasolevaid navigatsioonipunkte.
+\item Võimaldada administraatoril kustutada olemas olevaid navigatsioonipunkte.
+\end{itemize}
+\subsubsection{Allsüsteemi poolt kasutatavad registrid}
+Allsüsteem teenindab navigatsioonide registrit.\par
+Allsüsteem kasutab lehtede registrit.
+
+\subsection{Mittefunktsionaalsed nõuded}
+\begin{table}[H]%[!htb]
+\begin{center}
+\begin{tabular}{|p{4cm}|p{11cm}|}
+\hline
+\rowcolor{rowgray}
+Tüüp & Nõude kirjeldus \\ \hline
+
+Serveri tarkvara & Andmete hoidmiseks peab kasutama andmebaasisüsteemi PostgreSQL 9.4 või uuemat. Rakendus tuleb luua kasutades PHP 5.5.0 või uuemat. \\ \hline
+
+Keel & Süsteemi kasutajaliides peab olema ingliskeelne. \\ \hline
+
+Kasutajaliides & Kasutajaliides peab olema veebipõhine ning arvestama erinevate resolutsioonidega. \\ \hline
+ 
+Toetatud veebibrauserid & 
+\begin{itemize}
+\item Microsoft Internet Explorer 11 või uuem.
+\item Mozilla Firefox 43 või uuem.
+\item Google Chrome 49 või uuem.
+\end{itemize}
+ \\ \hline
+
+Andmebaasioperatsioonide töökoorus & Andmebaasioperatsioonid peavad süsteemil aega võtma alla 5 sekundi. \\ \hline
+
+\end{tabular}
+\caption{Mittefunktsionaalsed nõuded}
+\label{mittefunktsionaalsed_nõuded}
+\end{center}
+\end{table}
+
+
 \section{Andmebaasi disain}
 \section{Kasutajaliidese disain}
 \section{Rakenduse disain}
