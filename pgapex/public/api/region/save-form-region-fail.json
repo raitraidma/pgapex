@@ -25,6 +25,7 @@
     {"detail": "region.listOfValuesViewIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesView"}},
     {"detail": "region.listOfValuesValueIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesValue"}},
     {"detail": "region.listOfValuesLabelIsMandatory", "source": {"pointer": "/data/attributes/functionParameters/0/listOfValuesLabel"}},
-    {"detail": "Error for pre fill column.", "source": {"pointer": "/data/attributes/functionParameters/0/preFillColumn"}}
+    {"detail": "Error for pre fill column.", "source": {"pointer": "/data/attributes/functionParameters/0/preFillColumn"}},
+    {"detail": "Error for help text column.", "source": {"pointer": "/data/attributes/functionParameters/0/helpText"}}
   ]
 }

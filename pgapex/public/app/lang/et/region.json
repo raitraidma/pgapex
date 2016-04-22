@@ -105,6 +105,7 @@
     "listOfValuesViewIsMandatory": "Loetelu vaade on kohustuslik.",
     "listOfValuesValueIsMandatory": "Loetelu väärtus on kohustuslik.",
     "listOfValuesLabelIsMandatory": "Loetelu silt on kohustuslik.",
-    "functionIsMandatory": "Funktsioon on kohustuslik."
+    "functionIsMandatory": "Funktsioon on kohustuslik.",
+    "helpText": "Abistav tekst"
   }
 }
