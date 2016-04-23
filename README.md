@@ -43,6 +43,10 @@ Access VM
 Shared folder is in /vagrant directory:
   `cd /vagrant`
 
+Deploy db evolutions
+--------------------
+* Execute deploy script: `/vagrant/db_evolutions.sh`
+
 Access UI
 ---------
 http://localhost:8000
