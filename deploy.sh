@@ -19,6 +19,8 @@ echo "Deploy package"
 sshpass -p $SERVER_PASSWORD ssh -o "StrictHostKeyChecking no" -p 22 $SERVER_USER_HOST -P "mkdir -p $DEPLOY_DIR"
 sshpass -p $SERVER_PASSWORD scp -P 22 -rp ~/deploy/pgapex/pgapex-$TIMESTAMP.zip $SERVER_USER_HOST:$DEPLOY_DIR
 sshpass -p $SERVER_PASSWORD ssh -o "StrictHostKeyChecking no" -p 22 $SERVER_USER_HOST -P "(cd $DEPLOY_DIR && unzip pgapex-$TIMESTAMP.zip)"
+sshpass -p $SERVER_PASSWORD ssh -o "StrictHostKeyChecking no" -p 22 $SERVER_USER_HOST -P "(PGPASSWORD=$DB_PASSWORD; psql --username=$DB_USER $DB_DATABASE < $DEPLOY_DIR/pgapex/evolutions/1_setup.sql)"
+sshpass -p $SERVER_PASSWORD ssh -o "StrictHostKeyChecking no" -p 22 $SERVER_USER_HOST -P "(PGPASSWORD=$DB_PASSWORD; psql --username=$DB_USER $DB_DATABASE < $DEPLOY_DIR/pgapex/evolutions/2_create_tables.sql)"
 sshpass -p $SERVER_PASSWORD ssh -o "StrictHostKeyChecking no" -p 22 $SERVER_USER_HOST -P "(unlink $DESTINATION_DIR; ln -fs $DEPLOY_DIR/pgapex/public $DESTINATION_DIR)"
 
 echo "Delete 14 days old versions"
