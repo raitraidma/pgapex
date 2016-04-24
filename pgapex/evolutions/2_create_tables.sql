@@ -35,12 +35,12 @@ CREATE TABLE pgapex.authentication_scheme (
 	);
 CREATE TABLE pgapex.textarea_template (
 	template_ID INTEGER NOT NULL,
-	template VARCHAR ( 1000 ) NOT NULL,
+	template TEXT NOT NULL,
 	CONSTRAINT pk_textarea_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.button_template (
 	template_ID INTEGER NOT NULL,
-	template VARCHAR ( 1000 ) NOT NULL,
+	template TEXT NOT NULL,
 	CONSTRAINT pk_button_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.navigation (
@@ -52,17 +52,17 @@ CREATE TABLE pgapex.navigation (
 	);
 CREATE TABLE pgapex.input_template (
 	template_ID INTEGER NOT NULL,
-	template VARCHAR ( 1000 ) NOT NULL,
+	template TEXT NOT NULL,
 	CONSTRAINT pk_input_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.page_template (
 	template_ID INTEGER NOT NULL,
 	page_type_ID VARCHAR ( 10 ) NOT NULL,
-	header VARCHAR ( 1000 ) NOT NULL,
-	body VARCHAR ( 1000 ) NOT NULL,
-	footer VARCHAR ( 1000 ) NOT NULL,
-	error_message VARCHAR ( 1000 ) NOT NULL,
-	success_message VARCHAR ( 1000 ) NOT NULL,
+	header TEXT NOT NULL,
+	body TEXT NOT NULL,
+	footer TEXT NOT NULL,
+	error_message TEXT NOT NULL,
+	success_message TEXT NOT NULL,
 	CONSTRAINT pk_page_template PRIMARY KEY (template_ID)
 	);
 CREATE INDEX idx_page_template_page_type_id ON pgapex.page_template (page_type_ID );
@@ -120,14 +120,14 @@ CREATE TABLE pgapex.view (
 CREATE INDEX TC_view333 ON pgapex.view (schema_ID );
 CREATE TABLE pgapex.navigation_template (
 	template_ID INTEGER NOT NULL,
-	navigation_begin VARCHAR ( 1000 ) NOT NULL,
-	navigation_end VARCHAR ( 1000 ) NOT NULL,
+	navigation_begin TEXT NOT NULL,
+	navigation_end TEXT NOT NULL,
 	CONSTRAINT pk_navigation_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.session (
 	session_ID INTEGER NOT NULL,
 	application_ID INTEGER NOT NULL,
-	data VARCHAR ( 1000 ) NOT NULL,
+	data JSONB NOT NULL,
 	expiration_time TIMESTAMP NOT NULL,
 	CONSTRAINT pk_session PRIMARY KEY (session_ID)
 	);
@@ -221,10 +221,10 @@ CREATE INDEX TC_parameter331 ON pgapex.parameter (data_type_ID );
 CREATE INDEX TC_parameter330 ON pgapex.parameter (function_ID );
 CREATE TABLE pgapex.drop_down_template (
 	template_ID INTEGER NOT NULL,
-	drop_down_begin VARCHAR ( 1000 ) NOT NULL,
-	drop_down_end VARCHAR ( 1000 ) NOT NULL,
-	option_begin VARCHAR ( 1000 ) NOT NULL,
-	option_end VARCHAR ( 1000 ) NOT NULL,
+	drop_down_begin TEXT NOT NULL,
+	drop_down_end TEXT NOT NULL,
+	option_begin TEXT NOT NULL,
+	option_end TEXT NOT NULL,
 	CONSTRAINT pk_drop_down_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.page_type (
@@ -305,8 +305,8 @@ CREATE INDEX TC_schema327 ON pgapex.schema (database_ID );
 CREATE TABLE pgapex.navigation_item_template (
 	navigation_item_template_ID INTEGER NOT NULL,
 	navigation_template_ID INTEGER NOT NULL,
-	active_template VARCHAR ( 1000 ) NOT NULL,
-	inactive_template VARCHAR ( 1000 ) NOT NULL,
+	active_template TEXT NOT NULL,
+	inactive_template TEXT NOT NULL,
 	level INTEGER NOT NULL,
 	CONSTRAINT pk_navigation_item_template PRIMARY KEY (navigation_item_template_ID),
 	CONSTRAINT chk_navigation_item_template_level_must_be_positive CHECK (level > 0)
@@ -314,14 +314,14 @@ CREATE TABLE pgapex.navigation_item_template (
 CREATE INDEX idx_navigation_item_template_navigation_template_id ON pgapex.navigation_item_template (navigation_template_ID );
 CREATE TABLE pgapex.form_template (
 	template_ID INTEGER NOT NULL,
-	form_begin VARCHAR ( 1000 ) NOT NULL,
-	form_end VARCHAR ( 1000 ) NOT NULL,
-	row_begin VARCHAR ( 1000 ) NOT NULL,
-	row_end VARCHAR ( 1000 ) NOT NULL,
-	row VARCHAR ( 1000 ) NOT NULL,
-	mandatory_row_begin VARCHAR ( 1000 ) NOT NULL,
-	mandatory_row_end VARCHAR ( 1000 ) NOT NULL,
-	mandatory_row VARCHAR ( 1000 ) NOT NULL,
+	form_begin TEXT NOT NULL,
+	form_end TEXT NOT NULL,
+	row_begin TEXT NOT NULL,
+	row_end TEXT NOT NULL,
+	row TEXT NOT NULL,
+	mandatory_row_begin TEXT NOT NULL,
+	mandatory_row_end TEXT NOT NULL,
+	mandatory_row TEXT NOT NULL,
 	CONSTRAINT pk_form_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.region (
@@ -339,7 +339,7 @@ CREATE INDEX idx_region_template_id ON pgapex.region (template_ID );
 CREATE INDEX idx_region_page_template_display_point_id ON pgapex.region (page_template_display_point_ID );
 CREATE TABLE pgapex.region_template (
 	template_ID INTEGER NOT NULL,
-	template VARCHAR ( 1000 ) NOT NULL,
+	template TEXT NOT NULL,
 	CONSTRAINT pk_region_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.page (
@@ -383,20 +383,20 @@ CREATE TABLE pgapex.data_type (
 CREATE INDEX TC_data_type332 ON pgapex.data_type (schema_ID );
 CREATE TABLE pgapex.report_template (
 	template_ID INTEGER NOT NULL,
-	report_begin VARCHAR ( 1000 ) NOT NULL,
-	report_end VARCHAR ( 1000 ) NOT NULL,
-	header_begin VARCHAR ( 1000 ) NOT NULL,
-	header_end VARCHAR ( 1000 ) NOT NULL,
-	header_cell VARCHAR ( 1000 ) NOT NULL,
-	row_begin VARCHAR ( 1000 ) NOT NULL,
-	row_end VARCHAR ( 1000 ) NOT NULL,
-	row_cell VARCHAR ( 1000 ) NOT NULL,
-	navigation_begin VARCHAR ( 1000 ) NOT NULL,
-	navigation_end VARCHAR ( 1000 ) NOT NULL,
-	previous_page VARCHAR ( 1000 ) NOT NULL,
-	next_page VARCHAR ( 1000 ) NOT NULL,
-	active_page VARCHAR ( 1000 ) NOT NULL,
-	inactive_page VARCHAR ( 1000 ) NOT NULL,
+	report_begin TEXT NOT NULL,
+	report_end TEXT NOT NULL,
+	header_begin TEXT NOT NULL,
+	header_end TEXT NOT NULL,
+	header_cell TEXT NOT NULL,
+	row_begin TEXT NOT NULL,
+	row_end TEXT NOT NULL,
+	row_cell TEXT NOT NULL,
+	navigation_begin TEXT NOT NULL,
+	navigation_end TEXT NOT NULL,
+	previous_page TEXT NOT NULL,
+	next_page TEXT NOT NULL,
+	active_page TEXT NOT NULL,
+	inactive_page TEXT NOT NULL,
 	CONSTRAINT pk_report_template PRIMARY KEY (template_ID)
 	);
 ALTER TABLE pgapex.button_template ADD CONSTRAINT fk_button_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;

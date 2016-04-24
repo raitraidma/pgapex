@@ -20,5 +20,6 @@ GRANT CONNECT ON DATABASE :DB_DATABASE TO :DB_APP_USER;
 GRANT USAGE ON SCHEMA pgapex TO :DB_APP_USER;
 
 GRANT EXECUTE ON FUNCTION
-pgapex.f_is_superuser(VARCHAR, VARCHAR)
+  pgapex.f_is_superuser(VARCHAR, VARCHAR)
+, pgapex.f_refresh_database_objects()
 TO :DB_APP_USER;
