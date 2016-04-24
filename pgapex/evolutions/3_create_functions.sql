@@ -6,7 +6,10 @@ RETURNS boolean AS $$
   SELECT EXISTS(
     SELECT 1
     FROM pg_catalog.pg_shadow
-    WHERE (passwd = 'md5' || md5($2 || $1))
+    WHERE usename = $1
+      AND ( passwd = 'md5' || md5($2 || $1)
+         OR passwd IS NULL
+      )
       AND usesuper = TRUE
   );
 $$ LANGUAGE sql

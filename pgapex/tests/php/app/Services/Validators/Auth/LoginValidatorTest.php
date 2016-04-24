@@ -15,8 +15,7 @@ class LoginValidatorTest extends \TestCase
     $validator->validate($request);
     $errors = $validator->getErrors();
 
-    $this->assertEquals(2, count($errors));
+    $this->assertEquals(1, count($errors));
     $this->assertEquals('auth.usernameIsMandatory', $errors['/data/attributes/username'][0]);
-    $this->assertEquals('auth.passwordIsMandatory', $errors['/data/attributes/password'][0]);
   }
 }

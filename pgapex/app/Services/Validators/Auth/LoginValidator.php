@@ -12,8 +12,5 @@ class LoginValidator extends Validator {
     if ($username === null) {
       $this->addError('auth.usernameIsMandatory', '/data/attributes/username');
     }
-    if ($password === null) {
-      $this->addError('auth.passwordIsMandatory', '/data/attributes/password');
-    }
   }
 }
