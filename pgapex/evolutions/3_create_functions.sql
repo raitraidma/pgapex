@@ -7,10 +7,13 @@ RETURNS boolean AS $$
     SELECT 1
     FROM pg_catalog.pg_shadow
     WHERE usename = $1
-      AND ( passwd = 'md5' || md5($2 || $1)
-         OR passwd IS NULL
+      AND (passwd = 'md5' || md5($2 || $1)
+        OR passwd IS NULL
       )
       AND usesuper = TRUE
+      AND (valuntil IS NULL
+        OR valuntil > current_timestamp
+      )
   );
 $$ LANGUAGE sql
   SECURITY DEFINER
