@@ -12,9 +12,19 @@ class Auth extends Controller {
   }
 
   public function login(Request $request, Response $response) {
-    $validation = new LoginValidator();
-    $validation->validate($request);
-    $validation->attachErrorsToResponse($response);
+    $validator = new LoginValidator();
+    $validator->validate($request);
+
+    if (!$validator->hasErrors()) {
+      $username = $request->getApiAttribute('username');
+      $password = $request->getApiAttribute('password');
+      if(!$this->getContainer()->get('auth')->login($username, $password)) {
+        $validator->addError('auth.wrongUsernameOrPassword', '/data/attributes/username');
+      }
+    }
+
+    $validator->attachErrorsToResponse($response);
+
     return $response->getApiResponse();
   }
 

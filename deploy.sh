@@ -13,6 +13,11 @@ cd ~/deploy/pgapex
 npm install --unsafe-perm
 composer install --no-dev
 rm -rf ~/deploy/pgapex/pgapex/tests
+
+sed -i -e "s/#DB_DATABASE/$DB_DATABASE/g" ~/deploy/pgapex/pgapex/app/config.php
+sed -i -e "s/#DB_APP_USER/$DB_APP_USER/g" ~/deploy/pgapex/pgapex/app/config.php
+sed -i -e "s/#DB_APP_USER_PASS/$DB_APP_USER_PASS/g" ~/deploy/pgapex/pgapex/app/config.php
+
 zip -r "pgapex-$TIMESTAMP.zip" ./pgapex/
 
 echo "Deploy package"

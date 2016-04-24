@@ -6,9 +6,24 @@
                 'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace',
                 'pgApexApp.user', 'pgApexApp.navigation', 'pgApexApp.region'];
 
-  function routeProviderConfig ($routeProvider) {
+  function routeProviderConfig ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
     .otherwise({ redirectTo: '/login' });
+
+    var interceptor = ['$location', '$q', function($location, $q) {
+      return {
+        'responseError': function(response) {
+          if(response.status === 401) {
+            $location.path('/login');
+            return $q.reject(response);
+          } else {
+            return $q.reject(response);
+          }
+        }
+      };
+    }];
+
+    $httpProvider.interceptors.push(interceptor);
   }
 
   function translateProviderConfig ($translateProvider, $translatePartialLoaderProvider) {
@@ -23,7 +38,7 @@
   function loadPgApexApplication(angular) {
     angular
     .module('pgApexApp', modules)
-    .config(['$routeProvider', routeProviderConfig])
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', routeProviderConfig])
     .config(['$translateProvider', '$translatePartialLoaderProvider', translateProviderConfig]);
   }
 

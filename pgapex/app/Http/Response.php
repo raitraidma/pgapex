@@ -9,6 +9,7 @@ class Response extends SlimResponse {
   private $type = null;
   private $attributes = null;
   private $errors = [];
+  private $statusCode = null;
 
   public function setApiAttributes($attributes) {
     $this->attributes = $attributes;
@@ -25,6 +26,11 @@ class Response extends SlimResponse {
     return $this;
   }
 
+  public function setApiStatusCode($statusCode) {
+    $this->statusCode = $statusCode;
+    return $this;
+  }
+
   public function addApiError($detail) {
     $this->errors[]['detail'] = $detail;
     return $this;
@@ -38,12 +44,15 @@ class Response extends SlimResponse {
     return $this;
   }
 
-  public function getApiCode() {
+  public function getApiStatusCode() {
+    if ($this->statusCode !== null) {
+      return $this->statusCode;
+    }
     return empty($this->errors) ? 200 : 403;
   }
 
   protected function createApiResponse() {
-    $code = $this->getApiCode();
+    $code = $this->getApiStatusCode();
     $response = [];
     $response['meta']['status'] = static::$messages[$code];
     $response['meta']['code'] = $code;
@@ -59,7 +68,7 @@ class Response extends SlimResponse {
     return $response;
   }
 
-  public function getApiResponse() {
-    return $this->withJson($this->createApiResponse(), 200);
+  public function getApiResponse($status = 200) {
+    return $this->withJson($this->createApiResponse(), $status);
   }
 }

@@ -3,6 +3,7 @@
 /document/pgapex.md~
 /test-reports
 /pgapex/vendor
+/pgapex/app/.env
 
 /document/*
 !/document/diagrams

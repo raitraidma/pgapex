@@ -44,13 +44,19 @@ class ResponseTest extends \TestCase
     $response = new Response();
     $this->makeClassPropertyAccessible($response, 'errors')
          ->setValue($response, $errors);
-    $this->assertEquals(403, $response->getApiCode());
+    $this->assertEquals(403, $response->getApiStatusCode());
   }
 
   public function testGetApiCodeReturns200WhenThereAreNoErrors() {
     $errors = ['error1', 'error2'];
     $response = new Response();
-    $this->assertEquals(200, $response->getApiCode());
+    $this->assertEquals(200, $response->getApiStatusCode());
+  }
+
+  public function testGetApiCodeReturnsManualySetCode() {
+    $response = new Response();
+    $response->setApiStatusCode(401);
+    $this->assertEquals(401, $response->getApiStatusCode());
   }
 
   public function testCreateApiResponseWithErrors() {

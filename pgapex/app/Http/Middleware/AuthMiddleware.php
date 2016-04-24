@@ -12,6 +12,7 @@ class AuthMiddleware extends Middleware
       return $next($request, $response);
     }
     return $response->addApiError('Must be authenticated!')
-                    ->getApiResponse();
+                    ->setApiStatusCode(401)
+                    ->getApiResponse(401);
   }
 }

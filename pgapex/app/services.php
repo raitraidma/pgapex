@@ -3,18 +3,25 @@
 use App\Http\Request;
 use App\Http\Response;
 use App\Services\Session;
+use App\Services\Database;
 use App\Services\Authentication;
 use Slim\Http\Headers;
 use Slim\Container;
 
-$container = new Container;
+$settings = require __DIR__ . '/config.php';
+
+$container = new Container($settings);
+
+$container['db'] = function ($container) {
+  return new Database($container['settings']['db']);
+};
 
 $container['session'] = function ($container) {
   return new Session();
 };
 
 $container['auth'] = function ($container) {
-  return new Authentication($container->get('session'));
+  return new Authentication($container->get('session'), $container->get('db'));
 };
 
 $container['request'] = function ($container) {
