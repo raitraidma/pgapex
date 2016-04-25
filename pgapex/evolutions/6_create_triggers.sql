@@ -43,5 +43,35 @@ CREATE CONSTRAINT TRIGGER trig_application_authentication_function_exists AFTER 
 	DEFERRABLE INITIALLY DEFERRED
 	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_application_authentication_function_exists();
 
-----------
+---------------------------------
+---------- PAGE ----------
+---------------------------------
 
+CREATE OR REPLACE FUNCTION pgapex.f_trig_page_only_one_homepage_per_application()
+RETURNS trigger AS $$
+DECLARE
+	b_application_has_more_than_one_homepage BOOLEAN;
+BEGIN
+  SELECT count(1) > 0 INTO b_application_has_more_than_one_homepage
+  FROM pgapex.page
+  WHERE is_homepage = TRUE
+  GROUP BY application_id
+  HAVING COUNT(1) > 1;
+
+	IF b_application_has_more_than_one_homepage THEN
+		RAISE EXCEPTION 'Application may have only one homepage';
+	END IF;
+
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql
+	SECURITY DEFINER
+	SET search_path = public, pg_temp;
+
+DROP TRIGGER IF EXISTS trig_page_only_one_homepage_per_application ON pgapex.page;
+
+CREATE CONSTRAINT TRIGGER trig_page_only_one_homepage_per_application AFTER INSERT OR UPDATE ON pgapex.page
+	DEFERRABLE INITIALLY DEFERRED
+	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_page_only_one_homepage_per_application();
+
+----------

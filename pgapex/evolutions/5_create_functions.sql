@@ -344,7 +344,7 @@ BEGIN
     FROM pgapex.page
     WHERE application_id = i_application_id
       AND is_homepage = TRUE
-      AND page_id <> i_page_id;
+      AND page_id <> COALESCE(i_page_id, -1);
     IF b_homepage_exists = FALSE THEN
       b_is_homepage = TRUE;
     END IF;
