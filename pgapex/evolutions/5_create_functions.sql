@@ -58,6 +58,7 @@ RETURNS json AS $$
       , 'name', name
     ) AS attributes
     FROM pgapex.application
+    ORDER BY name
   ) a
 $$ LANGUAGE sql
   SECURITY DEFINER
@@ -225,6 +226,7 @@ FROM (
                'name', database_name
            ) AS attributes
        FROM pgapex.database
+       ORDER BY database_name
      ) a
 $$ LANGUAGE sql
 SECURITY DEFINER
@@ -245,6 +247,7 @@ RETURNS json AS $$
         AND a.application_id = $1
       GROUP BY f.database_name, f.schema_name, f.function_name, f.return_type, p.parameter_type
       HAVING MAX(p.ordinal_position) = 2
+      ORDER BY f.database_name, f.schema_name, f.function_name
   )
   SELECT json_agg(
     json_build_object(
@@ -280,6 +283,7 @@ RETURNS json AS $$
     FROM pgapex.page_template pt
     LEFT JOIN pgapex.template t ON pt.template_id = t.template_id
     WHERE pt.page_type_id = 'LOGIN'
+    ORDER BY t.name
   ) a
 $$ LANGUAGE sql
   SECURITY DEFINER
