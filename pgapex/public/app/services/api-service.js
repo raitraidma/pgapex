@@ -118,7 +118,7 @@
   };
 
   ApiResponse.prototype.getDataOrDefault = function(defaultValue) {
-    return this.hasData() ? this.response.data.data : defaultValue;
+    return this.hasData() && this.response.data.data !== null ? this.response.data.data : defaultValue;
   };
 
   ApiResponse.prototype.getErrors = function() {
@@ -137,7 +137,7 @@
   ApiResponse.prototype.getPointers = function() {
     if (!this.hasErrors()) { return []; }
     return this.response.data.errors.map(function(error) {
-      return error.source.pointer && error.source.pointer ? error.source.pointer : '';
+      return error.source && error.source.pointer ? error.source.pointer : '';
     }).filter(function(value, index, list) { 
       return list.indexOf(value) === index;
     });

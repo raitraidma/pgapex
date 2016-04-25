@@ -15,6 +15,10 @@
     .when('/application-builder/applications/:applicationId/edit', {
       controller: 'pgApexApp.application.ManageApplicationController',
       templateUrl: 'app/partials/application/manage-application.html'
+    })
+    .when('/application-builder/applications/:applicationId/authentication', {
+      controller: 'pgApexApp.application.ManageApplicationAuthenticationController',
+      templateUrl: 'app/partials/application/manage-application-authentication.html'
     });
   }
 

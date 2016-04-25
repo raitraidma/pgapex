@@ -18,7 +18,7 @@
   };
 
   TemplateService.prototype.getLoginTemplates = function () {
-    return this.apiService.get('api/template/login-templates.json');
+    return this.apiService.get('template/login-templates');
   };
 
   TemplateService.prototype.getPageTemplates = function () {

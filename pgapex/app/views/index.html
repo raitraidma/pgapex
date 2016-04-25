@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html ng-app="pgApexApp">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{'general.pgApex'|translate}}</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{'general.pgApex'|translate}}</title>
 
-        <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="vendor/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css">
-        <link rel="stylesheet" href="app/style.css">
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css">
+    <link rel="stylesheet" href="app/style.css">
 
-        <script type="text/javascript">
-        var pgApexPath = "{$pgApexPath}";
-        </script>
+    <script type="text/javascript">
+      var pgApexPath = "{$pgApexPath}";
+    </script>
 
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/angular/angular.min.js"></script>
-        <script src="vendor/angular-route/angular-route.min.js"></script>
-        <script src="vendor/angular-animate/angular-animate.min.js"></script>
-        <script src="vendor/angular-aria/angular-aria.min.js"></script>
-        <script src="vendor/angular-touch/angular-touch.min.js"></script>
-        <script src="vendor/angular-translate/angular-translate.min.js"></script>
-        <script src="vendor/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
-        <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="vendor/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js"></script>
-        <script src="vendor/angular-bootstrap-duallistbox/dist/angular-bootstrap-duallistbox.min.js"></script>
-        <script src="vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
-        <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/angular-route/angular-route.min.js"></script>
+    <script src="vendor/angular-animate/angular-animate.min.js"></script>
+    <script src="vendor/angular-aria/angular-aria.min.js"></script>
+    <script src="vendor/angular-touch/angular-touch.min.js"></script>
+    <script src="vendor/angular-translate/angular-translate.min.js"></script>
+    <script src="vendor/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="vendor/angular-bootstrap-duallistbox/dist/angular-bootstrap-duallistbox.min.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-        <script src="app/utils/utils.js"></script>
-        <script src="app/app.js"></script>
+    <script src="app/utils/utils.js"></script>
+    <script src="app/app.js"></script>
 
-        <script src="app/services/helper-service.js"></script>
-        <script src="app/services/api-service.js"></script>
-        <script src="app/services/auth-service.js"></script>
-        <script src="app/services/application-service.js"></script>
-        <script src="app/services/page-service.js"></script>
-        <script src="app/services/template-service.js"></script>
-        <script src="app/services/form-error-service.js"></script>
-        <script src="app/services/workspace-service.js"></script>
-        <script src="app/services/user-service.js"></script>
-        <script src="app/services/database-service.js"></script>
-        <script src="app/services/navigation-service.js"></script>
-        <script src="app/services/region-service.js"></script>
+    <script src="app/services/helper-service.js"></script>
+    <script src="app/services/api-service.js"></script>
+    <script src="app/services/auth-service.js"></script>
+    <script src="app/services/application-service.js"></script>
+    <script src="app/services/page-service.js"></script>
+    <script src="app/services/template-service.js"></script>
+    <script src="app/services/form-error-service.js"></script>
+    <script src="app/services/workspace-service.js"></script>
+    <script src="app/services/user-service.js"></script>
+    <script src="app/services/database-service.js"></script>
+    <script src="app/services/navigation-service.js"></script>
+    <script src="app/services/region-service.js"></script>
 
-        <script src="app/components/navigation-controller.js"></script>
+    <script src="app/components/navigation-controller.js"></script>
 
-        <script src="app/components/application/application-module.js"></script>
-        <script src="app/components/application/applications-controller.js"></script>
-        <script src="app/components/application/manage-application-controller.js"></script>
+    <script src="app/components/application/application-module.js"></script>
+    <script src="app/components/application/applications-controller.js"></script>
+    <script src="app/components/application/manage-application-controller.js"></script>
+    <script src="app/components/application/manage-application-authentication-controller.js"></script>
 
-        <script src="app/components/page/page-module.js"></script>
-        <script src="app/components/page/pages-controller.js"></script>
-        <script src="app/components/page/manage-page-controller.js"></script>
+    <script src="app/components/page/page-module.js"></script>
+    <script src="app/components/page/pages-controller.js"></script>
+    <script src="app/components/page/manage-page-controller.js"></script>
 
-        <script src="app/components/template/template-module.js"></script>
-        <script src="app/components/template/themes-controller.js"></script>
-        <script src="app/components/template/templates-controller.js"></script>
+    <script src="app/components/template/template-module.js"></script>
+    <script src="app/components/template/themes-controller.js"></script>
+    <script src="app/components/template/templates-controller.js"></script>
 
-        <script src="app/components/auth/auth-module.js"></script>
-        <script src="app/components/auth/login-controller.js"></script>
-        <script src="app/components/auth/logout-controller.js"></script>
+    <script src="app/components/auth/auth-module.js"></script>
+    <script src="app/components/auth/login-controller.js"></script>
+    <script src="app/components/auth/logout-controller.js"></script>
 
-        <script src="app/components/workspace/workspace-module.js"></script>
-        <script src="app/components/workspace/workspaces-controller.js"></script>
-        <script src="app/components/workspace/manage-workspace-controller.js"></script>
+    <script src="app/components/workspace/workspace-module.js"></script>
+    <script src="app/components/workspace/workspaces-controller.js"></script>
+    <script src="app/components/workspace/manage-workspace-controller.js"></script>
 
-        <script src="app/components/user/user-module.js"></script>
-        <script src="app/components/user/users-controller.js"></script>
-        <script src="app/components/user/manage-user-controller.js"></script>
+    <script src="app/components/user/user-module.js"></script>
+    <script src="app/components/user/users-controller.js"></script>
+    <script src="app/components/user/manage-user-controller.js"></script>
 
-        <script src="app/components/navigation/navigation-module.js"></script>
-        <script src="app/components/navigation/navigations-controller.js"></script>
-        <script src="app/components/navigation/navigation-items-controller.js"></script>
-        <script src="app/components/navigation/manage-navigation-controller.js"></script>
-        <script src="app/components/navigation/manage-navigation-item-controller.js"></script>
+    <script src="app/components/navigation/navigation-module.js"></script>
+    <script src="app/components/navigation/navigations-controller.js"></script>
+    <script src="app/components/navigation/navigation-items-controller.js"></script>
+    <script src="app/components/navigation/manage-navigation-controller.js"></script>
+    <script src="app/components/navigation/manage-navigation-item-controller.js"></script>
 
-        <script src="app/components/region/region-module.js"></script>
-        <script src="app/components/region/regions-controller.js"></script>
-        <script src="app/components/region/manage-html-region-controller.js"></script>
-        <script src="app/components/region/manage-navigation-region-controller.js"></script>
-        <script src="app/components/region/manage-report-region-controller.js"></script>
-        <script src="app/components/region/manage-form-region-controller.js"></script>
-    </head>
-    <body ng-view class="ng-cloak">
-    </body>
+    <script src="app/components/region/region-module.js"></script>
+    <script src="app/components/region/regions-controller.js"></script>
+    <script src="app/components/region/manage-html-region-controller.js"></script>
+    <script src="app/components/region/manage-navigation-region-controller.js"></script>
+    <script src="app/components/region/manage-report-region-controller.js"></script>
+    <script src="app/components/region/manage-form-region-controller.js"></script>
+  </head>
+  <body ng-view class="ng-cloak">
+  </body>
 </html>

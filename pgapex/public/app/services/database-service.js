@@ -8,11 +8,11 @@
   }
 
   DatabaseService.prototype.getDatabases = function () {
-    return this.apiService.get('api/database/databases.json');
+    return this.apiService.get('database/databases');
   };
 
-  DatabaseService.prototype.getAuthenticationFunctions = function () {
-    return this.apiService.get('api/database/boolean-functions-with-two-string-parameters.json');
+  DatabaseService.prototype.getAuthenticationFunctions = function (applicationId) {
+    return this.apiService.get('database/authentication-functions/' + applicationId);
   };
 
   DatabaseService.prototype.getViewsWithColumns = function (applicationId) {

@@ -8,7 +8,7 @@
 
   function routeProviderConfig ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
-    .otherwise({ redirectTo: '/login' });
+    .otherwise({ redirectTo: '/application-builder/applications' });
 
     var interceptor = ['$location', '$q', function($location, $q) {
       return {

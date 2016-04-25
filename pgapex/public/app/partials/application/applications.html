@@ -15,14 +15,17 @@
       </thead>
       <tbody>
         <tr ng-repeat="application in applications">
-          <td><a ng-href="#/application-builder/app/{{application.id}}/pages">{{application.name}}</a></td>
+          <td><a ng-href="#/application-builder/app/{{application.id}}/pages">{{application.attributes.name}}</a></td>
           <td class="text-right">
             <button class="btn btn-sm btn-default" ng-click="runApplication(application.id)" title="{{'application.run'|translate}}">
               <span>{{'application.run'|translate}}</span>
             </button>
-            <a ng-href="#/application-builder/applications/{{application.id}}/edit" class="btn btn-sm btn-success" title="{{'application.edit'|translate}}">
-              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </a>
+              <a ng-href="#/application-builder/applications/{{application.id}}/edit" class="btn btn-sm btn-success" title="{{'application.edit'|translate}}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              </a>
+              <a ng-href="#/application-builder/applications/{{application.id}}/authentication" class="btn btn-sm btn-info" title="{{'application.authentication'|translate}}">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+              </a>
             <button ng-click="deleteApplication(application.id)"  class="btn btn-sm btn-danger" title="{{'application.delete'|translate}}">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>

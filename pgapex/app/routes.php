@@ -10,10 +10,22 @@ $app->any('/', function (Request $request, Response $response) {
 });
 
 $app->group('/api', function () {
-  $this->post('/auth/login', '\App\Http\Controllers\Auth:login');
+  $this->post('/auth/login', '\App\Http\Controllers\AuthController:login');
 
   $this->group('', function () {
-    $this->get('/auth/logout', '\App\Http\Controllers\Auth:logout');
+    $this->get('/auth/logout', '\App\Http\Controllers\AuthController:logout');
+
+    $this->get('/application/applications', '\App\Http\Controllers\ApplicationController:getApplications');
+    $this->get('/application/applications/{id}', '\App\Http\Controllers\ApplicationController:getApplication');
+    $this->post('/application/applications/{id}/delete', '\App\Http\Controllers\ApplicationController:deleteApplication');
+    $this->post('/application/save', '\App\Http\Controllers\ApplicationController:saveApplication');
+    $this->post('/application/applications/authentication/save', '\App\Http\Controllers\ApplicationController:saveApplicationAuthentication');
+    $this->get('/application/applications/{id}/authentication', '\App\Http\Controllers\ApplicationController:getApplicationAuthentication');
+
+    $this->get('/database/databases', '\App\Http\Controllers\DatabaseController:getDatabases');
+    $this->get('/database/authentication-functions/{applicationId}', '\App\Http\Controllers\DatabaseController:getAuthenticationFunctions');
+
+    $this->get('/template/login-templates', '\App\Http\Controllers\TemplateController:getLoginTemplates');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

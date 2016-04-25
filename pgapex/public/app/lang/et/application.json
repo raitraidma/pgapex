@@ -29,6 +29,11 @@
     "showPassword": "Näita parooli",
     "hidePassword": "Peida parool",
     "loginPageTemplate": "Sisse logimise lehe mall",
-    "loginPageTemplateIsMandatory": "Sisse logimise lehe mall on kohustuslik."
+    "loginPageTemplateIsMandatory": "Sisse logimise lehe mall on kohustuslik.",
+    "applicationAliasMustContainCharacters": "Alias peab sisaldama tähemärki.",
+    "usernameAndPasswordDoNotMatch": "Kasutajanimi ja parool ei ühti.",
+    "couldNotCreateAnApplication": "Rakenduse loomine ebaõnnestus.",
+    "authentication": "Autentimine",
+    "editApplicationAuthentication": "Muuda rakenduse autentimist"
   }
 }

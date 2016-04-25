@@ -1,0 +1,51 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+
+<div class="container">
+  <h2>{{'application.editApplicationAuthentication'|translate}}</h2>
+  <form name="manageApplicationForm" class="form-horizontal" ng-submit="saveApplicationAuthentication()" novalidate>
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.authenticationScheme, 'authenticationScheme')}">
+      <label for="authenticationScheme" class="col-sm-3 control-label">{{'application.authenticationScheme'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="authenticationScheme" id="authenticationScheme" ng-model="application.authenticationScheme" required>
+          <option value="NO_AUTHENTICATION">{{'application.authenticationSchemeNoAuthentication'|translate}}</option>
+          <option value="USER_FUNCTION">{{'application.authenticationSchemeUserFunction'|translate}}</option>
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.authenticationScheme, 'authenticationScheme')">
+          <span ng-show="manageApplicationForm.authenticationScheme.$error.required" class="help-block">{{'application.authenticationSchemeIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('authenticationScheme')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-show="application.authenticationScheme == 'USER_FUNCTION'" ng-class="{'has-error': formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')}">
+      <label for="authenticationFunction" class="col-sm-3 control-label">{{'application.authenticationFunction'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" name="authenticationFunction" id="authenticationFunction" ng-model="application.authenticationFunction" ng-required="application.authenticationScheme == 'USER_FUNCTION'"
+                ng-options="authenticationFunction as (authenticationFunction.schema + '.' + authenticationFunction.function) for authenticationFunction in authenticationFunctions | filter:{database: application.database} track by trackAuthenticationFunction(authenticationFunction)">
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.authenticationFunction, 'authenticationFunction')">
+          <span ng-show="manageApplicationForm.authenticationFunction.$error.required" class="help-block">{{'application.authenticationFunctionIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('authenticationFunction')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-show="application.authenticationScheme == 'USER_FUNCTION'" ng-class="{'has-error': formError.showErrors(manageApplicationForm.loginPageTemplate, 'loginPageTemplate')}">
+      <label for="loginPageTemplate" class="col-sm-3 control-label">{{'application.loginPageTemplate'|translate}} *</label>
+      <div class="col-sm-9">
+        <select class="form-control" ng-model="application.loginPageTemplate" name="loginPageTemplate" id="loginPageTemplate" ng-required="application.authenticationScheme == 'USER_FUNCTION'"
+                ng-options="template.id as template.attributes.name for template in loginPageTemplates">
+        </select>
+        <div ng-show="formError.showErrors(manageApplicationForm.loginPageTemplate, 'loginPageTemplate')">
+          <span ng-show="manageApplicationForm.loginPageTemplate.$error.required" class="help-block">{{'application.loginPageTemplateIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('loginPageTemplate')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageApplicationForm.$invalid">
+          <span>{{'application.editApplicationAuthentication'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>  

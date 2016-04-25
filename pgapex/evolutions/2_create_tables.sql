@@ -127,29 +127,30 @@ CREATE TABLE pgapex.navigation_template (
 CREATE TABLE pgapex.session (
 	session_ID INTEGER NOT NULL,
 	application_ID INTEGER NOT NULL,
-	data JSONB NOT NULL,
+	data TEXT NOT NULL,
 	expiration_time TIMESTAMP NOT NULL,
 	CONSTRAINT pk_session PRIMARY KEY (session_ID)
 	);
 CREATE INDEX idx_session_expiration_time ON pgapex.session (expiration_time );
 CREATE INDEX idx_session_application_id ON pgapex.session (application_ID );
 CREATE TABLE pgapex.application (
-	application_ID INTEGER NOT NULL,
-	authentication_scheme_ID VARCHAR ( 30 ) NOT NULL,
-	login_page_template_ID INTEGER NOT NULL,
+	application_ID SERIAL NOT NULL,
+	authentication_scheme_ID VARCHAR ( 30 ) NOT NULL DEFAULT 'NO_AUTHENTICATION',
+	login_page_template_ID INTEGER,
 	database_name VARCHAR ( 64 ) NOT NULL,
 	authentication_function_name VARCHAR ( 64 ),
 	authentication_function_schema_name VARCHAR ( 64 ),
 	name VARCHAR ( 60 ) NOT NULL,
 	alias VARCHAR ( 30 ),
 	database_username VARCHAR ( 64 ) NOT NULL,
-	databse_password VARCHAR ( 64 ) NOT NULL,
+	database_password VARCHAR ( 64 ) NOT NULL,
 	CONSTRAINT uq_application_alias UNIQUE (alias),
 	CONSTRAINT pk_application PRIMARY KEY (application_ID),
 	CONSTRAINT chk_application_authentication_scheme_requires_function CHECK ((authentication_scheme_id = 'NO_AUTHENTICATION' AND authentication_function_name IS NULL) OR (authentication_scheme_id <> 'NO_AUTHENTICATION' AND authentication_function_name IS NOT NULL)),
 	CONSTRAINT chk_application_authentication_function_name_and_schema_coexist CHECK ((authentication_function_name IS NULL AND authentication_function_schema_name IS NULL) OR
 (authentication_function_name IS NOT NULL AND authentication_function_schema_name IS NOT NULL)),
-	CONSTRAINT chk_application_authentication_function_requires_login_template CHECK ((authentication_scheme_id = 'NO_AUTHENTICATION' AND login_page_template_id IS NULL) OR (authentication_scheme_id <> 'NO_AUTHENTICATION' AND login_page_template_id IS NOT NULL))
+	CONSTRAINT chk_application_authentication_function_requires_login_template CHECK ((authentication_scheme_id = 'NO_AUTHENTICATION' AND login_page_template_id IS NULL) OR (authentication_scheme_id <> 'NO_AUTHENTICATION' AND login_page_template_id IS NOT NULL)),
+	CONSTRAINT chk_application_alias_must_contain_char CHECK ((alias IS NULL) OR ((alias ~* '.*[a-z].*') AND (alias ~* '^\w*$')))
 	);
 CREATE INDEX idx_application_authentication_function_name ON pgapex.application (authentication_function_name );
 CREATE INDEX idx_application_authentication_function_schema_name ON pgapex.application (authentication_function_schema_name );
@@ -287,9 +288,8 @@ CREATE TABLE pgapex.database (
 	CONSTRAINT PK_database121 PRIMARY KEY (database_ID)
 	);
 CREATE TABLE pgapex.navigation_type (
-	navigation_type VARCHAR ( 255 ) NOT NULL,
-	navigation_type_ID INTEGER NOT NULL,
-	CONSTRAINT PK_navigation_type107 PRIMARY KEY (navigation_type_ID)
+	navigation_type_ID VARCHAR ( 10 ) NOT NULL,
+	CONSTRAINT pk_navigation_type PRIMARY KEY (navigation_type_ID)
 	);
 CREATE TABLE pgapex.field_type (
 	field_type_ID VARCHAR ( 10 ) NOT NULL,
@@ -357,7 +357,7 @@ CREATE INDEX idx_page_application_id ON pgapex.page (application_ID );
 CREATE INDEX idx_page_template_id ON pgapex.page (template_ID );
 CREATE TABLE pgapex.navigation_region (
 	region_ID INTEGER NOT NULL,
-	navigation_type_ID INTEGER NOT NULL,
+	navigation_type_ID VARCHAR ( 10 ) NOT NULL,
 	navigation_ID INTEGER NOT NULL,
 	template_ID INTEGER NOT NULL,
 	repeat_last_level BOOLEAN DEFAULT TRUE NOT NULL,

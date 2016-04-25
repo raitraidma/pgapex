@@ -8,35 +8,50 @@
   }
 
   ApplicationService.prototype.getApplications = function () {
-    return this.apiService.get('api/application/applications.json');
+    return this.apiService.get('application/applications');
   };
 
   ApplicationService.prototype.getApplication = function (applicationId) {
-    return this.apiService.get('api/application/application.json', {"id": applicationId});
+    return this.apiService.get('application/applications/' + applicationId);
+  };
+
+  ApplicationService.prototype.getApplicationAuthentication = function (applicationId) {
+    return this.apiService.get('application/applications/' + applicationId + '/authentication');
   };
 
   ApplicationService.prototype.deleteApplication = function (applicationId) {
-    return this.apiService.post('api/application/delete-application.json', {"applicationId": applicationId});
+    return this.apiService.post('application/applications/' + applicationId + '/delete');
   };
 
   ApplicationService.prototype.saveApplication =
-    function (applicationId, name, alias, database, authenticationScheme, authenticationFunction, loginPageTemplate, databaseUsername, databasePassword) {
-      var postData = {
+    function (applicationId, name, alias, database, databaseUsername, databasePassword) {
+      var attributes = {
         "id" : applicationId,
         "name" : name,
         "alias": alias,
         "database": database,
-        "authenticationScheme": authenticationScheme,
-        "authenticationFunction": authenticationFunction,
-        "loginPageTemplate": loginPageTemplate,
         "databaseUsername": databaseUsername,
         "databasePassword": databasePassword
       };
-      if (name === 'fail') {
-        return this.apiService.post('api/application/save-application-fail.json', postData);
-      }
-      return this.apiService.post('api/application/save-application-ok.json', postData);
+      var request = this.apiService.createApiRequest()
+        .setAttributes(attributes)
+        .getRequest();
+      return this.apiService.post('application/save', request);
   };
+
+  ApplicationService.prototype.saveApplicationAuthentication =
+    function (applicationId, authenticationScheme, authenticationFunction, loginPageTemplate) {
+      var attributes = {
+        "id" : applicationId,
+        "authenticationScheme" : authenticationScheme,
+        "authenticationFunction": authenticationFunction,
+        "loginPageTemplate": loginPageTemplate
+      };
+      var request = this.apiService.createApiRequest()
+        .setAttributes(attributes)
+        .getRequest();
+      return this.apiService.post('application/applications/authentication/save', request);
+    };
 
   function init() {
     module.service('applicationService', ['apiService', ApplicationService]);

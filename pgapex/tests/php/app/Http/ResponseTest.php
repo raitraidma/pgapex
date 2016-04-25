@@ -6,22 +6,10 @@ use App\Http\Response;
 
 class ResponseTest extends \TestCase
 {
-  public function testSetApiAttributes() {
+  public function testSetApiData() {
     $response = new Response();
-    $response->setApiAttributes('api-attributes');
-    $this->assertEquals('api-attributes', $this->getObjectProperty($response, 'attributes'));
-  }
-
-  public function testSetApiId() {
-    $response = new Response();
-    $response->setApiId('api-id');
-    $this->assertEquals('api-id', $this->getObjectProperty($response, 'id'));
-  }
-
-  public function testSetApiType() {
-    $response = new Response();
-    $response->setApiType('api-type');
-    $this->assertEquals('api-type', $this->getObjectProperty($response, 'type'));
+    $response->setApiData('api-data');
+    $this->assertEquals('api-data', $this->getObjectProperty($response, 'data'));
   }
 
   public function testAddApiError() {
@@ -61,9 +49,7 @@ class ResponseTest extends \TestCase
 
   public function testCreateApiResponseWithErrors() {
     $response = new Response();
-    $response->setApiId('api-id');
-    $response->setApiType('api-type');
-    $response->setApiAttributes('api-attributes');
+    $response->setApiData('api-data');
 
     $response->addApiError('error-msg1');
     $response->addApiErrorWithPointer('error-msg2', 'source-pointer2');
@@ -79,16 +65,12 @@ class ResponseTest extends \TestCase
 
   public function testCreateApiResponseWithData() {
     $response = new Response();
-    $response->setApiId('api-id');
-    $response->setApiType('api-type');
-    $response->setApiAttributes('api-attributes');
+    $response->setApiData('api-data');
 
     $apiResponse = $this->invokeObjectMethod($response, 'createApiResponse');
 
     $this->assertEquals('OK', $apiResponse['meta']['status']);
     $this->assertEquals(200, $apiResponse['meta']['code']);
-    $this->assertEquals('api-id', $apiResponse['data']['id']);
-    $this->assertEquals('api-type', $apiResponse['data']['type']);
-    $this->assertEquals('api-attributes', $apiResponse['data']['attributes']);
+    $this->assertEquals('api-data', $apiResponse['data']);
   }
 }

@@ -5,24 +5,17 @@ namespace App\Http;
 use Slim\Http\Response as SlimResponse;
 
 class Response extends SlimResponse {
-  private $id = null;
-  private $type = null;
-  private $attributes = null;
+  private $data = null;
   private $errors = [];
   private $statusCode = null;
 
-  public function setApiAttributes($attributes) {
-    $this->attributes = $attributes;
+  public function setApiData($data) {
+    $this->data = $data;
     return $this;
   }
 
-  public function setApiId($id) {
-    $this->id = $id;
-    return $this;
-  }
-
-  public function setApiType($type) {
-    $this->type = $type;
+  public function setApiDataAsJson($data) {
+    $this->data = json_decode($data, true);
     return $this;
   }
 
@@ -58,9 +51,7 @@ class Response extends SlimResponse {
     $response['meta']['code'] = $code;
 
     if (empty($this->errors)) {
-      $response['data']['id'] = $this->id;
-      $response['data']['type'] = $this->type;
-      $response['data']['attributes'] = $this->attributes;
+      $response['data'] = $this->data;
     } else {
       $response['errors'] = $this->errors;
     }

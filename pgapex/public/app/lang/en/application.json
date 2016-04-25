@@ -29,6 +29,11 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "loginPageTemplate": "Login page template",
-    "loginPageTemplateIsMandatory": "Login page template is mandatory."
+    "loginPageTemplateIsMandatory": "Login page template is mandatory.",
+    "applicationAliasMustContainCharacters": "Application alias must contain characters.",
+    "usernameAndPasswordDoNotMatch": "Username and password do not match.",
+    "couldNotCreateAnApplication": "Could not create an application.",
+    "authentication": "Authentication",
+    "editApplicationAuthentication": "Edit application authentication"
   }
 }

@@ -29,7 +29,7 @@
 
   ApplicationsController.prototype.loadApplications = function() {
     this.applicationService.getApplications().then(function (response) {
-      this.$scope.allApplications = response.getDataOrDefault([]);
+      this.$scope.allApplications = response.getDataOrDefault({'attributes':[]});
       this.selectVisibleApplications();
     }.bind(this));
   };

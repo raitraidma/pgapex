@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Auth;
+
 class Authentication implements Service {
   private $session;
   private $database;
@@ -13,16 +15,12 @@ class Authentication implements Service {
   }
 
   public function isLoggedIn() {
-    $this->session->get(self::IS_LOGGED_IN, false);
+    return $this->session->get(self::IS_LOGGED_IN, false);
   }
 
   public function login($username, $password) {
-    $connection = $this->database->getConnection();
-    $statement = $connection->prepare('SELECT pgapex.f_is_superuser(:username, :password)');
-    $statement->bindParam(':username', $username);
-    $statement->bindParam(':password', $password);
-    $statement->execute();
-    if($statement->fetchColumn() === true) {
+    $auth = new Auth($this->database);
+    if($auth->isSuperuser($username, $password)) {
       $this->session->set(self::IS_LOGGED_IN, true);
       return true;
     }

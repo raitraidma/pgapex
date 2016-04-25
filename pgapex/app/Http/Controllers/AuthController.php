@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Services\Validators\Auth\LoginValidator;
 
-class Auth extends Controller {
+class AuthController extends Controller {
   public function __construct(ContainerInterface $container) {
     parent::__construct($container);
   }
@@ -18,7 +18,7 @@ class Auth extends Controller {
     if (!$validator->hasErrors()) {
       $username = $request->getApiAttribute('username');
       $password = $request->getApiAttribute('password');
-      if(!$this->getContainer()->get('auth')->login($username, $password)) {
+      if(!$this->getAuth()->login($username, $password)) {
         $validator->addError('auth.wrongUsernameOrPassword', '/data/attributes/username');
       }
     }
@@ -29,6 +29,11 @@ class Auth extends Controller {
   }
 
   public function logout(Request $request, Response $response) {
+    $this->getAuth()->logout();
     return $response->getApiResponse();
+  }
+
+  private function getAuth() {
+    return $this->getContainer()->get('auth');
   }
 }

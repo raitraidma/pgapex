@@ -19,7 +19,7 @@ SELECT DISTINCT
 , i.schema_name
 FROM
   pgapex.application a
-, pgapex.f_get_schema_meta_info(a.database_name, a.database_username, a.databse_password) i;
+, pgapex.f_get_schema_meta_info(a.database_name, a.database_username, a.database_password) i;
 
 
 CREATE MATERIALIZED VIEW pgapex.view AS
@@ -29,7 +29,7 @@ SELECT DISTINCT
 , i.view_name
 FROM
   pgapex.application a
-, pgapex.f_get_view_meta_info(a.database_name, a.database_username, a.databse_password) i;
+, pgapex.f_get_view_meta_info(a.database_name, a.database_username, a.database_password) i;
 
 
 CREATE MATERIALIZED VIEW pgapex.view_column AS
@@ -41,7 +41,7 @@ SELECT DISTINCT
 , i.column_type
 FROM
   pgapex.application a
-, pgapex.f_get_view_column_meta_info(a.database_name, a.database_username, a.databse_password) i;
+, pgapex.f_get_view_column_meta_info(a.database_name, a.database_username, a.database_password) i;
 
 
 CREATE MATERIALIZED VIEW pgapex.function AS
@@ -52,7 +52,7 @@ SELECT DISTINCT
 , i.return_type
 FROM
   pgapex.application a
-, pgapex.f_get_function_meta_info(a.database_name, a.database_username, a.databse_password) i;
+, pgapex.f_get_function_meta_info(a.database_name, a.database_username, a.database_password) i;
 
 
 CREATE MATERIALIZED VIEW pgapex.parameter AS
@@ -65,7 +65,7 @@ SELECT DISTINCT
 , i.parameter_type
 FROM
   pgapex.application a
-, pgapex.f_get_function_parameter_meta_info(a.database_name, a.database_username, a.databse_password) i;
+, pgapex.f_get_function_parameter_meta_info(a.database_name, a.database_username, a.database_password) i;
 
 
 CREATE MATERIALIZED VIEW pgapex.data_type (
