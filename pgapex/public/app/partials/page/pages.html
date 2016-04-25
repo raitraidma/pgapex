@@ -21,10 +21,10 @@
       <tbody>
         <tr ng-repeat="page in pages">
           <td>{{page.id}}</td>
-          <td>{{page.alias}}</td>
-          <td>{{page.title}}</td>
-          <td><span ng-show="page.isHomepage" title="{{'page.isHomepage'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
-          <td><span ng-show="page.isAuthenticationRequired" title="{{'page.isAuthenticationRequired'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
+          <td>{{page.attributes.alias}}</td>
+          <td>{{page.attributes.title}}</td>
+          <td><span ng-show="page.attributes.isHomepage" title="{{'page.isHomepage'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
+          <td><span ng-show="page.attributes.isAuthenticationRequired" title="{{'page.isAuthenticationRequired'|translate}}" class="glyphicon glyphicon-ok" aria-hidden="true"></td>
           <td class="text-right">
             <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/pages/{{page.id}}/regions" class="btn btn-sm btn-info" title="{{'page.regions'|translate}}">
               <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>

@@ -42,7 +42,7 @@
   };
 
   ManageApplicationController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
 
   ManageApplicationController.prototype.initDatabases = function() {
@@ -62,7 +62,7 @@
     this.applicationService.saveApplication(
       this.getApplicationId(),
       this.$scope.application.name,
-      this.$scope.application.alias,
+      this.$scope.application.alias || null,
       this.$scope.application.database,
       this.$scope.application.databaseUsername,
       this.$scope.application.databasePassword

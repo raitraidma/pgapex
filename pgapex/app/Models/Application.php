@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Request;
+use PDO;
 
 class Application extends Model {
   public function getApplications() {
@@ -13,21 +14,14 @@ class Application extends Model {
   }
 
   public function saveApplication(Request $request) {
-    $id = $request->getApiAttribute('id');
-    $name = $request->getApiAttribute('name');
-    $alias = $request->getApiAttribute('alias');
-    $database = $request->getApiAttribute('database');
-    $databaseUsername = $request->getApiAttribute('databaseUsername');
-    $databasePassword = $request->getApiAttribute('databasePassword');
-
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_application_save_application(:id, :name, :alias, :database, :databaseUsername, :databasePassword)');
-    $statement->bindParam(':id', $id);
-    $statement->bindParam(':name', $name);
-    $statement->bindParam(':alias', $alias);
-    $statement->bindParam(':database', $database);
-    $statement->bindParam(':databaseUsername', $databaseUsername);
-    $statement->bindParam(':databasePassword', $databasePassword);
+    $statement->bindValue(':id',               $request->getApiAttribute('id'),               PDO::PARAM_INT);
+    $statement->bindValue(':name',             $request->getApiAttribute('name'),             PDO::PARAM_STR);
+    $statement->bindValue(':alias',            $request->getApiAttribute('alias'),            PDO::PARAM_STR);
+    $statement->bindValue(':database',         $request->getApiAttribute('database'),         PDO::PARAM_STR);
+    $statement->bindValue(':databaseUsername', $request->getApiAttribute('databaseUsername'), PDO::PARAM_STR);
+    $statement->bindValue(':databasePassword', $request->getApiAttribute('databasePassword'), PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchColumn() === true;
   }
@@ -35,7 +29,7 @@ class Application extends Model {
   public function getApplication($id) {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_application_get_application(:id)');
-    $statement->bindParam(':id', $id);
+    $statement->bindValue(':id', $id);
     $statement->execute();
     return $statement->fetchColumn();
   }
@@ -43,33 +37,27 @@ class Application extends Model {
   public function deleteApplication($id) {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_application_delete_application(:id)');
-    $statement->bindParam(':id', $id);
+    $statement->bindValue(':id', $id);
     $statement->execute();
-    return $statement->fetchColumn();
+    return $statement->fetchColumn() === true;
   }
 
   public function getApplicationAuthentication($id) {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_application_get_application_authentication(:id)');
-    $statement->bindParam(':id', $id);
+    $statement->bindValue(':id', $id);
     $statement->execute();
     return $statement->fetchColumn();
   }
 
   public function saveApplicationAuthentication(Request $request) {
-    $id = $request->getApiAttribute('id');
-    $authenticationScheme = $request->getApiAttribute('authenticationScheme');
-    $authenticationFunctionSchema = $request->getApiAttribute('authenticationFunction')['schema'];
-    $authenticationFunction = $request->getApiAttribute('authenticationFunction')['function'];
-    $loginPageTemplate = $request->getApiAttribute('loginPageTemplate');
-
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_application_save_application_authentication(:id, :authScheme, :authFunSchema, :authFun, :loginPageTemplate)');
-    $statement->bindParam(':id', $id);
-    $statement->bindParam(':authScheme', $authenticationScheme);
-    $statement->bindParam(':authFunSchema', $authenticationFunctionSchema);
-    $statement->bindParam(':authFun', $authenticationFunction);
-    $statement->bindParam(':loginPageTemplate', $loginPageTemplate);
+    $statement->bindValue(':id',                $request->getApiAttribute('id'),                                 PDO::PARAM_INT);
+    $statement->bindValue(':authScheme',        $request->getApiAttribute('authenticationScheme'),               PDO::PARAM_STR);
+    $statement->bindValue(':authFunSchema',     $request->getApiAttribute('authenticationFunction')['schema'],   PDO::PARAM_STR);
+    $statement->bindValue(':authFun',           $request->getApiAttribute('authenticationFunction')['function'], PDO::PARAM_STR);
+    $statement->bindValue(':loginPageTemplate', $request->getApiAttribute('loginPageTemplate'),                  PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchColumn() === true;
   }

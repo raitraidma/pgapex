@@ -30,7 +30,7 @@
 
   PagesController.prototype.loadPages = function() {
     this.pageService.getPages(this.getApplicationId()).then(function (response) {
-      this.$scope.allPages = response.hasData() ? response.getData() : [];
+      this.$scope.allPages = response.getDataOrDefault([]);
       this.selectVisiblePages();
     }.bind(this));
   };

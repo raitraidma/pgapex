@@ -22,7 +22,7 @@
   };
 
   TemplateService.prototype.getPageTemplates = function () {
-    return this.apiService.get('api/template/page-templates.json');
+    return this.apiService.get('template/page-templates');
   };
 
   TemplateService.prototype.getRegionTemplates = function () {

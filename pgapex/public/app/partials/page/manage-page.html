@@ -27,7 +27,7 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(managePageForm.template, 'template')}">
       <label for="template" class="col-sm-3 control-label">{{'page.template'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="template" name="template" ng-model="page.template" class="form-control" required ng-options="template.id as template.name for template in templates">
+        <select id="template" name="template" ng-model="page.template" class="form-control" required ng-options="template.id as template.attributes.name for template in templates">
         </select>
         <div ng-show="formError.showErrors(managePageForm.template, 'template')">
           <span ng-show="managePageForm.template.$error.required" class="help-block">{{'page.templateIsMandatory'|translate}}</span>

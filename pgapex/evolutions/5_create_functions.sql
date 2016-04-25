@@ -265,12 +265,13 @@ $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
-
 ------------------------------
 ---------- TEMPLATE ----------
 ------------------------------
 
-CREATE OR REPLACE FUNCTION pgapex.f_template_get_login_templates()
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_page_templates(
+  v_page_type pgapex.page_template.page_type_id%TYPE
+)
 RETURNS json AS $$
   SELECT COALESCE(JSON_AGG(a), '[]')
   FROM (
@@ -282,9 +283,144 @@ RETURNS json AS $$
     ) AS attributes
     FROM pgapex.page_template pt
     LEFT JOIN pgapex.template t ON pt.template_id = t.template_id
-    WHERE pt.page_type_id = 'LOGIN'
+    WHERE pt.page_type_id = v_page_type
     ORDER BY t.name
   ) a
 $$ LANGUAGE sql
   SECURITY DEFINER
   SET search_path = pgapex, public, pg_temp;
+
+--------------------------
+---------- PAGE ----------
+--------------------------
+
+CREATE OR REPLACE FUNCTION pgapex.f_page_get_pages(
+  i_application_id pgapex.page.application_id%TYPE
+)
+RETURNS json AS $$
+  SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      page_id AS id
+    , 'page' AS type
+    , json_build_object(
+        'title', title
+      , 'alias', alias
+      , 'isHomepage', is_homepage
+      , 'isAuthenticationRequired', is_authentication_required
+    ) AS attributes
+    FROM pgapex.page
+    WHERE application_id = i_application_id
+    ORDER BY title, alias
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_page_save_page(
+  i_page_id                    pgapex.page.page_id%TYPE
+, i_application_id             pgapex.page.application_id%TYPE
+, i_template_id                pgapex.page.template_id%TYPE
+, v_title                      pgapex.page.title%TYPE
+, v_alias                      pgapex.page.alias%TYPE
+, b_is_homepage                pgapex.page.is_homepage%TYPE
+, b_is_authentication_required pgapex.page.is_authentication_required%TYPE
+)
+RETURNS boolean AS $$
+DECLARE
+  b_homepage_exists BOOLEAN;
+BEGIN
+  IF (v_alias ~* '.*[a-z].*') = FALSE OR (v_alias ~* '^\w*$') = FALSE THEN
+    RAISE EXCEPTION 'Page alias must contain characters (included underscore) and may contain numbers.';
+  END IF;
+  IF b_is_homepage THEN
+    UPDATE pgapex.page
+    SET is_homepage = FALSE
+    WHERE application_id = i_application_id;
+  ELSE
+    SELECT count(1) > 0 INTO b_homepage_exists
+    FROM pgapex.page
+    WHERE application_id = i_application_id
+      AND is_homepage = TRUE
+      AND page_id <> i_page_id;
+    IF b_homepage_exists = FALSE THEN
+      b_is_homepage = TRUE;
+    END IF;
+  END IF;
+  IF i_page_id IS NULL THEN
+    INSERT INTO pgapex.page (application_id, template_id, title, alias, is_homepage, is_authentication_required)
+    VALUES (i_application_id, i_template_id, v_title, v_alias, b_is_homepage, b_is_authentication_required);
+  ELSE
+    UPDATE pgapex.page
+    SET application_id = i_application_id
+    ,   template_id = i_template_id
+    ,   title = v_title
+    ,   alias = v_alias
+    ,   is_homepage = b_is_homepage
+    ,   is_authentication_required = b_is_authentication_required
+    WHERE page_id = i_page_id;
+  END IF;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_page_get_page(
+  i_page_id    pgapex.page.page_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT
+  json_build_object(
+    'id', application_id
+  , 'type', 'page'
+  , 'attributes', json_build_object(
+      'title', title
+    , 'alias', alias
+    , 'template', template_id
+    , 'isHomepage', is_homepage
+    , 'isAuthenticationRequired', is_authentication_required
+    )
+  )
+  FROM pgapex.page
+  WHERE page_id = i_page_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_page_delete_page(
+  i_page_id pgapex.page.page_id%TYPE
+)
+RETURNS boolean AS $$
+DECLARE
+  b_homepage_exists BOOLEAN;
+  i_application_id INT;
+BEGIN
+  SELECT application_id INTO i_application_id
+  FROM pgapex.page WHERE page_id = i_page_id;
+
+  DELETE FROM pgapex.page WHERE page_id = i_page_id;
+
+  SELECT count(1) > 0 INTO b_homepage_exists
+  FROM pgapex.page
+  WHERE application_id = i_application_id
+        AND is_homepage = TRUE;
+
+  IF b_homepage_exists = FALSE THEN
+    UPDATE pgapex.page
+    SET is_homepage = TRUE
+    WHERE page_id = (
+      SELECT page_id FROM pgapex.page ORDER BY is_authentication_required ASC LIMIT 1
+    );
+  END IF;
+  RETURN TRUE;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

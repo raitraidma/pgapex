@@ -28,8 +28,7 @@ describe("pgApexApp.page.PagesController", function() {
 
     function prepareMockData() {
       response = {
-        "hasData": function() {},
-        "getData": function() { return "page-data"; }
+        "getDataOrDefault": function() { return 'page-data'; }
       };
 
       injections = {
@@ -40,19 +39,10 @@ describe("pgApexApp.page.PagesController", function() {
     }
 
     it("should populate $scope.pages with data when data exists", function() {
-      spyOn(response, "hasData").and.returnValue(true);
       deferred.resolve(response);
       $rootScope.$apply(); 
       expect(injections.$scope.pages).toEqual("page-data");
       expect(injections.$scope.routeParams.applicationId).toEqual(123);
-    });
-
-    it("should populate $scope.pages with an empty array when data is missing", function() {
-      spyOn(response, "hasData").and.returnValue(false);
-      deferred.resolve(response);
-      $rootScope.$apply(); 
-      expect(injections.$scope.pages).toEqual([]);
-      expect(injections.$scope.routeParams.applicationId).toEqual(123); 
     });
   });
 });

@@ -37,5 +37,10 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_database_object_get_databases()
 , pgapex.f_database_object_get_authentication_functions(pgapex.application.application_id%TYPE)
 -- TEMPLATE --
-, pgapex.f_template_get_login_templates()
+, pgapex.f_template_get_page_templates(pgapex.page_template.page_type_id%TYPE)
+-- PAGE --
+, pgapex.f_page_get_pages(pgapex.page.application_id%TYPE)
+, pgapex.f_page_save_page(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.template_id%TYPE, pgapex.page.title%TYPE, pgapex.page.alias%TYPE, pgapex.page.is_homepage%TYPE, pgapex.page.is_authentication_required%TYPE)
+, pgapex.f_page_get_page(pgapex.page.page_id%TYPE)
+, pgapex.f_page_delete_page(pgapex.page.page_id%TYPE)
 TO :DB_APP_USER;

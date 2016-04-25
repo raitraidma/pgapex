@@ -42,11 +42,11 @@
   };
 
   ManagePageController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
   
   ManagePageController.prototype.getPageId = function() {
-    return this.$routeParams.pageId || null;
+    return this.$routeParams.pageId ? parseInt(this.$routeParams.pageId) : null;
   };
 
   ManagePageController.prototype.savePage = function() {
@@ -54,7 +54,7 @@
       this.getApplicationId(),
       this.getPageId(),
       this.$scope.page.title,
-      this.$scope.page.alias,
+      this.$scope.page.alias || null,
       this.$scope.page.template,
       this.$scope.page.isHomepage || false,
       this.$scope.page.isAuthenticationRequired || false
@@ -73,7 +73,7 @@
   ManagePageController.prototype.loadPage = function() {
     if (!this.isEditPage()) { return; }
     this.pageService.getPage(this.getPageId()).then(function (response) {
-      this.$scope.page = response.getDataOrDefault({});
+      this.$scope.page = response.getDataOrDefault({'attributes': {}}).attributes;
     }.bind(this));
   };
 

@@ -343,15 +343,15 @@ CREATE TABLE pgapex.region_template (
 	CONSTRAINT pk_region_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.page (
-	page_ID INTEGER NOT NULL,
+	page_ID SERIAL NOT NULL,
 	application_ID INTEGER NOT NULL,
 	template_ID INTEGER NOT NULL,
 	title VARCHAR ( 60 ) NOT NULL,
 	alias VARCHAR ( 60 ),
 	is_homepage BOOLEAN DEFAULT FALSE NOT NULL,
-	is_autentication_required BOOLEAN DEFAULT FALSE NOT NULL,
+	is_authentication_required BOOLEAN DEFAULT FALSE NOT NULL,
 	CONSTRAINT pk_page PRIMARY KEY (page_ID),
-	CONSTRAINT uq_page_application_id_alias UNIQUE (is_autentication_required)
+	CONSTRAINT uq_page_application_id_alias UNIQUE (application_ID, alias)
 	);
 CREATE INDEX idx_page_application_id ON pgapex.page (application_ID );
 CREATE INDEX idx_page_template_id ON pgapex.page (template_ID );
@@ -441,7 +441,7 @@ ALTER TABLE pgapex.report_column ADD CONSTRAINT fk_report_column_region_id FOREI
 ALTER TABLE pgapex.page_template_display_point ADD CONSTRAINT fk_page_template_display_point_diplay_point_id FOREIGN KEY (display_point_ID) REFERENCES pgapex.display_point (display_point_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_template_display_point ADD CONSTRAINT fk_page_template_display_point_page_template_id FOREIGN KEY (page_template_ID) REFERENCES pgapex.page_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page ADD CONSTRAINT fk_page_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.page_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE pgapex.page ADD CONSTRAINT fk_page_application_id FOREIGN KEY (application_ID) REFERENCES pgapex.application (application_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.page ADD CONSTRAINT fk_page_application_id FOREIGN KEY (application_ID) REFERENCES pgapex.application (application_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.textarea_template ADD CONSTRAINT fk_textarea_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.html_region ADD CONSTRAINT fk_html_region_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.region (region_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.region ADD CONSTRAINT fk_region_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.region_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;

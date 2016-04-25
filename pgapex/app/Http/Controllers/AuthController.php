@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use App\Http\Request;
+use App\Http\Response;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Services\Validators\Auth\LoginValidator;
 

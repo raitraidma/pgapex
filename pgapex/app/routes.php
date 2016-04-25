@@ -26,6 +26,12 @@ $app->group('/api', function () {
     $this->get('/database/authentication-functions/{applicationId}', '\App\Http\Controllers\DatabaseController:getAuthenticationFunctions');
 
     $this->get('/template/login-templates', '\App\Http\Controllers\TemplateController:getLoginTemplates');
+    $this->get('/template/page-templates', '\App\Http\Controllers\TemplateController:getPageTemplates');
+
+    $this->get('/page/pages/{applicationId}', '\App\Http\Controllers\PageController:getPages');
+    $this->post('/page/page/save', '\App\Http\Controllers\PageController:savePage');
+    $this->get('/page/page/{id}', '\App\Http\Controllers\PageController:getPage');
+    $this->post('/page/page/{id}/delete', '\App\Http\Controllers\PageController:deletePage');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));
