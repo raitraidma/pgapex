@@ -39,4 +39,42 @@ class Navigation extends Model {
     $statement->execute();
     return $statement->fetchColumn() === true;
   }
+
+  public function getNavigationItems($navigationId) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_navigation_get_navigation_items(:navigationId)');
+    $statement->bindValue(':navigationId', $navigationId, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function deleteNavigationItem($navigationItemId) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_navigation_delete_navigation_item(:navigationItemId)');
+    $statement->bindValue(':navigationItemId', $navigationItemId, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn() === true;
+  }
+
+  public function getNavigationItem($navigationItemId) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_navigation_get_navigation_item(:navigationItemId)');
+    $statement->bindValue(':navigationItemId', $navigationItemId, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function saveNavigationItem(Request $request) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_navigation_save_navigation_item(:navigationItemId, :parentNavigationItem, :navigationId, :name, :sequence, :page, :url)');
+    $statement->bindValue(':navigationItemId',     $request->getApiAttribute('navigationItemId'),     PDO::PARAM_INT);
+    $statement->bindValue(':parentNavigationItem', $request->getApiAttribute('parentNavigationItem'), PDO::PARAM_INT);
+    $statement->bindValue(':navigationId',         $request->getApiAttribute('navigationId'),         PDO::PARAM_INT);
+    $statement->bindValue(':name',                 $request->getApiAttribute('name'),                 PDO::PARAM_STR);
+    $statement->bindValue(':sequence',             $request->getApiAttribute('sequence'),             PDO::PARAM_INT);
+    $statement->bindValue(':page',                 $request->getApiAttribute('page'),                 PDO::PARAM_INT);
+    $statement->bindValue(':url',                  $request->getApiAttribute('url'),                  PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchColumn() === true;
+  }
 }

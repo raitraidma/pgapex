@@ -91,7 +91,7 @@
 	(object Attribute
 	    tool       	"Data Modeler"
 	    name       	"ConstraintCounter"
-	    value      	434)
+	    value      	438)
 	(object Attribute
 	    tool       	"Data Modeler"
 	    name       	"PrimaryKeyCounter"
@@ -29842,6 +29842,185 @@
 					stereotype 	"Check"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "chk_navigation_item_name_must_be_longer_than_0"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Check")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"chk_navigation_item_name_must_be_longer_than_0")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CheckPredicate"
+						value      	"length(trim(name))>0"))
+					quid       	"571F28B00085"
+					stereotype 	"Check"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "chk_navigation_item_url_must_be_longer_than_0"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Check")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"chk_navigation_item_url_must_be_longer_than_0")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CheckPredicate"
+						value      	"(url IS NULL) OR (length(trim(url))>0)"))
+					quid       	"571F29A602C7"
+					stereotype 	"Check"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "uq_navigation_item_sequence"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Unique")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"uq_navigation_item_sequence")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsCluster"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"FillFactor"
+						value      	0)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"KeyList"
+						value      	"571B5DFF0257,571B5DFF01EC,571B5DFF0375"))
+					quid       	"571F44AC00DB"
+					stereotype 	"Unique"
+					visible_modules 	(list dependency_list
+					    (object Dependency_Relationship
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"Data Modeler"
+							name       	"Order"
+							value      	"1"))
+						quid       	"571F44AC0114"
+						stereotype 	"Unique"
+						supplier   	"Logical View::Schemas::pgapex::navigation_item::navigation_ID"
+						quidu      	"571B5DFF0257")
+					    (object Dependency_Relationship
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"Data Modeler"
+							name       	"Order"
+							value      	"2"))
+						quid       	"571F44AC0116"
+						stereotype 	"Unique"
+						supplier   	"Logical View::Schemas::pgapex::navigation_item::parent_navigation_item_ID"
+						quidu      	"571B5DFF01EC")
+					    (object Dependency_Relationship
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"Data Modeler"
+							name       	"Order"
+							value      	"3"))
+						quid       	"571F44AC0118"
+						stereotype 	"Unique"
+						supplier   	"Logical View::Schemas::pgapex::navigation_item::sequence"
+						quidu      	"571B5DFF0375"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "chk_navigation_item_can_not_refer_back_to_itself"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Check")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"chk_navigation_item_can_not_refer_back_to_itself")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CheckPredicate"
+						value      	"(parent_navigation_item_id IS NULL) OR (parent_navigation_item_id <> navigation_item_id)"))
+					quid       	"571F48BC02AF"
+					stereotype 	"Check"
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "navigation_item_ID"
@@ -35647,6 +35826,41 @@
 						stereotype 	"Unique"
 						supplier   	"Logical View::Schemas::pgapex::navigation::name"
 						quidu      	"571B5931004B"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "chk_navigation_name_must_be_longer_than_0"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Check")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"chk_navigation_name_must_be_longer_than_0")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CheckPredicate"
+						value      	"length(trim(name))>0"))
+					quid       	"571F279301AE"
+					stereotype 	"Check"
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
 					uid        	0))
@@ -44189,7 +44403,7 @@
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ParentDeleteRule"
-					value      	"No Action")
+					value      	"Cascade")
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ChildMultiplicity"
@@ -44293,7 +44507,7 @@
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ParentDeleteRule"
-					value      	"No Action")
+					value      	"Cascade")
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ChildMultiplicity"
@@ -44397,7 +44611,7 @@
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ParentDeleteRule"
-					value      	"No Action")
+					value      	"Cascade")
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ChildMultiplicity"
@@ -45957,7 +46171,7 @@
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ParentDeleteRule"
-					value      	"No Action")
+					value      	"Cascade")
 				    (object Attribute
 					tool       	"Data Modeler"
 					name       	"ChildMultiplicity"
@@ -50660,7 +50874,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	4
-					    max_width  	500
+					    max_width  	487
 					    justify    	1)
 					width      	580
 					height     	364
@@ -50710,7 +50924,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	8
-					    max_width  	715
+					    max_width  	703
 					    justify    	1)
 					width      	796
 					height     	552

@@ -49,7 +49,7 @@ CREATE TABLE pgapex.navigation (
 	name VARCHAR ( 60 ) NOT NULL,
 	CONSTRAINT pk_navigation PRIMARY KEY (navigation_ID),
 	CONSTRAINT uq_navigation_application_id_name UNIQUE (application_ID, name),
-	CONSTRAINT chk_navigation_name_must_be_longer_than_0 CHECK (length(name)>4)
+	CONSTRAINT chk_navigation_name_must_be_longer_than_0 CHECK (length(trim(name))>0)
 	);
 CREATE TABLE pgapex.input_template (
 	template_ID INTEGER NOT NULL,
@@ -86,11 +86,14 @@ CREATE TABLE pgapex.navigation_item (
 	url VARCHAR ( 255 ),
 	CONSTRAINT pk_navigation_item PRIMARY KEY (navigation_item_ID),
 	CONSTRAINT chk_navigation_item_sequence_is_not_negative CHECK (sequence >= 0),
-	CONSTRAINT chk_navigation_item_name_must_be_longer_than_0 CHECK (length(name) > 0),
+	CONSTRAINT chk_navigation_item_name_must_be_longer_than_0 CHECK (length(trim(name))>0),
+	CONSTRAINT chk_navigation_item_can_not_refer_back_to_itself CHECK ((parent_navigation_item_id IS NULL) OR (parent_navigation_item_id <> navigation_item_id)),
 	CONSTRAINT chk_navigation_item_must_refer_to_page_xor_url CHECK ((page_id IS NULL AND url IS NOT NULL) OR (page_id IS NOT NULL AND url IS NULL)),
-	CONSTRAINT chk_navigation_item_url_must_be_greater_than_0 CHECK ((url IS NULL) OR (length(url) > 0))
+	CONSTRAINT chk_navigation_item_url_must_be_longer_than_0 CHECK ((url IS NULL) OR (length(trim(url))>0))
 	);
+CREATE UNIQUE INDEX uq_navigation_item_sub_item_sequence ON pgapex.navigation_item (navigation_ID , parent_navigation_item_ID , sequence ) WHERE parent_navigation_item_ID IS NOT NULL;
 CREATE INDEX idx_navigation_item_navigation_id ON pgapex.navigation_item (navigation_ID );
+CREATE UNIQUE INDEX uq_navigation_item_root_item_sequence ON pgapex.navigation_item (navigation_ID , sequence ) WHERE parent_navigation_item_ID IS NULL;
 CREATE INDEX idx_navigation_item_page_id ON pgapex.navigation_item (page_ID );
 CREATE INDEX idx_navigation_item_parent_navigation_item_id ON pgapex.navigation_item (parent_navigation_item_ID );
 CREATE TABLE pgapex.page_item (

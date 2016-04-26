@@ -373,7 +373,7 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_page_get_page(
   i_page_id    pgapex.page.page_id%TYPE
 )
-  RETURNS json AS $$
+RETURNS json AS $$
   SELECT
   json_build_object(
     'id', application_id
@@ -500,6 +500,111 @@ CREATE OR REPLACE FUNCTION pgapex.f_navigation_delete_navigation(
 RETURNS boolean AS $$
 BEGIN
   DELETE FROM pgapex.navigation WHERE navigation_id = i_navigation_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_get_navigation_items(
+  i_navigation_id pgapex.navigation_item.navigation_id%TYPE
+)
+RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+FROM (
+  SELECT
+    ni.navigation_item_id AS id
+  , 'navigation-item' AS type
+  , json_build_object(
+      'name', ni.name
+    , 'parentNavigationItemId', ni.parent_navigation_item_id
+    , 'sequence', ni.sequence
+    , 'url', ni.url
+    , 'page', (
+        CASE
+          WHEN ni.page_id IS NULL THEN NULL
+          ELSE json_build_object(
+              'id', ni.page_id
+            , 'title', p.title
+          )
+        END
+      )
+    ) AS attributes
+  FROM pgapex.navigation_item AS ni
+  LEFT JOIN pgapex.page AS p ON ni.page_id = p.page_id
+  WHERE ni.navigation_id = i_navigation_id
+  ORDER BY ni.sequence, ni.name
+) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_delete_navigation_item(
+  i_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
+)
+  RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.navigation_item WHERE navigation_item_id = i_navigation_item_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_get_navigation_item(
+  i_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
+)
+RETURNS json AS $$
+  SELECT
+  json_build_object(
+    'id', navigation_id
+  , 'type', 'navigation-item'
+  , 'attributes', json_build_object(
+      'name', name
+    , 'parentNavigationItemId', parent_navigation_item_id
+    , 'sequence', sequence
+    , 'page', page_id
+    , 'url', url
+    )
+  )
+  FROM pgapex.navigation_item
+  WHERE navigation_item_id = i_navigation_item_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_save_navigation_item(
+  i_navigation_item_id         pgapex.navigation_item.navigation_item_id%TYPE
+, i_parent_navigation_item_id  pgapex.navigation_item.parent_navigation_item_id%TYPE
+, i_navigation_id              pgapex.navigation_item.navigation_id%TYPE
+, v_name                       pgapex.navigation_item.name%TYPE
+, i_sequence                   pgapex.navigation_item.sequence%TYPE
+, i_page_id                    pgapex.navigation_item.page_id%TYPE
+, v_url                        pgapex.navigation_item.url%TYPE
+)
+RETURNS boolean AS $$
+BEGIN
+  IF i_navigation_item_id IS NULL THEN
+    INSERT INTO pgapex.navigation_item (parent_navigation_item_id, navigation_id, name, sequence, page_id, url)
+    VALUES (i_parent_navigation_item_id, i_navigation_id, v_name, i_sequence, i_page_id, v_url);
+  ELSE
+    UPDATE pgapex.navigation_item
+    SET parent_navigation_item_id = i_parent_navigation_item_id
+    ,   navigation_id = i_navigation_id
+    ,   name = v_name
+    ,   sequence = i_sequence
+    ,   page_id = i_page_id
+    ,   url = v_url
+    WHERE navigation_item_id = i_navigation_item_id;
+  END IF;
   RETURN FOUND;
 END
 $$ LANGUAGE plpgsql

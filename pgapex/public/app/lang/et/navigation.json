@@ -27,6 +27,8 @@
     "pageIsMandatory": "Leht on kohustuslik.",
     "urlIsMandatory": "URL on kohustuslik.",
     "sequenceAlreadyExists": "Järjekord juba eksisteerib.",
-    "navigationItemDoesNotExist": "Menüüpunkti ei eksisteeri."
+    "navigationItemDoesNotExist": "Menüüpunkti ei eksisteeri.",
+    "pageId": "Lehe ID",
+    "rootItem": "Põhimenüüpunkt"
   }
 }

@@ -37,6 +37,11 @@ $app->group('/api', function () {
     $this->post('/navigation/navigation/save', '\App\Http\Controllers\NavigationController:saveNavigation');
     $this->get('/navigation/navigation/{id}', '\App\Http\Controllers\NavigationController:getNavigation');
     $this->post('/navigation/navigation/{id}/delete', '\App\Http\Controllers\NavigationController:deleteNavigation');
+
+    $this->get('/navigation/navigation/{id}/items', '\App\Http\Controllers\NavigationController:getNavigationItems');
+    $this->get('/navigation/navigation/item/{id}', '\App\Http\Controllers\NavigationController:getNavigationItem');
+    $this->post('/navigation/navigation/item/{id}/delete', '\App\Http\Controllers\NavigationController:deleteNavigationItem');
+    $this->post('/navigation/navigation/item/save', '\App\Http\Controllers\NavigationController:saveNavigationItem');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

@@ -37,4 +37,24 @@ class NavigationController extends Controller {
     return $response->setApiDataAsJson($this->getNavigationModel()->deleteNavigation($args['id']))
       ->getApiResponse();
   }
+
+  public function getNavigationItems(Request $request, Response $response, $args) {
+    return $response->setApiDataAsJson($this->getNavigationModel()->getNavigationItems($args['id']))
+      ->getApiResponse();
+  }
+
+  public function deleteNavigationItem(Request $request, Response $response, $args) {
+    return $response->setApiDataAsJson($this->getNavigationModel()->deleteNavigationItem($args['id']))
+      ->getApiResponse();
+  }
+
+  public function getNavigationItem(Request $request, Response $response, $args) {
+    return $response->setApiDataAsJson($this->getNavigationModel()->getNavigationItem($args['id']))
+      ->getApiResponse();
+  }
+
+  public function saveNavigationItem(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getNavigationModel()->saveNavigationItem($request))
+      ->getApiResponse();
+  }
 }

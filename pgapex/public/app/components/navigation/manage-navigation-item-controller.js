@@ -38,15 +38,15 @@
   };
 
   ManageNavigationItemController.prototype.getNavigationItemId = function() {
-    return this.$routeParams.navigationItemId || null;
+    return this.$routeParams.navigationItemId ? this.$routeParams.navigationItemId : null;
   };
   
   ManageNavigationItemController.prototype.getNavigationId = function() {
-    return this.$routeParams.navigationId || null;
+    return this.$routeParams.navigationId ? parseInt(this.$routeParams.navigationId) : null;
   };
   
   ManageNavigationItemController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? this.$routeParams.applicationId : null;
   };
 
   ManageNavigationItemController.prototype.initPages = function() {
@@ -57,7 +57,12 @@
 
   ManageNavigationItemController.prototype.initNavigationItems = function() {
     this.navigationService.getNavigationItems(this.getNavigationId()).then(function (response) {
-      this.$scope.navigationItems = response.hasData() ? this.navigationService.createStructuralNavigationList(response.getData()) : [];
+      var navigationItems = response.getDataOrDefault([]).map(function (navigationItem) {
+        var navItem =  navigationItem.attributes;
+        navItem.id = navigationItem.id;
+        return navItem;
+      });
+      this.$scope.navigationItems = this.navigationService.createStructuralNavigationList(navigationItems);
     }.bind(this));
   };
 
@@ -67,7 +72,7 @@
       this.getNavigationItemId(),
       this.$scope.navigationItem.name,
       this.$scope.navigationItem.sequence,
-      this.$scope.navigationItem.parentNavigationItem,
+      this.$scope.navigationItem.parentNavigationItemId || null,
       this.$scope.navigationItem.target === 'PAGE' ? this.$scope.navigationItem.page : null,
       this.$scope.navigationItem.target === 'URL' ? this.$scope.navigationItem.url : null
     ).then(this.handleSaveResponse.bind(this));
@@ -86,12 +91,11 @@
   ManageNavigationItemController.prototype.loadNavigationItem = function() {
     if (!this.isEditPage()) { return; }
     this.navigationService.getNavigationItem(this.getNavigationItemId()).then(function (response) {
-      this.$scope.navigationItem = response.getDataOrDefault({});
+      this.$scope.navigationItem = response.getDataOrDefault({'attributes': {}}).attributes;
       this.$scope.navigationItem['target'] = this.$scope.navigationItem.page !== null ? 'PAGE' : 'URL';
       if (this.$scope.navigationItem.page !== null) {
         this.$scope.navigationItem.page += '';
       }
-      this.$scope.navigationItem['parentNavigationItem'] = this.$scope.navigationItem.parentNavigationItemId + '';
     }.bind(this));
   };
 

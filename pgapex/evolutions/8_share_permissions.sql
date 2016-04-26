@@ -48,4 +48,9 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_navigation_save_navigation(pgapex.navigation.navigation_id%TYPE, pgapex.navigation.application_id%TYPE, pgapex.navigation.name%TYPE)
 , pgapex.f_navigation_get_navigation(pgapex.navigation.navigation_id%TYPE)
 , pgapex.f_navigation_delete_navigation(pgapex.navigation.navigation_id%TYPE)
+
+, pgapex.f_navigation_get_navigation_items(pgapex.navigation_item.navigation_id%TYPE)
+, pgapex.f_navigation_delete_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
+, pgapex.f_navigation_get_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
+, pgapex.f_navigation_save_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.parent_navigation_item_id%TYPE, pgapex.navigation_item.navigation_id%TYPE, pgapex.navigation_item.name%TYPE, pgapex.navigation_item.sequence%TYPE, pgapex.navigation_item.page_id%TYPE, pgapex.navigation_item.url%TYPE)
 TO :DB_APP_USER;

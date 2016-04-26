@@ -6,9 +6,10 @@
     <table class="table table-striped table-condensed">
       <thead>
         <tr>
+          <td class="col-xs-1 col-md-1"></td>
           <th class="col-md-4">{{'navigation.name'|translate}}</th>
           <th class="col-md-1"><span class="glyphicon glyphicon-globe" title="{{'navigation.isUrl'|translate}}" aria-hidden="true"></span></th>
-          <th class="col-md-5">{{'navigation.referencesTo'|translate}}</th>
+          <th class="col-md-4">{{'navigation.referencesTo'|translate}}</th>
           <th class="col-md-2 text-right">
             <a ng-href="#/application-builder/app/{{routeParams.applicationId}}/navigations/{{routeParams.navigationId}}/items/create" class="btn btn-sm btn-primary" title="{{'navigation.createNavigationItem'|translate}}">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'navigation.createNavigationItem'|translate}}
@@ -18,6 +19,9 @@
       </thead>
       <tbody>
         <tr ng-repeat="navigationItem in navigationItems">
+          <td>
+            <span class="badge" title="{{'navigation.sequence'|translate}}">{{navigationItem.sequence}}</span>
+          </td>
           <td>
             <span style="margin-left: {{navigationItem.level * 20}}px">
               {{navigationItem.name}}

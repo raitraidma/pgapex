@@ -29,9 +29,9 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.parentNavigationItem, 'parentNavigationItem')}">
       <label for="parentNavigationItem" class="col-sm-3 control-label">{{'navigation.parentNavigationItem'|translate}} *</label>
       <div class="col-sm-9">
-        <select class="form-control" name="parentNavigationItem" id="parentNavigationItem" ng-model="navigationItem.parentNavigationItem">
-          <option value=""></option>
-          <option ng-repeat="navigationItem in navigationItems" value="{{navigationItem.id}}">{{'&nbsp;'.repeat(navigationItem.level * 5)}}{{navigationItem.name}}</option>
+        <select class="form-control" name="parentNavigationItem" id="parentNavigationItem" ng-model="navigationItem.parentNavigationItemId"
+          ng-options="navigationItem.id as ('&nbsp;'.repeat(navigationItem.level * 5) + navigationItem.name) for navigationItem in navigationItems">
+          <option value="">-- {{'navigation.rootItem'|translate}} --</option>
         </select>
         <div ng-show="formError.showErrors(manageNavigationItemForm.parentNavigationItem, 'parentNavigationItem')">
           <span ng-repeat="error in formError.getErrors('parentNavigationItem')" class="help-block">{{error|translate}}</span>
@@ -51,7 +51,7 @@
       <label for="page" class="col-sm-3 control-label">{{'navigation.page'|translate}} *</label>
       <div class="col-sm-9">
         <select class="form-control" name="page" id="page" ng-model="navigationItem.page" ng-required="navigationItem.target === 'PAGE'">
-          <option ng-repeat="page in pages" value="{{page.id}}">{{page.title}} ({{'navigation.pageId'|translate}}: {{page.id}})</option>
+          <option ng-repeat="page in pages" value="{{page.id}}">{{page.attributes.title}} ({{'navigation.pageId'|translate}}: {{page.id}})</option>
         </select>
         <div ng-show="formError.showErrors(manageNavigationItemForm.page, 'page')">
           <span ng-show="manageNavigationItemForm.page.$error.required" class="help-block">{{'navigation.pageIsMandatory'|translate}}</span>

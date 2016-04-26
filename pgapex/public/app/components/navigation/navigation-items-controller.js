@@ -20,12 +20,17 @@
   };
 
   NavigationItemsController.prototype.getNavigationId = function() {
-    return this.$routeParams.navigationId || null;
+    return this.$routeParams.navigationId ? this.$routeParams.navigationId : null;
   };
 
   NavigationItemsController.prototype.loadNavigationItems = function() {
     this.navigationService.getNavigationItems(this.getNavigationId()).then(function (response) {
-      this.$scope.navigationItems = response.hasData() ? this.navigationService.createStructuralNavigationList(response.getData()) : [];
+      var navigationItems = response.getDataOrDefault([]).map(function (navigationItem) {
+        var navItem =  navigationItem.attributes;
+        navItem.id = navigationItem.id;
+        return navItem;
+      });
+      this.$scope.navigationItems = this.navigationService.createStructuralNavigationList(navigationItems);
     }.bind(this));
   };
 

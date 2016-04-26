@@ -27,6 +27,8 @@
     "pageIsMandatory": "Page is mandatory.",
     "urlIsMandatory": "URL is mandatory.",
     "sequenceAlreadyExists": "Sequence already exists.",
-    "navigationItemDoesNotExist": "Navigation item does not exist."
+    "navigationItemDoesNotExist": "Navigation item does not exist.",
+    "pageId": "Page ID",
+    "rootItem": "Root item"
   }
 }
