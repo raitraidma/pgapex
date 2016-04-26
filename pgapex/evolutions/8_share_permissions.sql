@@ -43,4 +43,9 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_page_save_page(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.template_id%TYPE, pgapex.page.title%TYPE, pgapex.page.alias%TYPE, pgapex.page.is_homepage%TYPE, pgapex.page.is_authentication_required%TYPE)
 , pgapex.f_page_get_page(pgapex.page.page_id%TYPE)
 , pgapex.f_page_delete_page(pgapex.page.page_id%TYPE)
+-- NAVIGATION --
+, pgapex.f_navigation_get_navigations(pgapex.navigation.application_id%TYPE)
+, pgapex.f_navigation_save_navigation(pgapex.navigation.navigation_id%TYPE, pgapex.navigation.application_id%TYPE, pgapex.navigation.name%TYPE)
+, pgapex.f_navigation_get_navigation(pgapex.navigation.navigation_id%TYPE)
+, pgapex.f_navigation_delete_navigation(pgapex.navigation.navigation_id%TYPE)
 TO :DB_APP_USER;

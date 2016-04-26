@@ -424,3 +424,84 @@ END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+--------------------------------
+---------- NAVIGATION ----------
+--------------------------------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_get_navigations(
+  i_application_id pgapex.navigation.application_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      navigation_id AS id
+    , 'navigation' AS type
+    , json_build_object(
+        'name', name
+    ) AS attributes
+    FROM pgapex.navigation
+    WHERE application_id = i_application_id
+    ORDER BY name
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_save_navigation(
+  i_navigation_id  pgapex.navigation.navigation_id%TYPE
+, i_application_id pgapex.navigation.application_id%TYPE
+, v_name           pgapex.navigation.name%TYPE
+)
+RETURNS boolean AS $$
+BEGIN
+  IF i_navigation_id IS NULL THEN
+    INSERT INTO pgapex.navigation (application_id, name) VALUES (i_application_id, v_name);
+  ELSE
+    UPDATE pgapex.navigation
+    SET application_id = i_application_id
+    ,   name = v_name
+    WHERE navigation_id = i_navigation_id;
+  END IF;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_get_navigation(
+  i_navigation_id    pgapex.navigation.navigation_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT
+  json_build_object(
+    'id', navigation_id
+  , 'type', 'navigation'
+  , 'attributes', json_build_object(
+      'name', name
+    )
+  )
+  FROM pgapex.navigation
+  WHERE navigation_id = i_navigation_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_delete_navigation(
+  i_navigation_id pgapex.navigation.navigation_id%TYPE
+)
+RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.navigation WHERE navigation_id = i_navigation_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

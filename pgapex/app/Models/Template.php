@@ -14,7 +14,7 @@ class Template extends Model {
   private function getPageTemplatesOfType($pageType) {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_page_templates(:pageType)');
-    $statement->bindParam(':pageType', $pageType);
+    $statement->bindValue(':pageType', $pageType);
     $statement->execute();
     return $statement->fetchColumn();
   }

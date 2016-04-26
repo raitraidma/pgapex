@@ -32,6 +32,11 @@ $app->group('/api', function () {
     $this->post('/page/page/save', '\App\Http\Controllers\PageController:savePage');
     $this->get('/page/page/{id}', '\App\Http\Controllers\PageController:getPage');
     $this->post('/page/page/{id}/delete', '\App\Http\Controllers\PageController:deletePage');
+
+    $this->get('/navigation/navigations/{applicationId}', '\App\Http\Controllers\NavigationController:getNavigations');
+    $this->post('/navigation/navigation/save', '\App\Http\Controllers\NavigationController:saveNavigation');
+    $this->get('/navigation/navigation/{id}', '\App\Http\Controllers\NavigationController:getNavigation');
+    $this->post('/navigation/navigation/{id}/delete', '\App\Http\Controllers\NavigationController:deleteNavigation');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

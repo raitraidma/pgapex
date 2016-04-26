@@ -31,11 +31,11 @@
   };
 
   ManageNavigationController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
   
   ManageNavigationController.prototype.getNavigationId = function() {
-    return this.$routeParams.navigationId || null;
+    return this.$routeParams.navigationId ? parseInt(this.$routeParams.navigationId) : null;
   };
 
   ManageNavigationController.prototype.saveNavigation = function() {
@@ -58,7 +58,7 @@
   ManageNavigationController.prototype.loadNavigation = function() {
     if (!this.isEditPage()) { return; }
     this.navigationService.getNavigation(this.getNavigationId()).then(function (response) {
-      this.$scope.navigation = response.getDataOrDefault({});
+      this.$scope.navigation = response.getDataOrDefault({'attributes': {}}).attributes;
     }.bind(this));
   };
 

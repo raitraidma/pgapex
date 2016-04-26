@@ -13,7 +13,7 @@ class Database extends Model {
   public function getAuthenticationFunctions($applicationId) {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_database_object_get_authentication_functions(:applicationId)');
-    $statement->bindParam(':applicationId', $applicationId);
+    $statement->bindValue(':applicationId', $applicationId);
     $statement->execute();
     return $statement->fetchColumn();
   }

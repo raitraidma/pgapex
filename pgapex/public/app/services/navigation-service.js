@@ -20,15 +20,15 @@
   };
 
   NavigationService.prototype.getNavigations = function (applicationId) {
-    return this.apiService.get('api/navigation/navigations.json', {"applicationId": applicationId});
+    return this.apiService.get('navigation/navigations/' + applicationId);
   };
 
   NavigationService.prototype.deleteNavigation = function (navigationId) {
-    return this.apiService.post('api/navigation/delete-navigation.json', {"navigationId": navigationId});
+    return this.apiService.post('navigation/navigation/' + navigationId + '/delete');
   };
 
   NavigationService.prototype.getNavigation = function (navigationId) {
-    return this.apiService.get('api/navigation/navigation.json', {"navigationId": navigationId});
+    return this.apiService.get('navigation/navigation/' + navigationId);
   };
 
   NavigationService.prototype.createStructuralNavigationList = function(navigationItems) {
@@ -51,15 +51,15 @@
   };
 
   NavigationService.prototype.saveNavigation = function (applicationId, navigationId, name) {
-    var postData = {
+    var attributes = {
       "applicationId": applicationId,
       "navigationId": navigationId,
       "name": name
     };
-    if (name === 'fail') {
-      return this.apiService.post('api/navigation/save-navigation-fail.json', postData);
-    }
-    return this.apiService.post('api/navigation/save-navigation-ok.json', postData);
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+    return this.apiService.post('navigation/navigation/save', request);
   };
 
   NavigationService.prototype.saveNavigationItem = function (navigationId, navigationItemId, name, sequence, parentNavigationItem, page, url) {

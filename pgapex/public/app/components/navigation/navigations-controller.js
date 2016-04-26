@@ -25,12 +25,12 @@
   };
 
   NavigationsController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
 
   NavigationsController.prototype.loadNavigations = function() {
     this.navigationService.getNavigations(this.getApplicationId()).then(function (response) {
-      this.$scope.allNavigations = response.hasData() ? response.getData() : [];
+      this.$scope.allNavigations = response.getDataOrDefault([]);
       this.selectVisibleNavigations();
     }.bind(this));
   };
