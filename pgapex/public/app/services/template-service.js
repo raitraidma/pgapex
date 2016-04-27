@@ -26,7 +26,7 @@
   };
 
   TemplateService.prototype.getRegionTemplates = function () {
-    return this.apiService.get('api/template/region-templates.json');
+    return this.apiService.get('template/region-templates');
   };
 
   TemplateService.prototype.getNavigationTemplates = function () {

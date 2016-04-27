@@ -26,7 +26,7 @@
 
   RegionsController.prototype.loadDisplayPointsWithRegions = function() {
     this.regionService.getDisplayPointsWithRegions(this.getPageId()).then(function (response) {
-      this.$scope.displayPointsWithRegions = response.hasData() ? response.getData() : [];
+      this.$scope.displayPointsWithRegions = response.getDataOrDefault([]);
       this.regionService.sortDisplayPointsWithRegions(this.$scope.displayPointsWithRegions);
     }.bind(this));
   };

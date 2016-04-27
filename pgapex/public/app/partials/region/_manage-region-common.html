@@ -22,7 +22,8 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.regionTemplate, 'regionTemplate')}">
       <label for="regionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="regionTemplate" name="regionTemplate" ng-model="region.regionTemplate" class="form-control" required ng-options="regionTemplate.id as regionTemplate.name for regionTemplate in regionTemplates">
+        <select id="regionTemplate" name="regionTemplate" ng-model="region.regionTemplate" class="form-control" required
+                ng-options="regionTemplate.id as regionTemplate.attributes.name for regionTemplate in regionTemplates">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.regionTemplate, 'regionTemplate')">
           <span ng-show="manageRegionForm.regionTemplate.$error.required" class="help-block">{{'region.regionTemplateIsMandatory'|translate}}</span>

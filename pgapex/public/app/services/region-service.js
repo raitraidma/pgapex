@@ -8,59 +8,67 @@
   }
 
   RegionService.prototype.getDisplayPointsWithRegions = function (pageId) {
-    return this.apiService.get('api/region/display-points-with-regions.json', {"pageId": pageId});
+    return this.apiService.get('region/page/' + pageId + '/regions');
   };
 
+  RegionService.prototype.getRegion = function (regionId) {
+    return this.apiService.get('region/region/' + regionId);
+  };
+
+  RegionService.prototype.deleteRegion = function (regionId) {
+    return this.apiService.post('region/region/' + regionId + '/delete');
+  };
+
+  // DEPRECATED
   RegionService.prototype.getHtmlRegion = function (regionId) {
     return this.apiService.get('api/region/html-region.json', {"regionId": regionId});
   };
 
+  // DEPRECATED
   RegionService.prototype.getNavigationRegion = function (regionId) {
     return this.apiService.get('api/region/navigation-region.json', {"regionId": regionId});
   };
 
+  // DEPRECATED
   RegionService.prototype.getReportRegion = function (regionId) {
     return this.apiService.get('api/region/report-region.json', {"regionId": regionId});
   };
 
+  // DEPRECATED
   RegionService.prototype.getFormRegion = function (regionId) {
     return this.apiService.get('api/region/form-region.json', {"regionId": regionId});
   };
 
-  RegionService.prototype.deleteRegion = function (regionId) {
-    return this.apiService.post('api/region/delete-region.json', {"regionId": regionId});
-  };
-
   RegionService.prototype.sortDisplayPointsWithRegions = function(displayPointsWithRegions) {
     displayPointsWithRegions.forEach(function(displayPoint) {
-      displayPoint.regions = displayPoint.regions.sort(function(firstItem, secondItem) {
-        return firstItem.sequence - secondItem.sequence;
+      displayPoint.attributes.regions = displayPoint.attributes.regions.sort(function(firstItem, secondItem) {
+        return firstItem.attributes.sequence - secondItem.attributes.sequence;
       });
     });
   };
 
-  RegionService.prototype.saveHtmlRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible, content) {
-    var postData = {
-      "pageId": pageId,
-      "displayPoint": displayPoint,
+  RegionService.prototype.saveHtmlRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible, content) {
+    var attributes = {
       "regionId": regionId,
+      "pageId": pageId,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "name": name,
       "sequence": sequence,
       "regionTemplate": regionTemplate,
       "isVisible": isVisible,
       "content": content
     };
-    if (name === 'fail') {
-      return this.apiService.post('api/region/save-html-region-fail.json', postData);
-    }
-    return this.apiService.post('api/region/save-html-region-ok.json', postData);
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+    return this.apiService.post('region/region/html/save', request);
   };
 
-  RegionService.prototype.saveNavigationRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
+  RegionService.prototype.saveNavigationRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                           navigationTemplate, navigationType, navigation, repeatLastLevel) {
     var postData = {
       "pageId": pageId,
-      "displayPoint": displayPoint,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "regionId": regionId,
       "name": name,
       "sequence": sequence,
@@ -77,12 +85,12 @@
     return this.apiService.post('api/region/save-navigation-region-ok.json', postData);
   };
 
-  RegionService.prototype.saveReportRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
+  RegionService.prototype.saveReportRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                         reportTemplate, view, showHeader, itemsPerPage,
                                                         paginationQueryParameter, reportColumns) {
     var postData = {
       "pageId": pageId,
-      "displayPoint": displayPoint,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "regionId": regionId,
       "name": name,
       "sequence": sequence,
@@ -101,13 +109,13 @@
     return this.apiService.post('api/region/save-report-region-ok.json', postData);
   };
 
-  RegionService.prototype.saveFormRegion = function (pageId, displayPoint, regionId, name, sequence, regionTemplate, isVisible,
+  RegionService.prototype.saveFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                         formTemplate, buttonTemplate, buttonLabel, successMessage,
                                                         errorMessage, redirectUrl, func, functionParameters,
                                                         formPreFill, formPreFillView, formPreFillColumns) {
     var postData = {
       "pageId": pageId,
-      "displayPoint": displayPoint,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "regionId": regionId,
       "name": name,
       "sequence": sequence,

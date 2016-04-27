@@ -38,6 +38,7 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_database_object_get_authentication_functions(pgapex.application.application_id%TYPE)
 -- TEMPLATE --
 , pgapex.f_template_get_page_templates(pgapex.page_template.page_type_id%TYPE)
+, pgapex.f_template_get_region_templates()
 -- PAGE --
 , pgapex.f_page_get_pages(pgapex.page.application_id%TYPE)
 , pgapex.f_page_save_page(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.template_id%TYPE, pgapex.page.title%TYPE, pgapex.page.alias%TYPE, pgapex.page.is_homepage%TYPE, pgapex.page.is_authentication_required%TYPE)
@@ -53,4 +54,9 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_navigation_delete_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
 , pgapex.f_navigation_get_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
 , pgapex.f_navigation_save_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.parent_navigation_item_id%TYPE, pgapex.navigation_item.navigation_id%TYPE, pgapex.navigation_item.name%TYPE, pgapex.navigation_item.sequence%TYPE, pgapex.navigation_item.page_id%TYPE, pgapex.navigation_item.url%TYPE)
+-- REGION --
+, pgapex.f_region_get_display_points_with_regions(pgapex.page.page_id%TYPE)
+, pgapex.f_region_get_region(pgapex.region.region_id%TYPE)
+, pgapex.f_region_delete_region(pgapex.region.region_id%TYPE)
+, pgapex.f_region_save_html_region(pgapex.region.region_id%TYPE, pgapex.region.page_id%TYPE, pgapex.region.template_id%TYPE, pgapex.region.page_template_display_point_id%TYPE, pgapex.region.name%TYPE, pgapex.region.sequence%TYPE, pgapex.region.is_visible%TYPE, pgapex.html_region.content%TYPE)
 TO :DB_APP_USER;

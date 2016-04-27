@@ -18,4 +18,11 @@ class Template extends Model {
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  public function getRegionTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_region_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

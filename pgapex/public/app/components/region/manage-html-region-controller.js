@@ -40,19 +40,19 @@
   };
 
   ManageHtmlRegionController.prototype.getDisplayPoint = function() {
-    return this.$routeParams.displayPoint || null;
+    return this.$routeParams.displayPoint ? parseInt(this.$routeParams.displayPoint) : null;
   };
   
   ManageHtmlRegionController.prototype.getPageId = function() {
-    return this.$routeParams.pageId || null;
+    return this.$routeParams.pageId ? parseInt(this.$routeParams.pageId) : null;
   };
   
   ManageHtmlRegionController.prototype.getRegionId = function() {
-    return this.$routeParams.regionId || null;
+    return this.$routeParams.regionId ? parseInt(this.$routeParams.regionId) : null;
   };
   
   ManageHtmlRegionController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
 
   ManageHtmlRegionController.prototype.saveRegion = function() {
@@ -63,7 +63,7 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
-      this.$scope.region.isVisible,
+      this.$scope.region.isVisible || false,
       this.$scope.region.content
     ).then(this.handleSaveResponse.bind(this));
   };
@@ -80,8 +80,8 @@
 
   ManageHtmlRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
-    this.regionService.getHtmlRegion(this.getRegionId()).then(function (response) {
-      this.$scope.region = response.getDataOrDefault({});
+    this.regionService.getRegion(this.getRegionId()).then(function (response) {
+      this.$scope.region = response.getDataOrDefault({'attributes': {}}).attributes;
     }.bind(this));
   };
 

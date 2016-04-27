@@ -277,7 +277,7 @@ RETURNS json AS $$
   FROM (
     SELECT
       t.template_id AS id
-    , 'login-template' AS type
+    , lower(v_page_type) || '-page-template' AS type
     , json_build_object(
         'name', t.name
     ) AS attributes
@@ -289,6 +289,26 @@ RETURNS json AS $$
 $$ LANGUAGE sql
   SECURITY DEFINER
   SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_region_templates()
+RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      t.template_id AS id
+    , 'region-template' AS type
+    , json_build_object(
+        'name', t.name
+    ) AS attributes
+    FROM pgapex.region_template rt
+    LEFT JOIN pgapex.template t ON rt.template_id = t.template_id
+    ORDER BY t.name
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
 
 --------------------------
 ---------- PAGE ----------
@@ -546,7 +566,7 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_navigation_delete_navigation_item(
   i_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
 )
-  RETURNS boolean AS $$
+RETURNS boolean AS $$
 BEGIN
   DELETE FROM pgapex.navigation_item WHERE navigation_item_id = i_navigation_item_id;
   RETURN FOUND;
@@ -610,3 +630,158 @@ END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+----------------------------
+---------- REGION ----------
+----------------------------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_display_points_with_regions(
+  i_page_id pgapex.page.page_id%TYPE
+)
+RETURNS json AS $$
+  SELECT json_agg(json_build_object(
+      'id', ptdp.page_template_display_point_id
+    , 'type', 'page-template-display-point'
+    , 'attributes', json_build_object(
+          'displayPointName', ptdp.display_point_id
+        , 'description', ptdp.description
+        , 'regions', (
+          SELECT coalesce(json_agg(json_build_object(
+               'id', r.region_id
+             , 'type', 'region'
+             , 'attributes', json_build_object(
+                   'name', r.name
+                 , 'sequence', r.sequence
+                 , 'isVisible', r.is_visible
+                 , 'type', (
+                   CASE
+                     WHEN hr.region_id IS NOT NULL THEN 'HTML'
+                     WHEN nr.region_id IS NOT NULL THEN 'NAVIGATION'
+                     WHEN fr.region_id IS NOT NULL THEN 'FORM'
+                     WHEN rr.region_id IS NOT NULL THEN 'REPORT'
+                     ELSE 'UNKNOWN'
+                   END
+                 )
+             )
+           )), '[]')
+          FROM pgapex.region r
+            LEFT JOIN pgapex.html_region hr ON r.region_id = hr.region_id
+            LEFT JOIN pgapex.navigation_region nr ON r.region_id = nr.region_id
+            LEFT JOIN pgapex.form_region fr ON r.region_id = fr.region_id
+            LEFT JOIN pgapex.report_region rr ON r.region_id = rr.region_id
+          WHERE r.page_template_display_point_id = ptdp.page_template_display_point_id
+                AND r.page_id = p.page_id
+        )
+    )
+  ))
+  FROM pgapex.page p
+    LEFT JOIN pgapex.page_template pt ON p.template_id = pt.template_id
+    LEFT JOIN pgapex.page_template_display_point ptdp ON pt.template_id = ptdp.page_template_id
+  WHERE p.page_id = i_page_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_region(
+  i_region_id pgapex.region.region_id%TYPE
+)
+RETURNS json AS $$
+DECLARE
+  j_result JSON;
+BEGIN
+  IF (SELECT EXISTS (SELECT 1 FROM pgapex.html_region WHERE region_id = i_region_id)) = TRUE THEN
+    SELECT pgapex.f_region_get_html_region(i_region_id) INTO j_result;
+  END IF;
+  RETURN j_result;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_delete_region(
+  i_region_id pgapex.region.region_id%TYPE
+)
+RETURNS boolean AS $$
+BEGIN
+  -- TODO: some region types require more than just on delete cascade.
+  DELETE FROM pgapex.region WHERE region_id = i_region_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_save_html_region(
+    i_region_id                      pgapex.region.region_id%TYPE
+  , i_page_id                        pgapex.region.page_id%TYPE
+  , i_template_id                    pgapex.region.template_id%TYPE
+  , i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
+  , v_name                           pgapex.region.name%TYPE
+  , i_sequence                       pgapex.region.sequence%TYPE
+  , b_is_visible                     pgapex.region.is_visible%TYPE
+  , t_content                        pgapex.html_region.content%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_region_id INT;
+BEGIN
+  IF i_region_id IS NULL THEN
+    SELECT nextval('pgapex.region_region_id_seq') INTO i_new_region_id;
+
+    INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
+    VALUES (i_new_region_id, i_page_id, i_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
+
+    INSERT INTO pgapex.html_region (region_id, content)
+    VALUES (i_new_region_id, t_content);
+  ELSE
+    UPDATE pgapex.region
+    SET page_id = i_page_id
+    ,   template_id = i_template_id
+    ,   page_template_display_point_id = i_page_template_display_point_id
+    ,   name = v_name
+    ,   sequence = i_sequence
+    ,   is_visible = b_is_visible
+    WHERE region_id = i_region_id;
+
+    UPDATE pgapex.html_region
+    SET content = t_content
+    WHERE region_id = i_region_id;
+  END IF;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_html_region(
+  i_region_id pgapex.region.region_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT
+  json_build_object(
+    'id', r.region_id
+  , 'type', 'html-region'
+  , 'attributes', json_build_object(
+      'name', r.name
+    , 'sequence', r.sequence
+    , 'regionTemplate', r.template_id
+    , 'isVisible', r.is_visible
+    , 'content', hr.content
+    )
+  )
+  FROM pgapex.region r
+  LEFT JOIN pgapex.html_region hr ON r.region_id = hr.region_id
+  WHERE r.region_id = i_region_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------

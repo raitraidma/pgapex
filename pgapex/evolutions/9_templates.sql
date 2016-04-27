@@ -1,6 +1,7 @@
 INSERT INTO pgapex.template (template_id, name) VALUES (1, 'Login page');
 INSERT INTO pgapex.template (template_id, name) VALUES (2, 'Normal page');
 INSERT INTO pgapex.template (template_id, name) VALUES (3, 'Top menu');
+INSERT INTO pgapex.template (template_id, name) VALUES (4, 'Region template');
 
 
 INSERT INTO pgapex.navigation_template (template_id, navigation_begin, navigation_end) VALUES (3, '<ul class="nav navbar-nav">', '</ul>');
@@ -112,6 +113,11 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </body>', '</html>', '<div class="alert alert-danger" role="alert">#MESSAGE#</div>', '<div class="alert alert-success" role="alert">#MESSAGE#</div>');
+
+INSERT INTO pgapex.region_template (template_id, template) VALUES (4, '<div class="panel panel-default">
+  <div class="panel-heading">#NAME#</div>
+  <div class="panel-body">#BODY#</div>
+</div>');
 
 
 INSERT INTO pgapex.page_template_display_point (page_template_display_point_id, page_template_id, display_point_id, description) VALUES (1, 2, 'BODY', 'Body');

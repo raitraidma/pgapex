@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use App\Http\Request;
+use App\Http\Response;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Models\Template;
 
@@ -25,6 +25,11 @@ class TemplateController extends Controller {
 
   public function getPageTemplates(Request $request, Response $response) {
     return $response->setApiDataAsJson($this->getTemplateModel()->getPageTemplates())
+      ->getApiResponse();
+  }
+
+  public function getRegionTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getRegionTemplates())
       ->getApiResponse();
   }
 }
