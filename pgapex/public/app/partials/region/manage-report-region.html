@@ -9,7 +9,8 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')}">
       <label for="reportTemplate" class="col-sm-3 control-label">{{'region.reportTemplate'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control" required ng-options="reportTemplate.id as reportTemplate.name for reportTemplate in reportTemplates">
+        <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control" required
+                ng-options="reportTemplate.id as reportTemplate.attributes.name for reportTemplate in reportTemplates">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')">
           <span ng-show="manageRegionForm.reportTemplate.$error.required" class="help-block">{{'region.reportTemplateIsMandatory'|translate}}</span>
@@ -20,7 +21,8 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.view, 'view')}">
       <label for="view" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control" required ng-options="view.name as view.name for view in viewsWithColumns">
+        <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control"
+                required ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.view, 'view')">
           <span ng-show="manageRegionForm.view.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
@@ -91,33 +93,33 @@
         <ng-form name="reportColumnForm">
           <div class="row">
             <div class="col-md-2" ng-class="{'has-error': formError.showErrors(reportColumnForm.heading, 'reportColumns/' + $index + '/heading')}">
-              <input required ng-model="reportColumn.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}} *">
+              <input required ng-model="reportColumn.attributes.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}} *">
             </div>
             <div class="col-md-1" ng-class="{'has-error': formError.showErrors(reportColumnForm.sequence, 'reportColumns/' + $index + '/sequence')}">
-              <input required ng-model="reportColumn.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
+              <input required ng-model="reportColumn.attributes.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
             </div>
             <div class="col-md-1" ng-class="{'has-error': formError.showErrors(reportColumnForm.isTextEscaped, 'reportColumns/' + $index + '/isTextEscaped')}">
               <label>
-                <input ng-model="reportColumn.isTextEscaped" type="checkbox" title="{{'region.isTextEscaped'|translate}}">
+                <input ng-model="reportColumn.attributes.isTextEscaped" type="checkbox" title="{{'region.isTextEscaped'|translate}}">
                 <span class="visible-xs-inline-block visible-sm-inline-block">{{'region.isTextEscaped'|translate}}</span>
               </label>
             </div>
             <!-- COLUMN -->
-            <div class="col-md-7" ng-show="reportColumn.type === 'COLUMN'" ng-class="{'has-error': formError.showErrors(reportColumnForm.column, 'reportColumns/' + $index + '/column')}">
-              <select class="form-control" name="column" ng-required="reportColumn.type === 'COLUMN'" ng-model="reportColumn.column">
+            <div class="col-md-7" ng-show="reportColumn.attributes.type === 'COLUMN'" ng-class="{'has-error': formError.showErrors(reportColumnForm.column, 'reportColumns/' + $index + '/column')}">
+              <select class="form-control" name="column" ng-required="reportColumn.attributes.type === 'COLUMN'" ng-model="reportColumn.attributes.column"
+                ng-options="viewColumn.attributes.name as viewColumn.attributes.name for viewColumn in viewColumns">
                 <option value="">-- {{'region.column'|translate}} * --</option>
-                <option ng-repeat="viewColumn in viewColumns" ng-value="viewColumn" value="{{viewColumn}}">{{viewColumn}}</option>
               </select>
             </div>
             <!-- LINK -->
-            <div class="col-md-3" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkUrl, 'reportColumns/' + $index + '/linkUrl')}">
-              <input ng-required="reportColumn.type === 'LINK'" name="linkUrl" ng-model="reportColumn.linkUrl" type="url" class="form-control" placeholder="{{'region.url'|translate}}">
+            <div class="col-md-3" ng-show="reportColumn.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkUrl, 'reportColumns/' + $index + '/linkUrl')}">
+              <input ng-required="reportColumn.attributes.type === 'LINK'" name="linkUrl" ng-model="reportColumn.attributes.linkUrl" type="url" class="form-control" placeholder="{{'region.url'|translate}}">
             </div>
-            <div class="col-md-2" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkText, 'reportColumns/' + $index + '/linkText')}">
-              <input ng-required="reportColumn.type === 'LINK'" name="linkText" ng-model="reportColumn.linkText" type="text" class="form-control" placeholder="{{'region.text'|translate}}">
+            <div class="col-md-2" ng-show="reportColumn.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkText, 'reportColumns/' + $index + '/linkText')}">
+              <input ng-required="reportColumn.attributes.type === 'LINK'" name="linkText" ng-model="reportColumn.attributes.linkText" type="text" class="form-control" placeholder="{{'region.text'|translate}}">
             </div>
-            <div class="col-md-2" ng-show="reportColumn.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkAttributes, 'reportColumns/' + $index + '/linkAttributes')}">
-              <input ng-model="reportColumn.linkAttributes" name="linkAttributes" type="text" class="form-control" placeholder="{{'region.attributes'|translate}}">
+            <div class="col-md-2" ng-show="reportColumn.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(reportColumnForm.linkAttributes, 'reportColumns/' + $index + '/linkAttributes')}">
+              <input ng-model="reportColumn.attributes.linkAttributes" name="linkAttributes" type="text" class="form-control" placeholder="{{'region.attributes'|translate}}">
             </div>
 
             <div class="col-md-1 text-right">

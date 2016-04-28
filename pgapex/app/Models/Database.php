@@ -24,4 +24,12 @@ class Database extends Model {
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  public function getViewsWithColumns($applicationId) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_database_object_get_views_with_columns(:applicationId)');
+    $statement->bindValue(':applicationId', $applicationId);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

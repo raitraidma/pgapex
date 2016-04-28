@@ -34,7 +34,7 @@
   };
 
   TemplateService.prototype.getReportTemplates = function () {
-    return this.apiService.get('api/template/report-templates.json');
+    return this.apiService.get('template/report-templates');
   };
 
   TemplateService.prototype.getFormTemplates = function () {

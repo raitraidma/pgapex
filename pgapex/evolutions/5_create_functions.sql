@@ -235,7 +235,7 @@ SET search_path = pgapex, public, pg_temp;
 ----------
 
 CREATE OR REPLACE FUNCTION pgapex.f_database_object_get_authentication_functions(
-  i_id pgapex.application.application_id%TYPE
+  i_application_id pgapex.application.application_id%TYPE
 )
 RETURNS json AS $$
   WITH boolean_functions_with_two_parameters AS (
@@ -244,7 +244,7 @@ RETURNS json AS $$
         LEFT JOIN pgapex.function f ON a.database_name = f.database_name
         LEFT JOIN pgapex.parameter p ON (a.database_name = p.database_name AND p.schema_name = f.schema_name AND p.function_name = f.function_name)
       WHERE f.return_type = 'bool'
-        AND a.application_id = $1
+        AND a.application_id = i_application_id
       GROUP BY f.database_name, f.schema_name, f.function_name, f.return_type, p.parameter_type
       HAVING MAX(p.ordinal_position) = 2
       ORDER BY f.database_name, f.schema_name, f.function_name
@@ -264,6 +264,43 @@ RETURNS json AS $$
 $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_database_object_get_views_with_columns(
+  i_application_id pgapex.application.application_id%TYPE
+)
+RETURNS JSON AS $$
+WITH views_with_columns AS (
+    SELECT
+      json_build_object(
+            'id', vc.database_name || '.' || vc.schema_name || '.' || vc.view_name
+          , 'type', 'view'
+          , 'attributes', json_build_object(
+                'schema', vc.schema_name
+              , 'name', vc.view_name
+              , 'columns', json_agg(
+                  json_build_object(
+                        'id', vc.database_name || '.' || vc.schema_name || '.' || vc.view_name || '.' || vc.column_name
+                      , 'type', 'column'
+                      , 'attributes', json_build_object(
+                          'name', vc.column_name
+                      )
+                  )
+              )
+          )
+      ) AS vwc
+    FROM pgapex.application a
+      LEFT JOIN pgapex.view_column vc ON a.database_name = vc.database_name
+    WHERE a.application_id = i_application_id
+    GROUP BY vc.database_name, vc.schema_name, vc.view_name
+)
+SELECT
+  COALESCE(json_agg(views_with_columns.vwc), '[]')
+FROM views_with_columns;
+$$ LANGUAGE SQL
+SECURITY DEFINER
+SET search_path = pgapex, PUBLIC, pg_temp;
 
 ------------------------------
 ---------- TEMPLATE ----------
@@ -324,6 +361,26 @@ SELECT COALESCE(JSON_AGG(a), '[]')
     ) AS attributes
     FROM pgapex.navigation_template nt
     LEFT JOIN pgapex.template t ON nt.template_id = t.template_id
+    ORDER BY t.name
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_report_templates()
+  RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      t.template_id AS id
+    , 'report-template' AS type
+    , json_build_object(
+        'name', t.name
+    ) AS attributes
+    FROM pgapex.report_template rt
+    LEFT JOIN pgapex.template t ON rt.template_id = t.template_id
     ORDER BY t.name
   ) a
 $$ LANGUAGE sql
@@ -715,6 +772,8 @@ BEGIN
     SELECT pgapex.f_region_get_html_region(i_region_id) INTO j_result;
   ELSIF (SELECT EXISTS (SELECT 1 FROM pgapex.navigation_region WHERE region_id = i_region_id)) = TRUE THEN
     SELECT pgapex.f_region_get_navigation_region(i_region_id) INTO j_result;
+  ELSIF (SELECT EXISTS (SELECT 1 FROM pgapex.report_region WHERE region_id = i_region_id)) = TRUE THEN
+    SELECT pgapex.f_region_get_report_region(i_region_id) INTO j_result;
   END IF;
   RETURN j_result;
 END
@@ -884,3 +943,193 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_navigation_region(
 $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_save_report_region(
+    i_region_id                      pgapex.region.region_id%TYPE
+  , i_page_id                        pgapex.region.page_id%TYPE
+  , i_region_template_id             pgapex.region.template_id%TYPE
+  , i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
+  , v_name                           pgapex.region.name%TYPE
+  , i_sequence                       pgapex.region.sequence%TYPE
+  , b_is_visible                     pgapex.region.is_visible%TYPE
+  , i_report_template_id             pgapex.report_region.template_id%TYPE
+  , v_schema_name                    pgapex.report_region.schema_name%TYPE
+  , v_view_name                      pgapex.report_region.view_name%TYPE
+  , i_items_per_page                 pgapex.report_region.items_per_page%TYPE
+  , b_show_header                    pgapex.report_region.show_header%TYPE
+  , v_pagination_query_parameter     pgapex.page_item.name%TYPE
+)
+  RETURNS int AS $$
+DECLARE
+  i_new_region_id INT;
+BEGIN
+  IF i_region_id IS NULL THEN
+    SELECT nextval('pgapex.region_region_id_seq') INTO i_new_region_id;
+
+    INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
+    VALUES (i_new_region_id, i_page_id, i_region_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
+
+    INSERT INTO pgapex.report_region (region_id, template_id, schema_name, view_name, items_per_page, show_header)
+    VALUES (i_new_region_id, i_report_template_id, v_schema_name, v_view_name, i_items_per_page, b_show_header);
+
+    INSERT INTO pgapex.page_item (page_id, region_id, name) VALUES (i_page_id, i_new_region_id, v_pagination_query_parameter);
+    RETURN i_new_region_id;
+  ELSE
+    UPDATE pgapex.region
+    SET page_id = i_page_id
+    ,   template_id = i_region_template_id
+    ,   page_template_display_point_id = i_page_template_display_point_id
+    ,   name = v_name
+    ,   sequence = i_sequence
+    ,   is_visible = b_is_visible
+    WHERE region_id = i_region_id;
+
+    UPDATE pgapex.report_region
+    SET template_id = i_report_template_id
+      , schema_name = v_schema_name
+      , view_name = v_view_name
+      , items_per_page = i_items_per_page
+      , show_header = b_show_header
+    WHERE region_id = i_region_id;
+
+    UPDATE pgapex.page_item
+    SET name = v_pagination_query_parameter;
+    RETURN i_region_id;
+  END IF;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_delete_report_region_columns(
+  i_region_id pgapex.region.region_id%TYPE
+)
+  RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.report_column WHERE region_id = i_region_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_create_report_region_column(
+    i_region_id             pgapex.report_column.region_id%TYPE
+  , v_view_column_name      pgapex.report_column.view_column_name%TYPE
+  , v_heading               pgapex.report_column.heading%TYPE
+  , i_sequence              pgapex.report_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.report_column.is_text_escaped%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_report_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.report_column_report_column_id_seq') INTO i_new_report_column_id;
+  INSERT INTO pgapex.report_column (report_column_id, region_id, report_column_type_id, view_column_name, heading, sequence, is_text_escaped)
+    VALUES (i_new_report_column_id, i_region_id, 'COLUMN', v_view_column_name, v_heading, i_sequence, b_is_text_escaped);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_create_report_region_link(
+    i_region_id             pgapex.report_column.region_id%TYPE
+  , v_heading               pgapex.report_column.heading%TYPE
+  , i_sequence              pgapex.report_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.report_column.is_text_escaped%TYPE
+  , v_url                   pgapex.report_column_link.url%TYPE
+  , v_link_text             pgapex.report_column_link.link_text%TYPE
+  , v_attributes            pgapex.report_column_link.attributes%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_report_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.report_column_report_column_id_seq') INTO i_new_report_column_id;
+  INSERT INTO pgapex.report_column (report_column_id, region_id, report_column_type_id, heading, sequence, is_text_escaped)
+    VALUES (i_new_report_column_id, i_region_id, 'LINK', v_heading, i_sequence, b_is_text_escaped);
+  INSERT INTO pgapex.report_column_link (report_column_id, url, link_text, attributes)
+    VALUES (i_new_report_column_id, v_url, v_link_text, v_attributes);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_region(
+  i_region_id pgapex.region.region_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT
+    json_build_object(
+          'id', r.region_id
+        , 'type', 'report-region'
+        , 'attributes', json_build_object(
+              'name', r.name
+            , 'sequence', r.sequence
+            , 'regionTemplate', r.template_id
+            , 'isVisible', r.is_visible
+
+            , 'reportTemplate', rr.template_id
+            , 'schemaName', rr.schema_name
+            , 'viewName', rr.view_name
+            , 'showHeader', rr.show_header
+            , 'itemsPerPage', rr.items_per_page
+            , 'paginationQueryParameter', pi.name
+            , 'reportColumns', json_agg(
+                CASE
+                WHEN rcl.report_column_link_id IS NULL THEN
+                  json_build_object(
+                        'id', rc.report_column_id
+                      , 'type', 'report-column'
+                      , 'attributes', json_build_object(
+                          'type', 'COLUMN'
+                          , 'isTextEscaped', rc.is_text_escaped
+                          , 'heading', rc.heading
+                          , 'sequence', rc.sequence
+                          , 'column', rc.view_column_name
+                      )
+                  )
+                ELSE
+                  json_build_object(
+                        'id', rc.report_column_id
+                      , 'type', 'report-link'
+                      , 'attributes', json_build_object(
+                            'type', 'LINK'
+                          , 'isTextEscaped', rc.is_text_escaped
+                          , 'heading', rc.heading
+                          , 'sequence', rc.sequence
+                          , 'linkUrl', rcl.url
+                          , 'linkText', rcl.link_text
+                          , 'linkAttributes', rcl.attributes
+                      )
+                  )
+                END
+            )
+        )
+    )
+  FROM pgapex.region r
+    LEFT JOIN pgapex.report_region rr ON r.region_id = rr.region_id
+    LEFT JOIN pgapex.page_item pi ON pi.region_id = rr.region_id
+    LEFT JOIN pgapex.report_column rc ON rc.region_id = rr.region_id
+    LEFT JOIN pgapex.report_column_link rcl ON rcl.report_column_id = rc.report_column_id
+  WHERE r.region_id = i_region_id
+  GROUP BY r.region_id, r.name, r.sequence, r.template_id, r.is_visible,
+    rr.template_id, rr.schema_name, rr.view_name, rr.show_header,
+    rr.items_per_page, pi.name
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------

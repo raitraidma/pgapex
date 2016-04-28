@@ -32,4 +32,11 @@ class Template extends Model {
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  public function getReportTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_report_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

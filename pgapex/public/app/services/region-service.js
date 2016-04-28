@@ -86,27 +86,29 @@
   };
 
   RegionService.prototype.saveReportRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
-                                                        reportTemplate, view, showHeader, itemsPerPage,
+                                                        reportTemplate, viewSchema, viewName, showHeader, itemsPerPage,
                                                         paginationQueryParameter, reportColumns) {
-    var postData = {
-      "pageId": pageId,
-      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
+    var attributes = {
       "regionId": regionId,
+      "pageId": pageId,
+      "regionTemplate": regionTemplate,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "name": name,
       "sequence": sequence,
-      "regionTemplate": regionTemplate,
       "isVisible": isVisible,
+
       "reportTemplate": reportTemplate,
-      "view": view,
+      "viewSchema": viewSchema,
+      "viewName": viewName,
       "showHeader": showHeader,
       "itemsPerPage": itemsPerPage,
       "paginationQueryParameter": paginationQueryParameter,
       "reportColumns": reportColumns
     };
-    if (name === 'fail') {
-      return this.apiService.post('api/region/save-report-region-fail.json', postData);
-    }
-    return this.apiService.post('api/region/save-report-region-ok.json', postData);
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+    return this.apiService.post('region/region/report/save', request);
   };
 
   RegionService.prototype.saveFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,

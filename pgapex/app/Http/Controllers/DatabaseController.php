@@ -22,4 +22,10 @@ class DatabaseController extends Controller {
     return $response->setApiDataAsJson($database->getAuthenticationFunctions($args['applicationId']))
                     ->getApiResponse();
   }
+
+  public function getViewsWithColumns(Request $request, Response $response, $args) {
+    $database = new Database($this->getContainer()['db']);
+    return $response->setApiDataAsJson($database->getViewsWithColumns($args['applicationId']))
+                    ->getApiResponse();
+  }
 }

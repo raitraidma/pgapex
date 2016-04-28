@@ -36,10 +36,12 @@ GRANT EXECUTE ON FUNCTION
 -- DATABASE OBJECT --
 , pgapex.f_database_object_get_databases()
 , pgapex.f_database_object_get_authentication_functions(pgapex.application.application_id%TYPE)
+, pgapex.f_database_object_get_views_with_columns(pgapex.application.application_id%TYPE)
 -- TEMPLATE --
 , pgapex.f_template_get_page_templates(pgapex.page_template.page_type_id%TYPE)
 , pgapex.f_template_get_region_templates()
 , pgapex.f_template_get_navigation_templates()
+, pgapex.f_template_get_report_templates()
 -- PAGE --
 , pgapex.f_page_get_pages(pgapex.page.application_id%TYPE)
 , pgapex.f_page_save_page(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.template_id%TYPE, pgapex.page.title%TYPE, pgapex.page.alias%TYPE, pgapex.page.is_homepage%TYPE, pgapex.page.is_authentication_required%TYPE)
@@ -61,4 +63,8 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_region_delete_region(pgapex.region.region_id%TYPE)
 , pgapex.f_region_save_html_region(pgapex.region.region_id%TYPE, pgapex.region.page_id%TYPE, pgapex.region.template_id%TYPE, pgapex.region.page_template_display_point_id%TYPE, pgapex.region.name%TYPE, pgapex.region.sequence%TYPE, pgapex.region.is_visible%TYPE, pgapex.html_region.content%TYPE)
 , pgapex.f_region_save_navigation_region(pgapex.region.region_id%TYPE, pgapex.region.page_id%TYPE, pgapex.region.template_id%TYPE, pgapex.region.page_template_display_point_id%TYPE, pgapex.region.name%TYPE, pgapex.region.sequence%TYPE, pgapex.region.is_visible%TYPE, pgapex.navigation_region.navigation_type_id%TYPE, pgapex.navigation_region.navigation_id%TYPE, pgapex.navigation_region.template_id%TYPE, pgapex.navigation_region.repeat_last_level%TYPE)
+, pgapex.f_region_save_report_region(pgapex.region.region_id%TYPE, pgapex.region.page_id%TYPE, pgapex.region.template_id%TYPE, pgapex.region.page_template_display_point_id%TYPE, pgapex.region.name%TYPE, pgapex.region.sequence%TYPE, pgapex.region.is_visible%TYPE, pgapex.report_region.template_id%TYPE, pgapex.report_region.schema_name%TYPE, pgapex.report_region.view_name%TYPE, pgapex.report_region.items_per_page%TYPE, pgapex.report_region.show_header%TYPE, pgapex.page_item.name%TYPE)
+, pgapex.f_region_delete_report_region_columns(pgapex.region.region_id%TYPE)
+, pgapex.f_region_create_report_region_column(pgapex.report_column.region_id%TYPE, pgapex.report_column.view_column_name%TYPE, pgapex.report_column.heading%TYPE, pgapex.report_column.sequence%TYPE, pgapex.report_column.is_text_escaped%TYPE)
+, pgapex.f_region_create_report_region_link(pgapex.report_column.region_id%TYPE, pgapex.report_column.heading%TYPE, pgapex.report_column.sequence%TYPE, pgapex.report_column.is_text_escaped%TYPE, pgapex.report_column_link.url%TYPE, pgapex.report_column_link.link_text%TYPE, pgapex.report_column_link.attributes%TYPE)
 TO :DB_APP_USER;

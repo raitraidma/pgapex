@@ -16,7 +16,7 @@
   };
 
   DatabaseService.prototype.getViewsWithColumns = function (applicationId) {
-    return this.apiService.get('api/database/views-with-columns.json', {'applicationId': applicationId});
+    return this.apiService.get('database/views/columns/' + applicationId);
   };
 
   DatabaseService.prototype.getFunctionsWithParameters = function (applicationId) {

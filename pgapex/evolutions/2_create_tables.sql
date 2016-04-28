@@ -1,5 +1,5 @@
 CREATE TABLE pgapex.report_column (
-	report_column_ID INTEGER NOT NULL,
+	report_column_ID SERIAL NOT NULL,
 	report_column_type_ID VARCHAR ( 30 ) NOT NULL,
 	region_ID INTEGER NOT NULL,
 	view_column_name VARCHAR ( 64 ),
@@ -13,7 +13,7 @@ CREATE INDEX idx_report_column_view_column_name ON pgapex.report_column (view_co
 CREATE INDEX idx_report_column_report_column_type_id ON pgapex.report_column (report_column_type_ID );
 CREATE INDEX idx_report_column_region_id ON pgapex.report_column (region_ID );
 CREATE TABLE pgapex.report_column_link (
-	report_column_link_ID INTEGER NOT NULL,
+	report_column_link_ID SERIAL NOT NULL,
 	report_column_ID INTEGER NOT NULL,
 	url VARCHAR ( 255 ) NOT NULL,
 	link_text VARCHAR ( 60 ) NOT NULL,
@@ -97,15 +97,18 @@ CREATE UNIQUE INDEX uq_navigation_item_root_item_sequence ON pgapex.navigation_i
 CREATE INDEX idx_navigation_item_page_id ON pgapex.navigation_item (page_ID );
 CREATE INDEX idx_navigation_item_parent_navigation_item_id ON pgapex.navigation_item (parent_navigation_item_ID );
 CREATE TABLE pgapex.page_item (
-	page_item_ID INTEGER NOT NULL,
+	page_item_ID SERIAL NOT NULL,
 	page_ID INTEGER NOT NULL,
 	form_field_ID INTEGER,
 	region_ID INTEGER,
 	name VARCHAR ( 60 ) NOT NULL,
+	CONSTRAINT uq_page_item_page_id_name UNIQUE (page_ID, name),
 	CONSTRAINT pk_page_item PRIMARY KEY (page_item_ID),
 	CONSTRAINT uq_page_item_form_field_id_page_id UNIQUE (form_field_ID, page_ID),
 	CONSTRAINT uq_page_item_region_id_page_id UNIQUE (region_ID, page_ID),
-	CONSTRAINT chk_page_item_must_refer_to_region_xor_form_field CHECK ((form_field_id IS NULL AND region_id IS NOT NULL) OR (form_field_id IS NOT NULL AND region_id IS NULL))
+	CONSTRAINT chk_page_item_name_may_contain_alphabet_underscore_hypen CHECK (name~ '^[a-zA-Z_-]+$'),
+	CONSTRAINT chk_page_item_must_refer_to_region_xor_form_field CHECK ((form_field_id IS NULL AND region_id IS NOT NULL) OR (form_field_id IS NOT NULL AND region_id IS NULL)),
+	CONSTRAINT chk_page_item_name_is_not_empty CHECK (length(trim(name)) > 0)
 	);
 CREATE INDEX idx_page_item_page_id ON pgapex.page_item (page_ID );
 CREATE TABLE pgapex.view_column (
@@ -395,13 +398,17 @@ CREATE TABLE pgapex.report_template (
 	report_begin TEXT NOT NULL,
 	report_end TEXT NOT NULL,
 	header_begin TEXT NOT NULL,
-	header_end TEXT NOT NULL,
+	header_row_begin TEXT NOT NULL,
 	header_cell TEXT NOT NULL,
-	row_begin TEXT NOT NULL,
-	row_end TEXT NOT NULL,
-	row_cell TEXT NOT NULL,
-	navigation_begin TEXT NOT NULL,
-	navigation_end TEXT NOT NULL,
+	header_row_end TEXT NOT NULL,
+	header_end TEXT NOT NULL,
+	body_begin TEXT NOT NULL,
+	body_row_begin TEXT NOT NULL,
+	body_row_cell TEXT NOT NULL,
+	body_row_end TEXT NOT NULL,
+	body_end TEXT NOT NULL,
+	pagination_begin TEXT NOT NULL,
+	pagination_end TEXT NOT NULL,
 	previous_page TEXT NOT NULL,
 	next_page TEXT NOT NULL,
 	active_page TEXT NOT NULL,
@@ -409,9 +416,9 @@ CREATE TABLE pgapex.report_template (
 	CONSTRAINT pk_report_template PRIMARY KEY (template_ID)
 	);
 ALTER TABLE pgapex.button_template ADD CONSTRAINT fk_button_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.report_region (region_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_page_id FOREIGN KEY (page_ID) REFERENCES pgapex.page (page_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_form_field_id FOREIGN KEY (form_field_ID) REFERENCES pgapex.form_field (form_field_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.report_region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_page_id FOREIGN KEY (page_ID) REFERENCES pgapex.page (page_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_form_field_id FOREIGN KEY (form_field_ID) REFERENCES pgapex.form_field (form_field_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.form_template ADD CONSTRAINT fk_form_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.drop_down_template ADD CONSTRAINT fk_drop_down_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_template ADD CONSTRAINT fk_page_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;

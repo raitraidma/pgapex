@@ -3,6 +3,7 @@ INSERT INTO pgapex.template (template_id, name) VALUES (2, 'Normal page');
 INSERT INTO pgapex.template (template_id, name) VALUES (3, 'Top navigation template');
 INSERT INTO pgapex.template (template_id, name) VALUES (4, 'Region template');
 INSERT INTO pgapex.template (template_id, name) VALUES (5, 'Navigation region template');
+INSERT INTO pgapex.template (template_id, name) VALUES (6, 'Report template');
 
 
 INSERT INTO pgapex.navigation_template (template_id, navigation_begin, navigation_end) VALUES (3, '<ul class="nav navbar-nav">', '</ul>');
@@ -125,3 +126,12 @@ INSERT INTO pgapex.region_template (template_id, template) VALUES (5, '#BODY#');
 
 INSERT INTO pgapex.page_template_display_point (page_template_display_point_id, page_template_id, display_point_id, description) VALUES (1, 2, 'BODY', 'Body');
 INSERT INTO pgapex.page_template_display_point (page_template_display_point_id, page_template_id, display_point_id, description) VALUES (2, 2, 'POSITION_1', 'Navigation');
+
+INSERT INTO pgapex.report_template (template_ID, report_begin, report_end,
+                                    header_begin, header_row_begin, header_cell, header_row_end, header_end,
+                                    body_begin, body_row_begin, body_row_cell, body_row_end, body_end,
+                                    pagination_begin, pagination_end, previous_page, next_page, active_page, inactive_page)
+VALUES (6, '<div><table class="table table-bordered">', '</table>#PAGINATION#</div>',
+'<thead>', '<tr>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
+'<tbody>', '<tr>', '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>',
+'<nav><ul class="pagination">', '</ul></nav>', '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>', '<li class="active"><a href="#LINK#">1</a></li>', '<li><a href="#LINK#">2</a></li>');
