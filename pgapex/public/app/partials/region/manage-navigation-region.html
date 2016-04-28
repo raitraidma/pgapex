@@ -9,7 +9,7 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.navigationTemplate, 'navigationTemplate')}">
       <label for="navigationTemplate" class="col-sm-3 control-label">{{'region.navigationTemplate'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="navigationTemplate" name="navigationTemplate" ng-model="region.navigationTemplate" class="form-control" required ng-options="navigationTemplate.id as navigationTemplate.name for navigationTemplate in navigationTemplates">
+        <select id="navigationTemplate" name="navigationTemplate" ng-model="region.navigationTemplate" class="form-control" required ng-options="navigationTemplate.id as navigationTemplate.attributes.name for navigationTemplate in navigationTemplates">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.navigationTemplate, 'navigationTemplate')">
           <span ng-show="manageRegionForm.navigationTemplate.$error.required" class="help-block">{{'region.navigationTemplateIsMandatory'|translate}}</span>
@@ -34,7 +34,7 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.navigation, 'navigation')}">
       <label for="navigation" class="col-sm-3 control-label">{{'region.navigation'|translate}} *</label>
       <div class="col-sm-9">
-        <select id="navigation" name="navigation" ng-model="region.navigation" class="form-control" required ng-options="navigation.id as navigation.name for navigation in navigations">
+        <select id="navigation" name="navigation" ng-model="region.navigation" class="form-control" required ng-options="navigation.id as navigation.attributes.name for navigation in navigations">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.navigation, 'navigation')">
           <span ng-show="manageRegionForm.navigation.$error.required" class="help-block">{{'region.navigationIsMandatory'|translate}}</span>

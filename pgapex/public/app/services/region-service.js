@@ -51,10 +51,10 @@
     var attributes = {
       "regionId": regionId,
       "pageId": pageId,
+      "regionTemplate": regionTemplate,
       "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "name": name,
       "sequence": sequence,
-      "regionTemplate": regionTemplate,
       "isVisible": isVisible,
       "content": content
     };
@@ -66,23 +66,23 @@
 
   RegionService.prototype.saveNavigationRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                           navigationTemplate, navigationType, navigation, repeatLastLevel) {
-    var postData = {
-      "pageId": pageId,
-      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
+    var attributes = {
       "regionId": regionId,
+      "pageId": pageId,
+      "regionTemplate": regionTemplate,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "name": name,
       "sequence": sequence,
-      "regionTemplate": regionTemplate,
       "isVisible": isVisible,
       "navigationTemplate": navigationTemplate,
       "navigationType": navigationType,
       "navigation": navigation,
       "repeatLastLevel": repeatLastLevel
     };
-    if (name === 'fail') {
-      return this.apiService.post('api/region/save-navigation-region-fail.json', postData);
-    }
-    return this.apiService.post('api/region/save-navigation-region-ok.json', postData);
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+    return this.apiService.post('region/region/navigation/save', request);
   };
 
   RegionService.prototype.saveReportRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,

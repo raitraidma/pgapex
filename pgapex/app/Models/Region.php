@@ -44,4 +44,24 @@ class Region extends Model {
     $statement->execute();
     return $statement->fetchColumn() === true;
   }
+
+  public function saveNavigationRegion(Request $request) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_region_save_navigation_region(:regionId, :pageId, :templateId, :tplDpId, :name, :sequence, :isVisible, '
+                                    . ':navigationType, :navigation, :navigationTemplate, :repeatLastLevel)');
+    $statement->bindValue(':regionId',           $request->getApiAttribute('regionId'),                   PDO::PARAM_INT);
+    $statement->bindValue(':pageId',             $request->getApiAttribute('pageId'),                     PDO::PARAM_INT);
+    $statement->bindValue(':templateId',         $request->getApiAttribute('regionTemplate'),             PDO::PARAM_INT);
+    $statement->bindValue(':tplDpId',            $request->getApiAttribute('pageTemplateDisplayPointId'), PDO::PARAM_INT);
+    $statement->bindValue(':name',               $request->getApiAttribute('name'),                       PDO::PARAM_STR);
+    $statement->bindValue(':sequence',           $request->getApiAttribute('sequence'),                   PDO::PARAM_INT);
+    $statement->bindValue(':isVisible',          $request->getApiAttribute('isVisible'),                  PDO::PARAM_BOOL);
+
+    $statement->bindValue(':navigationType',     $request->getApiAttribute('navigationType'),             PDO::PARAM_STR);
+    $statement->bindValue(':navigation',         $request->getApiAttribute('navigation'),                 PDO::PARAM_INT);
+    $statement->bindValue(':navigationTemplate', $request->getApiAttribute('navigationTemplate'),         PDO::PARAM_INT);
+    $statement->bindValue(':repeatLastLevel',    $request->getApiAttribute('repeatLastLevel'),            PDO::PARAM_BOOL);
+    $statement->execute();
+    return $statement->fetchColumn() === true;
+  }
 }

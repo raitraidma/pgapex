@@ -28,6 +28,7 @@ $app->group('/api', function () {
     $this->get('/template/login-templates', '\App\Http\Controllers\TemplateController:getLoginTemplates');
     $this->get('/template/page-templates', '\App\Http\Controllers\TemplateController:getPageTemplates');
     $this->get('/template/region-templates', '\App\Http\Controllers\TemplateController:getRegionTemplates');
+    $this->get('/template/navigation-templates', '\App\Http\Controllers\TemplateController:getNavigationTemplates');
 
     $this->get('/page/pages/{applicationId}', '\App\Http\Controllers\PageController:getPages');
     $this->post('/page/page/save', '\App\Http\Controllers\PageController:savePage');
@@ -48,6 +49,7 @@ $app->group('/api', function () {
     $this->get('/region/region/{id}', '\App\Http\Controllers\RegionController:getRegion');
     $this->post('/region/region/{id}/delete', '\App\Http\Controllers\RegionController:deleteRegion');
     $this->post('/region/region/html/save', '\App\Http\Controllers\RegionController:saveHtmlRegion');
+    $this->post('/region/region/navigation/save', '\App\Http\Controllers\RegionController:saveNavigationRegion');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

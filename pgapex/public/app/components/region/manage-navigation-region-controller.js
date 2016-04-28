@@ -80,11 +80,11 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
-      this.$scope.region.isVisible,
+      this.$scope.region.isVisible || false,
       this.$scope.region.navigationTemplate,
       this.$scope.region.navigationType,
       this.$scope.region.navigation,
-      this.$scope.region.repeatLastLevel
+      this.$scope.region.repeatLastLevel || false
     ).then(this.handleSaveResponse.bind(this));
   };
 
@@ -100,8 +100,8 @@
 
   ManageNavigationRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
-    this.regionService.getNavigationRegion(this.getRegionId()).then(function (response) {
-      this.$scope.region = response.getDataOrDefault({});
+    this.regionService.getRegion(this.getRegionId()).then(function (response) {
+      this.$scope.region = response.getDataOrDefault({'attributes': {}}).attributes;
     }.bind(this));
   };
 

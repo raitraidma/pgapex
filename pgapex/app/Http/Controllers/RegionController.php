@@ -37,4 +37,9 @@ class RegionController extends Controller {
     return $response->setApiDataAsJson($this->getRegionModel()->saveHtmlRegion($request))
       ->getApiResponse();
   }
+
+  public function saveNavigationRegion(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getRegionModel()->saveNavigationRegion($request))
+      ->getApiResponse();
+  }
 }

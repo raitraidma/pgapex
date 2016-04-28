@@ -293,17 +293,37 @@ $$ LANGUAGE sql
 ----------
 
 CREATE OR REPLACE FUNCTION pgapex.f_template_get_region_templates()
-RETURNS json AS $$
+  RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+FROM (
+       SELECT
+           t.template_id AS id
+         , 'region-template' AS type
+         , json_build_object(
+               'name', t.name
+           ) AS attributes
+       FROM pgapex.region_template rt
+         LEFT JOIN pgapex.template t ON rt.template_id = t.template_id
+       ORDER BY t.name
+     ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_navigation_templates()
+  RETURNS json AS $$
 SELECT COALESCE(JSON_AGG(a), '[]')
   FROM (
     SELECT
       t.template_id AS id
-    , 'region-template' AS type
+    , 'navigation-template' AS type
     , json_build_object(
         'name', t.name
     ) AS attributes
-    FROM pgapex.region_template rt
-    LEFT JOIN pgapex.template t ON rt.template_id = t.template_id
+    FROM pgapex.navigation_template nt
+    LEFT JOIN pgapex.template t ON nt.template_id = t.template_id
     ORDER BY t.name
   ) a
 $$ LANGUAGE sql
@@ -693,6 +713,8 @@ DECLARE
 BEGIN
   IF (SELECT EXISTS (SELECT 1 FROM pgapex.html_region WHERE region_id = i_region_id)) = TRUE THEN
     SELECT pgapex.f_region_get_html_region(i_region_id) INTO j_result;
+  ELSIF (SELECT EXISTS (SELECT 1 FROM pgapex.navigation_region WHERE region_id = i_region_id)) = TRUE THEN
+    SELECT pgapex.f_region_get_navigation_region(i_region_id) INTO j_result;
   END IF;
   RETURN j_result;
 END
@@ -720,7 +742,7 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_region_save_html_region(
     i_region_id                      pgapex.region.region_id%TYPE
   , i_page_id                        pgapex.region.page_id%TYPE
-  , i_template_id                    pgapex.region.template_id%TYPE
+  , i_region_template_id             pgapex.region.template_id%TYPE
   , i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
   , v_name                           pgapex.region.name%TYPE
   , i_sequence                       pgapex.region.sequence%TYPE
@@ -735,14 +757,14 @@ BEGIN
     SELECT nextval('pgapex.region_region_id_seq') INTO i_new_region_id;
 
     INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
-    VALUES (i_new_region_id, i_page_id, i_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
+    VALUES (i_new_region_id, i_page_id, i_region_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
 
     INSERT INTO pgapex.html_region (region_id, content)
     VALUES (i_new_region_id, t_content);
   ELSE
     UPDATE pgapex.region
     SET page_id = i_page_id
-    ,   template_id = i_template_id
+    ,   template_id = i_region_template_id
     ,   page_template_display_point_id = i_page_template_display_point_id
     ,   name = v_name
     ,   sequence = i_sequence
@@ -785,3 +807,80 @@ SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
 ----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_save_navigation_region(
+  i_region_id                      pgapex.region.region_id%TYPE
+, i_page_id                        pgapex.region.page_id%TYPE
+, i_region_template_id             pgapex.region.template_id%TYPE
+, i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
+, v_name                           pgapex.region.name%TYPE
+, i_sequence                       pgapex.region.sequence%TYPE
+, b_is_visible                     pgapex.region.is_visible%TYPE
+, i_navigation_type_id             pgapex.navigation_region.navigation_type_id%TYPE
+, i_navigation_id                  pgapex.navigation_region.navigation_id%TYPE
+, i_navigation_template_id         pgapex.navigation_region.template_id%TYPE
+, b_repeat_last_level              pgapex.navigation_region.repeat_last_level%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_region_id INT;
+BEGIN
+  IF i_region_id IS NULL THEN
+    SELECT nextval('pgapex.region_region_id_seq') INTO i_new_region_id;
+
+    INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
+    VALUES (i_new_region_id, i_page_id, i_region_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
+
+    INSERT INTO pgapex.navigation_region (region_id, navigation_type_id, navigation_id, template_id, repeat_last_level)
+    VALUES (i_new_region_id, i_navigation_type_id, i_navigation_id, i_navigation_template_id, b_repeat_last_level);
+  ELSE
+    UPDATE pgapex.region
+    SET page_id = i_page_id
+    ,   template_id = i_region_template_id
+    ,   page_template_display_point_id = i_page_template_display_point_id
+    ,   name = v_name
+    ,   sequence = i_sequence
+    ,   is_visible = b_is_visible
+    WHERE region_id = i_region_id;
+
+    UPDATE pgapex.navigation_region
+    SET navigation_type_id = i_navigation_type_id
+      , navigation_id = i_navigation_id
+      , template_id = i_navigation_template_id
+      , repeat_last_level = b_repeat_last_level
+    WHERE region_id = i_region_id;
+  END IF;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_navigation_region(
+  i_region_id pgapex.region.region_id%TYPE
+)
+  RETURNS json AS $$
+  SELECT
+  json_build_object(
+    'id', r.region_id
+  , 'type', 'navigation-region'
+  , 'attributes', json_build_object(
+      'name', r.name
+    , 'sequence', r.sequence
+    , 'regionTemplate', r.template_id
+    , 'isVisible', r.is_visible
+
+    , 'navigationTemplate', nr.template_id
+    , 'navigationType', nr.navigation_type_id
+    , 'navigation', nr.navigation_id
+    , 'repeatLastLevel', nr.repeat_last_level
+    )
+  )
+  FROM pgapex.region r
+  LEFT JOIN pgapex.navigation_region nr ON r.region_id = nr.region_id
+  WHERE r.region_id = i_region_id
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

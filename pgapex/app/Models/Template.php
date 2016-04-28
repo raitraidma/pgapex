@@ -25,4 +25,11 @@ class Template extends Model {
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  public function getNavigationTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_navigation_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

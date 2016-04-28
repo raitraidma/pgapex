@@ -30,7 +30,7 @@
   };
 
   TemplateService.prototype.getNavigationTemplates = function () {
-    return this.apiService.get('api/template/navigation-templates.json');
+    return this.apiService.get('template/navigation-templates');
   };
 
   TemplateService.prototype.getReportTemplates = function () {

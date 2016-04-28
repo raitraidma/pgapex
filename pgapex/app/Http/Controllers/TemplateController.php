@@ -32,4 +32,9 @@ class TemplateController extends Controller {
     return $response->setApiDataAsJson($this->getTemplateModel()->getRegionTemplates())
       ->getApiResponse();
   }
+
+  public function getNavigationTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getNavigationTemplates())
+      ->getApiResponse();
+  }
 }
