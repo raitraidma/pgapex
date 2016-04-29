@@ -116,6 +116,15 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_dblink_connection_name()
+  RETURNS VARCHAR AS $$
+  SELECT 'dblink_connection_' || txid_current()::varchar;
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_dblink_connect(
   i_application_id INT
 )
@@ -132,15 +141,6 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_app_dblink_disconnect()
 RETURNS TEXT AS $$
   SELECT dblink_disconnect(pgapex.f_app_get_dblink_connection_name());
-$$ LANGUAGE sql
-SECURITY DEFINER
-SET search_path = pgapex, public, pg_temp;
-
-----------
-
-CREATE OR REPLACE FUNCTION pgapex.f_app_get_dblink_connection_name()
-RETURNS VARCHAR AS $$
-  SELECT 'dblink_connection_' || txid_current()::varchar;
 $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
