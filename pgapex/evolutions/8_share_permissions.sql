@@ -68,5 +68,6 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_region_create_report_region_column(pgapex.report_column.region_id%TYPE, pgapex.report_column.view_column_name%TYPE, pgapex.report_column.heading%TYPE, pgapex.report_column.sequence%TYPE, pgapex.report_column.is_text_escaped%TYPE)
 , pgapex.f_region_create_report_region_link(pgapex.report_column.region_id%TYPE, pgapex.report_column.heading%TYPE, pgapex.report_column.sequence%TYPE, pgapex.report_column.is_text_escaped%TYPE, pgapex.report_column_link.url%TYPE, pgapex.report_column_link.link_text%TYPE, pgapex.report_column_link.attributes%TYPE)
 -- APP --
-, pgapex.f_app_query_page(VARCHAR, VARCHAR, VARCHAR, JSONB, JSONB, JSONB)
+, pgapex.f_app_query_page(VARCHAR, VARCHAR, VARCHAR, VARCHAR, JSONB, JSONB, JSONB)
+, pgapex.f_app_logout(VARCHAR, VARCHAR, JSONB)
 TO :DB_APP_USER;

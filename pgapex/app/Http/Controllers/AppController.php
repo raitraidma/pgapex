@@ -26,8 +26,18 @@ class AppController extends Controller {
     $getParams = json_encode($request->getQueryParams());
     $postParams = json_encode($request->getParsedBody());
 
-    $queryResponse = json_decode($this->getAppModel()->queryPage($applicationId, $pageId, $method, $headers, $getParams, $postParams), true);
+    $queryResponse = json_decode($this->getAppModel()->queryPage($_SERVER['SCRIPT_NAME'], $applicationId, $pageId, $method, $headers, $getParams, $postParams), true);
+    return $this->createResponse($response, $queryResponse);
+  }
 
+  public function logout(Request $request, Response $response, $args) {
+    $applicationId = $args['applicationId'];
+    $headers = json_encode($request->getHeaders());
+    $queryResponse = json_decode($this->getAppModel()->logout($_SERVER['SCRIPT_NAME'], $applicationId, $headers), true);
+    return $this->createResponse($response, $queryResponse);
+  }
+
+  private function createResponse($response, $queryResponse) {
     $newResponse = $response;
     if ($queryResponse['headers'] !== null) {
       foreach ($queryResponse['headers'] as $key => $value) {

@@ -10,6 +10,7 @@ $app->any('/', function (Request $request, Response $response) {
 });
 
 $app->map(['GET', 'POST'], '/app/{applicationId}[/{pageId}]', '\App\Http\Controllers\AppController:queryPage');
+$app->get('/logout/{applicationId}', '\App\Http\Controllers\AppController:logout');
 
 $app->group('/api', function () {
   $this->post('/auth/login', '\App\Http\Controllers\AuthController:login');

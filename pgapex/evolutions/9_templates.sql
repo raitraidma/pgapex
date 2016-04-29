@@ -16,7 +16,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#TITLE#</title>
+    <title>#APPLICATION_NAME# :: #TITLE#</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -38,16 +38,15 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
     <div class="container">
       #SUCCESS_MESSAGE#
       #ERROR_MESSAGE#
-      <div class="alert alert-success" role="alert">#MESSAGE#</div>
-      <div class="alert alert-danger" role="alert">#MESSAGE#</div>
       <form class="form-horizontal" method="post" action="">
+        <input name="PGAPEX_OP" type="hidden" value="LOGIN">
         <div class="form-group">
           <div class="col-sm-12">
             <div class="input-group">
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
               </span>
-              <input name="username" type="text" class="form-control" required autofocus>
+              <input name="USERNAME" type="text" class="form-control" required autofocus>
             </div>
           </div>
         </div>
@@ -57,7 +56,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
               </span>
-              <input name="password" type="password" class="form-control" required>
+              <input name="PASSWORD" type="password" class="form-control" required>
             </div>
           </div>
         </div>
@@ -78,7 +77,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#TITLE#</title>
+    <title>#APPLICATION_NAME# :: #TITLE#</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
