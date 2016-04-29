@@ -9,6 +9,8 @@ $app->any('/', function (Request $request, Response $response) {
   return str_replace('{$pgApexPath}', $_SERVER['PHP_SELF'], $content);
 });
 
+$app->map(['GET', 'POST'], '/app/{applicationId}[/{pageId}]', '\App\Http\Controllers\AppController:queryPage');
+
 $app->group('/api', function () {
   $this->post('/auth/login', '\App\Http\Controllers\AuthController:login');
 

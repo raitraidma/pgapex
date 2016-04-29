@@ -35955,9 +35955,13 @@
 					    (object Attribute
 						tool       	"Data Modeler"
 						name       	"DefaultValueType"
-						value      	"No Default Value"))
+						value      	"No Default Value")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"Length"
+						value      	128))
 					quid       	"571B538F00E1"
-					type       	"INTEGER"
+					type       	"VARCHAR(128)"
 					exportControl 	"Primary")
 				    (object ClassAttribute "application_ID"
 					attributes 	(list Attribute_Set

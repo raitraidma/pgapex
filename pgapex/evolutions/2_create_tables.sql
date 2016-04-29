@@ -134,9 +134,9 @@ CREATE TABLE pgapex.navigation_template (
 	CONSTRAINT pk_navigation_template PRIMARY KEY (template_ID)
 	);
 CREATE TABLE pgapex.session (
-	session_ID INTEGER NOT NULL,
+	session_ID VARCHAR ( 128 ) NOT NULL,
 	application_ID INTEGER NOT NULL,
-	data TEXT NOT NULL,
+	data JSONB NOT NULL,
 	expiration_time TIMESTAMP NOT NULL,
 	CONSTRAINT pk_session PRIMARY KEY (session_ID)
 	);
