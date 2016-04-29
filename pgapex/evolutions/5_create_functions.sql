@@ -199,12 +199,21 @@ CREATE OR REPLACE FUNCTION pgapex.f_application_save_application_authentication(
 )
 RETURNS boolean AS $$
 BEGIN
-  UPDATE pgapex.application
-  SET authentication_scheme_id = v_authentication_scheme
-  ,   authentication_function_schema_name = v_authentication_function_schema_name
-  ,   authentication_function_name = v_authentication_function_name
-  ,   login_page_template_id = i_login_page_template
-  WHERE application_id = i_id;
+  IF v_authentication_scheme = 'NO_AUTHENTICATION' THEN
+    UPDATE pgapex.application
+    SET authentication_scheme_id = v_authentication_scheme
+      ,   authentication_function_schema_name = NULL
+      ,   authentication_function_name = NULL
+      ,   login_page_template_id = NULL
+    WHERE application_id = i_id;
+  ELSE
+    UPDATE pgapex.application
+    SET authentication_scheme_id = v_authentication_scheme
+    ,   authentication_function_schema_name = v_authentication_function_schema_name
+    ,   authentication_function_name = v_authentication_function_name
+    ,   login_page_template_id = i_login_page_template
+    WHERE application_id = i_id;
+  END IF;
   RETURN FOUND;
 END
 $$ LANGUAGE plpgsql
