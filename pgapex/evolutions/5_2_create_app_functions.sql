@@ -40,6 +40,9 @@ BEGIN
     END IF;
   END IF;
 
+  PERFORM pgapex.f_app_add_setting('application_root', v_application_root);
+  PERFORM pgapex.f_app_add_setting('application_id', i_application_id::varchar);
+  PERFORM pgapex.f_app_add_setting('page_id', i_page_id::varchar);
   BEGIN
     PERFORM pgapex.f_app_dblink_connect(i_application_id);
     PERFORM pgapex.f_app_parse_operation(i_application_id, i_page_id, v_method, j_headers, j_get_params, j_post_params);
@@ -109,6 +112,12 @@ BEGIN
     , type           VARCHAR(10)  NOT NULL CHECK (type IN ('ERROR', 'SUCCESS'))
     , message        TEXT         NOT NULL
   );
+  CREATE TEMP TABLE IF NOT EXISTS temp_regions (
+      transaction_id INT          NOT NULL
+    , display_point  VARCHAR      NOT NULL
+    , sequence       INT          NOT NULL
+    , content        TEXT         NOT NULL
+  );
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
@@ -142,6 +151,42 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_dblink_disconnect()
 RETURNS TEXT AS $$
   SELECT dblink_disconnect(pgapex.f_app_get_dblink_connection_name());
 $$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_add_region(
+    v_display_point VARCHAR
+  , i_sequence      INT
+  , t_content       TEXT
+)
+  RETURNS void AS $$
+BEGIN
+  INSERT INTO temp_regions (transaction_id , display_point, sequence, content) VALUES (txid_current(), v_display_point, i_sequence, t_content);
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_display_point_content(
+  v_display_point VARCHAR
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_response TEXT;
+BEGIN
+  WITH display_point_content AS (
+    SELECT content FROM temp_regions
+    WHERE transaction_id = txid_current()
+      AND display_point = v_display_point
+    ORDER BY sequence
+  ) SELECT COALESCE(string_agg(content, ''), '') INTO t_response FROM display_point_content;
+  RETURN t_response;
+END
+$$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
@@ -439,6 +484,68 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_logout_link()
+RETURNS varchar AS $$
+  SELECT pgapex.f_app_get_setting('application_root') || '/logout/' ||  pgapex.f_app_get_setting('application_id');
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_replace_system_variables(
+  t_template TEXT
+)
+  RETURNS text AS $$
+BEGIN
+  t_template := replace(t_template, '&SESSION_ID&', pgapex.f_app_get_session_id());
+  t_template := replace(t_template, '&APPLICATION_ROOT&', pgapex.f_app_get_setting('application_root'));
+  t_template := replace(t_template, '&APPLICATION_ID&', pgapex.f_app_get_setting('application_id'));
+  t_template := replace(t_template, '&PAGE_ID&', pgapex.f_app_get_setting('page_id'));
+  t_template := replace(t_template, '&APPLICATION_NAME&', (SELECT name FROM pgapex.application WHERE application_id = pgapex.f_app_get_setting('application_id')::int));
+  t_template := replace(t_template, '&TITLE&', (SELECT title FROM pgapex.page WHERE page_id = pgapex.f_app_get_setting('page_id')::int));
+  t_template := replace(t_template, '&LOGOUT_LINK&', pgapex.f_app_get_logout_link());
+  RETURN t_template;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_page_regions(
+  i_page_id INT
+)
+RETURNS TABLE(
+  region_id     INT
+, region_type   VARCHAR
+, display_point VARCHAR
+, sequence      INT
+) AS $$
+  SELECT
+    r.region_id
+    , (CASE
+       WHEN hr.region_id IS NOT NULL THEN 'HTML'
+       WHEN nr.region_id IS NOT NULL THEN 'NAVIGATION'
+       WHEN rr.region_id IS NOT NULL THEN 'REPORT'
+       WHEN fr.region_id IS NOT NULL THEN 'FORM'
+       END) AS region_type
+    , ptdp.display_point_id AS display_point
+    , r.sequence
+  FROM pgapex.region r
+    LEFT JOIN pgapex.html_region hr ON hr.region_id = r.region_id
+    LEFT JOIN pgapex.navigation_region nr ON nr.region_id = r.region_id
+    LEFT JOIN pgapex.report_region rr ON rr.region_id = r.region_id
+    LEFT JOIN pgapex.form_region fr ON fr.region_id = r.region_id
+    LEFT JOIN pgapex.page_template_display_point ptdp ON ptdp.page_template_display_point_id = r.page_template_display_point_id
+  WHERE r.page_id = i_page_id AND r.is_visible = TRUE
+  ORDER BY r.sequence;
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_create_page(
     i_application_id INT
   , i_page_id        INT
@@ -452,6 +559,8 @@ DECLARE
   t_response              TEXT;
   t_success_message       TEXT;
   t_error_message         TEXT;
+  r_region                RECORD;
+  v_display_point         VARCHAR;
 BEGIN
   SELECT authentication_scheme_id <> 'NO_AUTHENTICATION' INTO b_is_app_auth_required FROM pgapex.application WHERE application_id = i_application_id;
   SELECT is_authentication_required INTO b_is_page_auth_required FROM pgapex.page WHERE page_id = i_page_id;
@@ -464,14 +573,35 @@ BEGIN
                             FROM pgapex.application a
                             WHERE a.application_id = i_application_id);
   ELSE
-    SELECT 'Page content' INTO t_response;
+    FOR r_region IN (SELECT * FROM pgapex.f_app_get_page_regions(i_page_id)) LOOP
+      IF r_region.region_type = 'HTML' THEN
+        PERFORM pgapex.f_app_add_region(r_region.display_point, r_region.sequence, pgapex.f_app_get_html_region(r_region.region_id));
+      ELSE
+        PERFORM pgapex.f_app_add_region(r_region.display_point, r_region.sequence, 'Not implemented: ' || r_region.region_type);
+      END IF;
+    END LOOP;
+
+    SELECT pt.header || pt.body || pt.footer, pt.success_message, pt.error_message
+    INTO t_response, t_success_message, t_error_message
+    FROM pgapex.page_template pt
+    WHERE pt.template_id = (SELECT template_id FROM pgapex.page WHERE page_id = i_page_id);
+
+    FOR v_display_point IN (SELECT distinct ptdp.display_point_id
+                            FROM pgapex.page p
+                            LEFT JOIN pgapex.page_template pt ON p.template_id = pt.template_id
+                            LEFT JOIN pgapex.page_template_display_point ptdp ON pt.template_id = ptdp.page_template_id
+                            WHERE p.page_id = i_page_id
+    ) LOOP
+      t_response := replace(t_response, '#' || v_display_point || '#', COALESCE(pgapex.f_app_get_display_point_content(v_display_point), ''));
+    END LOOP;
   END IF;
 
   t_response := replace(t_response, '#APPLICATION_NAME#', (SELECT name FROM pgapex.application WHERE application_id = i_application_id));
   t_response := replace(t_response, '#TITLE#', (SELECT title FROM pgapex.page WHERE page_id = i_page_id));
-  t_response := replace(t_response, '#LOGOUT_LINK#', '');
+  t_response := replace(t_response, '#LOGOUT_LINK#', pgapex.f_app_get_logout_link());
   t_response := replace(t_response, '#ERROR_MESSAGE#', pgapex.f_app_get_error_message(t_error_message));
   t_response := replace(t_response, '#SUCCESS_MESSAGE#', pgapex.f_app_get_success_message(t_success_message));
+  t_response := pgapex.f_app_replace_system_variables(t_response);
 
   RETURN t_response;
 END
@@ -573,11 +703,38 @@ BEGIN
 
     IF b_is_permitted THEN
       PERFORM pgapex.f_app_session_write('is_authenticated', TRUE::VARCHAR);
-      --PERFORM pgapex.f_app_add_success_message('Allowed');
     ELSE
       PERFORM pgapex.f_app_add_error_message('Permission denied!');
     END IF;
   END IF;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_html_region(
+    i_region_id   INT
+)
+RETURNS TEXT AS $$
+DECLARE
+  t_response TEXT;
+  t_region_name VARCHAR;
+  t_region_content TEXT;
+  t_region_template TEXT;
+BEGIN
+  SELECT r.name, hr.content, rt.template
+  INTO t_region_name, t_region_content, t_region_template
+  FROM pgapex.region r
+  LEFT JOIN pgapex.html_region hr ON r.region_id = hr.region_id
+  LEFT JOIN pgapex.region_template rt ON rt.template_id = r.template_id
+  WHERE r.region_id = i_region_id;
+
+  t_region_template := replace(t_region_template, '#NAME#', t_region_name);
+  t_region_template := replace(t_region_template, '#BODY#', t_region_content);
+  t_region_template := pgapex.f_app_replace_system_variables(t_region_template);
+  RETURN t_region_template;
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
