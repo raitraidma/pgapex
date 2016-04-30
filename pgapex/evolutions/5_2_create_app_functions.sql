@@ -978,7 +978,7 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region_with_template(
   RETURNS TEXT AS $$
 DECLARE
   t_response         TEXT;
-  t_pagination       TEXT;
+  t_pagination       TEXT     := '';
   v_url_prefix       VARCHAR;
   t_report_begin     TEXT;
   t_report_end       TEXT;
@@ -1001,6 +1001,7 @@ DECLARE
   r_report_column    pgapex.t_report_column_with_link;
   r_report_columns   pgapex.t_report_column_with_link[];
   j_row              JSON;
+  r_column           RECORD;
   t_cell_content     TEXT;
 BEGIN
   SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
@@ -1049,11 +1050,15 @@ BEGIN
             END IF;
             t_response := t_response || replace(t_body_row_cell, '#CELL_CONTENT#', t_cell_content);
           ELSE
-            t_cell_content := COALESCE(r_report_column.link_text, '');
+            FOR r_column IN SELECT * FROM json_each_text(j_row)
+            LOOP
+              r_report_column.link_text := replace(r_report_column.link_text, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+              r_report_column.url := replace(r_report_column.url, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+            END LOOP;
             IF r_report_column.is_text_escaped THEN
-              t_cell_content := pgapex.f_app_html_special_chars(t_cell_content);
+              r_report_column.link_text := pgapex.f_app_html_special_chars(r_report_column.link_text);
             END IF;
-            t_response := t_response || replace(t_body_row_cell, '#CELL_CONTENT#', '<a href="' || COALESCE(r_report_column.url, '') || '" ' || COALESCE(r_report_column.attributes, '') || '>' || t_cell_content || '</a>');
+            t_response := t_response || replace(t_body_row_cell, '#CELL_CONTENT#', '<a href="' || r_report_column.url || '" ' || COALESCE(r_report_column.attributes, '') || '>' || r_report_column.link_text || '</a>');
           END IF;
         END LOOP;
       t_response := t_response || t_body_row_end;
@@ -1064,26 +1069,28 @@ BEGIN
 
   v_url_prefix := pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' || pgapex.f_app_get_setting('page_id') || '?' || v_pagination_query_param || '=';
 
-  t_pagination := t_pagination_begin;
+  IF i_page_count > 1 THEN
+    t_pagination := t_pagination_begin;
 
-  IF i_current_page > 1 THEN
-    t_pagination := t_pagination || replace(t_previous_page, '#LINK#', v_url_prefix || 1);
-  END IF;
-
-  FOR p in 1 .. i_page_count
-  LOOP
-    IF p = i_current_page THEN
-      t_pagination := t_pagination || replace(replace(t_active_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
-    ELSE
-      t_pagination := t_pagination || replace(replace(t_inactive_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+    IF i_current_page > 1 THEN
+      t_pagination := t_pagination || replace(t_previous_page, '#LINK#', v_url_prefix || 1);
     END IF;
-  END LOOP;
 
-  IF i_current_page < i_page_count THEN
-    t_pagination := t_pagination || replace(t_next_page, '#LINK#', v_url_prefix || i_page_count);
+    FOR p in 1 .. i_page_count
+    LOOP
+      IF p = i_current_page THEN
+        t_pagination := t_pagination || replace(replace(t_active_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      ELSE
+        t_pagination := t_pagination || replace(replace(t_inactive_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      END IF;
+    END LOOP;
+
+    IF i_current_page < i_page_count THEN
+      t_pagination := t_pagination || replace(t_next_page, '#LINK#', v_url_prefix || i_page_count);
+    END IF;
+
+    t_pagination := t_pagination || t_pagination_end;
   END IF;
-
-  t_pagination := t_pagination || t_pagination_end;
 
   RETURN replace(t_response, '#PAGINATION#', t_pagination);
 END
