@@ -85,6 +85,7 @@ CREATE TABLE pgapex.navigation_item (
 	sequence INTEGER NOT NULL,
 	url VARCHAR ( 255 ),
 	CONSTRAINT pk_navigation_item PRIMARY KEY (navigation_item_ID),
+	CONSTRAINT uq_navigation_item_navigation_id_page_id UNIQUE (navigation_ID, page_ID),
 	CONSTRAINT chk_navigation_item_sequence_is_not_negative CHECK (sequence >= 0),
 	CONSTRAINT chk_navigation_item_name_must_be_longer_than_0 CHECK (length(trim(name))>0),
 	CONSTRAINT chk_navigation_item_can_not_refer_back_to_itself CHECK ((parent_navigation_item_id IS NULL) OR (parent_navigation_item_id <> navigation_item_id)),

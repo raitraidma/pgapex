@@ -62,7 +62,7 @@
     <div class="form-group" ng-show="navigationItem.target === 'URL'" ng-class="{'has-error': formError.showErrors(manageNavigationItemForm.url, 'url')}">
       <label for="url" class="col-sm-3 control-label">{{'navigation.url'|translate}} *</label>
       <div class="col-sm-9">
-        <input type="url" class="form-control" name="url" ng-model="navigationItem.url" id="url" placeholder="{{'navigation.url'|translate}}" ng-required="navigationItem.target === 'URL'">
+        <input type="text" class="form-control" name="url" ng-model="navigationItem.url" id="url" placeholder="{{'navigation.url'|translate}}" ng-required="navigationItem.target === 'URL'">
         <div ng-show="formError.showErrors(manageNavigationItemForm.url, 'url')">
           <span ng-show="manageNavigationItemForm.url.$error.required" class="help-block">{{'navigation.urlIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('url')" class="help-block">{{error|translate}}</span>

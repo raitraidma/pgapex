@@ -6144,7 +6144,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	9
-						    max_width  	559
+						    max_width  	563
 						    justify    	1)
 						width      	580
 						height     	556
@@ -6204,7 +6204,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	19
-						    max_width  	500
+						    max_width  	503
 						    justify    	1)
 						width      	520
 						height     	1026
@@ -6797,7 +6797,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	3
-						    max_width  	469
+						    max_width  	472
 						    justify    	1)
 						width      	490
 						height     	276
@@ -7163,7 +7163,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	2
-						    max_width  	275
+						    max_width  	278
 						    justify    	1)
 						width      	296
 						height     	228
@@ -7223,7 +7223,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	2
-						    max_width  	275
+						    max_width  	278
 						    justify    	1)
 						width      	296
 						height     	228
@@ -7395,7 +7395,7 @@
 						    fill_color 	16777215
 						    anchor     	2
 						    nlines     	2
-						    max_width  	366
+						    max_width  	369
 						    justify    	1)
 						width      	560
 						height     	228
@@ -30521,6 +30521,70 @@
 						quidu      	"571B5DFF0375"))
 					concurrency 	"Sequential"
 					opExportControl 	"Public"
+					uid        	0)
+				    (object Operation "uq_navigation_item_navigation_id_page_id"
+					attributes 	(list Attribute_Set
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsConstraint"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"ConstraintType"
+						value      	"Unique")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"dmItem"
+						value      	TRUE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DMName"
+						value      	"uq_navigation_item_navigation_id_page_id")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"CodeName"
+						value      	"")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"DeferalMode"
+						value      	"Not Deferable")
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"IsCluster"
+						value      	FALSE)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"FillFactor"
+						value      	0)
+					    (object Attribute
+						tool       	"Data Modeler"
+						name       	"KeyList"
+						value      	"571B5DFF0257,571B5DFF02CC"))
+					quid       	"57247DFD02E2"
+					stereotype 	"Unique"
+					visible_modules 	(list dependency_list
+					    (object Dependency_Relationship
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"Data Modeler"
+							name       	"Order"
+							value      	"1"))
+						quid       	"57247DFD0302"
+						stereotype 	"Unique"
+						supplier   	"Logical View::Schemas::pgapex::navigation_item::navigation_ID"
+						quidu      	"571B5DFF0257")
+					    (object Dependency_Relationship
+						attributes 	(list Attribute_Set
+						    (object Attribute
+							tool       	"Data Modeler"
+							name       	"Order"
+							value      	"2"))
+						quid       	"57247DFD0304"
+						stereotype 	"Unique"
+						supplier   	"Logical View::Schemas::pgapex::navigation_item::page_ID"
+						quidu      	"571B5DFF02CC"))
+					concurrency 	"Sequential"
+					opExportControl 	"Public"
 					uid        	0))
 				class_attributes 	(list class_attribute_list
 				    (object ClassAttribute "navigation_item_ID"
@@ -51502,7 +51566,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	8
-					    max_width  	715
+					    max_width  	703
 					    justify    	1)
 					width      	796
 					height     	552
@@ -52149,7 +52213,7 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	0
+				origin_x   	81
 				origin_y   	963
 				items      	(list diagram_item_list
 				    (object ClassView "Class" "Logical View::Schemas::pgapex::fetch_row_condition" @989

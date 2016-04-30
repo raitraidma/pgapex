@@ -1,3 +1,13 @@
+CREATE TYPE pgapex.t_navigation_item_with_level AS (
+    navigation_item_id        INT
+  , parent_navigation_item_id INT
+  , sequence                  INT
+  , name                      VARCHAR
+  , page_id                   INT
+  , url                       VARCHAR
+  , level                     INT
+);
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_query_page(
   v_application_root VARCHAR
 , v_application_id   VARCHAR
@@ -521,6 +531,8 @@ RETURNS TABLE(
 , region_type   VARCHAR
 , display_point VARCHAR
 , sequence      INT
+, template_id   INT
+, name          VARCHAR
 ) AS $$
   SELECT
     r.region_id
@@ -532,6 +544,8 @@ RETURNS TABLE(
        END) AS region_type
     , ptdp.display_point_id AS display_point
     , r.sequence
+    , r.template_id
+    , r.name
   FROM pgapex.region r
     LEFT JOIN pgapex.html_region hr ON hr.region_id = r.region_id
     LEFT JOIN pgapex.navigation_region nr ON nr.region_id = r.region_id
@@ -561,6 +575,8 @@ DECLARE
   t_error_message         TEXT;
   r_region                RECORD;
   v_display_point         VARCHAR;
+  t_region_template       TEXT;
+  t_region_content        TEXT;
 BEGIN
   SELECT authentication_scheme_id <> 'NO_AUTHENTICATION' INTO b_is_app_auth_required FROM pgapex.application WHERE application_id = i_application_id;
   SELECT is_authentication_required INTO b_is_page_auth_required FROM pgapex.page WHERE page_id = i_page_id;
@@ -574,11 +590,21 @@ BEGIN
                             WHERE a.application_id = i_application_id);
   ELSE
     FOR r_region IN (SELECT * FROM pgapex.f_app_get_page_regions(i_page_id)) LOOP
+
+      SELECT template INTO t_region_template FROM pgapex.region_template WHERE template_id = r_region.template_id;
+
       IF r_region.region_type = 'HTML' THEN
-        PERFORM pgapex.f_app_add_region(r_region.display_point, r_region.sequence, pgapex.f_app_get_html_region(r_region.region_id));
-      ELSE
-        PERFORM pgapex.f_app_add_region(r_region.display_point, r_region.sequence, 'Not implemented: ' || r_region.region_type);
+        SELECT pgapex.f_app_get_html_region(r_region.region_id) INTO t_region_content;
+      ELSIF r_region.region_type = 'NAVIGATION' THEN
+        SELECT pgapex.f_app_get_navigation_region(r_region.region_id) INTO t_region_content;
+      ELSIF r_region.region_type = 'REPORT' THEN
+        SELECT pgapex.f_app_get_report_region(r_region.region_id) INTO t_region_content;
+      ELSIF r_region.region_type = 'FORM' THEN
+        SELECT pgapex.f_app_get_form_region(r_region.region_id) INTO t_region_content;
       END IF;
+      t_region_template := replace(t_region_template, '#NAME#', r_region.name);
+      t_region_template := replace(t_region_template, '#BODY#', t_region_content);
+      PERFORM pgapex.f_app_add_region(r_region.display_point, r_region.sequence, t_region_template);
     END LOOP;
 
     SELECT pt.header || pt.body || pt.footer, pt.success_message, pt.error_message
@@ -715,25 +741,220 @@ SET search_path = pgapex, public, pg_temp;
 ----------
 
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_html_region(
-    i_region_id   INT
+  i_region_id   INT
 )
 RETURNS TEXT AS $$
+  SELECT content FROM pgapex.html_region WHERE region_id = i_region_id;
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_navigation_items_with_levels(
+  i_navigation_id   INT
+)
+RETURNS SETOF pgapex.t_navigation_item_with_level AS $$
+  WITH RECURSIVE navigation_tree (navigation_item_id, parent_navigation_item_id, sequence, name, page_id, url, level)
+  AS (
+    SELECT
+      navigation_item_id
+      , parent_navigation_item_id
+      , sequence
+      , name
+      , page_id
+      , url
+      , 1
+    FROM pgapex.navigation_item
+    WHERE navigation_id = i_navigation_id
+      AND parent_navigation_item_id is NULL
+    UNION ALL
+    SELECT
+      ni.navigation_item_id,
+      nt.navigation_item_id,
+      ni.sequence,
+      ni.name,
+      ni.page_id,
+      ni.url,
+      nt.level + 1
+    FROM pgapex.navigation_item ni, navigation_tree nt
+    WHERE ni.parent_navigation_item_id = nt.navigation_item_id
+      AND ni.navigation_id = i_navigation_id
+  )
+  SELECT navigation_item_id, parent_navigation_item_id, sequence, name, page_id, url, level
+  FROM navigation_tree
+  ORDER BY level, parent_navigation_item_id NULLS FIRST, sequence;
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_navigation_breadcrumb(
+  i_navigation_id      INT
+, i_page_id            INT
+)
+RETURNS SETOF pgapex.t_navigation_item_with_level AS $$
+  WITH RECURSIVE breadcrumb(navigation_item_id, parent_navigation_item_id, sequence, name, page_id, url, level) AS (
+    SELECT * FROM pgapex.f_app_get_navigation_items_with_levels(i_navigation_id)
+    WHERE page_id = i_page_id
+    UNION ALL
+    SELECT niwl.* FROM pgapex.f_app_get_navigation_items_with_levels(i_navigation_id) niwl, breadcrumb b
+    WHERE niwl.navigation_item_id = b.parent_navigation_item_id
+  )
+  SELECT * FROM breadcrumb
+  ORDER BY level
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_navigation_in_order (
+    i_navigation_id             INT
+  , i_parent_navigation_item_id INT
+  , i_parent_ids                INT[]
+)
+  RETURNS SETOF pgapex.t_navigation_item_with_level AS $$
 DECLARE
-  t_response TEXT;
-  t_region_name VARCHAR;
-  t_region_content TEXT;
+  r pgapex.t_navigation_item_with_level;
+BEGIN
+  FOR r IN SELECT * FROM pgapex.f_app_get_navigation_items_with_levels(i_navigation_id)
+  WHERE (
+    CASE
+      WHEN i_parent_navigation_item_id IS NULL THEN (parent_navigation_item_id IS NULL)
+      ELSE (parent_navigation_item_id = i_parent_navigation_item_id)
+    END
+  ) AND (
+    CASE
+      WHEN i_parent_ids IS NULL THEN (TRUE)
+      WHEN parent_navigation_item_id IS NULL THEN (TRUE)
+      ELSE (parent_navigation_item_id = ANY(i_parent_ids))
+    END
+  )
+  ORDER BY sequence
+  LOOP
+    RETURN NEXT r;
+    RETURN QUERY SELECT * FROM pgapex.f_app_get_navigation_in_order(i_navigation_id, r.navigation_item_id, i_parent_ids);
+  END LOOP;
+  RETURN;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_navigation_of_type (
+    i_navigation_id             INT
+  , i_page_id                   INT
+  , v_navigation_type           VARCHAR
+)
+  RETURNS SETOF pgapex.t_navigation_item_with_level AS $$
+BEGIN
+  IF v_navigation_type = 'BREADCRUMB' THEN
+    RETURN QUERY SELECT * FROM pgapex.f_app_get_navigation_breadcrumb(i_navigation_id, i_page_id);
+  ELSIF v_navigation_type = 'SITEMAP' THEN
+    RETURN QUERY SELECT * FROM pgapex.f_app_get_navigation_in_order(i_navigation_id, NULL, NULL);
+  ELSE
+    RETURN QUERY SELECT * FROM pgapex.f_app_get_navigation_in_order(i_navigation_id, NULL, (
+      SELECT ARRAY (SELECT navigation_item_id FROM  pgapex.f_app_get_navigation_breadcrumb(i_navigation_id, i_page_id))
+    ));
+  END IF;
+  RETURN;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_navigation_region(
+  i_region_id   INT
+)
+  RETURNS TEXT AS $$
+DECLARE
+  v_url_prefix                         VARCHAR;
+  v_navigation_type                    VARCHAR;
+  i_navigation_id                      INT;
+  i_template_id                        INT;
+  i_page_id                            INT;
+  b_repeat_last_level                  BOOLEAN;
+  t_region_template                    TEXT;
+  t_navigation_begin_template          TEXT;
+  t_navigation_end_template            TEXT;
+  i_navigation_template_id             INT;
+  i_navigation_item_template_max_level INT;
+BEGIN
+  SELECT nr.navigation_type_id, nr.navigation_id, nr.template_id, nr.repeat_last_level, r.page_id, nt.navigation_begin, nt.navigation_end, nt.template_id
+  INTO v_navigation_type, i_navigation_id, i_template_id, b_repeat_last_level, i_page_id, t_navigation_begin_template, t_navigation_end_template, i_navigation_template_id
+  FROM pgapex.navigation_region nr
+  LEFT JOIN pgapex.region r ON nr.region_id = r.region_id
+  LEFT JOIN pgapex.navigation_template nt ON nr.template_id = nt.template_id
+  WHERE nr.region_id = i_region_id;
+
+  SELECT max(level) INTO i_navigation_item_template_max_level FROM pgapex.navigation_item_template WHERE navigation_template_id = i_navigation_template_id;
+  SELECT pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' INTO v_url_prefix;
+
+  SELECT string_agg(
+      CASE
+      WHEN n.page_id = i_page_id THEN replace(replace(replace(nit.active_template, '#NAME#', n.name), '#URL#', (
+        CASE
+          WHEN n.page_id IS NULL THEN n.url
+          ELSE v_url_prefix || n.page_id
+        END
+      )), '#LEVEL#', n.level::varchar)
+      ELSE replace(replace(replace(nit.inactive_template, '#NAME#', n.name), '#URL#', (
+        CASE
+          WHEN n.page_id IS NULL THEN n.url
+          ELSE v_url_prefix || n.page_id
+        END
+      )), '#LEVEL#', n.level::varchar)
+      END
+      , '') INTO t_region_template
+  FROM pgapex.f_app_get_navigation_of_type(i_navigation_id, i_page_id, v_navigation_type) n
+    LEFT JOIN pgapex.navigation_item_template nit ON (
+      CASE
+        WHEN n.level > i_navigation_item_template_max_level AND b_repeat_last_level THEN
+          nit.level = i_navigation_item_template_max_level AND nit.navigation_template_id = i_navigation_template_id
+        ELSE
+          n.level = nit.level AND nit.navigation_template_id = i_navigation_template_id
+      END
+      )
+  WHERE nit.navigation_item_template_id IS NOT NULL;
+
+  RETURN t_navigation_begin_template || t_region_template || t_navigation_end_template;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region(
+  i_region_id   INT
+)
+  RETURNS TEXT AS $$
+DECLARE
   t_region_template TEXT;
 BEGIN
-  SELECT r.name, hr.content, rt.template
-  INTO t_region_name, t_region_content, t_region_template
-  FROM pgapex.region r
-  LEFT JOIN pgapex.html_region hr ON r.region_id = hr.region_id
-  LEFT JOIN pgapex.region_template rt ON rt.template_id = r.template_id
-  WHERE r.region_id = i_region_id;
+  SELECT 'Report region is not implemented' INTO t_region_template;
+  RETURN t_region_template;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
 
-  t_region_template := replace(t_region_template, '#NAME#', t_region_name);
-  t_region_template := replace(t_region_template, '#BODY#', t_region_content);
-  t_region_template := pgapex.f_app_replace_system_variables(t_region_template);
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_form_region(
+  i_region_id   INT
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_region_template TEXT;
+BEGIN
+  SELECT 'Form region is not implemented' INTO t_region_template;
   RETURN t_region_template;
 END
 $$ LANGUAGE plpgsql
