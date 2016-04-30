@@ -6,7 +6,7 @@ use App\Http\Middleware\AuthMiddleware;
 
 $app->any('/', function (Request $request, Response $response) {
   $content = file_get_contents(__DIR__ . '/views/index.html');
-  return str_replace('{$pgApexPath}', $_SERVER['PHP_SELF'], $content);
+  return str_replace('{$pgApexPath}', $_SERVER['SCRIPT_NAME'], $content);
 });
 
 $app->map(['GET', 'POST'], '/app/{applicationId}[/{pageId}]', '\App\Http\Controllers\AppController:queryPage');

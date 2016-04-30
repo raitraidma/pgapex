@@ -24,7 +24,8 @@
   };
 
   ApplicationsController.prototype.runApplication = function(applicationId) {
-    this.$window.open('/app/' + applicationId, '_blank');
+    var appRoot = (!!window.pgApexPath) ? window.pgApexPath : '';
+    this.$window.open(appRoot + '/app/' + applicationId, '_blank');
   };
 
   ApplicationsController.prototype.loadApplications = function() {
