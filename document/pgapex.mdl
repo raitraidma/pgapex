@@ -6936,7 +6936,7 @@
 						    (1112, 422))
 						line_style 	0)
 					    (object NoteView @288
-						location   	(1728, 2112)
+						location   	(1728, 2096)
 						font       	(object Font
 						    size       	9
 						    face       	"Arial"
@@ -6949,29 +6949,30 @@
 						    default_color 	TRUE)
 						label      	(object ItemLabel
 						    Parent_View 	@288
-						    location   	(1556, 2009)
+						    location   	(1553, 1974)
 						    fill_color 	13434879
-						    nlines     	4
-						    max_width  	309
+						    nlines     	5
+						    max_width  	315
 						    justify    	1
 						    label      	
 |Substitutions:
 |- pagination
 |- cell_content
 |- link
+|- number
 						    )
 						line_color 	3342489
 						fill_color 	13434879
-						width      	369
-						height     	218)
+						width      	375
+						height     	257)
 					    (object AttachView "" @289
 						stereotype 	TRUE
 						line_color 	3342489
 						client     	@288
 						supplier   	@265
 						vertices   	(list Points
-						    (1841, 2002)
-						    (1979, 1868))
+						    (1865, 1967)
+						    (1979, 1860))
 						line_style 	0)
 					    (object NoteView @290
 						location   	(2816, 1936)
@@ -52213,7 +52214,7 @@
 				zoom       	100
 				max_height 	28350
 				max_width  	21600
-				origin_x   	81
+				origin_x   	0
 				origin_y   	963
 				items      	(list diagram_item_list
 				    (object ClassView "Class" "Logical View::Schemas::pgapex::fetch_row_condition" @989

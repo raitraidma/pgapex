@@ -133,4 +133,4 @@ INSERT INTO pgapex.report_template (template_ID, report_begin, report_end,
 VALUES (6, '<div><table class="table table-bordered">', '</table>#PAGINATION#</div>',
 '<thead>', '<tr>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
 '<tbody>', '<tr>', '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>',
-'<nav><ul class="pagination">', '</ul></nav>', '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>', '<li class="active"><a href="#LINK#">1</a></li>', '<li><a href="#LINK#">2</a></li>');
+'<nav><ul class="pagination">', '</ul></nav>', '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>', '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
