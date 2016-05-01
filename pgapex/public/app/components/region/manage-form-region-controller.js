@@ -21,12 +21,16 @@
     this.$scope.formError = this.formErrorService.empty();
     this.$scope.region = {
       'functionParameters': [],
-      'formPreFillColumns': []
+      'formPreFillColumns': [],
+      'function': {'attributes': {'parameters': []}}
     };
     this.$scope.regionTemplates = [];
     this.$scope.formTemplates = [];
     this.$scope.buttonTemplates = [];
-    this.$scope.inputTemplates = [];
+    this.$scope.textInputTemplates = [];
+    this.$scope.passwordInputTemplates = [];
+    this.$scope.radioInputTemplates = [];
+    this.$scope.checkboxInputTemplates = [];
     this.$scope.textareaTemplates = [];
     this.$scope.dropDownTemplates = [];
     this.$scope.viewsWithColumns = [];
@@ -37,15 +41,21 @@
     this.$scope.changeFormPreFillColumns = this.changeFormPreFillColumns.bind(this);
     this.$scope.atLeastOneFormPreFillColumnHasValue = this.atLeastOneFormPreFillColumnHasValue.bind(this);
 
-    this.$scope.trackFunction = function(func) {
-      if (!func) { return func; }
-      this.addDisplayTextToFunction(func);
-      return func.displayText;
-    }.bind(this);
-
-    this.$scope.trackViewWithColumns = function(view) {
-      return view && view.name;
+    this.$scope.trackDatabaseObject = function(databaseObject) {
+      if (!databaseObject || !databaseObject.attributes) { return databaseObject; }
+      return databaseObject.attributes.schema + '.' + databaseObject.attributes.name;
     };
+
+    this.$scope.getFunctionParameterTemplates = function(functionParameter) {
+      if (!functionParameter || !functionParameter.fieldType) { return []; }
+      if (functionParameter.fieldType === 'TEXT') { return this.$scope.textInputTemplates; }
+      if (functionParameter.fieldType === 'PASSWORD') { return this.$scope.passwordInputTemplates; }
+      if (functionParameter.fieldType === 'CHECKBOX') { return this.$scope.checkboxInputTemplates; }
+      if (functionParameter.fieldType === 'RADIO') { return this.$scope.radioInputTemplates; }
+      if (functionParameter.fieldType === 'TEXTAREA') { return this.$scope.textareaTemplates; }
+      if (functionParameter.fieldType === 'DROP_DOWN') { return this.$scope.dropDownTemplates; }
+      return [];
+    }.bind(this);
 
     this.$scope.saveRegion = this.saveRegion.bind(this);
     
@@ -86,8 +96,17 @@
   };
 
   ManageFormRegionController.prototype.initInputTemplates = function() {
-    this.templateService.getInputTemplates().then(function (response) {
-      this.$scope.inputTemplates = response.getDataOrDefault([]);
+    this.templateService.getTextInputTemplates().then(function (response) {
+      this.$scope.textInputTemplates = response.getDataOrDefault([]);
+    }.bind(this));
+    this.templateService.getPasswordInputTemplates().then(function (response) {
+      this.$scope.passwordInputTemplates = response.getDataOrDefault([]);
+    }.bind(this));
+    this.templateService.getRadioInputTemplates().then(function (response) {
+      this.$scope.radioInputTemplates = response.getDataOrDefault([]);
+    }.bind(this));
+    this.templateService.getCheckboxInputTemplates().then(function (response) {
+      this.$scope.checkboxInputTemplates = response.getDataOrDefault([]);
     }.bind(this));
   };
 
@@ -106,6 +125,11 @@
   ManageFormRegionController.prototype.initFunctionsWithParameters = function() {
     this.databaseService.getFunctionsWithParameters(this.getApplicationId()).then(function (response) {
       var functionsWithParameters = response.getDataOrDefault([]);
+      functionsWithParameters.forEach(function (functionWithParameters) {
+        functionWithParameters.attributes.parameters.sort(function(firstParameter, secondParameter) {
+          firstParameter.attributes.ordinalPosition - secondParameter.attributes.ordinalPosition;
+        });
+      });
       functionsWithParameters.forEach(function(functionWithParameters) {
         this.addDisplayTextToFunction(functionWithParameters);
       }.bind(this));
@@ -114,27 +138,26 @@
   };
 
   ManageFormRegionController.prototype.addDisplayTextToFunction = function(functionWithParameters) {
-    var displayText = functionWithParameters.name;
+    var displayText = functionWithParameters.attributes.schema;
+    displayText += '.';
+    displayText += functionWithParameters.attributes.name;
     displayText += '(';
-    displayText += functionWithParameters.parameters.map(function(parameter) {
-      return [parameter.name, parameter.argumentType].join(' ');
+    displayText += functionWithParameters.attributes.parameters.map(function(parameter) {
+      return [parameter.attributes.name, parameter.attributes.argumentType].join(' ');
     }).join(', ');
     displayText += ')';
-    functionWithParameters.displayText = displayText;
+    functionWithParameters.attributes.displayText = displayText;
   };
 
   ManageFormRegionController.prototype.changeFunctionParameters = function() {
-    this.$scope.region.functionParameters = [];
-    this.$scope.region.function.parameters.forEach(function(parameter) {
-      this.$scope.region.functionParameters.push({'parameter': parameter});
-    }.bind(this));
+    this.$scope.region.functionParameters = this.$scope.region.function.attributes.parameters;
   };
 
   ManageFormRegionController.prototype.changeFormPreFillColumns = function() {
     var view = this.$scope.region.formPreFillView;
     this.$scope.region.formPreFillColumns = [];
-    if (view.columns) {
-      view.columns.forEach(function(column) {
+    if (view.attributes.columns) {
+      view.attributes.columns.forEach(function(column) {
         this.$scope.region.formPreFillColumns.push({'column': column, 'value': ''});
       }.bind(this));
     }
@@ -143,7 +166,7 @@
   ManageFormRegionController.prototype.atLeastOneFormPreFillColumnHasValue = function() {
     var columns = this.$scope.region.formPreFillColumns;
     for(var i = 0; i < columns.length; i++) {
-      if (columns[i].value.trim() !== '') {
+      if (columns[i].value !== null && columns[i].value.trim() !== '') {
         return true;
       }
     }
@@ -159,19 +182,19 @@
   };
 
   ManageFormRegionController.prototype.getDisplayPoint = function() {
-    return this.$routeParams.displayPoint || null;
+    return this.$routeParams.displayPoint ? this.$routeParams.displayPoint : null;
   };
   
   ManageFormRegionController.prototype.getPageId = function() {
-    return this.$routeParams.pageId || null;
+    return this.$routeParams.pageId ? this.$routeParams.pageId : null;
   };
   
   ManageFormRegionController.prototype.getRegionId = function() {
-    return this.$routeParams.regionId || null;
+    return this.$routeParams.regionId ? this.$routeParams.regionId : null;
   };
   
   ManageFormRegionController.prototype.getApplicationId = function() {
-    return this.$routeParams.applicationId || null;
+    return this.$routeParams.applicationId ? this.$routeParams.applicationId : null;
   };
 
   ManageFormRegionController.prototype.saveRegion = function() {
@@ -182,19 +205,64 @@
       this.$scope.region.name,
       this.$scope.region.sequence,
       this.$scope.region.regionTemplate,
-      this.$scope.region.isVisible,
+      this.$scope.region.isVisible || false,
       this.$scope.region.formTemplate,
       this.$scope.region.buttonTemplate,
       this.$scope.region.buttonLabel,
-      this.$scope.region.successMessage,
-      this.$scope.region.errorMessage,
-      this.$scope.region.redirectUrl,
-      this.$scope.region.function,
-      this.$scope.region.functionParameters,
-      this.$scope.region.formPreFill,
-      this.$scope.region.formPreFillView,
-      this.$scope.region.formPreFillColumns
+      this.$scope.region.successMessage || null,
+      this.$scope.region.errorMessage || null,
+      this.$scope.region.redirectUrl || null,
+      this.$scope.region.function.attributes.schema,
+      this.$scope.region.function.attributes.name,
+      this.$scope.region.formPreFill || false,
+      this.getFormFields(),
+      this.getPreFill()
     ).then(this.handleSaveResponse.bind(this));
+  };
+
+  ManageFormRegionController.prototype.getFormFields = function() {
+    return this.$scope.region.functionParameters.map(function (functionParameter) {
+      return {
+        "type": "form-field",
+        "attributes": {
+          "fieldType": functionParameter.fieldType,
+          "fieldTemplate": parseInt(functionParameter.fieldTemplate),
+          "label": functionParameter.label,
+          "inputName": functionParameter.inputName,
+          "sequence": parseInt(functionParameter.sequence),
+          "isMandatory": functionParameter.isMandatory || false,
+          "isVisible": functionParameter.isVisible || false,
+          "defaultValue": functionParameter.defaultValue || null,
+          "helpText": functionParameter.helpText || null,
+          "functionParameterType": functionParameter.attributes.argumentType,
+          "functionParameterOrdinalPosition": functionParameter.attributes.ordinalPosition,
+          "preFillColumn": functionParameter.preFillColumn || null,
+          "listOfValuesSchema": (functionParameter.listOfValuesView) ? functionParameter.listOfValuesView.attributes.schema : null,
+          "listOfValuesView": (functionParameter.listOfValuesView) ? functionParameter.listOfValuesView.attributes.name : null,
+          "listOfValuesValue": (functionParameter.listOfValuesValue) ? functionParameter.listOfValuesValue.attributes.name : null,
+          "listOfValuesLabel": (functionParameter.listOfValuesLabel) ? functionParameter.listOfValuesLabel.attributes.name : null
+        }
+      };
+    });
+  };
+
+  ManageFormRegionController.prototype.getPreFill = function() {
+    if (!this.$scope.region.formPreFill) {
+      return null;
+    }
+    return {
+      "type": "pre-fill",
+      "attributes": {
+        "schemaName": this.$scope.region.formPreFillView.attributes.schema,
+        "viewName": this.$scope.region.formPreFillView.attributes.name,
+        "conditions": this.$scope.region.formPreFillColumns.map(function(condition) {
+          return {
+            "columnName": condition.column.attributes.name,
+            "value": condition.value || null
+          }
+        })
+      }
+    }
   };
 
   ManageFormRegionController.prototype.handleSaveResponse = function(response) {
@@ -209,8 +277,8 @@
 
   ManageFormRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
-    this.regionService.getFormRegion(this.getRegionId()).then(function (response) {
-      this.$scope.region = response.getDataOrDefault({});
+    this.regionService.getRegion(this.getRegionId()).then(function (response) {
+      this.$scope.region = response.getDataOrDefault({'attributes': {}}).attributes;
     }.bind(this));
   };
 

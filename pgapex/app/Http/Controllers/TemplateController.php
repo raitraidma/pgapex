@@ -42,4 +42,29 @@ class TemplateController extends Controller {
     return $response->setApiDataAsJson($this->getTemplateModel()->getReportTemplates())
       ->getApiResponse();
   }
+
+  public function getFormTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getFormTemplates())
+      ->getApiResponse();
+  }
+
+  public function getButtonTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getButtonTemplates())
+      ->getApiResponse();
+  }
+
+  public function getTextareaTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getTextareaTemplates())
+      ->getApiResponse();
+  }
+
+  public function getDropDownTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getDropDownTemplates())
+      ->getApiResponse();
+  }
+
+  public function getInputTemplates(Request $request, Response $response, $args) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getInputTemplates($args['inputType']))
+      ->getApiResponse();
+  }
 }

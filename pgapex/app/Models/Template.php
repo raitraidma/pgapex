@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use PDO;
+
 class Template extends Model {
   public function getLoginTemplates() {
     return $this->getPageTemplatesOfType('LOGIN');
@@ -36,6 +38,42 @@ class Template extends Model {
   public function getReportTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_report_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getFormTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_form_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getButtonTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_button_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getTextareaTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_textarea_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getDropDownTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_drop_down_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getInputTemplates($inputType) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_input_templates(:inputType)');
+    $statement->bindValue(':inputType', strtoupper($inputType), PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchColumn();
   }

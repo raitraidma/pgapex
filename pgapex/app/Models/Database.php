@@ -32,4 +32,12 @@ class Database extends Model {
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  public function getFunctionsWithParameters($applicationId) {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_database_object_get_functions_with_parameters(:applicationId)');
+    $statement->bindValue(':applicationId', $applicationId);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

@@ -127,4 +127,99 @@ class Region extends Model {
     }
     return false;
   }
+
+  public function saveFormRegion(Request $request) {
+    $connection = $this->getDb()->getConnection();
+    $connection->beginTransaction();
+    try {
+      if ($request->getApiAttribute('regionId') !== null) {
+        $statement = $connection->prepare('SELECT pgapex.f_region_delete_form_pre_fill_and_form_field(:regionId)');
+        $statement->bindValue(':regionId', $request->getApiAttribute('regionId'), PDO::PARAM_INT);
+        $statement->execute();
+      }
+
+      $formPreFillId = null;
+
+      if ($request->getApiAttribute('formPreFill') === true && $request->getApiAttribute('preFill') !== null) {
+        $formPreFillStatement = $connection->prepare('SELECT pgapex.f_region_save_form_pre_fill(:schemaName, :viewName)');
+        $formPreFillStatement->bindValue(':schemaName', $request->getApiAttribute('preFill')['attributes']['schemaName'], PDO::PARAM_STR);
+        $formPreFillStatement->bindValue(':viewName',   $request->getApiAttribute('preFill')['attributes']['viewName'],   PDO::PARAM_STR);
+        $formPreFillStatement->execute();
+        $formPreFillId = $formPreFillStatement->fetchColumn();
+      }
+
+      $formRegionStatement = $connection->prepare('SELECT pgapex.f_region_save_form_region(:regionId, :pageId, :templateId, :tplDpId, :name, :sequence, :isVisible, '
+        . ':formPreFillId, :formTemplateId, :buttonTemplateId, :schemaName, :functionName, :buttonLabel, :successMessage, :errorMessage, :redirectUrl)');
+      $formRegionStatement->bindValue(':regionId',                 $request->getApiAttribute('regionId'),                   PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':pageId',                   $request->getApiAttribute('pageId'),                     PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':templateId',               $request->getApiAttribute('regionTemplate'),             PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':tplDpId',                  $request->getApiAttribute('pageTemplateDisplayPointId'), PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':name',                     $request->getApiAttribute('name'),                       PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':sequence',                 $request->getApiAttribute('sequence'),                   PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':isVisible',                $request->getApiAttribute('isVisible'),                  PDO::PARAM_BOOL);
+      $formRegionStatement->bindValue(':formPreFillId',            $formPreFillId,                                          PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':formTemplateId',           $request->getApiAttribute('formTemplate'),               PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':buttonTemplateId',         $request->getApiAttribute('buttonTemplate'),             PDO::PARAM_INT);
+      $formRegionStatement->bindValue(':schemaName',               $request->getApiAttribute('functionSchema'),             PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':functionName',             $request->getApiAttribute('functionName'),               PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':buttonLabel',              $request->getApiAttribute('buttonLabel'),                PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':successMessage',           $request->getApiAttribute('successMessage'),             PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':errorMessage',             $request->getApiAttribute('errorMessage'),               PDO::PARAM_STR);
+      $formRegionStatement->bindValue(':redirectUrl',              $request->getApiAttribute('redirectUrl'),                PDO::PARAM_STR);
+      $formRegionStatement->execute();
+      $formRegionId = $formRegionStatement->fetchColumn();
+
+      $listOfValuesStatement = $connection->prepare('SELECT pgapex.f_region_save_list_of_values(:valueColumn, :labelColumn, :viewName, :schemaName)');
+      $formFieldStatement = $connection->prepare('SELECT pgapex.f_region_save_form_field(:regionId, :fieldType, :listOfValuesId, :formFieldTemplateId, '
+                                               . ':fieldPreFillViewColumnName, :formElementName, :label, :sequence, :isMandatory, :isVisible, :defaultValue, :helpText, '
+                                               . ':functionParameterType, :functionParameterOrdinalPosition)');
+      foreach ($request->getApiAttribute('formFields') as $formField) {
+        $listOfValuesId = null;
+        if ($formField['attributes']['listOfValuesView'] !== null) {
+          $listOfValuesStatement->bindValue(':valueColumn', $formField['attributes']['listOfValuesValue'],  PDO::PARAM_STR);
+          $listOfValuesStatement->bindValue(':labelColumn', $formField['attributes']['listOfValuesLabel'],  PDO::PARAM_STR);
+          $listOfValuesStatement->bindValue(':viewName',    $formField['attributes']['listOfValuesView'],   PDO::PARAM_STR);
+          $listOfValuesStatement->bindValue(':schemaName',  $formField['attributes']['listOfValuesSchema'], PDO::PARAM_STR);
+          $listOfValuesStatement->execute();
+          $listOfValuesId = $listOfValuesStatement->fetchColumn();
+        }
+
+        $formFieldStatement->bindValue(':regionId',                         $formRegionId,                                                 PDO::PARAM_INT);
+        $formFieldStatement->bindValue(':fieldType',                        $formField['attributes']['fieldType'],                         PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':listOfValuesId',                   $listOfValuesId,                                               PDO::PARAM_INT);
+        $formFieldStatement->bindValue(':formFieldTemplateId',              $formField['attributes']['fieldTemplate'],                     PDO::PARAM_INT);
+        $formFieldStatement->bindValue(':fieldPreFillViewColumnName',       $formField['attributes']['preFillColumn'],                     PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':formElementName',                  $formField['attributes']['inputName'],                         PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':label',                            $formField['attributes']['label'],                             PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':sequence',                         $formField['attributes']['sequence'],                          PDO::PARAM_INT);
+        $formFieldStatement->bindValue(':isMandatory',                      $formField['attributes']['isMandatory'],                       PDO::PARAM_BOOL);
+        $formFieldStatement->bindValue(':isVisible',                        $formField['attributes']['isVisible'],                         PDO::PARAM_BOOL);
+        $formFieldStatement->bindValue(':defaultValue',                     $formField['attributes']['defaultValue'],                      PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':helpText',                         $formField['attributes']['helpText'],                          PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':functionParameterType',            $formField['attributes']['functionParameterType'],             PDO::PARAM_STR);
+        $formFieldStatement->bindValue(':functionParameterOrdinalPosition', $formField['attributes']['functionParameterOrdinalPosition'],  PDO::PARAM_STR);
+        $formFieldStatement->execute();
+      }
+
+      if ($request->getApiAttribute('formPreFill') === true && $request->getApiAttribute('preFill') !== null) {
+        $fetchRowConditionStatement = $connection->prepare('SELECT pgapex.f_region_save_fetch_row_condition(:formPreFillId, :regionId, :urlParameter, :columnName)');
+        foreach ($request->getApiAttribute('preFill')['attributes']['conditions'] as $condition) {
+          if ($condition['value'] !== null) {
+            $fetchRowConditionStatement->bindValue(':formPreFillId', $formPreFillId,           PDO::PARAM_INT);
+            $fetchRowConditionStatement->bindValue(':regionId',      $formRegionId,            PDO::PARAM_INT);
+            $fetchRowConditionStatement->bindValue(':urlParameter',  $condition['value'],      PDO::PARAM_STR);
+            $fetchRowConditionStatement->bindValue(':columnName',    $condition['columnName'], PDO::PARAM_STR);
+            $fetchRowConditionStatement->execute();
+          }
+        }
+      }
+
+      $connection->commit();
+      return true;
+    } catch (Exception $e) {
+      $connection->rollBack();
+      var_dump($e);
+    }
+    return false;
+  }
 }

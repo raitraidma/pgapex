@@ -1,6 +1,6 @@
 {"meta":{"status":"OK","code":"200"},"data":[
-{"name": "function-1","returnTye":"boolean","parameters":[{"name":"parameter-1-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-1-2","argumentType":"integer","ordinalPosition":2}]},
-{"name": "function-2","returnTye":"boolean","parameters":[{"name":"parameter-2-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-2-2","argumentType":"integer","ordinalPosition":2}]},
-{"name": "function-3","returnTye":"boolean","parameters":[{"name":"parameter-3-1","argumentType":"integer","ordinalPosition":1},{"name":"parameter-3-2","argumentType":"integer","ordinalPosition":2}]},
-{"name": "function-3","returnTye":"boolean","parameters":[{"name":"parameter-3-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-3-2","argumentType":"integer","ordinalPosition":2}]}
+{"name": "function-1","returnType":"boolean","parameters":[{"name":"parameter-1-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-1-2","argumentType":"integer","ordinalPosition":2}]},
+{"name": "function-2","returnType":"boolean","parameters":[{"name":"parameter-2-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-2-2","argumentType":"integer","ordinalPosition":2}]},
+{"name": "function-3","returnType":"boolean","parameters":[{"name":"parameter-3-1","argumentType":"integer","ordinalPosition":1},{"name":"parameter-3-2","argumentType":"integer","ordinalPosition":2}]},
+{"name": "function-3","returnType":"boolean","parameters":[{"name":"parameter-3-1","argumentType":"varchar","ordinalPosition":1},{"name":"parameter-3-2","argumentType":"integer","ordinalPosition":2}]}
 ]}

@@ -25,6 +25,10 @@ CREATE TABLE pgapex.report_column_type (
 	report_column_type_ID VARCHAR ( 30 ) NOT NULL,
 	CONSTRAINT pk_report_column_type PRIMARY KEY (report_column_type_ID)
 	);
+CREATE TABLE pgapex.input_template_type (
+	input_template_type_ID VARCHAR ( 10 ) NOT NULL,
+	CONSTRAINT pk_input_template_type PRIMARY KEY (input_template_type_ID)
+	);
 CREATE TABLE pgapex.display_point (
 	display_point_ID VARCHAR ( 30 ) NOT NULL,
 	CONSTRAINT pk_display_point PRIMARY KEY (display_point_ID)
@@ -54,8 +58,10 @@ CREATE TABLE pgapex.navigation (
 CREATE TABLE pgapex.input_template (
 	template_ID INTEGER NOT NULL,
 	template TEXT NOT NULL,
+	input_template_type_ID VARCHAR ( 10 ) NOT NULL,
 	CONSTRAINT pk_input_template PRIMARY KEY (template_ID)
 	);
+CREATE INDEX idx_input_template_input_template_type_id ON pgapex.input_template (input_template_type_ID );
 CREATE TABLE pgapex.page_template (
 	template_ID INTEGER NOT NULL,
 	page_type_ID VARCHAR ( 10 ) NOT NULL,
@@ -167,14 +173,13 @@ CREATE INDEX idx_application_authentication_function_schema_name ON pgapex.appli
 CREATE INDEX idx_application_login_page_template_id ON pgapex.application (login_page_template_ID );
 CREATE INDEX idx_application_authentication_scheme_id ON pgapex.application (authentication_scheme_ID );
 CREATE TABLE pgapex.form_field (
-	form_field_ID INTEGER NOT NULL,
+	form_field_ID SERIAL NOT NULL,
 	region_ID INTEGER NOT NULL,
 	field_type_ID VARCHAR ( 10 ) NOT NULL,
 	list_of_values_ID INTEGER,
 	input_template_ID INTEGER,
 	drop_down_template_ID INTEGER,
 	textarea_template_ID INTEGER,
-	function_parameter_name VARCHAR ( 64 ) NOT NULL,
 	field_pre_fill_view_column_name VARCHAR ( 64 ),
 	label VARCHAR ( 255 ) NOT NULL,
 	sequence INTEGER NOT NULL,
@@ -182,8 +187,11 @@ CREATE TABLE pgapex.form_field (
 	is_visible BOOLEAN DEFAULT TRUE NOT NULL,
 	default_value VARCHAR ( 60 ),
 	help_text VARCHAR ( 255 ),
+	function_parameter_type VARCHAR ( 64 ) NOT NULL,
+	function_parameter_ordinal_position SMALLINT NOT NULL,
 	CONSTRAINT pk_form_field PRIMARY KEY (form_field_ID),
 	CONSTRAINT uq_form_field_list_of_values_id UNIQUE (list_of_values_ID),
+	CONSTRAINT uq_form_field_region_id_fun_par_ordinal_position UNIQUE (region_ID, function_parameter_ordinal_position),
 	CONSTRAINT chk_form_field_extarea_template_must_match_field_type CHECK ((textarea_template_id IS NOT NULL AND field_type_id = 'TEXTAREA') OR
 (textarea_template_id IS NULL AND field_type_id <> 'TEXTAREA')),
 	CONSTRAINT chk_form_field_only_one_template_can_be_chosen CHECK ((input_template_id IS NOT NULL AND textarea_template_id IS NULL AND drop_down_template_id IS NULL) OR
@@ -191,6 +199,7 @@ CREATE TABLE pgapex.form_field (
 (input_template_id IS NULL AND textarea_template_id IS NULL AND drop_down_template_id IS NOT NULL)),
 	CONSTRAINT chk_form_field_input_template_must_match_field_type CHECK ((input_template_id IS NOT NULL AND field_type_id IN ('TEXT', 'PASSWORD', 'RADIO', 'CHECKBOX')) OR
 (input_template_id IS NULL AND field_type_id NOT IN ('TEXT', 'PASSWORD', 'RADIO', 'CHECKBOX'))),
+	CONSTRAINT chk_form_field_function_parameter_ordinal_position_is_gt_0 CHECK (function_parameter_ordinal_position > 0),
 	CONSTRAINT chk_form_field_drop_down_template_must_match_field_type CHECK ((drop_down_template_id IS NOT NULL AND field_type_id = 'DROP_DOWN') OR
 (drop_down_template_id IS NULL AND field_type_id <> 'DROP_DOWN')),
 	CONSTRAINT chk_form_field_list_of_values_requires_specific_field_type CHECK ((list_of_values_id IS NULL AND field_type_id NOT IN ('DROP_DOWN', 'RADIO')) OR
@@ -264,7 +273,7 @@ CREATE TABLE pgapex.page_template_display_point (
 CREATE INDEX idx_page_template_display_point_display_point_id ON pgapex.page_template_display_point (display_point_ID );
 CREATE INDEX idx_page_template_display_point_page_template_id ON pgapex.page_template_display_point (page_template_ID );
 CREATE TABLE pgapex.form_pre_fill (
-	form_pre_fill_ID INTEGER NOT NULL,
+	form_pre_fill_ID SERIAL NOT NULL,
 	schema_name VARCHAR ( 64 ) NOT NULL,
 	view_name VARCHAR ( 64 ) NOT NULL,
 	CONSTRAINT pk_form_pre_fill PRIMARY KEY (form_pre_fill_ID)
@@ -278,7 +287,7 @@ CREATE TABLE pgapex.template (
 	CONSTRAINT uq_template_name UNIQUE (name)
 	);
 CREATE TABLE pgapex.fetch_row_condition (
-	fetch_row_condition_ID INTEGER NOT NULL,
+	fetch_row_condition_ID SERIAL NOT NULL,
 	form_pre_fill_ID INTEGER NOT NULL,
 	url_parameter_id INTEGER NOT NULL,
 	view_column_name VARCHAR ( 64 ) NOT NULL,
@@ -378,10 +387,11 @@ CREATE INDEX idx_navigation_region_navigation_id ON pgapex.navigation_region (na
 CREATE INDEX idx_navigation_region_template_id ON pgapex.navigation_region (template_ID );
 CREATE INDEX idx_navigation_region_navigation_type_id ON pgapex.navigation_region (navigation_type_ID );
 CREATE TABLE pgapex.list_of_values (
-	list_of_values_ID INTEGER NOT NULL,
+	list_of_values_ID SERIAL NOT NULL,
 	value_view_column_name VARCHAR ( 64 ) NOT NULL,
 	label_view_column_name VARCHAR ( 64 ) NOT NULL,
 	view_name VARCHAR ( 64 ) NOT NULL,
+	schema_name VARCHAR ( 64 ) NOT NULL,
 	CONSTRAINT pk_list_of_values PRIMARY KEY (list_of_values_ID)
 	);
 CREATE INDEX idx_list_of_values_label_view_column_name ON pgapex.list_of_values (label_view_column_name );
@@ -425,11 +435,12 @@ ALTER TABLE pgapex.drop_down_template ADD CONSTRAINT fk_drop_down_template_templ
 ALTER TABLE pgapex.page_template ADD CONSTRAINT fk_page_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_template ADD CONSTRAINT fk_page_template_page_type_id FOREIGN KEY (page_type_ID) REFERENCES pgapex.page_type (page_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.input_template ADD CONSTRAINT fk_input_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.input_template ADD CONSTRAINT fk_input_template_input_template_type_id FOREIGN KEY (input_template_type_ID) REFERENCES pgapex.input_template_type (input_template_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.report_template ADD CONSTRAINT fk_report_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.function ADD CONSTRAINT FK_function133 FOREIGN KEY (schema_ID) REFERENCES pgapex.schema (schema_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.function ADD CONSTRAINT FK_function139 FOREIGN KEY (data_type_ID) REFERENCES pgapex.data_type (data_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.fetch_row_condition ADD CONSTRAINT fk_fetch_row_condition_form_pre_fill_id FOREIGN KEY (form_pre_fill_ID) REFERENCES pgapex.form_pre_fill (form_pre_fill_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
-ALTER TABLE pgapex.fetch_row_condition ADD CONSTRAINT fk_fetch_row_condition_url_parameter_id FOREIGN KEY (url_parameter_id) REFERENCES pgapex.page_item (page_item_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.fetch_row_condition ADD CONSTRAINT fk_fetch_row_condition_url_parameter_id FOREIGN KEY (url_parameter_id) REFERENCES pgapex.page_item (page_item_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.region_template ADD CONSTRAINT fk_region_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.view ADD CONSTRAINT FK_view132 FOREIGN KEY (schema_ID) REFERENCES pgapex.schema (schema_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.data_type ADD CONSTRAINT FK_data_type134 FOREIGN KEY (schema_ID) REFERENCES pgapex.schema (schema_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -465,7 +476,7 @@ ALTER TABLE pgapex.region ADD CONSTRAINT fk_region_template_id FOREIGN KEY (temp
 ALTER TABLE pgapex.region ADD CONSTRAINT fk_region_page_id FOREIGN KEY (page_ID) REFERENCES pgapex.page (page_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.region ADD CONSTRAINT fk_region_page_template_display_point_id FOREIGN KEY (page_template_display_point_ID) REFERENCES pgapex.page_template_display_point (page_template_display_point_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.form_region ADD CONSTRAINT fk_form_region_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
-ALTER TABLE pgapex.form_region ADD CONSTRAINT fk_form_region_form_pre_fill_id FOREIGN KEY (form_pre_fill_ID) REFERENCES pgapex.form_pre_fill (form_pre_fill_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.form_region ADD CONSTRAINT fk_form_region_form_pre_fill_id FOREIGN KEY (form_pre_fill_ID) REFERENCES pgapex.form_pre_fill (form_pre_fill_ID)  ON DELETE SET NULL ON UPDATE NO ACTION;
 ALTER TABLE pgapex.form_region ADD CONSTRAINT fk_form_region_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.form_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.form_region ADD CONSTRAINT fk_form_region_button_template_id FOREIGN KEY (button_template_ID) REFERENCES pgapex.button_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.navigation_region ADD CONSTRAINT fk_navigation_region_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;

@@ -47,4 +47,9 @@ class RegionController extends Controller {
     return $response->setApiDataAsJson($this->getRegionModel()->saveReportRegion($request))
       ->getApiResponse();
   }
+
+  public function saveFormRegion(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getRegionModel()->saveFormRegion($request))
+      ->getApiResponse();
+  }
 }

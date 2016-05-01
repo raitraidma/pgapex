@@ -20,7 +20,7 @@
   };
 
   DatabaseService.prototype.getFunctionsWithParameters = function (applicationId) {
-    return this.apiService.get('api/database/functions-with-parameters.json', {'applicationId': applicationId});
+    return this.apiService.get('database/functions-with-parameters/' + applicationId);
   };
 
   // Deprecated

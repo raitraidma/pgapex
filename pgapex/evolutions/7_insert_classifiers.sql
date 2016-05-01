@@ -27,3 +27,8 @@ INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_5');
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_6');
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_7');
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_8');
+
+INSERT INTO pgapex.input_template_type (input_template_type_id) VALUES ('TEXT');
+INSERT INTO pgapex.input_template_type (input_template_type_id) VALUES ('PASSWORD');
+INSERT INTO pgapex.input_template_type (input_template_type_id) VALUES ('RADIO');
+INSERT INTO pgapex.input_template_type (input_template_type_id) VALUES ('CHECKBOX');

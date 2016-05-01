@@ -163,7 +163,8 @@ CREATE OR REPLACE FUNCTION pgapex.f_get_function_parameter_meta_info(
 , password VARCHAR
 )
 RETURNS TABLE (
-  schema_name      VARCHAR
+  specific_name    VARCHAR
+, schema_name      VARCHAR
 , function_name    VARCHAR
 , parameter_name   VARCHAR
 , ordinal_position INT
@@ -172,7 +173,8 @@ RETURNS TABLE (
 BEGIN
   RETURN QUERY
   SELECT
-    res_schema_name
+    res_specific_name
+  , res_schema_name
   , res_function_name
   , res_parameter_name
   , res_ordinal_position
@@ -180,7 +182,7 @@ BEGIN
   FROM
   dblink(
     'dbname=' || database || ' user=' || username || ' password=' || password,
-    'SELECT r.routine_schema, r.routine_name, p.parameter_name, p.ordinal_position, p.udt_name ' ||
+    'SELECT r.specific_name, r.routine_schema, r.routine_name, p.parameter_name, p.ordinal_position, p.udt_name ' ||
     'FROM information_schema.routines r ' ||
     'JOIN information_schema.parameters p ON r.specific_name = p.specific_name ' ||
     'WHERE r.routine_type = ''FUNCTION'' ' ||
@@ -188,7 +190,8 @@ BEGIN
     '  AND r.routine_schema NOT LIKE ''pg_toast%'' ' ||
     '  AND r.routine_schema NOT LIKE ''pg_temp%'''
   ) AS (
-    res_schema_name      VARCHAR
+    res_specific_name    VARCHAR
+  , res_schema_name      VARCHAR
   , res_function_name    VARCHAR
   , res_parameter_name   VARCHAR
   , res_ordinal_position INT

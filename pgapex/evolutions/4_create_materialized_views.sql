@@ -57,7 +57,8 @@ FROM
 
 CREATE MATERIALIZED VIEW pgapex.parameter AS
 SELECT DISTINCT
-  a.database_name
+  a.database_name || '.' || i.specific_name AS database_specific_name
+, a.database_name
 , i.schema_name
 , i.function_name
 , i.parameter_name

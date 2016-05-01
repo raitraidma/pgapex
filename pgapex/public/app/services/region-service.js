@@ -113,9 +113,9 @@
 
   RegionService.prototype.saveFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                         formTemplate, buttonTemplate, buttonLabel, successMessage,
-                                                        errorMessage, redirectUrl, func, functionParameters,
-                                                        formPreFill, formPreFillView, formPreFillColumns) {
-    var postData = {
+                                                        errorMessage, redirectUrl, functionSchema, functionName, formPreFill,
+                                                        formFields, preFill) {
+    var attributes = {
       "pageId": pageId,
       "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "regionId": regionId,
@@ -129,16 +129,16 @@
       "successMessage": successMessage,
       "errorMessage": errorMessage,
       "redirectUrl": redirectUrl,
-      "function": func,
-      "functionParameters": functionParameters,
+      "functionSchema": functionSchema,
+      "functionName": functionName,
       "formPreFill": formPreFill,
-      "formPreFillView": formPreFillView,
-      "formPreFillColumns": formPreFillColumns
+      "formFields": formFields,
+      "preFill": preFill
     };
-    if (name === 'fail') {
-      return this.apiService.post('api/region/save-form-region-fail.json', postData);
-    }
-    return this.apiService.post('api/region/save-form-region-ok.json', postData);
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+    return this.apiService.post('region/region/form/save', request);
   };
 
   function init() {

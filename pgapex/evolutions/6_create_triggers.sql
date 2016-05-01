@@ -43,9 +43,9 @@ CREATE CONSTRAINT TRIGGER trig_application_authentication_function_exists AFTER 
 	DEFERRABLE INITIALLY DEFERRED
 	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_application_authentication_function_exists();
 
----------------------------------
+--------------------------
 ---------- PAGE ----------
----------------------------------
+--------------------------
 
 CREATE OR REPLACE FUNCTION pgapex.f_trig_page_only_one_homepage_per_application()
 RETURNS trigger AS $$
@@ -74,4 +74,44 @@ CREATE CONSTRAINT TRIGGER trig_page_only_one_homepage_per_application AFTER INSE
 	DEFERRABLE INITIALLY DEFERRED
 	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_page_only_one_homepage_per_application();
 
+----------------------------
+---------- REGION ----------
+----------------------------
+
+CREATE OR REPLACE FUNCTION pgapex.f_trig_form_pre_fill_must_be_deleted_with_form_region()
+RETURNS trigger AS $$
+BEGIN
+	IF OLD.form_pre_fill_id IS NOT NULL THEN
+		DELETE FROM pgapex.form_pre_fill WHERE form_pre_fill_id = OLD.form_pre_fill_id;
+	END IF;
+	RETURN OLD;
+END;
+$$ LANGUAGE plpgsql
+	SECURITY DEFINER
+	SET search_path = public, pg_temp;
+
+DROP TRIGGER IF EXISTS trig_form_pre_fill_must_be_deleted_with_form_region ON pgapex.form_region;
+
+CREATE CONSTRAINT TRIGGER trig_form_pre_fill_must_be_deleted_with_form_region AFTER DELETE ON pgapex.form_region
+	DEFERRABLE INITIALLY DEFERRED
+	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_form_pre_fill_must_be_deleted_with_form_region();
+
 ----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_trig_list_of_values_must_be_deleted_with_form_field()
+RETURNS trigger AS $$
+BEGIN
+	IF OLD.list_of_values_id IS NOT NULL THEN
+		DELETE FROM pgapex.list_of_values WHERE list_of_values_id = OLD.list_of_values_id;
+	END IF;
+	RETURN OLD;
+END;
+$$ LANGUAGE plpgsql
+	SECURITY DEFINER
+	SET search_path = public, pg_temp;
+
+DROP TRIGGER IF EXISTS trig_list_of_values_must_be_deleted_with_form_field ON pgapex.form_field;
+
+CREATE CONSTRAINT TRIGGER trig_list_of_values_must_be_deleted_with_form_field AFTER DELETE ON pgapex.form_field
+	DEFERRABLE INITIALLY DEFERRED
+	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_list_of_values_must_be_deleted_with_form_field();

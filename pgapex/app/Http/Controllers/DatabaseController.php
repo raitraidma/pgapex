@@ -28,4 +28,10 @@ class DatabaseController extends Controller {
     return $response->setApiDataAsJson($database->getViewsWithColumns($args['applicationId']))
                     ->getApiResponse();
   }
+
+  public function getFunctionsWithParameters(Request $request, Response $response, $args) {
+    $database = new Database($this->getContainer()['db']);
+    return $response->setApiDataAsJson($database->getFunctionsWithParameters($args['applicationId']))
+                    ->getApiResponse();
+  }
 }

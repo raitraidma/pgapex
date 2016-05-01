@@ -11,6 +11,7 @@
     "sequence":2,
     "isVisible":true,
     "regionTemplate":3,
+
     "formTemplate":4,
     "buttonTemplate":5,
     "buttonLabel":"Save",

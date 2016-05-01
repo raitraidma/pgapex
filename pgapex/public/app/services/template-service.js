@@ -38,26 +38,35 @@
   };
 
   TemplateService.prototype.getFormTemplates = function () {
-    return this.apiService.get('api/template/form-templates.json');
+    return this.apiService.get('template/form-templates');
   };
 
   TemplateService.prototype.getButtonTemplates = function () {
-    return this.apiService.get('api/template/button-templates.json');
+    return this.apiService.get('template/button-templates');
   };
 
-
-  TemplateService.prototype.getInputTemplates = function () {
-    return this.apiService.get('api/template/input-templates.json');
+  TemplateService.prototype.getTextInputTemplates = function () {
+    return this.apiService.get('template/input-templates/text');
   };
 
+  TemplateService.prototype.getPasswordInputTemplates = function () {
+    return this.apiService.get('template/input-templates/password');
+  };
+
+  TemplateService.prototype.getCheckboxInputTemplates = function () {
+    return this.apiService.get('template/input-templates/checkbox');
+  };
+
+  TemplateService.prototype.getRadioInputTemplates = function () {
+    return this.apiService.get('template/input-templates/radio');
+  };
 
   TemplateService.prototype.getTextareaTemplates = function () {
-    return this.apiService.get('api/template/textarea-templates.json');
+    return this.apiService.get('template/textarea-templates');
   };
 
-
   TemplateService.prototype.getDropDownTemplates = function () {
-    return this.apiService.get('api/template/drop-down-templates.json');
+    return this.apiService.get('template/drop-down-templates');
   };
 
   function init() {

@@ -28,12 +28,18 @@ $app->group('/api', function () {
     $this->get('/database/databases', '\App\Http\Controllers\DatabaseController:getDatabases');
     $this->get('/database/authentication-functions/{applicationId}', '\App\Http\Controllers\DatabaseController:getAuthenticationFunctions');
     $this->get('/database/views/columns/{applicationId}', '\App\Http\Controllers\DatabaseController:getViewsWithColumns');
+    $this->get('/database/functions-with-parameters/{applicationId}', '\App\Http\Controllers\DatabaseController:getFunctionsWithParameters');
 
     $this->get('/template/login-templates', '\App\Http\Controllers\TemplateController:getLoginTemplates');
     $this->get('/template/page-templates', '\App\Http\Controllers\TemplateController:getPageTemplates');
     $this->get('/template/region-templates', '\App\Http\Controllers\TemplateController:getRegionTemplates');
     $this->get('/template/navigation-templates', '\App\Http\Controllers\TemplateController:getNavigationTemplates');
     $this->get('/template/report-templates', '\App\Http\Controllers\TemplateController:getReportTemplates');
+    $this->get('/template/form-templates', '\App\Http\Controllers\TemplateController:getFormTemplates');
+    $this->get('/template/button-templates', '\App\Http\Controllers\TemplateController:getButtonTemplates');
+    $this->get('/template/textarea-templates', '\App\Http\Controllers\TemplateController:getTextareaTemplates');
+    $this->get('/template/drop-down-templates', '\App\Http\Controllers\TemplateController:getDropDownTemplates');
+    $this->get('/template/input-templates/{inputType}', '\App\Http\Controllers\TemplateController:getInputTemplates');
 
     $this->get('/page/pages/{applicationId}', '\App\Http\Controllers\PageController:getPages');
     $this->post('/page/page/save', '\App\Http\Controllers\PageController:savePage');
@@ -56,6 +62,7 @@ $app->group('/api', function () {
     $this->post('/region/region/html/save', '\App\Http\Controllers\RegionController:saveHtmlRegion');
     $this->post('/region/region/navigation/save', '\App\Http\Controllers\RegionController:saveNavigationRegion');
     $this->post('/region/region/report/save', '\App\Http\Controllers\RegionController:saveReportRegion');
+    $this->post('/region/region/form/save', '\App\Http\Controllers\RegionController:saveFormRegion');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

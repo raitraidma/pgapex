@@ -4,6 +4,14 @@ INSERT INTO pgapex.template (template_id, name) VALUES (3, 'Top navigation templ
 INSERT INTO pgapex.template (template_id, name) VALUES (4, 'Region template');
 INSERT INTO pgapex.template (template_id, name) VALUES (5, 'Navigation region template');
 INSERT INTO pgapex.template (template_id, name) VALUES (6, 'Report template');
+INSERT INTO pgapex.template (template_id, name) VALUES (7, 'Form template');
+INSERT INTO pgapex.template (template_id, name) VALUES (8, 'Drop-down template');
+INSERT INTO pgapex.template (template_id, name) VALUES (9, 'Button template');
+INSERT INTO pgapex.template (template_id, name) VALUES (10, 'Textarea template');
+INSERT INTO pgapex.template (template_id, name) VALUES (11, 'Text input template');
+INSERT INTO pgapex.template (template_id, name) VALUES (12, 'Password input template');
+INSERT INTO pgapex.template (template_id, name) VALUES (13, 'Radio template');
+INSERT INTO pgapex.template (template_id, name) VALUES (14, 'Checkbox template');
 
 
 INSERT INTO pgapex.navigation_template (template_id, navigation_begin, navigation_end) VALUES (3, '<ul class="nav navbar-nav">', '</ul>');
@@ -134,3 +142,24 @@ VALUES (6, '<div><table class="table table-bordered">', '</table>#PAGINATION#</d
 '<thead>', '<tr>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
 '<tbody>', '<tr>', '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>',
 '<nav><ul class="pagination">', '</ul></nav>', '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>', '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
+
+INSERT INTO pgapex.form_template (template_id, form_begin, form_end, row_begin, row_end, row, mandatory_row_begin, mandatory_row_end, mandatory_row)
+VALUES(7, '<form class="form-horizontal" method="POST" action="">', '#SUBMIT_BUTTON#</form>',
+'<div class="form-group">', '</div>', '<label class="col-sm-2 control-label">#LABEL#</label><div class="col-sm-10">#FORM_ELEMENT#</div>',
+'<div class="form-group">', '</div>', '<label class="col-sm-2 control-label">#LABEL# *</label><div class="col-sm-10">#FORM_ELEMENT#</div>');
+
+INSERT INTO pgapex.drop_down_template (template_id, drop_down_begin, drop_down_end, option_begin, option_end)
+VALUES (8, '<select class="form-control" name="#NAME#">', '</select>', '<option value="#VALUE#">', '</option>');
+
+INSERT INTO pgapex.button_template (template_id, template) VALUES (9, '<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <button type="submit" name="#NAME#" class="btn btn-primary">#LABEL#</button>
+  </div>
+</div>');
+
+INSERT INTO pgapex.textarea_template (template_id, template) VALUES (10, '<textarea class="form-control" placeholder="#LABEL#" name="#NAME#">#VALUE#</textarea>');
+
+INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (11, 'TEXT', '<input type="text" class="form-control" placeholder="#LABEL#" name="#NAME#" value="#VALUE#">');
+INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (12, 'PASSWORD', '<input type="password" class="form-control" placeholder="#LABEL#" name="#NAME#" value="#VALUE#">');
+INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (13, 'RADIO', '<div><input type="radio" name="#NAME#" value="#VALUE#"> #INPUT_LABEL#</div>');
+INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (14, 'CHECKBOX', '<input type="checkbox" class="checkbox"name="#NAME#" value="#VALUE#" #CHECKED#>');
