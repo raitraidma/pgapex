@@ -218,7 +218,6 @@ class Region extends Model {
       return true;
     } catch (Exception $e) {
       $connection->rollBack();
-      var_dump($e);
     }
     return false;
   }

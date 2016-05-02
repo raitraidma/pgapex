@@ -53,7 +53,8 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')}">
       <label for="paginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}} *</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" name="paginationQueryParameter" ng-model="region.paginationQueryParameter" id="paginationQueryParameter" placeholder="{{'region.paginationQueryParameter'|translate}}" required>
+        <input type="text" class="form-control" name="paginationQueryParameter" ng-model="region.paginationQueryParameter" id="paginationQueryParameter"
+               placeholder="{{'region.paginationQueryParameter'|translate}}" required ng-pattern="'[a-zA-Z_]+'">
         <div ng-show="formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')">
           <span ng-show="manageRegionForm.paginationQueryParameter.$error.required" class="help-block">{{'region.paginationQueryParameterIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('paginationQueryParameter')" class="help-block">{{error|translate}}</span>
