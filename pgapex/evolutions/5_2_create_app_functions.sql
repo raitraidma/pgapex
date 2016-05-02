@@ -1177,9 +1177,11 @@ DECLARE
   t_form_element                 TEXT     := '';
   j_lov_rows                     JSON;
   v_query                        VARCHAR;
+  t_option                       TEXT;
   t_options                      TEXT;
   t_pre_fill_url_params          TEXT[];
   j_pre_fetched_values           JSONB   := '{}';
+  j_option                       JSON;
 BEGIN
   SELECT fr.form_pre_fill_id, fr.button_label, ft.form_begin, ft.form_end, ft.row_begin, ft.row_end, ft.row,
          ft.mandatory_row_begin, ft.mandatory_row_end, ft.mandatory_row, bt.template, fpf.schema_name, fpf.view_name
@@ -1257,30 +1259,44 @@ BEGIN
         t_form_element := r_form_row.input_template;
         t_form_element := replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));
         t_form_element := replace(t_form_element, '#CHECKED#', '');
+
       ELSIF r_form_row.field_type_id = 'RADIO' THEN
-
-        -- TODO: HTML special chars
-        v_query := 'SELECT coalesce(string_agg(options.option, ''''), '''') FROM (SELECT replace(replace(replace(' ||
-                   quote_nullable(r_form_row.input_template) || ', ''#VALUE#'', ' || r_form_row.value_view_column_name || '::varchar), ''#CHECKED#'' ,  ('' '' || (CASE WHEN ' ||
-                   r_form_row.value_view_column_name || ' = ' || quote_nullable(r_form_row.default_value) || ' THEN '' checked'' ELSE '''' END))), ''#INPUT_LABEL#'', ' || r_form_row.label_view_column_name || '::varchar) ' ||
-                   ' AS option FROM ' || r_form_row.schema_name || '.' || r_form_row.view_name || ') AS options';
-
-        SELECT res_options INTO t_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options TEXT );
-
+        v_query := 'SELECT json_build_object(''value'', ' || r_form_row.value_view_column_name || ', ''label'', ' || r_form_row.label_view_column_name || ') ' ||
+                   ' FROM '  || r_form_row.schema_name || '.' || r_form_row.view_name;
+        t_options := '';
+        FOR j_option IN (SELECT res_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options JSON ))
+        LOOP
+          t_option := r_form_row.input_template;
+          t_option := replace(t_option, '#VALUE#', pgapex.f_app_html_special_chars(j_option->>'value'));
+          t_option := replace(t_option, '#INPUT_LABEL#', pgapex.f_app_html_special_chars(j_option->>'label'));
+          IF j_option->>'value' = r_form_row.default_value THEN
+            t_option := replace(t_option, '#CHECKED#', ' checked="checked" ');
+          END IF;
+          t_option := replace(t_option, '#CHECKED#', '');
+          t_options := t_options || t_option;
+        END LOOP;
         t_form_element := t_form_element || t_options;
+
       ELSIF r_form_row.field_type_id = 'TEXTAREA' THEN
         t_form_element := r_form_row.textarea_template;
         t_form_element := replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));
+
       ELSIF r_form_row.field_type_id = 'DROP_DOWN' THEN
         t_form_element := r_form_row.drop_down_begin;
-
-        -- TODO: HTML special chars
-        v_query := 'SELECT coalesce(string_agg(options.option, ''''), '''') FROM (SELECT replace(replace(' ||
-                   quote_nullable(r_form_row.option_begin) || ', ''#VALUE#'', ' || r_form_row.value_view_column_name || '::varchar), ''#SELECTED#'' ,  ('' '' || (CASE WHEN ' ||
-                   r_form_row.value_view_column_name || ' = ' || quote_nullable(r_form_row.default_value) || ' THEN '' selected'' ELSE '''' END))) || ' ||
-                   r_form_row.label_view_column_name || '::varchar || ' || quote_nullable(r_form_row.option_end) ||
-                   ' AS option FROM ' || r_form_row.schema_name || '.' || r_form_row.view_name || ') AS options';
-        SELECT res_options INTO t_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options TEXT );
+        v_query := 'SELECT json_build_object(''value'', ' || r_form_row.value_view_column_name || ', ''label'', ' || r_form_row.label_view_column_name || ') ' ||
+                   ' FROM '  || r_form_row.schema_name || '.' || r_form_row.view_name;
+        t_options := '';
+        FOR j_option IN (SELECT res_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options JSON ))
+        LOOP
+          t_option := r_form_row.option_begin;
+          t_option := replace(t_option, '#VALUE#', pgapex.f_app_html_special_chars(j_option->>'value'));
+          IF j_option->>'value' = r_form_row.default_value THEN
+            t_option := replace(t_option, '#SELECTED#', ' selected="selected" ');
+          END IF;
+          t_option := replace(t_option, '#SELECTED#', '');
+          t_option := t_option || pgapex.f_app_html_special_chars(j_option->>'label') || r_form_row.option_end;
+          t_options := t_options || t_option;
+        END LOOP;
 
         t_form_element := t_form_element || t_options;
         t_form_element := t_form_element || r_form_row.drop_down_end;
