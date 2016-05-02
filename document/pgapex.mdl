@@ -6502,7 +6502,7 @@
 						width      	306
 						height     	206)
 					    (object NoteView @271
-						location   	(1984, 624)
+						location   	(2000, 608)
 						font       	(object Font
 						    size       	9
 						    face       	"Arial"
@@ -6515,31 +6515,32 @@
 						    default_color 	TRUE)
 						label      	(object ItemLabel
 						    Parent_View 	@271
-						    location   	(1843, 534)
+						    location   	(1850, 502)
 						    fill_color 	13434879
-						    nlines     	3
-						    max_width  	246
+						    nlines     	4
+						    max_width  	265
 						    justify    	1
 						    label      	
 |Substitutions:
 |- name
 |- value
+|- row_label
 						    )
 						line_color 	3342489
 						fill_color 	13434879
-						width      	306
-						height     	193)
+						width      	325
+						height     	225)
 					    (object AttachView "" @272
 						stereotype 	TRUE
 						line_color 	3342489
 						client     	@271
 						supplier   	@267
 						vertices   	(list Points
-						    (1995, 720)
-						    (2002, 781))
+						    (2006, 720)
+						    (2009, 781))
 						line_style 	0)
 					    (object NoteView @273
-						location   	(1744, 192)
+						location   	(1744, 224)
 						font       	(object Font
 						    size       	9
 						    face       	"Arial"
@@ -6552,24 +6553,25 @@
 						    default_color 	TRUE)
 						label      	(object ItemLabel
 						    Parent_View 	@273
-						    location   	(1578, 73)
+						    location   	(1575, 77)
 						    fill_color 	13434879
-						    nlines     	5
-						    max_width  	296
+						    nlines     	6
+						    max_width  	302
 						    justify    	1
 						    label      	
 |Substitutions:
 |- name
 |- value
-|- type
-|- label
+|- row_label
+|- input_label
+|- checked
 						    )
 						line_color 	3342489
 						fill_color 	13434879
-						width      	356
-						height     	250)
+						width      	362
+						height     	306)
 					    (object NoteView @274
-						location   	(2512, 512)
+						location   	(2496, 480)
 						font       	(object Font
 						    size       	9
 						    face       	"Arial"
@@ -6582,28 +6584,29 @@
 						    default_color 	TRUE)
 						label      	(object ItemLabel
 						    Parent_View 	@274
-						    location   	(2371, 409)
+						    location   	(2355, 358)
 						    fill_color 	13434879
-						    nlines     	4
+						    nlines     	5
 						    max_width  	246
 						    justify    	1
 						    label      	
 |Substitutions:
 |- name
 |- value
-|- label
+|- selected
+|- row_label
 						    )
 						line_color 	3342489
 						fill_color 	13434879
 						width      	306
-						height     	219)
+						height     	257)
 					    (object AttachView "" @275
 						stereotype 	TRUE
 						line_color 	3342489
 						client     	@274
 						supplier   	@266
 						vertices   	(list Points
-						    (2512, 512)
+						    (2496, 480)
 						    (2544, 816))
 						line_style 	0)
 					    (object NoteView @276
@@ -7940,7 +7943,7 @@
 						client     	@273
 						supplier   	@329
 						vertices   	(list Points
-						    (1744, 192)
+						    (1744, 224)
 						    (2128, 336))
 						line_style 	0)
 					    (object AssociationViewNew "$UNNAMED$143" @331
@@ -53108,7 +53111,7 @@
 				max_height 	28350
 				max_width  	21600
 				origin_x   	875
-				origin_y   	1156
+				origin_y   	0
 				items      	(list diagram_item_list
 				    (object ClassView "Class" "Logical View::Schemas::pgapex::fetch_row_condition" @995
 					ShowCompartmentStereotypes 	TRUE
@@ -53304,7 +53307,7 @@
 					    fill_color 	13434879
 					    anchor     	2
 					    nlines     	17
-					    max_width  	897
+					    max_width  	909
 					    justify    	1)
 					width      	990
 					height     	974

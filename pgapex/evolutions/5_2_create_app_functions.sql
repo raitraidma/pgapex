@@ -610,7 +610,7 @@ BEGIN
       ELSIF r_region.region_type = 'REPORT' THEN
         SELECT pgapex.f_app_get_report_region(r_region.region_id, j_get_params) INTO t_region_content;
       ELSIF r_region.region_type = 'FORM' THEN
-        SELECT pgapex.f_app_get_form_region(r_region.region_id) INTO t_region_content;
+        SELECT pgapex.f_app_get_form_region(r_region.region_id, j_get_params) INTO t_region_content;
       END IF;
       t_region_template := replace(t_region_template, '#NAME#', r_region.name);
       t_region_template := replace(t_region_template, '#BODY#', t_region_content);
@@ -1151,13 +1151,158 @@ SET search_path = pgapex, public, pg_temp;
 ----------
 
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_form_region(
-  i_region_id   INT
+  i_region_id    INT
+, j_get_params JSONB
 )
   RETURNS TEXT AS $$
 DECLARE
-  t_region_template TEXT;
+  t_region_template              TEXT;
+  i_form_pre_fill_id             INT;
+  v_button_label                 VARCHAR;
+  t_form_begin_template          TEXT;
+  t_form_end_template            TEXT;
+  t_row_begin_template           TEXT;
+  t_row_end_template             TEXT;
+  t_row_template                 TEXT;
+  t_mandatory_row_begin_template TEXT;
+  t_mandatory_row_end_template   TEXT;
+  t_mandatory_row_template       TEXT;
+  t_button_template              TEXT;
+  v_pre_fill_schema              VARCHAR;
+  v_pre_fill_view                VARCHAR;
+  r_form_row                     RECORD;
+  t_current_row_begin_template   TEXT     := '';
+  t_current_row_end_template     TEXT     := '';
+  t_current_row_template         TEXT     := '';
+  t_form_element                 TEXT     := '';
+  j_lov_rows                     JSON;
+  v_query                        VARCHAR;
+  t_options                      TEXT;
+  t_pre_fill_url_params          TEXT[];
+  j_pre_fetched_values           JSONB   := '{}';
 BEGIN
-  SELECT 'Form region is not implemented' INTO t_region_template;
+  SELECT fr.form_pre_fill_id, fr.button_label, ft.form_begin, ft.form_end, ft.row_begin, ft.row_end, ft.row,
+         ft.mandatory_row_begin, ft.mandatory_row_end, ft.mandatory_row, bt.template, fpf.schema_name, fpf.view_name
+  INTO i_form_pre_fill_id, v_button_label, t_form_begin_template, t_form_end_template, t_row_begin_template, t_row_end_template, t_row_template,
+       t_mandatory_row_begin_template, t_mandatory_row_end_template, t_mandatory_row_template, t_button_template, v_pre_fill_schema, v_pre_fill_view
+  FROM pgapex.form_region fr
+  LEFT JOIN pgapex.form_template ft ON ft.template_id = fr.template_id
+  LEFT JOIN pgapex.button_template bt ON bt.template_id = fr.button_template_id
+  LEFT JOIN pgapex.form_pre_fill fpf ON fpf.form_pre_fill_id = fr.form_pre_fill_id
+  WHERE fr.region_id = i_region_id;
+
+  IF i_form_pre_fill_id IS NOT NULL THEN
+    SELECT ARRAY( SELECT pi.name
+    FROM pgapex.fetch_row_condition frc
+    RIGHT JOIN pgapex.page_item pi ON pi.page_item_id = frc.url_parameter_id
+    WHERE frc.form_pre_fill_id = i_form_pre_fill_id) INTO t_pre_fill_url_params;
+
+    IF (j_get_params ?& t_pre_fill_url_params) = FALSE THEN
+      PERFORM pgapex.f_app_add_error_message('All url params must exist to prefetch form data: ' || array_to_string(t_pre_fill_url_params, ', '));
+      RETURN '';
+    END IF;
+
+    SELECT string_agg(params.param, ' AND ') INTO v_query
+    FROM ( SELECT (frc.view_column_name || '=' || quote_nullable(url_params.value)) param
+           FROM pgapex.fetch_row_condition frc
+           LEFT JOIN pgapex.page_item pi ON pi.page_item_id = frc.url_parameter_id
+           LEFT JOIN (SELECT key, value FROM json_each_text(j_get_params::json)) url_params ON url_params.key = pi.name
+           WHERE frc.form_pre_fill_id = i_form_pre_fill_id
+         ) params;
+
+    v_query := 'SELECT to_json(a) FROM ' || v_pre_fill_schema || '.' || v_pre_fill_view || ' a WHERE ' || v_query || ' LIMIT 1';
+    SELECT res_pre_fetch_values INTO j_pre_fetched_values FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_pre_fetch_values JSONB );
+
+  END IF;
+
+  t_button_template := replace(replace(t_button_template, '#NAME#', 'PGAPEX_BUTTON'), '#LABEL#', v_button_label);
+
+  t_region_template := replace(t_form_begin_template, '#SUBMIT_BUTTON#', t_button_template);
+  t_region_template := t_region_template || '<input type="hidden" name="PGAPEX_REGION" value="' || i_region_id || '">';
+
+  FOR r_form_row IN (
+    SELECT
+      ff.field_type_id, ff.label, ff.is_mandatory, ff.is_visible, ff.default_value, ff.help_text, ff.field_pre_fill_view_column_name,
+      pi.name AS form_element_name, lov.schema_name, lov.view_name, lov.label_view_column_name, lov.value_view_column_name,
+      it.template AS input_template, tt.template AS textarea_template,
+      ddt.drop_down_begin, ddt.drop_down_end, ddt.option_begin, ddt.option_end
+    FROM pgapex.form_field ff
+      LEFT JOIN pgapex.list_of_values lov ON lov.list_of_values_id = ff.list_of_values_id
+      LEFT JOIN pgapex.page_item pi ON pi.form_field_id = ff.form_field_id
+      LEFT JOIN pgapex.input_template it ON it.template_id = ff.input_template_id
+      LEFT JOIN pgapex.drop_down_template ddt ON ddt.template_id = ff.drop_down_template_id
+      LEFT JOIN pgapex.textarea_template tt ON tt.template_id = ff.textarea_template_id
+    WHERE ff.region_id = i_region_id
+    ORDER BY ff.sequence ASC
+  )
+  LOOP
+    t_form_element := '';
+    IF r_form_row.field_pre_fill_view_column_name IS NOT NULL AND j_pre_fetched_values ? r_form_row.field_pre_fill_view_column_name THEN
+      r_form_row.default_value := j_pre_fetched_values->>r_form_row.field_pre_fill_view_column_name;
+    END IF;
+
+    IF r_form_row.is_visible THEN
+      IF r_form_row.is_mandatory THEN
+        t_current_row_begin_template := t_mandatory_row_begin_template;
+        t_current_row_end_template := t_mandatory_row_end_template;
+        t_current_row_template := t_mandatory_row_template;
+      ELSE
+        t_current_row_begin_template := t_row_begin_template;
+        t_current_row_end_template := t_row_end_template;
+        t_current_row_template := t_row_template;
+      END IF;
+      t_region_template := t_region_template || t_current_row_begin_template;
+
+      IF r_form_row.field_type_id IN ('TEXT', 'PASSWORD', 'CHECKBOX') THEN
+        t_form_element := r_form_row.input_template;
+        t_form_element := replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));
+        t_form_element := replace(t_form_element, '#CHECKED#', '');
+      ELSIF r_form_row.field_type_id = 'RADIO' THEN
+
+        -- TODO: HTML special chars
+        v_query := 'SELECT coalesce(string_agg(options.option, ''''), '''') FROM (SELECT replace(replace(replace(' ||
+                   quote_nullable(r_form_row.input_template) || ', ''#VALUE#'', ' || r_form_row.value_view_column_name || '::varchar), ''#CHECKED#'' ,  ('' '' || (CASE WHEN ' ||
+                   r_form_row.value_view_column_name || ' = ' || quote_nullable(r_form_row.default_value) || ' THEN '' checked'' ELSE '''' END))), ''#INPUT_LABEL#'', ' || r_form_row.label_view_column_name || '::varchar) ' ||
+                   ' AS option FROM ' || r_form_row.schema_name || '.' || r_form_row.view_name || ') AS options';
+
+        SELECT res_options INTO t_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options TEXT );
+
+        t_form_element := t_form_element || t_options;
+      ELSIF r_form_row.field_type_id = 'TEXTAREA' THEN
+        t_form_element := r_form_row.textarea_template;
+        t_form_element := replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));
+      ELSIF r_form_row.field_type_id = 'DROP_DOWN' THEN
+        t_form_element := r_form_row.drop_down_begin;
+
+        -- TODO: HTML special chars
+        v_query := 'SELECT coalesce(string_agg(options.option, ''''), '''') FROM (SELECT replace(replace(' ||
+                   quote_nullable(r_form_row.option_begin) || ', ''#VALUE#'', ' || r_form_row.value_view_column_name || '::varchar), ''#SELECTED#'' ,  ('' '' || (CASE WHEN ' ||
+                   r_form_row.value_view_column_name || ' = ' || quote_nullable(r_form_row.default_value) || ' THEN '' selected'' ELSE '''' END))) || ' ||
+                   r_form_row.label_view_column_name || '::varchar || ' || quote_nullable(r_form_row.option_end) ||
+                   ' AS option FROM ' || r_form_row.schema_name || '.' || r_form_row.view_name || ') AS options';
+        SELECT res_options INTO t_options FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_options TEXT );
+
+        t_form_element := t_form_element || t_options;
+        t_form_element := t_form_element || r_form_row.drop_down_end;
+      END IF;
+    ELSE
+      t_current_row_template := '#FORM_ELEMENT#';
+      t_form_element := '<input type="hidden" name="#NAME#" value="#VALUE#">';
+      t_form_element :=  replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));
+    END IF;
+
+    t_form_element := replace(t_form_element, '#NAME#',      pgapex.f_app_html_special_chars(r_form_row.form_element_name));
+    t_form_element := replace(t_form_element, '#ROW_LABEL#', pgapex.f_app_html_special_chars(r_form_row.label));
+
+    t_current_row_template := replace(t_current_row_template, '#FORM_ELEMENT#', t_form_element);
+    t_current_row_template := replace(t_current_row_template, '#HELP_TEXT#',    pgapex.f_app_html_special_chars(coalesce(r_form_row.help_text, '')));
+    t_current_row_template := replace(t_current_row_template, '#LABEL#',        r_form_row.label);
+    t_region_template := t_region_template || t_current_row_template;
+    t_region_template := t_region_template || t_current_row_end_template;
+  END LOOP;
+
+  t_region_template := t_region_template || replace(t_form_end_template, '#SUBMIT_BUTTON#', t_button_template);
+
   RETURN t_region_template;
 END
 $$ LANGUAGE plpgsql
