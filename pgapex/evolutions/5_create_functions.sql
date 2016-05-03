@@ -1148,7 +1148,9 @@ BEGIN
     WHERE region_id = i_region_id;
 
     UPDATE pgapex.page_item
-    SET name = v_pagination_query_parameter;
+    SET name = v_pagination_query_parameter
+    WHERE page_id = i_page_id
+      AND region_id = i_region_id;
     RETURN i_region_id;
   END IF;
 END
