@@ -17,6 +17,7 @@ module.exports = function(config){
       'pgapex/public/vendor/angular-bootstrap-duallistbox/dist/angular-bootstrap-duallistbox.min.js',
       'pgapex/public/vendor/angular-bootstrap/ui-bootstrap.min.js',
       'pgapex/public/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'pgapex/public/vendor/angular-loading-bar/build/loading-bar.min.js',
       'pgapex/public/vendor/angular-mocks/angular-mocks.js',
 
       'pgapex/public/app/utils/*.js',

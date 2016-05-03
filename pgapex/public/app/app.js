@@ -1,7 +1,7 @@
 'use strict';
 (function (window) {
   var angular = window.angular;
-  var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox',
+  var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox', 'angular-loading-bar',
                 'ui.bootstrap', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
                 'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace',
                 'pgApexApp.user', 'pgApexApp.navigation', 'pgApexApp.region'];
@@ -35,11 +35,16 @@
     $translatePartialLoaderProvider.addPart('general');
   }
 
+  function cfpLoadingBarProviderConfig (cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = false;
+  }
+
   function loadPgApexApplication(angular) {
     angular
     .module('pgApexApp', modules)
     .config(['$routeProvider', '$locationProvider', '$httpProvider', routeProviderConfig])
-    .config(['$translateProvider', '$translatePartialLoaderProvider', translateProviderConfig]);
+    .config(['$translateProvider', '$translatePartialLoaderProvider', translateProviderConfig])
+    .config(['cfpLoadingBarProvider', cfpLoadingBarProviderConfig]);
   }
 
   function init() {
