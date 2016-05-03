@@ -8,6 +8,9 @@
 \usepackage{url} %Vajalik, kui töös on kasutusel URL aadress. Sel juhul märkida URL tagi vahele ning LaTeX ei hakka seda lahti kompileerima eraldi käskudeks vms
 \usepackage[figure,table,page,section]{totalcount} %Jooniste, tabelite, lehtede ja peatükkide arv
 \usepackage{float} %Vajalik töös olevate tabelite ja jooniste vormistamiseks
+\usepackage{blindtext}
+\usepackage{scrextend}
+\addtokomafont{labelinglabel}{\sffamily}
 \usepackage{longtable} %Korda tabeli päist uuel lehel
 \usepackage{color,xcolor,colortbl}% Värvid
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -175,15 +178,15 @@ Meta-andmed&Andmed andmete kohta\\
 \section{Sissejuhatus}
 \label{Sissejuhatus} %Võimaldab pealkirjale viidata \ref käsuga
 \subsection{Taust ja probleem}
-TTÜ-s õpetatava aine ``Andmebaasid II'' raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi avaliku andmebaasiliidese. Andmebaasi loomiseks võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada Oracle APEX-it \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades PHP-d \cite{PHP}. See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele vaid peab tegelema ka lisaprogrammeerimisega, mis olenevalt eelnevast kogemusest võib võtta rohekm või vähem aega. Töö tulemusena valmiva prototüübi abil peaks üliõpilastel olema lihtsam luua näidisrakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i.\par
+TTÜ-s õpetatava aine ``Andmebaasid II'' raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi avaliku andmebaasiliidese. Andmebaasi loomiseks võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada Oracle APEX-it \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades PHP-d \cite{PHP}. See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele vaid peab tegelema ka lisaprogrammeerimisega. Töö tulemusena valmiva süsteemi abil peaks üliõpilastel olema lihtsam luua näidisrakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i.\par
 Töö valmis 2016. aasta kevadel Tallinna Tehnikaülikoolis.
 \subsection{Ülesande püstitus}
-Antud töö eesmärgiks on uurida, kuidas luua PostgreSQL andmebaasi põhjal meta-andmetega juhutavat veebipõhist rakenduste kiirprogrammeerimiskeskkonda ning see realiseerida. Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0.
-Töö tulem avaldatakse avatud lähtekoodi litsentsi all. \par
-Loodava süsteemi abil peavad kasutajad saama valida, millise andmebaasi põhjal nad soovivad enda rakenduse luua. Kasutades andmebaasi avalikku liidest peab olema võimalik luua lehekülgi, lisada neile raporteid, vorme ning navigeerida erinevate lehtede vahel. Sisselogimine peab olema võimalik, kasutades sama kasutajanime ja parooli, mis on kasutusel andmebaasisüsteemis.
+Töö eesmärgiks on disainida ning realiseerida PostgreSQL põhine meta-andmetega juhitav veebipõhine veebirakenduste kiirprogrammeerimiskeskkond. Süsteem peab suhtlema teiste andmebaasidega läbi avaliku liidese ning andmebaasi poole peal genereerima kasutajale kuvatava vastuse.\par
+Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0 ning tuleb välja anda vabavara litsentsi all.
 \subsection{Metoodika}
-Süsteemi realiseerimiseks kasutatakse serveri poole pealt andmebaasisüsteemi PostgreSQL 9.4 \cite{PostgreSQL}, programmeerimiskeelt PHP 5.5.0 \cite{PHP}, PHP raamistikku Slim 3.3.0 \cite{SlimFW}. Kliendi poole realiseerimiseks kasutatakse lisaks HTML-le ja CSS-le ka AngularJS 1.4 \cite{AngularJS} ja Bootstrap 3 \cite{Bootstrap}.
-Selleks, et loodud süsteemi oleks ka teistel lihtne üles seada ning kasutada, loon Vagrant-i \cite{Vagrant} abil virtuaalmasina, kus on eelnevalt installitud kogu vajalik tarkvara süsteemi arendamiseks ja testimiseks. Javascripti koodi testimiseks kasutan Karma 0.13 \cite{karma} ja Jasmine 2.3 \cite{Jasmine}. PHP koodi testimiseks kasutan PHPUnit 4.8 \cite{PHPUnit} ja Mockery 0.9 \cite{Mockery}. Testide automaatseks jooksutamiseks ning koodi juurutamiseks (\textit{deploy}) kasutan TravisCI \cite{TravisCI} keskkonda. Koodi ennast hoitakse GitHub-i \cite{GitHub} koodihoidlas.
+Esiteks tuleb uurida, kas liideste kasutamine andmebaasi poole peal annab süsteemile mingi eelise. Seejärel tuleb selgeks teha, kas ja kuidas saab ühest andmebaasist suhelda teiste andmebaasidega. Ning viimasena, kuidas küsida teistest andmebaasidest infot liideste kohta.
+Lisaks uurin, milliseid sarnaseid süsteeme on veel olemas ning kuidas need on üles ehitatud.\par
+Töö tulemusena valmib süsteem, mille abil saab luua veebipõhiseid rakendusi, mis kasutavad andmete edastamiseks liideseid. Töö tulemuse valideerimiseks loodakse näidisrakendus, kus realiseeritakse õppejõu poolt ette antud kasutusjuht.
 \subsection{Ülevaade tööst}
 TODO
 \pagebreak
@@ -200,7 +203,7 @@ Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena.
 \end{center}
 \end{figure}
 
-\subsubsection{Vaadete kasutamise eelised}
+\subsubsection{Vaadete kasutamise eelised ja võimalused}
 \begin{itemize}
 \item Võimaldavad igale rakendusele saab luua spetsiifilise vaate andmetest, ilma et oleks vaja teha muudatusi andmemudelis.
 \item Võimaldavad vähendada rakenduse koodi ja andmemudeli vahelist sidusust.
@@ -235,6 +238,7 @@ Eelnev päring annab tulemuseks veateate:
 ERROR:  cross-database references are not implemented: "other_db_name.schema_name.table_name"
 \end{lstlisting}
 Selleks, et ühenduda väliste PostgreSQL andmebaasidega, tuleb kasutada kas dblink või postgres\_fdw moodulit.
+
 \subsubsection{dblink}
 \label{dblink}
 Mooduli installeerimine:
@@ -254,11 +258,42 @@ FROM dblink(
 \end{SQL}
 
 \subsubsection{postgres\_fdw}
-Selle mooduli poolt pakutav funktsionaalsus kattub suurel määral \textit{dblink} \ref{dblink} mooduli funktsionaalsusega, kuid pakub standardsemat süntaksit päringute koostamiseks ning võib kohati edestada jõudluse poolest. Küll aga pole võimalik välja kutsuda välises andmebaasis olevaid funktsioone.
-\cite{PostgreSQLfdw}
+Selle mooduli poolt pakutav funktsionaalsus kattub suurel määral \textit{dblink} \ref{dblink} mooduli funktsionaalsusega, kuid pakub standardsemat süntaksit päringute koostamiseks ning võib \textit{dblink}-i kohati edestada jõudluse poolest.\par
+\textit{postgres\_fdw} loob ühenduse välise serveriga siis, kui tehakse esimene päring välise tabeli vastu. Seda ühendust hoitakse alles ning kasutatakse järgmiste päringute jaoks sama sessiooni piires. Kui väliselt serverilt küsitakse infot erinevate kasutajatena \textit{user mappings}, siis luuakse iga kasutaja jaoks uus ühendus.\par
+\textit{postgres\_fdw} üritab optimeerida väliseid päringuid, et vähendada küsitavate andmete hulka. Selleks saadetakse koos päringuga \textit{WHERE}-tingimus ning ei laeta alla veerge, mida pole päringu täitmiseks vaja. Selleks et vältida valesid päringutulemusi, ei saadeta \textit{WHERE}-tingimusi, kui kasutatakse midagi peale sisse ehitatud andmetüüpide, operaatorite ja funktsioonide või kui operaatorid ja funktsioonid pole muutumatud (\textit{immutable}). \cite{PostgreSQLfdw}\par
+\textit{postgres\_fdw} võimaldab lisaks andmete küsimisele (\textit{SELECT}) ka andmeid lisada (\textit{INSERT}), muuta (\textit{UPDATE}) ja kustutada (\textit{DELETE}) välisest tabelist. Küll aga ei võimalda antud moodul välja kutsuda välises andmebaasis olevaid funktsioone kujul:
+\begin{SQL}
+SELECT function_from_external_database();
+\end{SQL}
 
 \subsubsection{Mooduli valik}
 Kuna loodav süsteem peab suutma välja kutsuda välistes andmebaasides olevaid funktsioone, siis pole tuleb kasutada \textit{dblink} \ref{dblink} moodulit.
+
+
+\subsection{Andmebaasi objektide kirjelduste küsimine}
+Information\_schema sisaldab vaateid andmebaasis olevate objektide kohta. Kuna information\_schema on defineeritud SQL standardis, siis võib eeldada, et selle formaat ei muutu. \cite{PostgreSQLInformationSchema} Küll aga ei sisalda information\_schema infot PostgreSQL-spetsiifiliste võimaluste kohta. Selleks tuleb pöörduda pg\_catalog-i poole. \cite{PostgreSQLSystemCatalogs}
+\subsubsection{information\_schema}
+\begin{labeling}{element\_types}
+\item [schemata] Sisaldab kõiki skeeme, millele kasutajal on ligipääs.
+\item [views] Sisaldab kõiki vaateid, mis asuvad antud andmebaasis. Näidatakse ainult selliseid vaateid, millele kasutajal on ligipääs. Paraku ei saa sealt aga infot materialiseeritud vaadete kohta.
+\item [columns] Sisaldab infot andmebaasis olevate tabelite ja vaadete veergude kohta. Näidatakse ainult neid veerge, millele kasutajal on ligipääs. Kui tagastatav tüüp on massiiv, siis saab selle kohta infot information\_schema.element\_types vaatest. Kui tagastatav tüüp on USER-DEFINED, siis saab selle kohta infot udt\_name veerust. Kui veerg on loodud domeeni põhjal, siis saab domeeni nime domain\_name veerust
+\item [routines] Sisaldab infot andmebaasis olevate funktsioonide kohta, millele kasutajal on ligipääs. data\_type veerg sisaldab infot tagastatava tüübi kohta. Kui tagastatav tüüp on massiiv, siis saab selle kohta infot information\_schema.element\_types vaatest. Kui tagastatav tüüp on USER-DEFINED, siis saab selle kohta infot type\_udt\_name veerust.
+\item [parameters] Sisaldab infot andmabaasis olevate funktsioonide parameetrite kohta. Parameetreid näidatakse ainult nende funktsioone kohta, millele kasutajal on ligipääs.
+\item [element\_types] Sisaldab infot massiivi tüüpide kohta.
+\end{labeling}
+\cite{PostgreSQLInformationSchema}
+\subsubsection{pg\_catalog}
+Kuna SQL standardiga paika pandud information\_schema ei sisalda infot samasse klastrisse kuuluvate andmebaaside ega materialiseeritud vaadete kohta, siis tuleb seda infot küsida pg\_catalog-st. Lisaks ei saa information\_schema abil kontrollida kasutajanime ja parooli klappivust.
+\begin{labeling}{pg\_namespace}
+\item [pg\_database] Säilitab infot olemas olevate andmebaaside kohta. Erinevalt enamikest süsteemi kataloogidest on pg\_database jagatud kõikide klastrisse kuuluvate andmebaaside vahel.
+\item [pg\_namespace] Säilitab infot nimeruumide kohta. Sealt on võimalik kätte saada andmebaasis olevad skeemid.
+\item [pg\_shadow] Sisaldab infot kasutajate kohta, kellel on sisselogimisõigus. See tabel sisaldab paroole kujul 'md5' || md5(parool||kasutajanimi).
+\item [pg\_class] Sisaldab infot kõige kohta, millel on veerud, või on mõnes muus mõttes tabeliga sarnane. Sealt saab infot vaadete ja materialiseeritud vaadete kohta. Selle tabeli pealt on tehtud ka vaates pg\_views ja pg\_matviews, millest on samuti võimalik küsida infot vastavalt vaadete ja materialiseeritud vaadete kohta. Lisaks ei pea kasutajatel olema reaalne ligipääs antud objektidele, et näha infot nende objektide kohta.
+\item [pg\_attribute] Sisaldab infot veergude kohta.
+\item [pg\_type] Sisaldab infot andmetüüpide kohta. Siin tabelis on esindatud nii põhiandmetüübid, kasutaja loodud tüübid, domeenid ja komposiitandmetüübid, mis luuakse iga andmebaasis oleva tabeli jaoks.
+\item [pg\_proc] Sisaldab infot funktsioonide kohta.
+\end{labeling}
+\cite{PostgreSQLSystemCatalogs}
 
 \subsection{Uue süsteemi visioon}
 Eesmärk on luua lihtsasti kasutatav veebipõhine süsteem, mille abil saaks kiiresti luua teisi veebipõhiseid rakendusi. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasi avaliku liidese. Kogu vajalik info rakenduse loomiseks tuleb hoida andmebaasis.
