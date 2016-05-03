@@ -54994,7 +54994,7 @@
 						line_style 	0
 						label      	(object SegLabel @1067
 						    Parent_View 	@1065
-						    location   	(1943, 1588)
+						    location   	(1957, 1588)
 						    font       	(object Font
 							size       	9
 							face       	"Arial"
@@ -55011,8 +55011,8 @@
 						    max_width  	15
 						    justify    	0
 						    label      	"1"
-						    pctDist    	0.900000
-						    height     	54
+						    pctDist    	0.825092
+						    height     	49
 						    orientation 	1))
 					    (object RoleView "$UNNAMED$433" @1068
 						Parent_View 	@1063

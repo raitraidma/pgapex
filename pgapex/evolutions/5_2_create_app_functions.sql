@@ -742,7 +742,66 @@ BEGIN
     ELSE
       PERFORM pgapex.f_app_add_error_message('Permission denied!');
     END IF;
+  ELSIF j_post_params ? 'PGAPEX_REGION' THEN
+    PERFORM pgapex.f_app_form_region_submit(i_page_id, (j_post_params->>'PGAPEX_REGION')::int, j_post_params);
   END IF;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_form_region_submit(
+    i_page_id          INT
+  , i_region_id        INT
+  , j_post_params      JSONB
+)
+  RETURNS void AS $$
+DECLARE
+  v_schema_name       VARCHAR;
+  v_function_name     VARCHAR;
+  v_success_message   VARCHAR;
+  v_error_message     VARCHAR;
+  v_redirect_url      VARCHAR;
+  t_function_call     TEXT;
+  i_function_response INT;
+BEGIN
+  IF (SELECT NOT EXISTS(SELECT 1
+                        FROM pgapex.region r
+                        LEFT JOIN pgapex.form_region fr ON fr.region_id = r.region_id
+                        WHERE r.page_id = i_page_id AND r.region_id = i_region_id AND fr.region_id IS NOT NULL)) THEN
+    PERFORM pgapex.f_app_add_error_message('Region does not exist');
+  END IF;
+
+  SELECT schema_name, function_name, success_message, error_message, redirect_url
+  INTO v_schema_name, v_function_name, v_success_message, v_error_message, v_redirect_url
+  FROM pgapex.form_region WHERE region_id = i_region_id;
+
+  t_function_call := 'SELECT 1 FROM ' || v_schema_name || '.' || v_function_name || ' ( ';
+  t_function_call := t_function_call || (SELECT string_agg(a.param, ', ')
+                      FROM (
+                             SELECT ff.function_parameter_ordinal_position, quote_nullable(url_params.value) AS param
+                             FROM pgapex.form_field ff
+                               LEFT JOIN pgapex.page_item pi ON pi.form_field_id = ff.form_field_id
+                               LEFT JOIN json_each_text(j_post_params::json) url_params ON url_params.key = pi.name
+                             WHERE ff.region_id = i_region_id
+                             ORDER BY ff.function_parameter_ordinal_position ASC
+                           ) a);
+  t_function_call := t_function_call || ' );';
+
+  BEGIN
+    SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );
+    IF v_success_message IS NOT NULL THEN
+      PERFORM pgapex.f_app_add_success_message(v_success_message);
+    END IF;
+    IF v_redirect_url IS NOT NULL THEN
+      PERFORM pgapex.f_app_set_header('location', pgapex.f_app_replace_system_variables(v_redirect_url));
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      PERFORM pgapex.f_app_add_error_message(coalesce(v_error_message, SQLERRM));
+  END;
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
