@@ -23,14 +23,14 @@
         </tr>
         <tr ng-repeat="region in displayPointWithRegions.attributes.regions">
           <td class="col-xs-2 col-md-1">
-            <span class="label label-default" title="{{'region.attributes.type'|translate}}">{{'region.'+region.attributes.type|translate}}</span>
+            <span class="label label-default" title="{{'region.type'|translate}}">{{'region.'+region.attributes.type|translate}}</span>
           </td>
           <td class="col-xs-1 col-md-1">
-            <span class="badge" title="{{'region.attributes.sequence'|translate}}">{{region.attributes.sequence}}</span>
+            <span class="badge" title="{{'region.sequence'|translate}}">{{region.attributes.sequence}}</span>
           </td>
           <td class="col-xs-1 col-md-1">
-            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-show="region.attributes.isVisible"></span>
-            <span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-hide="region.attributes.isVisible"></span>
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-show="region.attributes.isVisible" title="{{'region.visible'|translate}}"></span>
+            <span class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-hide="region.attributes.isVisible" title="{{'region.hidden'|translate}}"></span>
           </td>
           <td class="col-xs-4 col-md-7">
             {{region.attributes.name}}

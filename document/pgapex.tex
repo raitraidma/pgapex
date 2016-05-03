@@ -193,6 +193,7 @@ TODO
 
 \section{Teoreetiline taust}
 \subsection{Andmebaasi avalik liides}
+\label{andmebaasi_avalik_liides}
 Liides on sõltumatute süsteemide vaheline leping, kus on kirjeldatud, millisel viisil saab üks süsteem teisega suhelda.
 Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena.
 
@@ -269,8 +270,8 @@ SELECT function_from_external_database();
 \subsubsection{Mooduli valik}
 Kuna loodav süsteem peab suutma välja kutsuda välistes andmebaasides olevaid funktsioone, siis pole tuleb kasutada \textit{dblink} \ref{dblink} moodulit.
 
-
 \subsection{Andmebaasi objektide kirjelduste küsimine}
+\label{andmebaasi_objektide_kirjelduste_küsimine}
 Information\_schema sisaldab vaateid andmebaasis olevate objektide kohta. Kuna information\_schema on defineeritud SQL standardis, siis võib eeldada, et selle formaat ei muutu. \cite{PostgreSQLInformationSchema} Küll aga ei sisalda information\_schema infot PostgreSQL-spetsiifiliste võimaluste kohta. Selleks tuleb pöörduda pg\_catalog-i poole. \cite{PostgreSQLSystemCatalogs}
 \subsubsection{information\_schema}
 \begin{labeling}{element\_types}
@@ -325,22 +326,11 @@ Xataface on programm, millega saab tabelite põhjal genereerida vorme ja kuvasid
 Xataface on avatud lähtekoodiga ning antud välja GPL litsentsi all. Programm on kirjutatud PHP-s \cite{PHP} ning andmebaasina kasutatakse MySQL-i \cite{MySQL}.\par
 Kasutatud on palju väliseid teeke. Programmil on üks põhiline arendaja ning igapäevast arendustööd ei toimu. \cite{XatafaceGitHub}
 \subsection{Täpsustunud ülesande püstitus}
-\subsection{Kasutatavad tehnoloogiad}
-\subsubsection{Vagrant 1.8.1}
-Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme jooksutada, vähendades võimalust, et ühes arvutis programm jookseb, teises aga mitte. \cite{Why_Vagrant}
-\subsubsection{Apache HTTP server}
-Apache HTTP server on avatud lähtekoodiga HTTP veebiserver.\cite{About_Apache_HTTPD}
-\subsubsection{PHP 5.5.3}
-PHP \textit{(PHP: Hypertext Preprocessor)} on avatud lähtekoodiga skriptimiskeel, mis on peamiselt mõeldud veebiprogrammeerimiseks. \cite{What_Is_PHP} PHP koodi protsessitakse PHP interpretaatori abil. Üldjuhul kasutatakse interpreteerimiseks \textit{Zend Engine}-t, kuid PHP-d võimalik jooksutada kasutada ka \textit{HHVM}-i \cite{HHVM} abil. PHP toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
-\subsubsection{Postgresql 9.4}
-PostgreSQL on avatud lähtekoodiga objekt-relatsiooniline andmebaasisüsteem, mis vastab täielikult \textit{ACID} nõuetele. See toetab \textit{foreign key}-sid, \textit{join}-e, \textit{view}-sid, \textit{trigger}-eid ja salvestatud protseduure. PostgreSQL toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
-\cite{PostgreSQL_About}
-\subsubsection{Javascript}
-\subsubsection{AngularJS}
-\subsubsection{Bootstrap}
+Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Info liideste kohta tuleb küsida väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}
+
 \subsection{Litsents}
 \subsubsection{Free Software}
-\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara jooksutada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} on kasutaja vabaduse, mitte hinna küsimus. \par
+\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara jooksutada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} rõhub kasutaja vabadusele, mitte tarkvara hinnale. \par
 Tarkvara on \textit{Free Software}, kui selle kasutajate jaoks on täidetud neli olulist kriteeriumit:
 \begin{itemize}
 \item Vabadus 0: jooksutada programmi oma suva järgi, ükskõik mis eesmärgil
@@ -352,7 +342,7 @@ Vabadus levitada (vabadused 2 ja 3) tähendab vabadust jagada antud tarkvara muu
 \textit{Free Software} ei tähenda, et tegu ei võiks olla kommertstarkvaraga. \textit{Free Software} võib omandada tasuta või raha eest. Vaatamata sellele, kuidas koopia antud tarkvarast omandati,  jääb omandajale vabadus antud tarkvara jagada, muuta ja müüa.
 \cite{GNU_Free_SW}
 \subsubsection{Open Source}
-\textit{Open Source} (Avatud lähtekood) ei tähanda ainult ligipääsu lähtekoodile. Tarkvara levitamisel peab lätuma järgmistest reeglitest:
+\textit{Open Source} (Avatud lähtekood) ei tähanda ainult ligipääsu lähtekoodile. Tarkvara levitamisel peab lähtuma järgmistest reeglitest:
 \begin{enumerate}
 \item Vaba jagamine - Litsents ei tohi piirata ühtegi osapoolt tarkvara müümast või jagamast.
 \item Lähtekood -  Tarkvara peab sisaldama lähtekoodi ning lähtekoodi ja kompileeritud koodi jagamine peab olema lubatud. Kui tarkvara ei jagata koos lähtekoodiga, peab lähtekood olema mujalt mõistliku vaevaga kättesaadav.
@@ -412,6 +402,7 @@ Valitud sai MIT litsents, kuna see seab kasutajatele kõige vähem piiranguid ni
 \item Administraator.
 \item Kasutaja.
 \end{itemize}
+Administraator on laiendatud õigustega kasutaja.
 \subsection{Terviksüsteemi tükeldus allsüsteemideks}
 \subsubsection{Pädevusalad}
 \begin{itemize}
@@ -447,7 +438,7 @@ Antud töös ei realiseerita mallide funktsionaalset allsüsteemi.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem ei teeninda ühtegi registrit.\par
-Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit, mallide registrit.
+Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit ja mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
@@ -489,7 +480,7 @@ Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude esk
 \par
 \textbf{Tegutsejad:} Kasutaja
 \par
-\textbf{Kirjeldus:} Kasutajale kuvatakse vorm, mis võib olla juba eelnevalt täidetud. Kasutaja sisestab ormi väljadesse andmed ning saadab need vormi esitamisega töötlemisse.
+\textbf{Kirjeldus:} Kasutajale kuvatakse vorm, mis võib olla juba eelnevalt täidetud. Kasutaja sisestab vormi väljadesse andmed ning saadab need vormi esitamisega töötlemisse.
 \par
 
 \subsection{Rakenduste funktsionaalne allsüsteem}
@@ -499,15 +490,17 @@ Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude esk
 \item Võimaldada administraatoril luua uus rakendus.
 \item Võimaldada administraatoril muuta olemasolevate rakenduste seadeid.
 \item Võimaldada administraatoril kustutada olemasolevaid rakendusi.
+\item Võimaldada administraatoril muuta rakenduse autentimismeetodit.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab rakenduste registrit.\par
-Allsüsteem kasutab andmebaasiobjektide registrit.
+Allsüsteem kasutab andmebaasiobjektide registrit.\par
+Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 494 223,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 475 315,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
 \caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \end{center}
 \end{figure}
@@ -523,21 +516,21 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude es
 \par
 \textbf{Tegutsejad:} Administraator
 \par
-\textbf{Kirjeldus:} Administraator vaatab, mis rakendused on loodud. Süsteem kuvab administraatorile loetelu rakendustest, kus on esitatud rakenduse nimi.
+\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis rakendused on loodud. Süsteem kuvab administraatorile loetelu rakendustest, kus on esitatud rakenduse nimi.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse lisamine}
 \par
 \textbf{Tegutsejad:} Administraator
 \par
-\textbf{Kirjeldus:} Administraator valib rakendusele nime, aliase, andmebaasi, mille põhjal rakendus luuakse ning sisestab andmebaasi kasutajanime ja parooli, kellena süsteem andmebaasiga suhtleb. Kui sisestatud andmed on korrektsed ning sellise kasutajanime ja parooliga kasutaja eksisteerib, siis luuakse uus rakendus.
+\textbf{Kirjeldus:} Administraator tahab luua uue rakenduse. Administraator valib rakendusele nime, aliase, andmebaasi, mille põhjal rakendus luuakse ning sisestab andmebaasi kasutajanime ja parooli, kellena süsteem andmebaasiga suhtleb. Kui sisestatud andmed on korrektsed ning sellise kasutajanime ja parooliga kasutaja eksisteerib, siis luuakse uus rakendus. Vigade korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse muutmine}
 \par
 \textbf{Tegutsejad:} Administraator
 \par
-\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib muuta. Administraatorile kuvatakse rakenduse nimi, alias, andmebaas, mille põhjal rakendus on loodud ning andmebaasi kasutajanimi. Administraator saab kuvatud andmeid muuta. Salvestamiseks peab ta sisestama ka andmebaasi kasutajale vastava parooli. Kui sisestatud andmed on korrektsed, siis muudatused salvestatakse.
+\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib muuta. Administraatorile kuvatakse rakenduse nimi, alias, andmebaas, mille põhjal rakendus on loodud ning andmebaasi kasutajanimi. Administraator saab kuvatud andmeid muuta. Salvestamiseks peab ta sisestama ka andmebaasi kasutajale vastava parooli. Kui sisestatud andmed on korrektsed, siis muudatused salvestatakse. Vigade korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse kustutamine}
@@ -545,6 +538,20 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude es
 \textbf{Tegutsejad:} Administraator
 \par
 \textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis rakendus ning sellega seotud info kustutatakse.
+\par
+
+\underline{\textbf{Kasutusjuht:} Rakenduse autentimismeetodi muutmine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib rakenduse, mille autentimismeetodit ta soovib muuta. Administraatorile kuvatakse hetkel kasutusel olev autentimismeetod koos autentimisfunktsiooniga ning sisselogmislehe malliga. Administraator saab eelpool nimetatud andmeid muuta.
+\par
+
+\underline{\textbf{Kasutusjuht:} Andmebaasi valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Rakenduse loomisel või muutmisel kuvatakse administraatorile loetelu andmebaasidest, millele süsteem ligi pääseb. Administraator valib andmebaasi, mille alusel ta soovib uut rakendust luua.
 \par
 \subsection{Lehtede funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
@@ -561,10 +568,44 @@ Allsüsteem kasutab mallide registrit.
 Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 483 304,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 415 296,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
 \caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \end{center}
 \end{figure}
+
+\underline{\textbf{Kasutusjuht:} Lehtede loetelu vaatamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis leheküljed on rakenduse alla loodud. Süsteem kuvab administraatorile loetelu lehtedest, kus tuuakse välja lehe id, alias, pealkiri ja info selle kohta, kas leht on avaleht ning kas leht nõuab kasutaja autentimist.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehe lisamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab luua rakenduse alla uue lehe. Administraator sisestab lehe pealkirja, aliase, valib lehe malli ja valib kas leht on avaleht ning kas leht nõuab autentimist. Kui andmed on korrektsed, siis luuakse uus leht. Vastasel korral kuvatakse vastavad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehe seadete muutmine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib lehtede loetelust lehe, mida ta soovib muuta. Administraatorile kuvatakse lehe pealkiri, alias, mall ja info selle kohta kas tegu on avalehega ning kas leht nõuab kasutaja autentimist. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehe kustutamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib lehtede loetelust lehe, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis leht ning sellega seotud info kustutatakse.
+\par
+
+\underline{\textbf{Kasutusjuht:} Lehe malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Lehe loomisel või muutmisel kuvatakse administraatorile loetelu lehe mallidest, mida on võimalik lehe kuvamisel kasutada. Administraator saab valida ühe malli.
 
 \subsection{Regioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
@@ -611,6 +652,13 @@ Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtu
 \caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \end{center}
 \end{figure}
+
+\underline{\textbf{Kasutusjuht:} Navigatsioonide loetelu vaatamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis navigatsioonid on valitud rakenduse alla loodud. Administraatorile kuvatakse navigatsioonide nimede loetelu.
+\par
 
 \subsection{Mittefunktsionaalsed nõuded}
 \begin{table}[H]%[!htb]

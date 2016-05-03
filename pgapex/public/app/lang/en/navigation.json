@@ -29,6 +29,7 @@
     "sequenceAlreadyExists": "Sequence already exists.",
     "navigationItemDoesNotExist": "Navigation item does not exist.",
     "pageId": "Page ID",
-    "rootItem": "Root item"
+    "rootItem": "Root item",
+    "navigationItems": "Navigation items"
   }
 }

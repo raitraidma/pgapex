@@ -108,6 +108,8 @@
     "listOfValuesValueIsMandatory": "Loetelu väärtus on kohustuslik.",
     "listOfValuesLabelIsMandatory": "Loetelu silt on kohustuslik.",
     "functionIsMandatory": "Funktsioon on kohustuslik.",
-    "helpText": "Abistav tekst"
+    "helpText": "Abistav tekst",
+    "visible": "Nähtav",
+    "hidden": "Peidetud"
   }
 }

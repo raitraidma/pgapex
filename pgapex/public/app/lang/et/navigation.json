@@ -29,6 +29,7 @@
     "sequenceAlreadyExists": "Järjekord juba eksisteerib.",
     "navigationItemDoesNotExist": "Menüüpunkti ei eksisteeri.",
     "pageId": "Lehe ID",
-    "rootItem": "Põhimenüüpunkt"
+    "rootItem": "Põhimenüüpunkt",
+    "navigationItems": "Menüüpunktid"
   }
 }
