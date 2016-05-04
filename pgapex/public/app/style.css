@@ -46,3 +46,7 @@ a.toggle {
 .form-group.form-group-striped:nth-child(even) {
   background-color: #f9f9f9;
 }
+
+.help-text {
+  cursor: pointer;
+}

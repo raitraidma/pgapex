@@ -36,6 +36,9 @@
     "authentication": "Autentimine",
     "editApplicationAuthentication": "Muuda rakenduse autentimist",
     "pages": "Lehed",
-    "refreshDatabaseObjects": "Uuenda andmebaasiobjekte"
+    "refreshDatabaseObjects": "Uuenda andmebaasiobjekte",
+
+    "databaseUsernameHelpText": "Kasutajanimi, kellena pgapex suhtleb valitud andmebaasiga.",
+    "databasePasswordHelpText": "Eelnevalt sisestatud kasutaja parool, kellena pgapex suhtleb valitud andmebaasiga."
   }
 }

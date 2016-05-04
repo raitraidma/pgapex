@@ -110,6 +110,10 @@
     "functionIsMandatory": "Funktsioon on kohustuslik.",
     "helpText": "Abistav tekst",
     "visible": "Nähtav",
-    "hidden": "Peidetud"
+    "hidden": "Peidetud",
+
+    "repeatLastLevelHelpText": "Kui navigatsiooni sügavamatele elementidele pole loodud vastavat malli, siis kasuta viimast navigatsioonipunkti malli, et kuvada need navigatsioonipunktid. Vastasel juhul jäävad need kuvamata.",
+    "preFillFormHelpText": "Kui tahad, et vorm oleks eelnevalt täidetud, siis vali vaade, mille põhjal vorm täidetakse ja lisa vähemalt üks tingimus, mille abil letakse vaatest õige rida. Tingimus peab olema URL parameeter. Nt kui sa lood lingi, mis viitab lehele ja lisad  '?param_name=param_value' siis lisa param_name tingimuse välja. Sellisel juhul kasutatakse param_value-t vaatest otsimiseks.",
+    "paginationQueryParameterHelpText": "URL parameeter, mida kasutatakse lehtedele jaotamisel. Võib sisaldada märke a-z A-Z ja _."
   }
 }

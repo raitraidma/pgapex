@@ -8,7 +8,7 @@
     <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')}">
       <label for="reportTemplate" class="col-sm-3 control-label">{{'region.reportTemplate'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control" required
                 ng-options="reportTemplate.id as reportTemplate.attributes.name for reportTemplate in reportTemplates">
         </select>
@@ -20,7 +20,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.view, 'view')}">
       <label for="view" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control"
                 required ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
         </select>
@@ -32,7 +32,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.showHeader, 'showHeader')}">
       <label for="showHeader" class="col-sm-3 control-label">{{'region.showHeader'|translate}}</label>
-      <div class="col-sm-9" class="checkbox">
+      <div class="col-sm-8" class="checkbox">
         <input id="showHeader" name="showHeader" ng-model="region.showHeader" type="checkbox">
         <div ng-show="formError.showErrors(manageRegionForm.showHeader, 'showHeader')">
           <span ng-repeat="error in formError.getErrors('showHeader')" class="help-block">{{error|translate}}</span>
@@ -41,7 +41,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')}">
       <label for="itemsPerPage" class="col-sm-3 control-label">{{'region.itemsPerPage'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="number" min="1" class="form-control" name="itemsPerPage" ng-model="region.itemsPerPage" id="itemsPerPage" placeholder="{{'region.itemsPerPage'|translate}}" required>
         <div ng-show="formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')">
           <span ng-show="manageRegionForm.itemsPerPage.$error.required" class="help-block">{{'region.itemsPerPageIsMandatory'|translate}}</span>
@@ -52,13 +52,16 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')}">
       <label for="paginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="paginationQueryParameter" ng-model="region.paginationQueryParameter" id="paginationQueryParameter"
                placeholder="{{'region.paginationQueryParameter'|translate}}" required ng-pattern="'[a-zA-Z_]+'">
         <div ng-show="formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')">
           <span ng-show="manageRegionForm.paginationQueryParameter.$error.required" class="help-block">{{'region.paginationQueryParameterIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('paginationQueryParameter')" class="help-block">{{error|translate}}</span>
         </div>
+      </div>
+      <div class="col-sm-1">
+        <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.paginationQueryParameterHelpText')"></span>
       </div>
     </div>
     <div ng-show="region.view">

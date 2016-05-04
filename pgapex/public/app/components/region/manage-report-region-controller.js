@@ -4,8 +4,9 @@
   var module = angular.module('pgApexApp.page');
 
   function ManageReportRegionController($scope, $location, $routeParams, regionService,
-                                        templateService, databaseService, formErrorService) {
+                                        templateService, databaseService, formErrorService, helperService) {
     this.$scope = $scope;
+    this.$scope.helper = helperService;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.regionService = regionService;
@@ -193,7 +194,7 @@
   function init() {
     module.controller('pgApexApp.region.ManageReportRegionController',
       ['$scope', '$location', '$routeParams', 'regionService',
-      'templateService', 'databaseService', 'formErrorService', ManageReportRegionController]);
+      'templateService', 'databaseService', 'formErrorService', 'helperService', ManageReportRegionController]);
   }
 
   init();

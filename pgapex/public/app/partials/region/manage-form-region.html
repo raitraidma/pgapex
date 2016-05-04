@@ -8,7 +8,7 @@
     <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.formTemplate, 'formTemplate')}">
       <label for="formTemplate" class="col-sm-3 control-label">{{'region.formTemplate'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="formTemplate" name="formTemplate" ng-model="region.formTemplate" class="form-control" required
                 ng-options="formTemplate.id as formTemplate.attributes.name for formTemplate in formTemplates">
           <option value="" disabled>-- {{'region.formTemplate'|translate}} * --</option>
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.buttonTemplate, 'buttonTemplate')}">
       <label for="buttonTemplate" class="col-sm-3 control-label">{{'region.buttonTemplate'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="buttonTemplate" name="buttonTemplate" ng-model="region.buttonTemplate" class="form-control" required
                 ng-options="buttonTemplate.id as buttonTemplate.attributes.name for buttonTemplate in buttonTemplates">
           <option value="" disabled>-- {{'region.buttonTemplate'|translate}} * --</option>
@@ -34,7 +34,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.buttonLabel, 'buttonLabel')}">
       <label for="buttonLabel" class="col-sm-3 control-label">{{'region.buttonLabel'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="buttonLabel" ng-model="region.buttonLabel" id="buttonLabel" placeholder="{{'region.buttonLabel'|translate}}" required>
         <div ng-show="formError.showErrors(manageRegionForm.buttonLabel, 'buttonLabel')">
           <span ng-show="manageRegionForm.buttonLabel.$error.required" class="help-block">{{'region.buttonLabelIsMandatory'|translate}}</span>
@@ -44,7 +44,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.successMessage, 'successMessage')}">
       <label for="successMessage" class="col-sm-3 control-label">{{'region.successMessage'|translate}}</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="successMessage" ng-model="region.successMessage" id="successMessage" placeholder="{{'region.successMessage'|translate}}">
         <div ng-show="formError.showErrors(manageRegionForm.successMessage, 'successMessage')">
           <span ng-repeat="error in formError.getErrors('successMessage')" class="help-block">{{error|translate}}</span>
@@ -53,7 +53,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.errorMessage, 'errorMessage')}">
       <label for="errorMessage" class="col-sm-3 control-label">{{'region.errorMessage'|translate}}</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="errorMessage" ng-model="region.errorMessage" id="errorMessage" placeholder="{{'region.errorMessage'|translate}}">
         <div ng-show="formError.showErrors(manageRegionForm.errorMessage, 'errorMessage')">
           <span ng-repeat="error in formError.getErrors('errorMessage')" class="help-block">{{error|translate}}</span>
@@ -62,7 +62,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.redirectUrl, 'redirectUrl')}">
       <label for="redirectUrl" class="col-sm-3 control-label">{{'region.redirectUrl'|translate}}</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="redirectUrl" ng-model="region.redirectUrl" id="redirectUrl" placeholder="{{'region.redirectUrl'|translate}}">
         <div ng-show="formError.showErrors(manageRegionForm.redirectUrl, 'redirectUrl')">
           <span ng-repeat="error in formError.getErrors('redirectUrl')" class="help-block">{{error|translate}}</span>
@@ -71,7 +71,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.function, 'function')}">
       <label for="function" class="col-sm-3 control-label">{{'region.function'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="function" name="function" ng-model="region.function" ng-change="changeFunctionParameters()" class="form-control" required
                 ng-options="function as function.attributes.displayText for function in functionsWithParameters track by trackDatabaseObject(function)">
           <option value="" disabled>-- {{'region.function'|translate}} * --</option>
@@ -84,11 +84,14 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.formPreFill, 'formPreFill')}">
       <label for="formPreFill" class="col-sm-3 control-label">{{'region.preFillForm'|translate}}</label>
-      <div class="col-sm-9" class="checkbox">
+      <div class="col-sm-8" class="checkbox">
         <input id="formPreFill" name="formPreFill" ng-model="region.formPreFill" type="checkbox">
         <div ng-show="formError.showErrors(manageRegionForm.formPreFill, 'formPreFill')">
           <span ng-repeat="error in formError.getErrors('formPreFill')" class="help-block">{{error|translate}}</span>
         </div>
+      </div>
+      <div class="col-sm-1">
+        <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.preFillFormHelpText')"></span>
       </div>
     </div>
 

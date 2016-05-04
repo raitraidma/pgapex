@@ -25,6 +25,18 @@
     });
   };
 
+  HelperService.prototype.info = function (body) {
+    return this.$uibModal.open({
+      templateUrl: "app/partials/helper/info-modal.html",
+      controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+        $scope.body = body;
+        $scope.ok = function() {
+          $uibModalInstance.close(true);
+        };
+      }]
+    });
+  };
+
   function init() {
     module.service('helperService', ['$uibModal', HelperService]);
   }

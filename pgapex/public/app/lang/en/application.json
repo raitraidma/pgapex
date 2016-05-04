@@ -36,6 +36,9 @@
     "authentication": "Authentication",
     "editApplicationAuthentication": "Edit application authentication",
     "pages": "Pages",
-    "refreshDatabaseObjects": "Refresh database objects"
+    "refreshDatabaseObjects": "Refresh database objects",
+
+    "databaseUsernameHelpText": "Username that pgapex uses to connect to the selected database.",
+    "databasePasswordHelpText": "Password for previously inserted username that pgapex uses to connect to the selected database."
   }
 }

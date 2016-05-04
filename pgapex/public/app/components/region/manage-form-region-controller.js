@@ -4,8 +4,9 @@
   var module = angular.module('pgApexApp.page');
 
   function ManageFormRegionController($scope, $location, $routeParams, regionService,
-                                        templateService, databaseService, formErrorService) {
+                                        templateService, databaseService, formErrorService, helperService) {
     this.$scope = $scope;
+    this.$scope.helper = helperService;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.regionService = regionService;
@@ -285,7 +286,7 @@
   function init() {
     module.controller('pgApexApp.region.ManageFormRegionController',
       ['$scope', '$location', '$routeParams', 'regionService',
-      'templateService', 'databaseService', 'formErrorService', ManageFormRegionController]);
+      'templateService', 'databaseService', 'formErrorService', 'helperService', ManageFormRegionController]);
   }
 
   init();

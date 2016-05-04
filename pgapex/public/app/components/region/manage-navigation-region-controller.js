@@ -3,8 +3,9 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.page');
 
-  function ManageNavigationRegionController($scope, $location, $routeParams, regionService, templateService, navigationService, formErrorService) {
+  function ManageNavigationRegionController($scope, $location, $routeParams, regionService, templateService, navigationService, formErrorService, helperService) {
     this.$scope = $scope;
+    this.$scope.helper = helperService;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.regionService = regionService;
@@ -108,7 +109,7 @@
   function init() {
     module.controller('pgApexApp.region.ManageNavigationRegionController',
       ['$scope', '$location', '$routeParams', 'regionService',
-      'templateService', 'navigationService', 'formErrorService', ManageNavigationRegionController]);
+      'templateService', 'navigationService', 'formErrorService', 'helperService', ManageNavigationRegionController]);
   }
 
   init();

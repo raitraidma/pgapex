@@ -4,8 +4,9 @@
   var module = angular.module('pgApexApp.application');
 
   function ManageApplicationController($scope, $location, $routeParams, applicationService,
-                                      databaseService, formErrorService) {
+                                      databaseService, formErrorService, helperService) {
     this.$scope = $scope;
+    this.$scope.helper = helperService;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.applicationService = applicationService;
@@ -81,7 +82,7 @@
   function init() {
     module.controller('pgApexApp.application.ManageApplicationController',
       ['$scope', '$location', '$routeParams', 'applicationService', 'databaseService',
-      'formErrorService', ManageApplicationController]);
+        'formErrorService', 'helperService', ManageApplicationController]);
   }
 
   init();

@@ -2,6 +2,7 @@
   "general": {
     "pgApex": "pgApex",
     "applicationBuilder": "Application builder",
-    "administration": "Administration"
+    "administration": "Administration",
+    "close": "Close"
   }
 }

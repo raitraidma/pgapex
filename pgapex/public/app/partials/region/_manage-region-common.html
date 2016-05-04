@@ -1,6 +1,6 @@
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.name, 'name')}">
       <label for="name" class="col-sm-3 control-label">{{'region.name'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="name" ng-model="region.name" id="name" placeholder="{{'region.name'|translate}}" required autofocus>
         <div ng-show="formError.showErrors(manageRegionForm.name, 'name')">
           <span ng-show="manageRegionForm.name.$error.required" class="help-block">{{'region.nameIsMandatory'|translate}}</span>
@@ -10,7 +10,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.sequence, 'sequence')}">
       <label for="sequence" class="col-sm-3 control-label">{{'region.sequence'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="number" min="0" class="form-control" name="sequence" ng-model="region.sequence" id="sequence" placeholder="{{'region.sequence'|translate}}" required>
         <div ng-show="formError.showErrors(manageRegionForm.sequence, 'sequence')">
           <span ng-show="manageRegionForm.sequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.regionTemplate, 'regionTemplate')}">
       <label for="regionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select id="regionTemplate" name="regionTemplate" ng-model="region.regionTemplate" class="form-control" required
                 ng-options="regionTemplate.id as regionTemplate.attributes.name for regionTemplate in regionTemplates">
         </select>
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.isVisible, 'isVisible')}">
       <label for="isVisible" class="col-sm-3 control-label">{{'region.isVisible'|translate}}</label>
-      <div class="col-sm-9" class="checkbox">
+      <div class="col-sm-8" class="checkbox">
         <input id="isVisible" name="isVisible" ng-model="region.isVisible" type="checkbox">
         <div ng-show="formError.showErrors(manageRegionForm.isVisible, 'isVisible')">
           <span ng-repeat="error in formError.getErrors('isVisible')" class="help-block">{{error|translate}}</span>

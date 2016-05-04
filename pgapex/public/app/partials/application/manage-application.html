@@ -6,7 +6,7 @@
   <form name="manageApplicationForm" class="form-horizontal" ng-submit="saveApplication()" novalidate>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.applicationName, 'name')}">
       <label for="applicationName" class="col-sm-3 control-label">{{'application.name'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="applicationName" ng-model="application.name" id="applicationName" placeholder="{{'application.name'|translate}}" required autofocus>
         <div ng-show="formError.showErrors(manageApplicationForm.applicationName, 'name')">
           <span ng-show="manageApplicationForm.applicationName.$error.required" class="help-block">{{'application.applicationNameIsMandatory'|translate}}</span>
@@ -16,7 +16,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.alias, 'alias')}">
       <label for="alias" class="col-sm-3 control-label">{{'application.alias'|translate}}</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="alias" ng-model="application.alias" id="alias" placeholder="{{'application.alias'|translate}}">
         <div ng-show="formError.showErrors(manageApplicationForm.alias, 'alias')">
           <span ng-repeat="error in formError.getErrors('alias')" class="help-block">{{error|translate}}</span>
@@ -25,7 +25,7 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.database, 'database')}">
       <label for="database" class="col-sm-3 control-label">{{'application.database'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <select class="form-control"  ng-options="database.id as database.attributes.name for database in databases" ng-model="application.database" name="database" id="database" required>
         </select>
         <div ng-show="formError.showErrors(manageApplicationForm.database, 'database')">
@@ -36,17 +36,20 @@
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.databaseUsername, 'databaseUsername')}">
       <label for="databaseUsername" class="col-sm-3 control-label">{{'application.databaseUsername'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="text" class="form-control" name="databaseUsername" ng-model="application.databaseUsername" id="databaseUsername" placeholder="{{'application.databaseUsername'|translate}}" required>
         <div ng-show="formError.showErrors(manageApplicationForm.databaseUsername, 'databaseUsername')">
           <span ng-show="manageApplicationForm.databaseUsername.$error.required" class="help-block">{{'application.databaseUsernameIsMandatory'|translate}}</span>
           <span ng-repeat="error in formError.getErrors('databaseUsername')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
+      <div class="col-sm-1">
+        <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('application.databaseUsernameHelpText')"></span>
+      </div>
     </div>
     <div class="form-group" ng-class="{'has-error': formError.showErrors(manageApplicationForm.databasePassword, 'databasePassword')}">
       <label for="databasePassword" class="col-sm-3 control-label">{{'application.databasePassword'|translate}} *</label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <input type="{{passwordFieldType}}" class="form-control" name="databasePassword" ng-model="application.databasePassword" id="databasePassword" placeholder="{{'application.databasePassword'|translate}}" required>
         <div>
           <a ng-click="togglePasswordFieldType()" class="toggle">
@@ -59,9 +62,12 @@
           <span ng-repeat="error in formError.getErrors('databasePassword')" class="help-block">{{error|translate}}</span>
         </div>
       </div>
+      <div class="col-sm-1">
+        <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('application.databasePasswordHelpText')"></span>
+      </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-9">
+      <div class="col-sm-offset-3 col-sm-8">
         <button type="submit" class="btn btn-primary" ng-disabled="manageApplicationForm.$invalid">
           <span ng-show="mode === 'create'">{{'application.createApplication'|translate}}</span>
           <span ng-show="mode === 'edit'">{{'application.editApplication'|translate}}</span>
