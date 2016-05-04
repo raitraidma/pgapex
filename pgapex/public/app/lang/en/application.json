@@ -35,6 +35,7 @@
     "couldNotCreateAnApplication": "Could not create an application.",
     "authentication": "Authentication",
     "editApplicationAuthentication": "Edit application authentication",
-    "pages": "Pages"
+    "pages": "Pages",
+    "refreshDatabaseObjects": "Refresh database objects"
   }
 }

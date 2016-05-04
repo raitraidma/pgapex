@@ -34,4 +34,10 @@ class DatabaseController extends Controller {
     return $response->setApiDataAsJson($database->getFunctionsWithParameters($args['applicationId']))
                     ->getApiResponse();
   }
+
+  public function refreshDatabaseObjects(Request $request, Response $response) {
+    $database = new Database($this->getContainer()['db']);
+    return $response->setApiDataAsJson($database->refreshDatabaseObjects())
+                    ->getApiResponse();
+  }
 }

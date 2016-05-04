@@ -3,13 +3,15 @@
   var angular = window.angular;
   var module = angular.module('pgApexApp.application');
 
-  function ApplicationsController($scope, $window, applicationService, helperService) {
+  function ApplicationsController($scope, $window, applicationService, databaseService, helperService) {
     this.$scope = $scope;
     this.$window = $window;
     this.applicationService = applicationService;
+    this.databaseService = databaseService;
     this.helperService = helperService;
 
     $scope.runApplication = this.runApplication.bind(this);
+    $scope.refreshDatabaseObjects = this.refreshDatabaseObjects.bind(this);
     $scope.deleteApplication = this.deleteApplication.bind(this);
     $scope.pageChanged = this.selectVisibleApplications.bind(this);
     this.init();
@@ -26,6 +28,10 @@
   ApplicationsController.prototype.runApplication = function(applicationId) {
     var appRoot = (!!window.pgApexPath) ? window.pgApexPath : '';
     this.$window.open(appRoot + '/app/' + applicationId, '_blank');
+  };
+
+  ApplicationsController.prototype.refreshDatabaseObjects = function(applicationId) {
+    this.databaseService.refreshDatabaseObjects();
   };
 
   ApplicationsController.prototype.loadApplications = function() {
@@ -57,7 +63,7 @@
 
   function init() {
     module.controller('pgApexApp.application.ApplicationsController',
-      ['$scope', '$window', 'applicationService', 'helperService', ApplicationsController]);
+      ['$scope', '$window', 'applicationService', 'databaseService', 'helperService', ApplicationsController]);
   }
 
   init();

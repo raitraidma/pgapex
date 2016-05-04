@@ -35,6 +35,7 @@
     "couldNotCreateAnApplication": "Rakenduse loomine ebaõnnestus.",
     "authentication": "Autentimine",
     "editApplicationAuthentication": "Muuda rakenduse autentimist",
-    "pages": "Lehed"
+    "pages": "Lehed",
+    "refreshDatabaseObjects": "Uuenda andmebaasiobjekte"
   }
 }

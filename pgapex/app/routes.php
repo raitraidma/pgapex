@@ -29,6 +29,7 @@ $app->group('/api', function () {
     $this->get('/database/authentication-functions/{applicationId}', '\App\Http\Controllers\DatabaseController:getAuthenticationFunctions');
     $this->get('/database/views/columns/{applicationId}', '\App\Http\Controllers\DatabaseController:getViewsWithColumns');
     $this->get('/database/functions-with-parameters/{applicationId}', '\App\Http\Controllers\DatabaseController:getFunctionsWithParameters');
+    $this->post('/database/refresh-database-objects', '\App\Http\Controllers\DatabaseController:refreshDatabaseObjects');
 
     $this->get('/template/login-templates', '\App\Http\Controllers\TemplateController:getLoginTemplates');
     $this->get('/template/page-templates', '\App\Http\Controllers\TemplateController:getPageTemplates');
