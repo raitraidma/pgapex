@@ -1533,7 +1533,7 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_form_region(
                                        )
                                      ))
                                      FROM pgapex.view_column vc
-                                     LEFT JOIN pgapex.fetch_row_condition frc ON vc.column_name = frc.view_column_name
+                                     LEFT JOIN pgapex.fetch_row_condition frc ON (vc.column_name = frc.view_column_name AND frc.form_pre_fill_id = fpf.form_pre_fill_id)
                                      LEFT JOIN pgapex.page_item pi ON pi.page_item_id = frc.url_parameter_id
                                      WHERE vc.database_name = a.database_name
                                            AND vc.schema_name = fpf.schema_name

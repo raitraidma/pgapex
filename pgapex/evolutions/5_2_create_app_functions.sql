@@ -1361,6 +1361,8 @@ BEGIN
         t_form_element := t_form_element || r_form_row.drop_down_end;
       END IF;
     ELSE
+      t_current_row_begin_template := '';
+      t_current_row_end_template := '';
       t_current_row_template := '#FORM_ELEMENT#';
       t_form_element := '<input type="hidden" name="#NAME#" value="#VALUE#">';
       t_form_element :=  replace(t_form_element, '#VALUE#', pgapex.f_app_html_special_chars(coalesce(r_form_row.default_value, '')));

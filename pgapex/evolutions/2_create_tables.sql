@@ -462,7 +462,7 @@ ALTER TABLE pgapex.view_column ADD CONSTRAINT FK_column144 FOREIGN KEY (view_ID)
 ALTER TABLE pgapex.view_column ADD CONSTRAINT FK_column141 FOREIGN KEY (data_type_ID) REFERENCES pgapex.data_type (data_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.parameter ADD CONSTRAINT FK_parameter137 FOREIGN KEY (function_ID) REFERENCES pgapex.function (function_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.parameter ADD CONSTRAINT FK_parameter140 FOREIGN KEY (data_type_ID) REFERENCES pgapex.data_type (data_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE pgapex.session ADD CONSTRAINT fk_session_application_id FOREIGN KEY (application_ID) REFERENCES pgapex.application (application_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.session ADD CONSTRAINT fk_session_application_id FOREIGN KEY (application_ID) REFERENCES pgapex.application (application_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.navigation ADD CONSTRAINT fk_navigation_application_id FOREIGN KEY (application_ID) REFERENCES pgapex.application (application_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.report_column ADD CONSTRAINT fk_report_column_report_column_type_id FOREIGN KEY (report_column_type_ID) REFERENCES pgapex.report_column_type (report_column_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.report_column ADD CONSTRAINT fk_report_column_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.report_region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
