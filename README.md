@@ -60,8 +60,9 @@ Stop VM
 Run tests in VM
 ---------------
 * Go to /vagrant folder: `cd /vagrant`
-* Run tests once: `npm run test-single-run`
-* Run tests when code changes: `npm run test`
+* Run js tests once: `npm run test-single-run`
+* Run js tests when code changes: `npm run test`
+* Run php tests: `composer test`
 
 CI
 --

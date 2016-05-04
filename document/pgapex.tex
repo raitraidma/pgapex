@@ -163,6 +163,7 @@ OSI&\textit{Open Source Initiative}, Organisatsioon, mis propageerib avatud läh
 Juurutama&\textit{Deploy}, Tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}\\
 CRUD&\textit{Create Read Update Delete}, Lühend, mis tähistab andmetega manipuleerimise nelja põhitegevust: loomine, lugemine, muutmine ja kustutamine\\
 Meta-andmed&Andmed andmete kohta\\
+URL&\textit{Uniform Resource Locator}, Internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}\\
 \end{tabular}
 \pagebreak
 %----------------------------SISUKORD----------------------------------
@@ -326,7 +327,7 @@ Xataface on programm, millega saab tabelite põhjal genereerida vorme ja kuvasid
 Xataface on avatud lähtekoodiga ning antud välja GPL litsentsi all. Programm on kirjutatud PHP-s \cite{PHP} ning andmebaasina kasutatakse MySQL-i \cite{MySQL}.\par
 Kasutatud on palju väliseid teeke. Programmil on üks põhiline arendaja ning igapäevast arendustööd ei toimu. \cite{XatafaceGitHub}
 \subsection{Täpsustunud ülesande püstitus}
-Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Info liideste kohta tuleb küsida väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}
+Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Info liideste kohta tuleb küsida väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}.
 
 \subsection{Litsents}
 \subsubsection{Free Software}
@@ -630,16 +631,119 @@ Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude es
 \end{center}
 \end{figure}
 
+\underline{\textbf{Kasutusjuht:} Regioonide loetelu vaatamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis regioonid on valitud lehe alla loodud. Administraatorile kuvatakse regioonide loetelu, kus esitatakse regiooni asukoht lehel, regiooni tüüp, järjekorranumber, nimi ning info selle kohta, kas regioon on nähtav või peidetud.
+\par
+
+\underline{\textbf{Kasutusjuht:} Regiooni kustutamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib regioonide loetelust regiooni, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis regioon ning sellega seotud info kustutatakse.
+
+\underline{\textbf{Kasutusjuht:} Regiooni malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu mallidest, mida saab regiooni kuvamisel kasutada. Administraator saab valida ühe regiooni malli.
+
+\underline{\textbf{Kasutusjuht:} Regiooni haldamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus küsitakse regiooni nime, järjekorranumbrit, regiooni malli ning infot selle kohta, kas regioon on nähtav või peidetud. Regiooni muutmise korral on vormi väljad eelnevalt täidetud. Kui esitatud andmed on korrektsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+
+\underline{\textbf{Kasutusjuht:} HTML regiooni haldamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} HTML regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka teksti, mida regioonis kuvada.
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni regiooni haldamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka navigatsiooni malli, kuvamise tüüpi ja navigatsiooni, mille alusel regioon luuakse ning infot selle kohta, kas regiooni kuvamisel tuleb korrata navigatsioonipunkti malli viimast taset, juhul kui navigatsioonipunkti sügavuse jaoks pole eraldi malli defineeritud.
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni tüübi valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu valikutest, kuidas regiooni kuvamisel navigatsiooni esitatakse. Valida saab lingirea (\textit{breadcrumb}), sisukaardi (\textit{sitemap}) ja menüü vahel, kus kuvatakse teekond aktiivse navigatsioonipunktini ning näidatakse ka selle alamelemente. Administraator saab valida ühe variandi.
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida navigatsiooni kuvamisel võib kasutada. Administraator saab valida ühe malli.
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse alla loodud navigatsioonidest, mille põhjal võib regiooni luua. Administraator saab valida ühe navigatsiooni.
+
+\underline{\textbf{Kasutusjuht:} Raporti regiooni haldamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka raporti kuvamisel kasutatavat malli, raporti aluseks olevat vaadet, infot selle kohta, kas raporti päist tuleb kuvada või mitte, mitu rida kuvatakse ühel leheküljel, mis URL-parameetriga antakse edasi hetkel aktiivset lehekülge ning mis veergudest raport koosneb.
+
+\underline{\textbf{Kasutusjuht:} Raporti malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:}  Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida raporti kuvamisel võib kasutada. Administraator saab valida ühe malli.
+
+\underline{\textbf{Kasutusjuht:} Raporti vaate valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:}  Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi vaadetest. Administraator saab valida ühe vaate. Pärast vaate valimist saab luua raportile veerge. Raporti veerg võib olla kas valitud vaate veerg või link. Raporti veeru loomisel tuleb sisestada veeru pealkiri, järjekorranumber ning info selle kohta, kas kuvatavas tekstis muudetakse HTML-erimärgid (\&, <, >, ", ') ohutuks. Lingi korral tuleb lisaks sisestada ka URL ja ning lingi tekst ning võib lisada lisaatribuudid lingi vormindamiseks. Raport peab sisaldama vähemalt ühte veergu.
+
+\underline{\textbf{Kasutusjuht:} Vormi regiooni haldamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka vormi kuvamisel kasutatavat malli, vormi saatmisnupu malli, saatmisnupul kuvatavat teksti, teadet, mida kuvatakse vormi eduka töötlemise korral, teadet, mida kuvatakse, kui vormi töötlemisel tekib viga, URL, kuhu pärast vormi edukat töötlemist edasi suunatakse, funktsiooni, mille alusel vorm luuakse ning info selle kohta, kas vorm tuleb eelnevalt andmetega täita.
+
+\underline{\textbf{Kasutusjuht:} Vormi funktsiooni valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi funktsioonidest. Administraator saab valida ühe funktsiooni. Pärast funktsiooni valimist kuvatakse funktsiooni parameetrid ning administraator peab valima, kuidas neid vormis kuvatakse. Administraator peab sisestama vormi välja nime, kirjelduse, järjekorranumbri, valima välja tüübi ja malli. Lisaks saab ta valida, kas väli on kogustuslik või mitte, nähtav või peidetud, sisestada välja vaikimisi väärtuse ja kasutajat abistava teksti. Juhul kui välja tüübiks on mitme valikuvõimalusega element, siis peab kasutaja valima vaate ja veerud, mille põhjal valik luuakse.
+
+\underline{\textbf{Kasutusjuht:} Vormi malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida vormi kuvamisel võib kasutada. Administraator saab valida ühe malli.
+
+\underline{\textbf{Kasutusjuht:} Nupu malli valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida vormi saatmisnupu kuvamisel võib kasutada. Administraator saab valida ühe malli.
+
+\underline{\textbf{Kasutusjuht:} Eeltäitmisvaate valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Kui administraator on vormi loomisel või muutmisel valinud, et vormi väljad peavad olema eelnevalt täidetud, siis kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi vaadetest. Administraator saab valida ühe vaate, kust vormide eeltäitmiseks vajalik info võetakse. Lisaks peab administraator ära kirjeldama päringu tingimused, mille alusel leitakse vaatest õige rida ning määrama, millisessed vormi väljad infoga täidetakse.
+
 \subsection{Navigatsioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
 \item Võimaldada administraatoril saada ülevaade rakendusele kuuluvatest navigatsioonidest.
 \item Võimaldada administraatoril luua uusi navigatsioone.
-\item Võimaldada administraatoril muuta olemasolevate navigatsioonide seadeid.
+\item Võimaldada administraatoril muuta olemasolevate navigatsioone.
 \item Võimaldada administraatoril kustutada olemasolevaid navigatsioone.
 \item Võimaldada administraatoril lisada olemasoleva navigatsiooni alla navigatsioonipunkte.
 \item Võimaldada administraatoril muuta olemasolevaid navigatsioonipunkte.
-\item Võimaldada administraatoril kustutada olemas olevaid navigatsioonipunkte.
+\item Võimaldada administraatoril kustutada olemasolevaid navigatsioonipunkte.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab navigatsioonide registrit.\par
@@ -648,7 +752,7 @@ Allsüsteem kasutab lehtede registrit.
 Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 582 434,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 581 413,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
 \caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \end{center}
 \end{figure}
@@ -660,10 +764,73 @@ Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtu
 \textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis navigatsioonid on valitud rakenduse alla loodud. Administraatorile kuvatakse navigatsioonide nimede loetelu.
 \par
 
+\underline{\textbf{Kasutusjuht:} Navigatsiooni loomine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab luua uut navigatsiooni. Administraatorile kuvatakse vorm, kus küsitakse uue navigatsiooni nime. Kui sisestatud andmed on korrektsed, siis luuakse navigatsioon. Vastasel korral kuvatakse vastvad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni muutmine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib navigatsiooni, mida ta soovib muuta. Administraatorile kuvatakse navigatsiooni nimi. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsiooni kustutamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib navigatsioonide loetelust navigatsiooni, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis navigatsioon ning sellega seotud info kustutatakse.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsioonipunktide loetelu vaatamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, millised navigatsioonipunktid on navigatsiooni alla loodud. Administraatorile kuvatakse loetelu navigatsioonipunktidest, kus on esitatud navigatsioonipunkti järjekorranumber, nimi ja URL või leht, millele ta viitab. Lisaks on välja toodud, millise navigatsioonipunkti alla ta kuulub.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsioonipunkti lisamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab navigatsiooni alla lisada navigatsioonipunkti. Administraatorile kuvtakse vorm, kus küsitakse navigatsioonipunkti nime, järjekorranumbrit, ülem-navigatsioonipunkti ning URL-i või lehte, millele viidatakse. Kui sisestatud andmed on korrektsed, siis luuakse uus navigatsioonipunkt. Vastasel korral kuvatakse vastavad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsioonipunkti muutmine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator tahab muuta olemasolevat navigatsioonipunkti. Administraatorile kuvtakse vorm, kus esitatakse olemasoleva navigatsioonipunkti nimi, järjekorranumber, ülem-navigatsioonipunkt ning URL või leht, millele viidatakse. Administraator saab muuta eelpool nimetatud andmeid. Kui andmed on korrektsed, siis andmed salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\par
+
+\underline{\textbf{Kasutusjuht:} Sihtkoha valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Juhul kui administraator tahab navigatsioonipunkti lisamisel või muutmisel viidata rakenduses loodud lehele, siis kuvatakse talle loetelu kõikidest lehtedest, mis antud rakenduse all olemas on. Administraator saab valida ühe lehe.
+\par
+
+\underline{\textbf{Kasutusjuht:} Ülem-navigatsioonipunkti valimine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu navigatsioonipunktidest, mis on loodud olemasoleva navigatsiooni alla. Kui loodav navigatsioonipunkt peab olema esimesel tasemel, siis ei tule ülem-navigatsioonipunkti valida. Kui navigatsioonipunkt peab kuuluma mingi teise navigatsioonipunkti alla, sii tuleb valida ülem-navigatsioonipunkt.
+\par
+
+\underline{\textbf{Kasutusjuht:} Navigatsioonipunkti kustutamine}
+\par
+\textbf{Tegutsejad:} Administraator
+\par
+\textbf{Kirjeldus:} Administraator valib navigatsioonipunktide loetelust navigatsioonipunkti, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis navigatsioonipunkt ning sellega seotud info kustutatakse.
+\par
+
 \subsection{Mittefunktsionaalsed nõuded}
 \begin{table}[H]%[!htb]
 \begin{center}
-\begin{tabular}{|p{4cm}|p{11cm}|}
+\begin{tabular}{|p{5cm}|p{10cm}|}
 \hline
 \rowcolor{rowgray}
 Tüüp & Nõude kirjeldus \\ \hline
@@ -682,7 +849,7 @@ Toetatud veebibrauserid &
 \end{itemize}
  \\ \hline
 
-Andmebaasioperatsioonide töökoorus & Andmebaasioperatsioonid peavad süsteemil aega võtma alla 5 sekundi. \\ \hline
+Andmebaasioperatsioonide töökiirus & Andmebaasioperatsioonid peavad süsteemil aega võtma alla 5 sekundi. \\ \hline
 
 \end{tabular}
 \caption{Mittefunktsionaalsed nõuded}
