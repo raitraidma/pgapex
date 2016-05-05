@@ -156,7 +156,7 @@ The thesis is in estonian and contains \totalpages{} pages of text, \totalsectio
 \section*{\begin{center}
 Lühendite ja mõistete sõnastik
 \end{center}}
-\begin{tabular}{p{3cm}p{11cm}} %Tabel, mille esimese lahtri laius on 3cm.
+\begin{tabular}{p{4cm}p{10cm}} %Tabel, mille esimese lahtri laius on 4cm.
 SQL&\textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks\\
 FSF&\textit{Free Software Foundation}, MTÜ, mis propageerib arvuti kasutajate vabadust ja kaitseb vaba tarkvara kasutajate õigusi\\
 OSI&\textit{Open Source Initiative}, Organisatsioon, mis propageerib avatud lähtekoodiga tarkvara\\
@@ -204,7 +204,7 @@ Järgnevalt viiakse lugeja kurssi vajalike teadmistega, mida on vaja süsteemi l
 \subsection{Andmebaasi avalik liides}
 \label{andmebaasi_avalik_liides}
 Liides on sõltumatute süsteemide vaheline leping, kus on kirjeldatud, millisel viisil saab üks süsteem teisega suhelda.
-Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena (vt joonis \ref{fig_andmebaasi_avalik_liides}).
+Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena (vt Joonis \ref{fig_andmebaasi_avalik_liides}).
 
 \begin{figure}[H]
 \begin{center}
@@ -303,9 +303,10 @@ Kuna loodav süsteem peab suutma välja kutsuda välistes andmebaasides olevaid 
 \subsection{Andmebaasiobjektide kirjelduste küsimine}
 \label{andmebaasi_objektide_kirjelduste_küsimine}
 Loodav süsteem peab teistest andmebaasidest küsima infot andmebaasibjektide kohta, et kuvada süsteemi kasutajale info andmebaasiliidestest, mida rakenduse loomisel on võimalik kasutada. Selleks vajaliku info saab küsida süsteemikataloogidest: information\_schema ja pg\_catalog.
-Information\_schema sisaldab vaateid andmebaasis olevate objektide kohta. Kuna information\_schema on defineeritud SQL standardis, siis võib eeldada, et selle formaat ei muutu ning seetõttu tuleks eelistada seda kataloogi, et vältida loodava rakenduse katki minekut  järgmiste PostgreSQL versioonide korral. \cite{PostgreSQLInformationSchema} Küll aga ei sisalda information\_schema infot PostgreSQL-spetsiifiliste võimaluste kohta. Selleks tuleb pöörduda pg\_catalog-i poole. Pg\_catalog-st saab lisaks pärida infot samasse andmebaasiserverisse kuuluvate andmebaaside, materialiseeritud vaadete ning kasutajate paroolide kohta. \cite{PostgreSQLSystemCatalogs} Täpsem loetelu olulisematest süsteemikataloogide vaadetest, mida süsteemi loomisel vaja läheb, on välja toodud Lisas 1.
+Information\_schema sisaldab vaateid andmebaasis olevate objektide kohta. Kuna information\_schema on defineeritud SQL standardis, siis võib eeldada, et selle formaat ei muutu ning seetõttu tuleks eelistada seda kataloogi, et vältida loodava rakenduse katki minekut  järgmiste PostgreSQL versioonide korral. \cite{PostgreSQLInformationSchema} Küll aga ei sisalda information\_schema infot PostgreSQL-spetsiifiliste võimaluste kohta. Selleks tuleb pöörduda pg\_catalog-i poole. Pg\_catalog-st saab lisaks pärida infot samasse andmebaasiserverisse kuuluvate andmebaaside, materialiseeritud vaadete ning kasutajate paroolide kohta. \cite{PostgreSQLSystemCatalogs} Täpsem loetelu olulisematest süsteemikataloogide vaadetest, mida süsteemi loomisel vaja läheb, on välja toodud Lisa 1-es.
 
 \subsection{Eksisteerivate programmide analüüs}
+Töö käigus uuriti, milliseid sarnaseid süsteeme on veel loodud ning kuidas need on üles ehitatud. Järgnevalt on esitatud ülevaade nendest süsteemidest.
 \subsubsection{Oracle Application Express (APEX)}
 Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõhiseid rakendusi. Kogu süsteem on juhitav andmebaasis hoitavate metaandmetega. APEX kasutab tööks Oracle anembaasisüsteemi.\par
 APEX (v 5.0.3.00.03) koosneb neljast põhiosast:
@@ -333,48 +334,20 @@ Xataface on programm, millega saab tabelite põhjal genereerida vorme ja kuvasid
 Xataface on avatud lähtekoodiga ning antud välja GPL litsentsi all. Programm on kirjutatud PHP-s \cite{PHP} ning andmebaasina kasutatakse MySQL-i \cite{MySQL}.\par
 Kasutatud on palju väliseid teeke. Programmil on üks põhiline arendaja ning igapäevast arendustööd ei toimu. \cite{XatafaceGitHub}
 \subsection{Täpsustunud ülesande püstitus}
-Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Loodav süsteem peab info liideste kohta küsima väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}ning hoidma seda enda andmebaasis. Valminud süsteem tuleb teha interneti teel avalikult kättesaadavaks.
+Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Loodav süsteem peab info liideste kohta küsima väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}ning hoidma seda enda andmebaasis. Süsteemi tõõpõhimõtet kirjeldab joonis \ref{fig_süsteemi_tööpõhimõte}. Valminud süsteem tuleb teha interneti teel avalikult kättesaadavaks.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 604 342,scale=0.75]{./diagrams/how-should-pgapex-work.png}
+\caption{Süsteemi tööpõhimõte}
+\label{fig_süsteemi_tööpõhimõte}
+\end{center}
+\end{figure}
 
 \subsection{Litsents}
-\subsubsection{Free Software}
-\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara jooksutada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} rõhub kasutaja vabadusele, mitte tarkvara hinnale. \par
-Tarkvara on \textit{Free Software}, kui selle kasutajate jaoks on täidetud neli olulist kriteeriumit:
-\begin{itemize}
-\item Vabadus 0: jooksutada programmi oma suva järgi, ükskõik mis eesmärgil
-\item Vabadus 1: uurida, kuidas programm töötab ja seda muuta (eeldab ligipääsu lähtekoodile)
-\item Vabadus 2: levitada antud tarkvara
-\item Vabadus 3: levitada antud tarkvara muudetud kujul (eeldab ligipääsu lähtekoodile)
-\end{itemize}
-Vabadus levitada (vabadused 2 ja 3) tähendab vabadust jagada antud tarkvara muudetud või muutmata kujul kas tasu eest või tasuta - selleks ei pea kelleltki luba küsima. Küll aga peab jagatav koopia sisaldama nii lähtekoodi kui ka käivitatavat programmi (kui programmeerimiskeel toetab seda võimalust)\par
-\textit{Free Software} ei tähenda, et tegu ei võiks olla kommertstarkvaraga. \textit{Free Software} võib omandada tasuta või raha eest. Vaatamata sellele, kuidas koopia antud tarkvarast omandati,  jääb omandajale vabadus antud tarkvara jagada, muuta ja müüa.
-\cite{GNU_Free_SW}
-\subsubsection{Open Source}
-\textit{Open Source} (Avatud lähtekood) ei tähanda ainult ligipääsu lähtekoodile. Tarkvara levitamisel peab lähtuma järgmistest reeglitest:
-\begin{enumerate}
-\item Vaba jagamine - Litsents ei tohi piirata ühtegi osapoolt tarkvara müümast või jagamast.
-\item Lähtekood -  Tarkvara peab sisaldama lähtekoodi ning lähtekoodi ja kompileeritud koodi jagamine peab olema lubatud. Kui tarkvara ei jagata koos lähtekoodiga, peab lähtekood olema mujalt mõistliku vaevaga kättesaadav.
-\item Tuletatud tarkvara - Litsents peab lubama muudatusi ja tuletatud tarkvara ning peab lubama nende jagamist samadel litsentsitingimustel.
-\item Autori lähtekoodi terviklikkus - Litsents võib keelata muudetud lähtekoodi jagamist üksnes siis, kui on lubatud jagada paikefaile (\textit{patch file}), et muuta programmi lähtekoodi selle loomise mingis järgus (\textit{build time}). Litsents peab selgelt lubama muudetud lähtekoodiga tarkvara jagamist. Litsents võib nõuda, et tuletatud tarkvara kannaksid teist nime või versiooninumbrit, kui originaaltarkvara.
-\item Isikute või gruppide diskrimineerimiskeeld - Litsents ei tohi diskrimineerida ühtegi isikut või isikute gruppi.
-\item Tegevusvaldkonna diskrimineerimiskeeld - Litsents ei tohi piirata ühtegi konktreetset tegevusvaldkonda.
-\item Litsentsi jagamine - Programmile sätestatud õigused kehtivad kõigile, kellele programm on jagatud, ilma, et osapooled vajaksid täiendavat litsentsi.
-\item Litsents ei tohi olla tootespetsiifiline - Programile sätestatud õigused ei tohi sõltuda sellest, kas programm kuulub mõne teise programmi koosseisu.
-\item Litsents ei tohi piirata teisi tarkvarasid - Litsents ei tohi panna piiranguid teistele tarkvaradele, mida jagatakse koos antud tarkvaraga.
-\item Litsents peab olema tehnoloogiliselt neutraalne - Ükski klausel ei tohi viidata konkreetsele tehnoloogiale, stiilile või liidesele.
-\end{enumerate}
-\cite{Open_Source_Def}
-\subsubsection{\textit{Free Software} ja \textit{Open Source} võrdlus}
-\textit{Open Source} kriteeriumid on veidi vabamad kui \textit{Free Software} omad. Kõik eksisteerivad \textit{Free Software} programmid kvalifitseeruvad \textit{Open Source} tarkvara alla. Enamik \textit{Open Source} tarkvarast on \textit{Free Software}, kuid leidub ka erandeid.
-\cite{OS_VS_FS}
-\begin{itemize}
-\item Mõlemad nimed ei väljenda täpselt seda, mida nende all tegelikult on mõeldud.
-\item Mõlemad lubavad tarkvara jagada tasuta või seda müüa.
-\item \textit{Open Source} kriteeriumid kehtivad ainult lähtekoodile, mitte aga kompilleeritud programmile.
-\end{itemize}
-\subsubsection{Litsentsi valik}
 Üheks töö eesmärgiks oli avaldada loodava prototüübi lähtekood avatud tarkvarana. Olemasolevaid litsentse on väga palju. Selleks, et valida välja litsents, mille all avaldada loodav tarkvara, leian esiteks populaarseimad litsentsid ning võdlen neid omavahel.
 GitHub-i poolt avaldatud statistika kohaselt on 2016 aasta märtsi seisuga populaarseimad litsentsid: MIT (44,69\%), GPLv2 (12,96\%), Apache (11,19\%) ja GPLv3 (8,88\%). \cite{GitHub_Opensource_Licence_Usage}\par
-Kõik eelpool nimetatud litsentsid täidavad nii \textit{Open Source} kui ka \textit{Free Software} tingimusi. Tabelis \ref{table_litsentside_vordlus} on välja toodud litsentside võrdlus.
+Kõik eelpool nimetatud litsentsid täidavad nii \textit{Free Software} (vt Lisa 2) kui ka \textit{Open Source} (vt Lisa 3) tingimusi. Tabelis \ref{table_litsentside_vordlus} on välja toodud litsentside võrdlus.
 
 \begin{table}[H]%[!htb]
 \begin{center}
@@ -406,10 +379,10 @@ Valitud sai MIT litsents, kuna see seab kasutajatele kõige vähem piiranguid ni
 \section{Süsteemi analüüs}
 \subsection{Tegutsejad}
 \begin{itemize}
-\item Administraator.
+\item Arendaja.
 \item Kasutaja.
 \end{itemize}
-Administraator on laiendatud õigustega kasutaja.
+Arendaja on laiendatud õigustega kasutaja, kellele on lubatud hallata süsteemis loodud rakendusi.
 \subsection{Terviksüsteemi tükeldus allsüsteemideks}
 Loodav süsteem jagatakse allsüsteemideks, et oleks lihtsam modulaarselt arendada ning struktureeritult kirjeldada loodavat funktsionaalsust.
 \subsubsection{Pädevusalad}
@@ -442,412 +415,302 @@ Antud töös ei realiseerita mallide funktsionaalset allsüsteemi, kuna töö ma
 \subsection{Rakenduse funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
-\item Võimaldada administraatoril ja kasutajal kasutada loodud rakendust.
+\item Võimaldada arendajal ja kasutajal kasutada loodud rakendust.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem ei teeninda ühtegi registrit.\par
 Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit ja mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 432 301,scale=1]{./diagrams/application-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 346 101,scale=1]{./diagrams/application-subsystem-use-case-digram.png}
 \caption{Rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\label{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Rakenduse kasutamine}
 \par
-\textbf{Tegutsejad:} Kasutaja
+\textbf{Tegutsejad:} Arendaja, Kasutaja
 \par
-\textbf{Kirjeldus:} Kasutaja saab kasutada loodud rakendust.
-\par
-
-\underline{\textbf{Kasutusjuht:} Rakenduse kasutaja identifitseerimine}
-\par
-\textbf{Tegutsejad:} Kasutaja
-\par
-\textbf{Kirjeldus:} Kui rakenduses kuvatav lehekülg nõuab, et kasutaja on autenditud, siis kuvatakse kasutajale autentimisvorm, kus küsitakse kasutajanime ja parooli. Kui kasutaja poolt sisestatud kasutajanimi ja parool on korrektsed, siis lubatakse kasutajal näha kaitstud lehekülgi. Kasutaja peab sessiooni jooksul autentima ainult ühe korra.
-\par
-
-\underline{\textbf{Kasutusjuht:} Lehe vaatamine}
-\par
-\textbf{Tegutsejad:} Kasutaja
-\par
-\textbf{Kirjeldus:} Kasutaja näeb lehel loodud regioonide sisu. Lehel võidakse kuvada navigatsioone, raporteid, vorme ja HTML teksti.
-\par
-
-\underline{\textbf{Kasutusjuht:} Lehtede vahel navigeerimine}
-\par
-\textbf{Tegutsejad:} Kasutaja
-\par
-\textbf{Kirjeldus:} Kasutaja saab navigeerida erinevate lehtede vahel vajutades navigatsioonil olevatele linkidele.
-\par
-
-\underline{\textbf{Kasutusjuht:} Vormi esitamine}
-\par
-\textbf{Tegutsejad:} Kasutaja
-\par
-\textbf{Kirjeldus:} Kasutajale kuvatakse vorm, mis võib olla juba eelnevalt täidetud. Kasutaja sisestab vormi väljadesse andmed ning saadab need vormi esitamisega töötlemisse.
+\textbf{Kirjeldus:} Kasutaja saab kasutada loodud rakendust. Kasutajale kuvatakse aktiivse lehekülje nähtavate regioonide sisu. Lehel võidakse kuvada navigatsioone, raporteid, vorme ja HTML teksti. Lehtede vahel saab liikuda klikates navigatsiooniregiooni poolt kuvatavatele linkidele. Kui lehekülg pole valitud, siis suutatakse kasutaja avalehele. Kui rakenduses kuvatav lehekülg nõuab, et kasutaja oleks autenditud, siis kuvatakse kasutajale autentimisvorm, kus küsitakse kasutajanime ja parooli. Kui kasutaja poolt sisestatud kasutajanimi ja parool on korrektsed, siis lubatakse kasutajal näha kaitstud lehekülgi. Sessiooni jooksul peab autentima ainult ühe korra.
 \par
 
 \subsection{Rakenduste funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
-\item Võimaldada administraatoril saada ülevaade loodud rakendustest.
-\item Võimaldada administraatoril luua uus rakendus.
-\item Võimaldada administraatoril muuta olemasolevate rakenduste seadeid.
-\item Võimaldada administraatoril kustutada olemasolevaid rakendusi.
-\item Võimaldada administraatoril muuta rakenduse autentimismeetodit.
+\item Võimaldada arendajal saada ülevaade loodud rakendustest.
+\item Võimaldada arendajal luua uus rakendus.
+\item Võimaldada arendajal muuta olemasolevate rakenduste seadeid.
+\item Võimaldada arendajal kustutada olemasolevaid rakendusi.
+\item Võimaldada arendajal muuta rakenduse autentimismeetodit.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab rakenduste registrit.\par
 Allsüsteem kasutab andmebaasiobjektide registrit.\par
 Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 475 315,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 512 284,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
 \caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\label{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{center}
 \end{figure}
 \underline{\textbf{Kasutusjuht:} Kasutaja identifitseerimine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator identifitseerib ennast sisestades kasutajanime ja parooli. Kui sellise kasutajanime ja parooliga kasutaja on andmebaasis olemas ning kasutajal on SUPERUSER õigused, siis lubatakse administraatoril süsteemi siseneda, vastasel juhul mitte.
+\textbf{Kirjeldus:} Arendaja identifitseerib ennast sisestades kasutajanime ja parooli. Kui sellise kasutajanime ja parooliga kasutaja on andmebaasis olemas ning kasutajal on SUPERUSER õigused, siis lubatakse arendajal süsteemi siseneda, vastasel juhul mitte.
 \par
 \textit{Märkus:} Kasutusjuht  ``Kasutaja identifitseerimine'' on kasutusel ka järgnevates allsüsteemides: lehtede funktsionaalne allsüsteem, regioonide funktsionaalne allsüsteem, navigatsioonide funktsionaalne allsüsteem.\par
 
 \underline{\textbf{Kasutusjuht:} Rakenduste loetelu vaatamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis rakendused on loodud. Süsteem kuvab administraatorile loetelu rakendustest, kus on esitatud rakenduse nimi.
+\textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, mis rakendused on loodud. Süsteem kuvab arendajale loetelu rakendustest, kus on esitatud rakenduse nimi.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse lisamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab luua uue rakenduse. Administraator valib rakendusele nime, aliase, andmebaasi, mille põhjal rakendus luuakse ning sisestab andmebaasi kasutajanime ja parooli, kellena süsteem andmebaasiga suhtleb. Kui sisestatud andmed on korrektsed ning sellise kasutajanime ja parooliga kasutaja eksisteerib, siis luuakse uus rakendus. Vigade korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja tahab luua uue rakenduse. Arendaja valib rakendusele nime, aliase, andmebaasi, mille põhjal rakendus luuakse ning sisestab andmebaasi kasutajanime ja parooli, kellena süsteem andmebaasiga suhtleb. Kui sisestatud andmed on korrektsed ning sellise kasutajanime ja parooliga kasutaja eksisteerib, siis luuakse uus rakendus. Vigade korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse muutmine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib muuta. Administraatorile kuvatakse rakenduse nimi, alias, andmebaas, mille põhjal rakendus on loodud ning andmebaasi kasutajanimi. Administraator saab kuvatud andmeid muuta. Salvestamiseks peab ta sisestama ka andmebaasi kasutajale vastava parooli. Kui sisestatud andmed on korrektsed, siis muudatused salvestatakse. Vigade korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja valib rakenduse, mida ta soovib muuta. Arendajale kuvatakse rakenduse nimi, alias, andmebaas, mille põhjal rakendus on loodud ning andmebaasi kasutajanimi. Arendaja saab kuvatud andmeid muuta. Salvestamiseks peab ta sisestama ka andmebaasi kasutajale vastava parooli. Kui sisestatud andmed on korrektsed, siis muudatused salvestatakse. Vigade korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse kustutamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib rakenduse, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis rakendus ning sellega seotud info kustutatakse.
+\textbf{Kirjeldus:} Arendaja valib rakenduse, mida ta soovib kustutada. Enne kustutamist küsitakse arendajalt kinnitust. Kui arendaja kinnitab kustutamise, siis rakendus ning sellega seotud info kustutatakse.
 \par
 
 \underline{\textbf{Kasutusjuht:} Rakenduse autentimismeetodi muutmine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib rakenduse, mille autentimismeetodit ta soovib muuta. Administraatorile kuvatakse hetkel kasutusel olev autentimismeetod koos autentimisfunktsiooniga ning sisselogmislehe malliga. Administraator saab eelpool nimetatud andmeid muuta.
+\textbf{Kirjeldus:} Arendaja valib rakenduse, mille autentimismeetodit ta soovib muuta. Arendajale kuvatakse hetkel kasutusel olev autentimismeetod koos autentimisfunktsiooniga ning sisselogmislehe malliga. Arendaja saab eelpool nimetatud andmeid muuta.
 \par
 
-\underline{\textbf{Kasutusjuht:} Andmebaasi valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Rakenduse loomisel või muutmisel kuvatakse administraatorile loetelu andmebaasidest, millele süsteem ligi pääseb. Administraator valib andmebaasi, mille alusel ta soovib uut rakendust luua.
-\par
 \subsection{Lehtede funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
-\item Võimaldada administraatoril saada ülevaade rakendusele kuuluvatest lehtekülgedest.
-\item Võimaldada administraatoril luua uusi lehekülgi.
-\item Võimaldada administraatoril muuta olemasolevate lehekülgede seadeid.
-\item Võimaldada administraatoril kustutada olemasolevaid lehekülgi.
+\item Võimaldada arendajal saada ülevaade rakendusele kuuluvatest lehtekülgedest.
+\item Võimaldada arendajal luua uusi lehekülgi.
+\item Võimaldada arendajal muuta olemasolevate lehekülgede seadeid.
+\item Võimaldada arendajal kustutada olemasolevaid lehekülgi.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab lehtede registrit.\par
 Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 415 296,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 395 203,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
 \caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\label{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Lehtede loetelu vaatamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis leheküljed on rakenduse alla loodud. Süsteem kuvab administraatorile loetelu lehtedest, kus tuuakse välja lehe id, alias, pealkiri ja info selle kohta, kas leht on avaleht ning kas leht nõuab kasutaja autentimist.
+\textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, mis leheküljed on rakenduse alla loodud. Süsteem kuvab arendajale loetelu lehtedest, kus tuuakse välja lehe id, alias, pealkiri ja info selle kohta, kas leht on avaleht ning kas leht nõuab kasutaja autentimist.
 \par
 
 \underline{\textbf{Kasutusjuht:} Lehe lisamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab luua rakenduse alla uue lehe. Administraator sisestab lehe pealkirja, aliase, valib lehe malli ja valib kas leht on avaleht ning kas leht nõuab autentimist. Kui andmed on korrektsed, siis luuakse uus leht. Vastasel korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja tahab luua rakenduse alla uue lehe. Arendaja sisestab lehe pealkirja, aliase, valib lehe malli, mida kasutatakse lehe kuvamisel ja valib kas leht on avaleht ning kas leht nõuab autentimist. Kui andmed on korrektsed, siis luuakse uus leht. Vastasel korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Lehe seadete muutmine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib lehtede loetelust lehe, mida ta soovib muuta. Administraatorile kuvatakse lehe pealkiri, alias, mall ja info selle kohta kas tegu on avalehega ning kas leht nõuab kasutaja autentimist. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja valib lehtede loetelust lehe, mida ta soovib muuta. Arendajale kuvatakse lehe pealkiri, alias, mall ja info selle kohta kas tegu on avalehega ning kas leht nõuab kasutaja autentimist. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Lehe kustutamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib lehtede loetelust lehe, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis leht ning sellega seotud info kustutatakse.
+\textbf{Kirjeldus:} Arendaja valib lehtede loetelust lehe, mida ta soovib kustutada. Enne kustutamist küsitakse arendajalt kinnitust. Kui arendaja kinnitab kustutamise, siis leht ning sellega seotud info kustutatakse.
 \par
-
-\underline{\textbf{Kasutusjuht:} Lehe malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Lehe loomisel või muutmisel kuvatakse administraatorile loetelu lehe mallidest, mida on võimalik lehe kuvamisel kasutada. Administraator saab valida ühe malli.
 
 \subsection{Regioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
-\item Võimaldada administraatoril saada ülevaade lehel olevatest regioonidest.
-\item Võimaldada administraatoril luua navigatsiooni tüüpi regioone.
-\item Võimaldada administraatoril luua HTML tüüpi regioone.
-\item Võimaldada administraatoril luua raporti tüüpi regioone.
-\item Võimaldada administraatoril luua vormi tüüpi regioone.
-\item Võimaldada administraatoril muuta olemasolevaid regioone.
-\item Võimaldada administraatoril kustutada olemasolevaid regioone.
+\item Võimaldada arendajal saada ülevaade lehel olevatest regioonidest.
+\item Võimaldada arendajal luua navigatsiooni tüüpi regioone.
+\item Võimaldada arendajal luua HTML tüüpi regioone.
+\item Võimaldada arendajal luua raporti tüüpi regioone.
+\item Võimaldada arendajal luua vormi tüüpi regioone.
+\item Võimaldada arendajal muuta olemasolevaid regioone.
+\item Võimaldada arendajal kustutada olemasolevaid regioone.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab regioonide registrit.\par
 Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobjektide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 709 615,scale=0.85]{./diagrams/regions-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 531 399,scale=1]{./diagrams/regions-subsystem-use-case-digram.png}
 \caption{Regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\label{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Regioonide loetelu vaatamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis regioonid on valitud lehe alla loodud. Administraatorile kuvatakse regioonide loetelu, kus esitatakse regiooni asukoht lehel, regiooni tüüp, järjekorranumber, nimi ning info selle kohta, kas regioon on nähtav või peidetud.
+\textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, mis regioonid on valitud lehe alla loodud. Arendajale kuvatakse regioonide loetelu, kus esitatakse regiooni asukoht lehel, regiooni tüüp, järjekorranumber, nimi ning info selle kohta, kas regioon on nähtav või peidetud.
 \par
 
 \underline{\textbf{Kasutusjuht:} Regiooni kustutamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib regioonide loetelust regiooni, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis regioon ning sellega seotud info kustutatakse.
-
-\underline{\textbf{Kasutusjuht:} Regiooni malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu mallidest, mida saab regiooni kuvamisel kasutada. Administraator saab valida ühe regiooni malli.
+\textbf{Kirjeldus:} Arendaja valib regioonide loetelust regiooni, mida ta soovib kustutada. Enne kustutamist küsitakse arendajalt kinnitust. Kui arendaja kinnitab kustutamise, siis regioon ning sellega seotud info kustutatakse.
 
 \underline{\textbf{Kasutusjuht:} Regiooni haldamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus küsitakse regiooni nime, järjekorranumbrit, regiooni malli ning infot selle kohta, kas regioon on nähtav või peidetud. Regiooni muutmise korral on vormi väljad eelnevalt täidetud. Kui esitatud andmed on korrektsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Regiooni lisamisel või muutmisel kuvatakse arendajale vorm, kus küsitakse regiooni nime, järjekorranumbrit, regiooni malli, mida kasutatakse regiooni kuvamisel ning infot selle kohta, kas regioon on nähtav või peidetud. Regiooni muutmise korral on vormi väljad eelnevalt täidetud. Kui esitatud andmed on korrektsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
 
 \underline{\textbf{Kasutusjuht:} HTML regiooni haldamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} HTML regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka teksti, mida regioonis kuvada.
+\textbf{Kirjeldus:} HTML regiooni lisamisel või muutmisel kuvatakse arendajale vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse arendajalt ka teksti, mida regioonis kuvada.
 
 \underline{\textbf{Kasutusjuht:} Navigatsiooni regiooni haldamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka navigatsiooni malli, kuvamise tüüpi ja navigatsiooni, mille alusel regioon luuakse ning infot selle kohta, kas regiooni kuvamisel tuleb korrata navigatsioonipunkti malli viimast taset, juhul kui navigatsioonipunkti sügavuse jaoks pole eraldi malli defineeritud.
-
-\underline{\textbf{Kasutusjuht:} Navigatsiooni tüübi valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu valikutest, kuidas regiooni kuvamisel navigatsiooni esitatakse. Valida saab lingirea (\textit{breadcrumb}), sisukaardi (\textit{sitemap}) ja menüü vahel, kus kuvatakse teekond aktiivse navigatsioonipunktini ning näidatakse ka selle alamelemente. Administraator saab valida ühe variandi.
-
-\underline{\textbf{Kasutusjuht:} Navigatsiooni malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida navigatsiooni kuvamisel võib kasutada. Administraator saab valida ühe malli.
-
-\underline{\textbf{Kasutusjuht:} Navigatsiooni valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse alla loodud navigatsioonidest, mille põhjal võib regiooni luua. Administraator saab valida ühe navigatsiooni.
+\textbf{Kirjeldus:} Navigatsiooni regiooni lisamisel või muutmisel kuvatakse arendajale vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse arendajalt ka navigatsiooni malli, kuvamise tüüpi ja navigatsiooni, mille alusel regioon luuakse ning infot selle kohta, kas regiooni kuvamisel tuleb korrata navigatsioonipunkti malli viimast taset, juhul kui navigatsioonipunkti sügavuse jaoks pole eraldi malli defineeritud.
 
 \underline{\textbf{Kasutusjuht:} Raporti regiooni haldamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka raporti kuvamisel kasutatavat malli, raporti aluseks olevat vaadet, infot selle kohta, kas raporti päist tuleb kuvada või mitte, mitu rida kuvatakse ühel leheküljel, mis URL-parameetriga antakse edasi hetkel aktiivset lehekülge ning mis veergudest raport koosneb.
-
-\underline{\textbf{Kasutusjuht:} Raporti malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:}  Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida raporti kuvamisel võib kasutada. Administraator saab valida ühe malli.
-
-\underline{\textbf{Kasutusjuht:} Raporti vaate valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:}  Raporti regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi vaadetest. Administraator saab valida ühe vaate. Pärast vaate valimist saab luua raportile veerge. Raporti veerg võib olla kas valitud vaate veerg või link. Raporti veeru loomisel tuleb sisestada veeru pealkiri, järjekorranumber ning info selle kohta, kas kuvatavas tekstis muudetakse HTML-erimärgid (\&, <, >, ", ') ohutuks. Lingi korral tuleb lisaks sisestada ka URL ja ning lingi tekst ning võib lisada lisaatribuudid lingi vormindamiseks. Raport peab sisaldama vähemalt ühte veergu.
+\textbf{Kirjeldus:} Raporti regiooni lisamisel või muutmisel kuvatakse arendajale vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse arendajalt ka raporti kuvamisel kasutatavat malli, raporti aluseks olevat vaadet, infot selle kohta, kas raporti päist tuleb kuvada või mitte, mitu rida kuvatakse ühel leheküljel, mis URL-parameetriga antakse edasi hetkel aktiivset lehekülge ning mis veergudest raport koosneb. Pärast vaate valimist saab luua raportile veerge. Raporti veerg võib olla kas valitud vaate veerg või link. Raporti veeru loomisel tuleb sisestada veeru pealkiri, järjekorranumber ning info selle kohta, kas kuvatavas tekstis muudetakse HTML-erimärgid (\&, <, >, ", ') ohutuks või mitte. Lingi korral tuleb lisaks sisestada ka URL ja ning lingi tekst ning võib lisada lisaatribuudid lingi vormindamiseks. Raport peab sisaldama vähemalt ühte veergu.
 
 \underline{\textbf{Kasutusjuht:} Vormi regiooni haldamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse kasutajalt ka vormi kuvamisel kasutatavat malli, vormi saatmisnupu malli, saatmisnupul kuvatavat teksti, teadet, mida kuvatakse vormi eduka töötlemise korral, teadet, mida kuvatakse, kui vormi töötlemisel tekib viga, URL, kuhu pärast vormi edukat töötlemist edasi suunatakse, funktsiooni, mille alusel vorm luuakse ning info selle kohta, kas vorm tuleb eelnevalt andmetega täita.
-
-\underline{\textbf{Kasutusjuht:} Vormi funktsiooni valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi funktsioonidest. Administraator saab valida ühe funktsiooni. Pärast funktsiooni valimist kuvatakse funktsiooni parameetrid ning administraator peab valima, kuidas neid vormis kuvatakse. Administraator peab sisestama vormi välja nime, kirjelduse, järjekorranumbri, valima välja tüübi ja malli. Lisaks saab ta valida, kas väli on kogustuslik või mitte, nähtav või peidetud, sisestada välja vaikimisi väärtuse ja kasutajat abistava teksti. Juhul kui välja tüübiks on mitme valikuvõimalusega element, siis peab kasutaja valima vaate ja veerud, mille põhjal valik luuakse.
-
-\underline{\textbf{Kasutusjuht:} Vormi malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida vormi kuvamisel võib kasutada. Administraator saab valida ühe malli.
-
-\underline{\textbf{Kasutusjuht:} Nupu malli valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse administraatorile loetelu mallidest, mida vormi saatmisnupu kuvamisel võib kasutada. Administraator saab valida ühe malli.
-
-\underline{\textbf{Kasutusjuht:} Eeltäitmisvaate valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Kui administraator on vormi loomisel või muutmisel valinud, et vormi väljad peavad olema eelnevalt täidetud, siis kuvatakse administraatorile loetelu rakenduse aluseks oleva andmebaasi vaadetest. Administraator saab valida ühe vaate, kust vormide eeltäitmiseks vajalik info võetakse. Lisaks peab administraator ära kirjeldama päringu tingimused, mille alusel leitakse vaatest õige rida ning määrama, millisessed vormi väljad infoga täidetakse.
+\textbf{Kirjeldus:} Vormi regiooni lisamisel või muutmisel kuvatakse arendajale vorm, kus lisaks kasutusjuhus ``Regiooni haldamine'' esitatud andmetele küsitakse arendajalt ka vormi kuvamisel kasutatavat malli, vormi saatmisnupu malli, saatmisnupul kuvatavat teksti, teadet, mida kuvatakse vormi eduka töötlemise korral, teadet, mida kuvatakse, kui vormi töötlemisel tekib viga, URL, kuhu pärast vormi edukat töötlemist edasi suunatakse, funktsiooni, mille alusel vorm luuakse ning info selle kohta, kas vorm tuleb eelnevalt andmetega täita. Pärast funktsiooni valimist kuvatakse funktsiooni parameetrid ning arendaja peab valima, kuidas neid vormis kuvatakse. Arendaja peab sisestama vormi välja nime, kirjelduse, järjekorranumbri, valima välja tüübi ja malli. Lisaks saab ta valida, kas väli on kogustuslik või mitte, nähtav või peidetud, sisestada välja vaikimisi väärtuse ja kasutajat abistava teksti. Juhul kui välja tüübiks on mitme valikuvõimalusega element, siis peab kasutaja valima vaate ja veerud, mille põhjal valikud luuakse. Juhuk kui on valitud vaade, mille põhjal vorm eeltäidetakse, siis peab arendaja ära kirjeldama päringu tingimused, mille alusel leitakse vaatest õige rida ning määrama, millised vormi väljad infoga täidetakse.
 
 \subsection{Navigatsioonide funktsionaalne allsüsteem}
 \subsubsection{Eesmärgid}
 \begin{itemize}
-\item Võimaldada administraatoril saada ülevaade rakendusele kuuluvatest navigatsioonidest.
-\item Võimaldada administraatoril luua uusi navigatsioone.
-\item Võimaldada administraatoril muuta olemasolevate navigatsioone.
-\item Võimaldada administraatoril kustutada olemasolevaid navigatsioone.
-\item Võimaldada administraatoril lisada olemasoleva navigatsiooni alla navigatsioonipunkte.
-\item Võimaldada administraatoril muuta olemasolevaid navigatsioonipunkte.
-\item Võimaldada administraatoril kustutada olemasolevaid navigatsioonipunkte.
+\item Võimaldada arendajal saada ülevaade rakendusele kuuluvatest navigatsioonidest.
+\item Võimaldada arendajal luua uusi navigatsioone.
+\item Võimaldada arendajal muuta olemasolevate navigatsioone.
+\item Võimaldada arendajal kustutada olemasolevaid navigatsioone.
+\item Võimaldada arendajal lisada olemasoleva navigatsiooni alla navigatsioonipunkte.
+\item Võimaldada arendajal muuta olemasolevaid navigatsioonipunkte.
+\item Võimaldada arendajal kustutada olemasolevaid navigatsioonipunkte.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
 Allsüsteem teenindab navigatsioonide registrit.\par
 Allsüsteem kasutab lehtede registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel ja seal esitatud tekstikirjeldused kõrgtaseme formaadis.
+Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
 \begin{center}
-\includegraphics[bb=0 0 581 413,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
+\includegraphics[bb=0 0 553 306,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
 \caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
+\label{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonide loetelu vaatamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, mis navigatsioonid on valitud rakenduse alla loodud. Administraatorile kuvatakse navigatsioonide nimede loetelu.
+\textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, mis navigatsioonid on valitud rakenduse alla loodud. Arendajale kuvatakse navigatsioonide nimede loetelu.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsiooni loomine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab luua uut navigatsiooni. Administraatorile kuvatakse vorm, kus küsitakse uue navigatsiooni nime. Kui sisestatud andmed on korrektsed, siis luuakse navigatsioon. Vastasel korral kuvatakse vastvad veateated.
+\textbf{Kirjeldus:} Arendaja tahab luua uut navigatsiooni. Arendajale kuvatakse vorm, kus küsitakse uue navigatsiooni nime. Kui sisestatud andmed on korrektsed, siis luuakse navigatsioon. Vastasel korral kuvatakse vastvad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsiooni muutmine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib navigatsiooni, mida ta soovib muuta. Administraatorile kuvatakse navigatsiooni nimi. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja valib navigatsiooni, mida ta soovib muuta. Arendajale kuvatakse navigatsiooni nimi. Kuvatavaid andmeid saab muuta. Kui andmed on korraktsed, siis need salvestatakse. Vastasel korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsiooni kustutamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib navigatsioonide loetelust navigatsiooni, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis navigatsioon ning sellega seotud info kustutatakse.
+\textbf{Kirjeldus:} Arendaja valib navigatsioonide loetelust navigatsiooni, mida ta soovib kustutada. Enne kustutamist küsitakse arendajalt kinnitust. Kui arendaja kinnitab kustutamise, siis navigatsioon ning sellega seotud info kustutatakse.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonipunktide loetelu vaatamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab saada ülevaadet, millised navigatsioonipunktid on navigatsiooni alla loodud. Administraatorile kuvatakse loetelu navigatsioonipunktidest, kus on esitatud navigatsioonipunkti järjekorranumber, nimi ja URL või leht, millele ta viitab. Lisaks on välja toodud, millise navigatsioonipunkti alla ta kuulub.
+\textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, millised navigatsioonipunktid on navigatsiooni alla loodud. Arendajale kuvatakse loetelu navigatsioonipunktidest, kus on esitatud navigatsioonipunkti järjekorranumber, nimi ja URL või leht, millele ta viitab. Lisaks on välja toodud, millise navigatsioonipunkti alla ta kuulub.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonipunkti lisamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab navigatsiooni alla lisada navigatsioonipunkti. Administraatorile kuvtakse vorm, kus küsitakse navigatsioonipunkti nime, järjekorranumbrit, ülem-navigatsioonipunkti ning URL-i või lehte, millele viidatakse. Kui sisestatud andmed on korrektsed, siis luuakse uus navigatsioonipunkt. Vastasel korral kuvatakse vastavad veateated.
+\textbf{Kirjeldus:} Arendaja tahab navigatsiooni alla lisada navigatsioonipunkti. Arendajale kuvatakse vorm, kus küsitakse navigatsioonipunkti nime, järjekorranumbrit, ülem-navigatsioonipunkti ning URL-i või lehte, millele viidatakse. Kui sisestatud andmed on korrektsed, siis luuakse uus navigatsioonipunkt. Vastasel korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonipunkti muutmine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator tahab muuta olemasolevat navigatsioonipunkti. Administraatorile kuvtakse vorm, kus esitatakse olemasoleva navigatsioonipunkti nimi, järjekorranumber, ülem-navigatsioonipunkt ning URL või leht, millele viidatakse. Administraator saab muuta eelpool nimetatud andmeid. Kui andmed on korrektsed, siis andmed salvestatakse. Vastasel korral kuvatakse vastavad veateated.
-\par
-
-\underline{\textbf{Kasutusjuht:} Sihtkoha valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Juhul kui administraator tahab navigatsioonipunkti lisamisel või muutmisel viidata rakenduses loodud lehele, siis kuvatakse talle loetelu kõikidest lehtedest, mis antud rakenduse all olemas on. Administraator saab valida ühe lehe.
-\par
-
-\underline{\textbf{Kasutusjuht:} Ülem-navigatsioonipunkti valimine}
-\par
-\textbf{Tegutsejad:} Administraator
-\par
-\textbf{Kirjeldus:} Administraatorile kuvatakse loetelu navigatsioonipunktidest, mis on loodud olemasoleva navigatsiooni alla. Kui loodav navigatsioonipunkt peab olema esimesel tasemel, siis ei tule ülem-navigatsioonipunkti valida. Kui navigatsioonipunkt peab kuuluma mingi teise navigatsioonipunkti alla, sii tuleb valida ülem-navigatsioonipunkt.
+\textbf{Kirjeldus:} Arendaja tahab muuta olemasolevat navigatsioonipunkti. Arendajale kuvtakse vorm, kus esitatakse olemasoleva navigatsioonipunkti nimi, järjekorranumber, ülem-navigatsioonipunkt ning URL või leht, millele viidatakse. Arendaja saab muuta eelpool nimetatud andmeid. Kui andmed on korrektsed, siis andmed salvestatakse. Vastasel korral kuvatakse vastavad veateated.
 \par
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonipunkti kustutamine}
 \par
-\textbf{Tegutsejad:} Administraator
+\textbf{Tegutsejad:} Arendaja
 \par
-\textbf{Kirjeldus:} Administraator valib navigatsioonipunktide loetelust navigatsioonipunkti, mida ta soovib kustutada. Enne kustutamist küsitakse administraatorilt kinnitust. Kui administraator kinnitab kustutamise, siis navigatsioonipunkt ning sellega seotud info kustutatakse.
+\textbf{Kirjeldus:} Arendaja valib navigatsioonipunktide loetelust navigatsioonipunkti, mida ta soovib kustutada. Enne kustutamist küsitakse arendajalt kinnitust. Kui arendaja kinnitab kustutamise, siis navigatsioonipunkt ning sellega seotud info kustutatakse.
 \par
 
 \subsection{Mittefunktsionaalsed nõuded}
+Tabelis \ref{mittefunktsionaalsed_nõuded} on välja toodud süsteemile esitatud mittefunktsionaalsed nõuded, mida loodav süsteem peab täitma.
 \begin{table}[H]%[!htb]
 \begin{center}
+\caption{Mittefunktsionaalsed nõuded}
+\label{mittefunktsionaalsed_nõuded}
 \begin{tabular}{|p{5cm}|p{10cm}|}
 \hline
 \rowcolor{rowgray}
 Tüüp & Nõude kirjeldus \\ \hline
-
 Serveri tarkvara & Andmete hoidmiseks peab kasutama andmebaasisüsteemi PostgreSQL 9.4 või uuemat. Rakendus tuleb luua kasutades PHP 5.5.0 või uuemat. \\ \hline
-
 Keel & Süsteemi kasutajaliides peab olema ingliskeelne. \\ \hline
-
 Kasutajaliides & Kasutajaliides peab olema veebipõhine ning arvestama erinevate resolutsioonidega. \\ \hline
- 
 Toetatud veebibrauserid & 
 \begin{itemize}
 \item Microsoft Internet Explorer 11 või uuem.
@@ -855,17 +718,93 @@ Toetatud veebibrauserid &
 \item Google Chrome 49 või uuem.
 \end{itemize}
  \\ \hline
-
 Andmebaasioperatsioonide töökiirus & Andmebaasioperatsioonid peavad süsteemil aega võtma alla 5 sekundi. \\ \hline
-
 \end{tabular}
-\caption{Mittefunktsionaalsed nõuded}
-\label{mittefunktsionaalsed_nõuded}
 \end{center}
 \end{table}
 
+\section{Andmebaas}
+Järgnevalt esitatakse loodava süsteemi andmemudeli olemi-suhte diagrammid registrite kaupa ning kirjeldatakse, mille jaoks vastavaid olemitüüpe ning atribuute vaja läheb. Punasega on tähistatud registri põhiobjekt, kollasega registrisse kuuluvad mitte-põhiobjektid ning rohelisega teistesse registritesse kuuluvad objektid, mida vaadeldav register vajab. Diagrammidel on objektid kirjeldatud inglise keeles, kuna nende põhjal genereeriti tabelid ning lootes, et loodav süsteem leiab laiemat kasutust, siis oleks kasulik, kui süsteemi poolt kasutatavad osad oleks kirjutatud inglise keeles. Olemi-suhte diagrammide põhjal genereeritud tabelid on Lisas X.
 
-\section{Andmebaasi disain}
+\subsection{Andmebaasiobjektide register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 485 456,scale=1]{./diagrams/database-object-er-diagram.png}
+\caption{Andmebaasiobjektide registri olemi-suhte diagramm}
+\label{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\subsection{Rakenduste register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 614 374,scale=1]{./diagrams/applications-er-diagram.png}
+\caption{Rakenduste registri olemi-suhte diagramm}
+\label{fig_rakenduste_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\subsection{Lehtede register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 438 307,scale=1]{./diagrams/page-er-diagram.png}
+\caption{Lehtede registri olemi-suhte diagramm}
+\label{fig_lehtede_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+
+\subsection{Regioonide register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 519 566,scale=1]{./diagrams/region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 1}
+\label{fig_regioonide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 360 235,scale=1]{./diagrams/navigation-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 2}
+\label{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 575 480,scale=1]{./diagrams/report-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 3}
+\label{fig_raportite_regioonide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 640 776,scale=1]{./diagrams/form-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 4}
+\label{fig_vormide_regioonide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\subsection{Navigatsioonide register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 360 235,scale=1]{./diagrams/navigation-er-diagram.png}
+\caption{Navigatsioonide registri olemi-suhte diagramm}
+\label{fig_navigatsioonide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
+\subsection{Mallide register}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 601 784,scale=1]{./diagrams/template-er-diagram.png}
+\caption{Mallide registri olemi-suhte diagramm}
+\label{fig_mallide_registri_olemi_suhte_diagramm}
+\end{center}
+\end{figure}
+
 \section{Kasutajaliidese disain}
 \section{Rakenduse disain}
 \section{Näide}
@@ -914,5 +853,38 @@ Kokkuvõte
 \item [pg\_proc] Sisaldab infot funktsioonide kohta.
 \end{labeling}
 \cite{PostgreSQLSystemCatalogs}
+
+\section*{Lisa 2 - Free Software}
+\label{lisa2}
+\addcontentsline{toc}{section}{Lisa 2}
+\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara jooksutada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} rõhub kasutaja vabadusele, mitte tarkvara hinnale. \par
+Tarkvara on \textit{Free Software}, kui selle kasutajate jaoks on täidetud neli olulist kriteeriumit:
+\begin{itemize}
+\item Vabadus 0: jooksutada programmi oma suva järgi, ükskõik mis eesmärgil
+\item Vabadus 1: uurida, kuidas programm töötab ja seda muuta (eeldab ligipääsu lähtekoodile)
+\item Vabadus 2: levitada antud tarkvara
+\item Vabadus 3: levitada antud tarkvara muudetud kujul (eeldab ligipääsu lähtekoodile)
+\end{itemize}
+Vabadus levitada (vabadused 2 ja 3) tähendab vabadust jagada antud tarkvara muudetud või muutmata kujul kas tasu eest või tasuta - selleks ei pea kelleltki luba küsima. Küll aga peab jagatav koopia sisaldama nii lähtekoodi kui ka käivitatavat programmi (kui programmeerimiskeel toetab seda võimalust)\par
+\textit{Free Software} ei tähenda, et tegu ei võiks olla kommertstarkvaraga. \textit{Free Software} võib omandada tasuta või raha eest. Vaatamata sellele, kuidas koopia antud tarkvarast omandati,  jääb omandajale vabadus antud tarkvara jagada, muuta ja müüa.
+\cite{GNU_Free_SW}
+
+\section*{Lisa 3 - Open Source}
+\label{lisa3}
+\addcontentsline{toc}{section}{Lisa 3}
+\textit{Open Source} (Avatud lähtekood) ei tähanda ainult ligipääsu lähtekoodile. Tarkvara levitamisel peab lähtuma järgmistest reeglitest:
+\begin{enumerate}
+\item Vaba jagamine - Litsents ei tohi piirata ühtegi osapoolt tarkvara müümast või jagamast.
+\item Lähtekood -  Tarkvara peab sisaldama lähtekoodi ning lähtekoodi ja kompileeritud koodi jagamine peab olema lubatud. Kui tarkvara ei jagata koos lähtekoodiga, peab lähtekood olema mujalt mõistliku vaevaga kättesaadav.
+\item Tuletatud tarkvara - Litsents peab lubama muudatusi ja tuletatud tarkvara ning peab lubama nende jagamist samadel litsentsitingimustel.
+\item Autori lähtekoodi terviklikkus - Litsents võib keelata muudetud lähtekoodi jagamist üksnes siis, kui on lubatud jagada paikefaile (\textit{patch file}), et muuta programmi lähtekoodi selle loomise mingis järgus (\textit{build time}). Litsents peab selgelt lubama muudetud lähtekoodiga tarkvara jagamist. Litsents võib nõuda, et tuletatud tarkvara kannaksid teist nime või versiooninumbrit, kui originaaltarkvara.
+\item Isikute või gruppide diskrimineerimiskeeld - Litsents ei tohi diskrimineerida ühtegi isikut või isikute gruppi.
+\item Tegevusvaldkonna diskrimineerimiskeeld - Litsents ei tohi piirata ühtegi konktreetset tegevusvaldkonda.
+\item Litsentsi jagamine - Programmile sätestatud õigused kehtivad kõigile, kellele programm on jagatud, ilma, et osapooled vajaksid täiendavat litsentsi.
+\item Litsents ei tohi olla tootespetsiifiline - Programile sätestatud õigused ei tohi sõltuda sellest, kas programm kuulub mõne teise programmi koosseisu.
+\item Litsents ei tohi piirata teisi tarkvarasid - Litsents ei tohi panna piiranguid teistele tarkvaradele, mida jagatakse koos antud tarkvaraga.
+\item Litsents peab olema tehnoloogiliselt neutraalne - Ükski klausel ei tohi viidata konkreetsele tehnoloogiale, stiilile või liidesele.
+\end{enumerate}
+\cite{Open_Source_Def}
 
 \end{document}
