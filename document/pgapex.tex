@@ -165,7 +165,10 @@ CRUD&\textit{Create Read Update Delete}, Lühend, mis tähistab andmetega manipu
 Meta-andmed&Andmed andmete kohta\\
 Meta-andmetega juhitav&Süsteemi käitumist ja väljanägemist juhitakse andmetega.\\
 URL&\textit{Uniform Resource Locator}, Internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}\\
-Kiirprogrammeerimine&\textit{Rapid Application Development}, Arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega. \cite{Vallaste}\\
+Kiirprogrammeerimine&\textit{Rapid Application Development}, Arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega \cite{Vallaste}\\
+DOM&\textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne.) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}\\
+HTML&\textit{HyperText Markup Language}, hüpertekst-märgistuskeel. Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb \cite{Vallaste}\\
+CSS&\textit{Cascading Style Sheets}, kaskaadlaadistik. Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena \cite{Vallaste}\\
 \end{tabular}
 \pagebreak
 %----------------------------SISUKORD----------------------------------
@@ -788,6 +791,7 @@ Järgnevalt esitatakse loodava süsteemi andmemudeli olemi-suhte diagrammid regi
 \end{figure}
 
 \subsection{Navigatsioonide register}
+Navigatsioonide register
 \begin{figure}[H]
 \begin{center}
 \includegraphics[bb=0 0 360 235,scale=1]{./diagrams/navigation-er-diagram.png}
@@ -805,10 +809,69 @@ Järgnevalt esitatakse loodava süsteemi andmemudeli olemi-suhte diagrammid regi
 \end{center}
 \end{figure}
 
+\section{Arendusvahendid ja arendusprotsess}
+\subsection{Vagrant}
+Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme jooksutada, vähendades võimalust, et ühes arvutis programm jookseb, teises aga mitte. \cite{Why_Vagrant}
+\subsection{AngularJS}
+Angular on raamistik loomaks dünaamilisi veebirakendusi. See võimaldab laiendada HTML süntaksit, et panna elemendid käituma vastavalt arendaja soovile. Angular kasutab kahe suunalist andmesidumist (\textit{data binding}). See tähendab et muudatused javascripti koodis kajastuvad automaatselt HTML-is ning vastupidi. Tänu sellele peab arendaja vähem tegelema DOM-i manipuleerimisega.  \cite{AngularJS}.
+\subsection{Bootstrap}
+Bootstrap on mobiilisõbralik kasutajaliidese raamistik, mille abil saab luua dünaamilist veebidisaini (\textit{responsive web design}), mis arvestab kasutaja ekraani suurusega ning kohandab end jooksvalt vastavalt sellele. Bootstrap-is on realiseeritud mitmed komponendid, mis kiirendavad kasutajaliidese loomist. Bootstrap kasutab HTML-i, javascripti js CSS-i. \cite{Bootstrap}
+\subsection{Bower}
+Bower on paketihaldussüsteem (\textit{package manager}), mis on mõeldud veebis kasutatavate failide, nagu näiteks HTML, CSS, javascript, fondid ja pildid, haldamiseks. Bower-i kasutamiseks peab masinasse olema installitud node, npm ja git. Paketide haldus toimub bower.json failis, kus kirjeldatakse ära soovitud paketid ning nende versioonid. \cite{Bower}
+\subsection{TravisCI}
+TravisCI on pideva integratsiooni (\textit{continuous integration}) keskkond, mille abil saab luua virtuaalse keskkonna koodi kompilleerimiseks, testimiseks ja juurutamiseks. Keskkonna seadistamine toimub faili .travis.yml abil, kus määratakse ära virtuaalkeskkonna operatsioonisüsteem, teegid, mis tuleb installida ning käivitatavad käsud.
+\subsection{Arendusprotsess}
+Esimese asjana sai paika pandud esmased nõuded, mida süsteem peaks võimaldama teha. Kuna süsteemi esimene potentsiaalne kasutuskoht oleks TTÜ-s õpetatavas aines ``Andmebaasid II'', siis konsulteeriti antud õppeaine õppejõuga ning kaardistati enim levinud kasutusjuhud, mida antud aine raames tuleb üliõpilastel realiseerida. Kui nõuded olid paigas, siis loodi nende põhjal andmemudel ning kasutajaliidese prototüüp, mis võeti hiljem loodavas süsteemis kasutusele. Prototüüp kasutas andmete kuvamiseks võltsandmeid (\textit{mock data}). See andis hea ettekujutuse loodava süsteemi võimekusest ning aitas juhtida tähelepanu aspektidele, millele ilma prototüübi abita ei oleks kohe tuldud.\par
+
+Selleks et loodavat süsteemi oleks ka teistel arendajatel lihtsam kasutusele võtta ning täiustada sai arenduskeskkonna loomiseks kasutusele võetud Vagrant \cite{Vagrant}, mille abil loodi virtuaalmasin koos kõigi arenduseks vajalike teekidega. Virtuaalmasina konfigureerimiseks kasutati bash-i skripti.\par
+
+Selleks et süsteemi kasutamine oleks sujuv võeti kasutajaliidese loomiseks kasutusele AngularJS 1.4 \cite{AngularJS}. Lihtsustamaks kasutajaliidese ühtset väljanägemist erinevates brauserites ning eri suurustes ekraanidega, kasutati Bootstrap 3 \cite{Bootstrap}. Kasutajaliidese poolt kasutatavaid sõltuvusi hallati \cite{Bower}-i abil. Koodi kvaliteedi kontrollimiseks ja säilitamiseks kirjutati testid, mida jooksutati Karma \cite{Karma} abil.\par
+
+Andmebaasi loomisel lähtuti ideest, et kogu suhtlus andmebaasiga peab käima läbi andmebaasiliidese \ref{andmebaasi_avalik_liides}. Andmete salvestamiseks ning küsimiseks tuleb kasutajal välja kutsuda vastav andmebaasifunktsioon. Kasutamaks ära PostgreSQL-i võimalust väljastada JSON tüüpi andmeid luuakse kasutajaliidese jaoks vajalik vastus juba andmebaasis. Tänu sellele pole andmetega manipuleerimine süsteemis laiali jaotatud vaid toimub üksnes andmebaasi poolel.\par
+
+Andmebaasi ja kasutajaliidese vaheline suhtlus toimub läbi PHP-s \cite{PHP} kirjutatud rakenduse. Kuna antud rakenduse kiht on üpriski õhuke, siis sai selle loomiseks valitud ka lihtsakoeline raamistik Slim Framework 3 \cite{SlimFW}. PHP-s kirjutatud koodi testimiseks kasutati PHPUnit-it \cite{PHPUnit} ning Mockery-t \cite{Mockery}. Koodi sõltuvusi hallati Composer-i abil \cite{Composer}. \par
+
+Koodi hoidmiseks kasutatakse GitHub-i \cite{GitHub}. Iga kord, kui koodihoidlasse midagi üles laetakse luuakse TravisCI-s \cite{TravisCI} virtuaalkeskkond, kuhu tõmmatakse GitHub-st loodava süsteemi kood ning testide eduka jooksutamise korral juurutatakse serverisse. Tänu sellele on serveris alati näha süsteemi viimane töötav version.
+
 \section{Kasutajaliidese disain}
+Kasutajaliidese loomiseks kasutas autor 
 \section{Rakenduse disain}
-\section{Näide}
-Valideerimaks, kas loodud süsteem vastab nõuetele, loon näiterakenduse ja realiseerin neli kasutusjuhtu, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele.
+\section{Näidisrakendus}
+Valideerimaks, kas loodud süsteem vastab nõuetele, loon näiterakenduse ja realiseerin neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Kasutaja tuvastamine põhineb funktsioonil functions.f\_is\_boss, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide anmete vaatamine põhineb vaatel public.overview\_of\_rooms. Ruumide koondaruande vaatamine põhineb vaatel public.number\_of\_rooms\_by\_state. Ruumi mitteaktiivseks muutmine põhineb funktsioonil functions.f\_permanently\_inactivate\_a\_room, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest public.active\_temporariliy\_inactive\_rooms.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 430 164,scale=1]{./diagrams/sample-application-use-case-diagram.png}
+\caption{Näidisrakenduse kasutusjuhtude eskiismudel}
+\label{fig_näidisrakendus_kasutusjuhtude_eskiismudel}
+\end{center}
+\end{figure}
+\subsection{Kasutaja tuvastamine}
+Kui kasutaja läheb lehele, mille nägemiseks peab ta olema autenditud, siis kuvatakse talle sisselogimise vorm, kuhu tuleb sisestada kasutajanimi ja parool (vt Joonis \ref{fig_näidisrakendus_kasutaja_tuvastamine}). Kui kasutajanimi ja parool on õiged, siis logitakse kasutaja sisse ning kasutaja näeb edaspidi autentimist nõudvate lehtede sisu.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 449 212,scale=1]{./diagrams/sample-app-user-auth.png}
+\caption{Kasutaja tuvastamine}
+\label{fig_näidisrakendus_kasutaja_tuvastamine}
+\end{center}
+\end{figure}
+\subsection{Ruumide koondaruande ja kõikide ruumide vaatamine}
+Kasutajale kuvatakse ühel lehel nii ruumide koondaruanne kui ka kõikide ruumide info, kusjuures raportite read on võimalik jaotada lehekülgedele (vt Joonis \ref{fig_näidisrakendus_raportid})
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 732 630,scale=0.8]{./diagrams/sample-app-reports.png}
+\caption{Ruumide koondaruande ja kõikide ruumide vaatamine}
+\label{fig_näidisrakendus_raportid}
+\end{center}
+\end{figure}
+\subsection{Ruumi lõplikult mitteaktiivseks muutmine}
+Kasutajale kuvatakse vorm, kus kust ta saab valida millist ruumi ta muuta soovib (vt Joonis \ref{fig_näidisrakendus_vorm}). Ruumide loetelu saadakse vaate  public.active\_temporariliy\_inactive\_rooms põhjal. Pärast vormi saatmist kutsutakse välja funktsioon functions.f\_permanently\_inactivate\_a\_room. Kui funktsiooni lõpetab oma töö ilma vigadeta, siis tagastatakse kasutajale teade, et vormi saatmine õnnestus.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[bb=0 0 764 317,scale=0.8]{./diagrams/sample-app-form.png}
+\caption{Ruumi lõplikult mitteaktiivseks muutmine}
+\label{fig_näidisrakendus_vorm}
+\end{center}
+\end{figure}
 
 %-------------------------------KOKKUVÕTE---------------------------
 \section{Kokkuvõte}
