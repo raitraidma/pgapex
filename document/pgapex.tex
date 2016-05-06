@@ -18,9 +18,11 @@
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{rowgray}{gray}{0.85}
 \usepackage{listings} %Koodi värvimiseks
+\usepackage{inconsolata}
 \lstset{
     breaklines=true,
-    frame=single
+    frame=single,
+    basicstyle=\ttfamily
   }
 \lstnewenvironment{SQL}
   {\lstset{
@@ -35,8 +37,8 @@
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     keepspaces=true,                 
-    numbers=left,                    
-    numbersep=2pt,                  
+    %numbers=left,                    
+    %numbersep=2pt,                  
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,                  
@@ -79,7 +81,7 @@
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{14pt}{} %Subsectioni tekstisuurus
 \titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{12pt}{} %Subsubsectioni tekstisuurus
 
-%\titlespacing*{\section}{0pt}{44pt}{18pt} %Sectioni ees, ülal ja all olev ruum
+\titlespacing*{\section}{0pt}{60pt}{18pt} %Sectioni ees, ülal ja all olev ruum
 \titlespacing*{\subsection}{0pt}{24pt}{12pt} %Subsectioni  ees, ülal ja all olev ruum
 \titlespacing*{\subsubsection}{0pt}{12pt}{12pt} %Subsubsectioni ees, ülal ja all olev ruum
 
@@ -91,9 +93,9 @@
 \thispagestyle{fancy} %Leht sisaldab päist ja jalust
 \renewcommand{\headrulewidth}{0pt} %Eemaldab päisest horisontaalse joone
 \renewcommand{\footrulewidth}{0pt} %Eemaldab jalusest horisontaalse joone
-\headheight = 60pt %Paneb paika päise laiuse (vastavalt kompilaatori soovitusele)
-\footskip = 9pt %Jaluse ruum
-\headsep = 0pt %Vähendab päise ja teksti vahelise kauguse nullini
+%\headheight = 60pt %Paneb paika päise laiuse (vastavalt kompilaatori soovitusele)
+%\footskip = 9pt %Jaluse ruum
+%\headsep = 0pt %Vähendab päise ja teksti vahelise kauguse nullini
 
 \chead{ %Paigutab järgneva teksti päises keskele
  \textsc{\begin{Large} %Tekst suurtähtedega ja suuremaks
@@ -156,21 +158,21 @@ The thesis is in estonian and contains \totalpages{} pages of text, \totalsectio
 \section*{\begin{center}
 Lühendite ja mõistete sõnastik
 \end{center}}
-\begin{tabular}{p{4cm}p{10cm}} %Tabel, mille esimese lahtri laius on 4cm.
-SQL&\textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks\\
-FSF&\textit{Free Software Foundation}, MTÜ, mis propageerib arvuti kasutajate vabadust ja kaitseb vaba tarkvara kasutajate õigusi\\
-OSI&\textit{Open Source Initiative}, Organisatsioon, mis propageerib avatud lähtekoodiga tarkvara\\
-Juurutama&\textit{Deploy}, Tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}\\
-CRUD&\textit{Create Read Update Delete}, Lühend, mis tähistab andmetega manipuleerimise nelja põhitegevust: loomine, lugemine, muutmine ja kustutamine\\
-Meta-andmed&Andmed andmete kohta\\
-Meta-andmetega juhitav&Süsteemi käitumist ja väljanägemist juhitakse andmetega.\\
-URL&\textit{Uniform Resource Locator}, Internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}\\
-Kiirprogrammeerimine&\textit{Rapid Application Development}, Arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega \cite{Vallaste}\\
-DOM&\textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne.) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}\\
-HTML&\textit{HyperText Markup Language}, hüpertekst-märgistuskeel. Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb \cite{Vallaste}\\
-CSS&\textit{Cascading Style Sheets}, kaskaadlaadistik. Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena \cite{Vallaste}\\
-AJAX&\textit{Asynchronous JavaScript And XML}, asünkroonne JavaScript ja XML. Interaktiivsete veebirakenduste loomise meetod, kus andmevahetus brauseri ja veebiserveri vahel toimub ilma, et oleks vaja kogu lehte uuesti laadida \cite{Vallaste}\\
-\end{tabular}
+\begin{labeling}{Meta-andmetega juhitav}
+\item [SQL] \textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks
+\item [FSF] \textit{Free Software Foundation}, MTÜ, mis propageerib arvuti kasutajate vabadust ja kaitseb vaba tarkvara kasutajate õigusi
+\item [OSI] \textit{Open Source Initiative}, Organisatsioon, mis propageerib avatud lähtekoodiga tarkvara
+\item [Juurutama] \textit{Deploy}, Tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}
+\item [CRUD] \textit{Create Read Update Delete}, Lühend, mis tähistab andmetega manipuleerimise nelja põhitegevust: loomine, lugemine, muutmine ja kustutamine
+\item [Meta-andmed] Andmed andmete kohta
+\item [Meta-andmetega juhitav] Süsteemi käitumist ja väljanägemist juhitakse andmetega.
+\item [URL] \textit{Uniform Resource Locator}, Internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}
+\item [Kiirprogrammeerimine] \textit{Rapid Application Development}, Arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega \cite{Vallaste}
+\item [DOM] \textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne.) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}
+\item [HTML] \textit{HyperText Markup Language}, hüpertekst-märgistuskeel. Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb \cite{Vallaste}
+\item [CSS] \textit{Cascading Style Sheets}, kaskaadlaadistik. Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena \cite{Vallaste}
+\item [AJAX] \textit{Asynchronous JavaScript And XML}, asünkroonne JavaScript ja XML. Interaktiivsete veebirakenduste loomise meetod, kus andmevahetus brauseri ja veebiserveri vahel toimub ilma, et oleks vaja kogu lehte uuesti laadida \cite{Vallaste}
+\end{labeling}
 \pagebreak
 %----------------------------SISUKORD----------------------------------
 \tableofcontents
@@ -211,11 +213,10 @@ Liides on sõltumatute süsteemide vaheline leping, kus on kirjeldatud, millisel
 Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena (vt Joonis \ref{fig_andmebaasi_avalik_liides}).
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 606 330,scale=0.6]{./diagrams/db-interface.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/db-interface.png}
 \caption{Andmebaasi avalik liides}
 \label{fig_andmebaasi_avalik_liides}
-\end{center}
 \end{figure}
 
 \subsubsection{Vaadete kasutamise eelised ja võimalused}
@@ -341,11 +342,10 @@ Kasutatud on palju väliseid teeke. Programmil on üks põhiline arendaja ning i
 Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida süsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest \ref{andmebaasi_avalik_liides}. Loodav süsteem peab info liideste kohta küsima väliste andmebaaside süsteemikataloogidest \ref{andmebaasi_objektide_kirjelduste_küsimine} kasutades dblink moodulit \ref{dblink}ning hoidma seda enda andmebaasis. Süsteemi tõõpõhimõtet kirjeldab joonis \ref{fig_süsteemi_tööpõhimõte}. Valminud süsteem tuleb teha interneti teel avalikult kättesaadavaks.
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 604 342,scale=0.75]{./diagrams/how-should-pgapex-work.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/how-should-pgapex-work.png}
 \caption{Süsteemi tööpõhimõte}
 \label{fig_süsteemi_tööpõhimõte}
-\end{center}
 \end{figure}
 
 \subsection{Litsents}
@@ -427,11 +427,10 @@ Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 346 101,scale=1]{./diagrams/application-subsystem-use-case-digram.png}
+\centering
+\includegraphics[width=0.6\textwidth]{./diagrams/application-subsystem-use-case-digram.png}
 \caption{Rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \label{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Rakenduse kasutamine}
@@ -457,11 +456,10 @@ Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 512 284,scale=1]{./diagrams/applications-subsystem-use-case-digram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/applications-subsystem-use-case-digram.png}
 \caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \label{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 \underline{\textbf{Kasutusjuht:} Kasutaja identifitseerimine}
 \par
@@ -520,11 +518,10 @@ Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 395 203,scale=1]{./diagrams/pages-subsystem-use-case-digram.png}
+\centering
+\includegraphics[width=0.8\textwidth]{./diagrams/pages-subsystem-use-case-digram.png}
 \caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \label{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Lehtede loetelu vaatamine}
@@ -572,11 +569,10 @@ Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobje
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 531 399,scale=1]{./diagrams/regions-subsystem-use-case-digram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/regions-subsystem-use-case-digram.png}
 \caption{Regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \label{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Regioonide loetelu vaatamine}
@@ -639,11 +635,10 @@ Allsüsteem kasutab lehtede registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 553 306,scale=1]{./diagrams/navigations-subsystem-use-case-digram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/navigations-subsystem-use-case-digram.png}
 \caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel}
 \label{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonide loetelu vaatamine}
@@ -732,82 +727,73 @@ Järgnevalt esitatakse loodava süsteemi andmemudeli olemi-suhte diagrammid regi
 
 \subsection{Andmebaasiobjektide register}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 485 456,scale=1]{./diagrams/database-object-er-diagram.png}
+\centering
+\includegraphics[width=0.9\textwidth]{./diagrams/database-object-er-diagram.png}
 \caption{Andmebaasiobjektide registri olemi-suhte diagramm}
 \label{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \subsection{Rakenduste register}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 614 374,scale=1]{./diagrams/applications-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/applications-er-diagram.png}
 \caption{Rakenduste registri olemi-suhte diagramm}
 \label{fig_rakenduste_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \subsection{Lehtede register}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 438 307,scale=1]{./diagrams/page-er-diagram.png}
+\centering
+\includegraphics[width=0.8\textwidth]{./diagrams/page-er-diagram.png}
 \caption{Lehtede registri olemi-suhte diagramm}
 \label{fig_lehtede_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 
 \subsection{Regioonide register}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 519 566,scale=1]{./diagrams/region-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/region-er-diagram.png}
 \caption{Regioonide registri olemi-suhte diagramm osa 1}
 \label{fig_regioonide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 360 235,scale=1]{./diagrams/navigation-region-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/navigation-region-er-diagram.png}
 \caption{Regioonide registri olemi-suhte diagramm osa 2}
 \label{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 575 480,scale=1]{./diagrams/report-region-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/report-region-er-diagram.png}
 \caption{Regioonide registri olemi-suhte diagramm osa 3}
 \label{fig_raportite_regioonide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 640 776,scale=1]{./diagrams/form-region-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/form-region-er-diagram.png}
 \caption{Regioonide registri olemi-suhte diagramm osa 4}
 \label{fig_vormide_regioonide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \subsection{Navigatsioonide register}
 Navigatsioonide register
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 360 235,scale=1]{./diagrams/navigation-er-diagram.png}
+\centering
+\includegraphics[width=0.7\textwidth]{./diagrams/navigation-er-diagram.png}
 \caption{Navigatsioonide registri olemi-suhte diagramm}
 \label{fig_navigatsioonide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \subsection{Mallide register}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 601 784,scale=1]{./diagrams/template-er-diagram.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/template-er-diagram.png}
 \caption{Mallide registri olemi-suhte diagramm}
 \label{fig_mallide_registri_olemi_suhte_diagramm}
-\end{center}
 \end{figure}
 
 \section{Arendusvahendid ja -protsess}
@@ -841,41 +827,38 @@ Igal kontrolleril on objekti tüüpi \$scope muutuja, mille abil toimub andmete 
 Teenuste abil toimub suhtlus serveriga AJAX-i abil. Tänu sellele ei pea andmete küsimisel ega andmetega manipuleerimisel kogu lehte uuesti laadima, vaid vajaliku info edastamine toimub rakenduse taustal. Andmete küsimine toimub GET-meetodi abil ning andmetega manipuleerimine POST-meetodi abil.
 \section{Rakenduse disain}
 \section{Näidisrakendus}
-Valideerimaks, kas loodud süsteem vastab nõuetele, loon näiterakenduse ja realiseerin neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Kasutaja tuvastamine põhineb funktsioonil functions.f\_is\_boss, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide anmete vaatamine põhineb vaatel public.overview\_of\_rooms. Ruumide koondaruande vaatamine põhineb vaatel public.number\_of\_rooms\_by\_state. Ruumi mitteaktiivseks muutmine põhineb funktsioonil functions.f\_permanently\_inactivate\_a\_room, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest public.active\_temporariliy\_inactive\_rooms.
+Valideerimaks, kas loodud süsteem vastab nõuetele, loon näiterakenduse ja realiseerin neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Kasutaja tuvastamine põhineb funktsioonil functions.f\_is\_boss, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide anmete vaatamine põhineb vaatel public.overview\_of\_rooms. Ruumide koondaruande vaatamine põhineb vaatel public.number\_of\_rooms\_by\_state. Ruumi mitteaktiivseks muutmine põhineb funktsioonil functions.f\_permanently\_inactivate\_a\_room, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest \newline public.active\_temporariliy\_inactive\_rooms.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 430 164,scale=1]{./diagrams/sample-application-use-case-diagram.png}
+\centering
+\includegraphics[width=0.8\textwidth]{./diagrams/sample-application-use-case-diagram.png}
 \caption{Näidisrakenduse kasutusjuhtude eskiismudel}
 \label{fig_näidisrakendus_kasutusjuhtude_eskiismudel}
-\end{center}
 \end{figure}
 \subsection{Kasutaja tuvastamine}
 Kui kasutaja läheb lehele, mille nägemiseks peab ta olema autenditud, siis kuvatakse talle sisselogimise vorm, kuhu tuleb sisestada kasutajanimi ja parool (vt Joonis \ref{fig_näidisrakendus_kasutaja_tuvastamine}). Kui kasutajanimi ja parool on õiged, siis logitakse kasutaja sisse ning kasutaja näeb edaspidi autentimist nõudvate lehtede sisu.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 449 212,scale=1]{./diagrams/sample-app-user-auth.png}
+\centering
+\includegraphics[width=0.8\textwidth]{./diagrams/sample-app-user-auth.png}
 \caption{Kasutaja tuvastamine}
 \label{fig_näidisrakendus_kasutaja_tuvastamine}
-\end{center}
-\end{figure}
-\subsection{Ruumide koondaruande ja kõikide ruumide vaatamine}
-Kasutajale kuvatakse ühel lehel nii ruumide koondaruanne kui ka kõikide ruumide info, kusjuures raportite read on võimalik jaotada lehekülgedele (vt Joonis \ref{fig_näidisrakendus_raportid})
-\begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 732 630,scale=0.8]{./diagrams/sample-app-reports.png}
-\caption{Ruumide koondaruande ja kõikide ruumide vaatamine}
-\label{fig_näidisrakendus_raportid}
-\end{center}
 \end{figure}
 \subsection{Ruumi lõplikult mitteaktiivseks muutmine}
 Kasutajale kuvatakse vorm, kus kust ta saab valida millist ruumi ta muuta soovib (vt Joonis \ref{fig_näidisrakendus_vorm}). Ruumide loetelu saadakse vaate  public.active\_temporariliy\_inactive\_rooms põhjal. Pärast vormi saatmist kutsutakse välja funktsioon functions.f\_permanently\_inactivate\_a\_room. Kui funktsiooni lõpetab oma töö ilma vigadeta, siis tagastatakse kasutajale teade, et vormi saatmine õnnestus.
 \begin{figure}[H]
-\begin{center}
-\includegraphics[bb=0 0 764 317,scale=0.8]{./diagrams/sample-app-form.png}
+\centering
+\includegraphics[width=\textwidth]{./diagrams/sample-app-form.png}
 \caption{Ruumi lõplikult mitteaktiivseks muutmine}
 \label{fig_näidisrakendus_vorm}
-\end{center}
 \end{figure}
+\subsection{Ruumide koondaruande ja kõikide ruumide vaatamine}
+Kasutajale kuvatakse ühel lehel nii ruumide koondaruanne kui ka kõikide ruumide info, kusjuures raportite read on võimalik jaotada lehekülgedele (vt Joonis \ref{fig_näidisrakendus_raportid})
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/sample-app-reports.png}
+\caption{Ruumide koondaruande ja kõikide ruumide vaatamine}
+\label{fig_näidisrakendus_raportid}
+\end{figure}
+\section{Arendusvaade}
 
 %-------------------------------KOKKUVÕTE---------------------------
 \section{Kokkuvõte}
