@@ -169,6 +169,7 @@ Kiirprogrammeerimine&\textit{Rapid Application Development}, Arendussüsteem, mi
 DOM&\textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne.) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}\\
 HTML&\textit{HyperText Markup Language}, hüpertekst-märgistuskeel. Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb \cite{Vallaste}\\
 CSS&\textit{Cascading Style Sheets}, kaskaadlaadistik. Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena \cite{Vallaste}\\
+AJAX&\textit{Asynchronous JavaScript And XML}, asünkroonne JavaScript ja XML. Interaktiivsete veebirakenduste loomise meetod, kus andmevahetus brauseri ja veebiserveri vahel toimub ilma, et oleks vaja kogu lehte uuesti laadida \cite{Vallaste}\\
 \end{tabular}
 \pagebreak
 %----------------------------SISUKORD----------------------------------
@@ -809,7 +810,7 @@ Navigatsioonide register
 \end{center}
 \end{figure}
 
-\section{Arendusvahendid ja arendusprotsess}
+\section{Arendusvahendid ja -protsess}
 \subsection{Vagrant}
 Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme jooksutada, vähendades võimalust, et ühes arvutis programm jookseb, teises aga mitte. \cite{Why_Vagrant}
 \subsection{AngularJS}
@@ -825,7 +826,7 @@ Esimese asjana sai paika pandud esmased nõuded, mida süsteem peaks võimaldama
 
 Selleks et loodavat süsteemi oleks ka teistel arendajatel lihtsam kasutusele võtta ning täiustada sai arenduskeskkonna loomiseks kasutusele võetud Vagrant \cite{Vagrant}, mille abil loodi virtuaalmasin koos kõigi arenduseks vajalike teekidega. Virtuaalmasina konfigureerimiseks kasutati bash-i skripti.\par
 
-Selleks et süsteemi kasutamine oleks sujuv võeti kasutajaliidese loomiseks kasutusele AngularJS 1.4 \cite{AngularJS}. Lihtsustamaks kasutajaliidese ühtset väljanägemist erinevates brauserites ning eri suurustes ekraanidega, kasutati Bootstrap 3 \cite{Bootstrap}. Kasutajaliidese poolt kasutatavaid sõltuvusi hallati \cite{Bower}-i abil. Koodi kvaliteedi kontrollimiseks ja säilitamiseks kirjutati testid, mida jooksutati Karma \cite{Karma} abil.\par
+Dünaamilise kasutajaliidese loomiseks kasutati AngularJS 1.4 \cite{AngularJS}. Lihtsustamaks kasutajaliidese ühtset väljanägemist erinevates brauserites ning eri suurustes ekraanidega, kasutati Bootstrap 3 \cite{Bootstrap}. Kasutajaliidese poolt kasutatavaid sõltuvusi hallati \cite{Bower}-i abil. Koodi kvaliteedi kontrollimiseks ja säilitamiseks kirjutati testid, mida jooksutati Karma \cite{Karma} abil.\par
 
 Andmebaasi loomisel lähtuti ideest, et kogu suhtlus andmebaasiga peab käima läbi andmebaasiliidese \ref{andmebaasi_avalik_liides}. Andmete salvestamiseks ning küsimiseks tuleb kasutajal välja kutsuda vastav andmebaasifunktsioon. Kasutamaks ära PostgreSQL-i võimalust väljastada JSON tüüpi andmeid luuakse kasutajaliidese jaoks vajalik vastus juba andmebaasis. Tänu sellele pole andmetega manipuleerimine süsteemis laiali jaotatud vaid toimub üksnes andmebaasi poolel.\par
 
@@ -834,7 +835,10 @@ Andmebaasi ja kasutajaliidese vaheline suhtlus toimub läbi PHP-s \cite{PHP} kir
 Koodi hoidmiseks kasutatakse GitHub-i \cite{GitHub}. Iga kord, kui koodihoidlasse midagi üles laetakse luuakse TravisCI-s \cite{TravisCI} virtuaalkeskkond, kuhu tõmmatakse GitHub-st loodava süsteemi kood ning testide eduka jooksutamise korral juurutatakse serverisse. Tänu sellele on serveris alati näha süsteemi viimane töötav version.
 
 \section{Kasutajaliidese disain}
-Kasutajaliidese loomiseks kasutas autor 
+Kasutajaliides koosneb neljast põhiosast, milleks on moodulid, vaated, teenused ning tõlkefailid. Iga allsüsteemi haldamiseks ning kasutajate autentimiseks loodi moodul. Moodulis määrati ära, mis lehe korral mingit kontrollerit jooksutatakse ning millist vaadet kasutatakse. Vaadete osas on ära kirjeldatud erinevate lehtede väljanägemine ning teenuste osas suhtlus. Kuigi hetkel ei ole arendajatel võimalus kasutajaliidese keelt muuta, tuleb kogu kuvatav tekst tõlkefailidest. Seetõttu on lihtne tõlkida süsteemi ka teistesse keeltesse.\par
+Lehele minnes kontrollitakse, mis URL-le kasutaja tuli ja käivitatakse vastav kontroller ning laetakse sisse vaade, mida antud kontroller kasutab. Kontrolleri käivitamisel antakse talle ette teenuste objektid, mida ta oma tööks vajab. Selleks kasutatakse sõltuvuste süstimise (\textit{dependency injection}) disainimustrit. See tähendab, et kontrolleri loomisel vaadatakse, milliseid teenuseid ta vajab ja luuakse vajalikud instantsid ning antakse kontrollerile kaasa. Seetõttu ei pea kontroller ise tegelema vajalike teenuste initsialiseerimisega.\par
+Igal kontrolleril on objekti tüüpi \$scope muutuja, mille abil toimub andmete vahetamine vaatega. Kui \$scope objektis andmed muutuvad, siis kuvatakse vastavad muudatused koheselt ka vaates ning vastupidi.\par
+Teenuste abil toimub suhtlus serveriga AJAX-i abil. Tänu sellele ei pea andmete küsimisel ega andmetega manipuleerimisel kogu lehte uuesti laadima, vaid vajaliku info edastamine toimub rakenduse taustal. Andmete küsimine toimub GET-meetodi abil ning andmetega manipuleerimine POST-meetodi abil.
 \section{Rakenduse disain}
 \section{Näidisrakendus}
 Valideerimaks, kas loodud süsteem vastab nõuetele, loon näiterakenduse ja realiseerin neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Kasutaja tuvastamine põhineb funktsioonil functions.f\_is\_boss, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide anmete vaatamine põhineb vaatel public.overview\_of\_rooms. Ruumide koondaruande vaatamine põhineb vaatel public.number\_of\_rooms\_by\_state. Ruumi mitteaktiivseks muutmine põhineb funktsioonil functions.f\_permanently\_inactivate\_a\_room, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest public.active\_temporariliy\_inactive\_rooms.
