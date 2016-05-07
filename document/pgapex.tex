@@ -166,7 +166,7 @@ Autor: Rait Raidma\par
 
 %---------------------------ANNOTATSIOON---------------------------------
 \section*{\centerline{Annotatsioon}}
-Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebipõhiseid rakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate meta-andmetega.\par
+Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebipõhiseid rakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate metaandmetega.\par
 Töö käigus uuriti, kuidas saab suhelda väliste andmebaasidega ning kust saab infot vajalike andmebaasiobjektide kohta. Seejärel kirjeldati süsteemi funktsionaalsus, disainiti andmebaas, kasutajaliides ning rakendus.\par
 Töö tulemusena valmis süsteemi kirjeldav dokumentatsioon ning sellele vastav süsteem, mille kasutatavuse valideerimiseks realiseeriti näidis-kasutusjuhud. Süsteem võimaldab hallata rakendusi, lehti ning neis olevaid regioone, mida antud töö käigus realiseeriti neli erinevat tüüpi: HTML-tekst, navigatsioon, raport ja vorm.\par
 Töö tulemus avaldati MIT litsentsiga ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
@@ -185,12 +185,12 @@ The thesis is in estonian and contains \totalpages{} pages of text, \totalsectio
 \pagebreak
 %---------------------LÜHENDITE JA MÕISTETE SÕNASTIK---------------------
 \section*{\centerline{Lühendite ja mõistete sõnastik}}
-\begin{labeling}{Meta-andmetega juhitav}
+\begin{labeling}{Metaandmetega juhitav}
 \item [SQL] \textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks
 \item [Juurutama] \textit{Deploy}, tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}
 \item [CRUD] \textit{Create Read Update Delete}, lühend, mis tähistab andmetega manipuleerimise nelja põhitegevust: loomine, lugemine, muutmine ja kustutamine
-\item [Meta-andmed] Andmed andmeelementide kohta, sealhulgas nende andmekirjeldused, ning andmed andmete omanduse, pöördusteede, pääsuõiguste ja muutuvuse kohta \cite{metaAndmed}
-\item [Meta-andmetega juhitav] Süsteemi käitumist ja väljanägemist juhitakse andmetega
+\item [Metaandmed] Andmed andmeelementide kohta, sealhulgas nende andmekirjeldused, ning andmed andmete omanduse, pöördusteede, pääsuõiguste ja muutuvuse kohta \cite{metaAndmed}
+\item [Metaandmetega juhitav] Süsteemi käitumist ja väljanägemist juhitakse andmetega
 \item [URL] \textit{Uniform Resource Locator}, internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}
 \item [Kiirprogrammeerimine] \textit{Rapid Application Development}, arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega \cite{Vallaste}
 \item [DOM] \textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}
@@ -222,7 +222,7 @@ Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raame
 Töö valmis 2016. aasta kevadel Tallinna Tehnikaülikoolis.
 
 \subsection{Ülesande püstitus}
-Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis hoiavad andmeid samas andmebaasiserveris kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi meta-andmete andmebaasis.\par
+Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis hoiavad andmeid samas andmebaasiserveris kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
 Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0 ning tuleb välja anda vabavara litsentsi all, et soodustada süsteemi laialdasemat levikut ning edasist arendamist.
 
 \subsection{Metoodika}
@@ -368,7 +368,7 @@ Information\_schema sisaldab vaateid andmebaasis olevate objektide kohta. Kuna i
 \subsection{Eksisteerivate programmide analüüs}
 Töö käigus uuriti, milliseid sarnaseid süsteeme on veel loodud ning kuidas need on üles ehitatud. Järgnevalt on esitatud ülevaade nendest süsteemidest.
 \subsubsection{Oracle Application Express (APEX)}
-Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõhiseid rakendusi. Kogu süsteem on juhitav andmebaasis hoitavate meta-andmetega ning kasutab tööks Oracle anembaasisüsteemi.\par
+Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõhiseid rakendusi. Kogu süsteem on juhitav andmebaasis hoitavate metaandmetega ning kasutab tööks Oracle anembaasisüsteemi.\par
 APEX (v 5.0.3.00.03) koosneb neljast põhiosast:
 \begin{itemize}
 \item Application Builder - Võimaldab luua ja hallata uusi rakendusi. Rakendused koosnevad lehtedest. Lehed omakorda sisaldavad regioone. Regioonides võib kuvada raporteid, graafikuid, vorme jpm. Regioonid sisaldavad komponente, mille abil on võimalik kasutajalt infot küsida ning seda esitada. Lisaks on võimalik näha lehtede statistikat ning hallata seadeid.
