@@ -166,7 +166,7 @@ Autor: Rait Raidma\par
 
 %---------------------------ANNOTATSIOON---------------------------------
 \section*{\centerline{Annotatsioon}}
-Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebirakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate metaandmetega.\par
+Käesoleva magistritöö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimise keskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis hoiavad andmeid samas andmebaasiserveris, kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
 Töö käigus uuriti, kuidas saab andmebaas suhelda teiste andmebaasidega ning kust saab infot vajalike andmebaasiobjektide kohta. Seejärel kirjeldati loodava süsteemi funktsionaalsus, disainiti selle andmebaas, kasutajaliides ning rakendus.\par
 Töö tulemusena valmis süsteemi kirjeldav dokumentatsioon ning sellele vastav süsteem, mille kasutatavuse valideerimiseks realiseeriti näidis-kasutusjuhud. Süsteem võimaldab hallata rakendusi, lehti ning neis olevaid regioone, mida antud töö käigus realiseeriti neli erinevat tüüpi: HTML-tekst, navigatsioon, raport ja vorm.\par
 Töö tulemus avaldati MIT litsentsiga ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
@@ -176,9 +176,15 @@ Lõputöö on kirjutatud eesti keeles ning sisaldab teksti \totalpages{} lehekü
 %-----------------------------ABSTRACT-----------------------------------
 \section*{\centerline{Abstract}}
 \subsection*{A PostgreSQL-based Rapid Development Environment for the Metadata-driven Web Applications}
-The purpose of this master thesis is to design and implement a PostgreSQL-based rapid development environment for the metadata-driven web applications. Those web applications must communicate with database through database interface. Applications' look and behaviour must be possible to manipulate by using metadata that is kept in the database.\par
-The work covers how it is possible to connect to external databases in PostgreSQL database managemnet system and where to look for information about necessary database objects. After that system functionality, database, user interface and application design are described.\par
-The outcomes of this thesis are documentation that describes the system and implementatsion of that system. To validate the results sample application was made to show what the system can do. It can manage applications, pages and regions in it. Currently four types of regions were implemented: HTML-text, navigation, report and form.
+The purpose of this master thesis is to design and implement a PostgreSQL-based rapid development environment for the metadata-driven web applications that store data in the same database server. These web applications must communicate with database through database interface. Applications' look and behaviour must be possible to manipulate by using metadata that is kept in the database.\par
+The work covers what are the benefits of database interface, how it is possible to connect to external databases in PostgreSQL database managemnet system and where to look for information about necessary database objects. After that system functionality, database, user interface and application design are described.\par
+The outcomes of this thesis are documentation that describes the system and implementatsion of that system. The system uses PostgreSQL's dblink extension to communicate to external databases. Information about database objects are asked from information\_schema and pg\_catalog.
+\par
+The system allowes developers to create applications based on external databases and manage authentication methods. Application may contain pages that consist of regions.
+Four region types were implemented in the system. HTML region allowes to add HTML-formatted text. Navigation region can be used to display menus to navigate between pages. Report region displays table based on a view which rows can be devided between pages. Form region allowes to ask information from user and send it to external database by calling out a function from external database.
+\par
+To validate the results, sample application was made to see if the system can be used to implement use-cases that are similar to ones in students' projects in ``Andmebaasid II'' course, where they have to use database interfaces to implement their applications. The system enabled to do that and that is why it can be said that the aim of this thesis was achieved.
+\par
 The result of current thesis is available under MIT licecne from \url{https://github.com/raitraidma/pgapex}.
 \par
 The thesis is in estonian and contains \totalpages{} pages of text, \totalsections{} chapters, \totalfigures{} figures, \totaltables{} tables.
@@ -223,7 +229,7 @@ Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raame
 Töö valmis 2016. aasta kevadel Tallinna Tehnikaülikoolis.
 
 \subsection{Ülesande püstitus}
-Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis hoiavad andmeid samas andmebaasiserveris kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
+Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimise keskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis hoiavad andmeid samas andmebaasiserveris, kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
 Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0 ning tuleb välja anda vabavara litsentsi all, et soodustada süsteemi laialdasemat levikut ning edasist arendamist.
 
 \subsection{Metoodika}
@@ -1293,13 +1299,14 @@ Loodud süsteemi funktsionaalsus on piisav, et seda saaks reaalsete kasutusjuhtu
 \item Praeguses süsteemis sai realiseeritud neli erinevat regioonitüüpi: navigatsioon, HTML-tekst, raport ja vorm. Alati ei pruugi nendest aga piisata. Seetõttu tuleks uurida, millisel kujul oleks veel vaja infot kuvada ning realiseerida vastavad regioonid. Näiteks võiks olla võimalik kujutada infot graafikutena või punktidena maailmakaardil.
 \item Arendajal oleks mugav rakendust arendada, kui ta saaks võimalikult palju tegevusi teha ühes ja samas keskkonnas. Seetõttu võiks süsteem võimaldada hallata välises andmebaasis olevaid andmebaasiobjekte ning andmeid.
 \item Kui rakenduse kasutajad muudavad samal ajal samu andmeid, siis esimesena salvestatud andmed salvestatakse viimase poolt üle. Süsteem võiks sellisel juhul teavitada järgmist kasutajat, kes üritab salvestada, et andmed on vahepeal muutunud.
+\item Süsteem võiks võimaldada luua REST-liideseid, mille abil saaksid nii loodavad rakendused, kui ka välised süsteemid välistest andmebaasidest infot küsida.
 \end{itemize}
 
 %-------------------------------KOKKUVÕTE---------------------------
 \section{Kokkuvõte}
 Antud töö eesmärgiks oli luua PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebipõhiseid rakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida metaandmetega.\par
 Töö käigus selgitati, kuidas seda eesmärki saavutada. Selleks oli vaja uurida, kuidas toimub andmete pärimine välisest andmebaasist ning kust saab infot andmebaasiobjektide kohta. Seejärel pandi paika esmased nõuded süsteemile, kirjeldati kasutusjuhud kõrgformaadis ning loodi olemi-suhte diagrammid, mis kirjeldasid, milliseid andmeid ning kuidas neid on vaja hoida.\par
-Töö tulemusena valmis süsteem, mille loomiseks kasutati PHP-d, PostgreSQL-i, AngularJS-i, Bootstrapi ning Slim Frameworki. Süsteem võimaldab arendajatel luua rakendusi ning hallata rakenduse autentimismeetodeid. Rakendusse saab luua lehekülgi, mis omakorda sisaldavad regioone, mida antud töös realiseeriti neli erinevat tüüpi. HTML-regioon võimaldab lisada lehele HTML-vormindusega teksti. Navigatsiooni regiooni abil saab kuvada lehel navigeerimiseks vajaliku menüüd. Raportite regioon kuvab kasutajale vaate põhjal tabeli, mida on võimalik jagada mitmele leheküljele. Vormi regioon võimaldab küsida kasutajalt infot ning salvestada seda välisesse andmebaasi kutsudes välja välises andmebaasis oleva funktsiooni.\par
+Töö tulemusena valmis veebipõhine süsteem, mille loomiseks kasutati PHP-d, PostgreSQL-i, AngularJS-i, Bootstrapi ning Slim Framework-i. Süsteem võimaldab arendajatel luua rakendusi ning hallata rakenduse autentimismeetodeid. Rakendusse saab luua lehekülgi, mis omakorda sisaldavad regioone, mida antud töös realiseeriti neli erinevat tüüpi. HTML-regioon võimaldab lisada lehele HTML-vormindusega teksti. Navigatsiooni regiooni abil saab kuvada lehel navigeerimiseks vajaliku menüüd. Raportite regioon kuvab kasutajale vaate põhjal tabeli, mida on võimalik jagada mitmele leheküljele. Vormi regioon võimaldab küsida kasutajalt infot ning saata seda välisesse andmebaasi kutsudes välja välises andmebaasis oleva funktsiooni.\par
 Loodud süsteem oli esimese iteratsiooni tulemus ning seetõttu realiseeriti vaid oluliseimad funktsionaalsused, et tagada süsteemi kasutatavus reaalsete kasutusjuhtude realiseerimiseks. Seetõttu esitati töös nägemus funktsionaalsustest, mida järgnevate iteratsioonide korral võiks süsteemile juurde lisada.\par
 Loodud tulemuse valideerimiseks reliseeriti õppejõu poolt ette antud kasutusjuhud, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Sellega sai süsteem edukalt hakkama ning seetõttu võib väita, et töö eesmärk saavutati.\par
 Töö tulemus on avaldatud MIT litsentsi all ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
