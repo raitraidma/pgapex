@@ -166,8 +166,8 @@ Autor: Rait Raidma\par
 
 %---------------------------ANNOTATSIOON---------------------------------
 \section*{\centerline{Annotatsioon}}
-Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebipõhiseid rakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate metaandmetega.\par
-Töö käigus uuriti, kuidas saab suhelda väliste andmebaasidega ning kust saab infot vajalike andmebaasiobjektide kohta. Seejärel kirjeldati süsteemi funktsionaalsus, disainiti andmebaas, kasutajaliides ning rakendus.\par
+Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebirakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate metaandmetega.\par
+Töö käigus uuriti, kuidas saab andmebaas suhelda teiste andmebaasidega ning kust saab infot vajalike andmebaasiobjektide kohta. Seejärel kirjeldati loodava süsteemi funktsionaalsus, disainiti selle andmebaas, kasutajaliides ning rakendus.\par
 Töö tulemusena valmis süsteemi kirjeldav dokumentatsioon ning sellele vastav süsteem, mille kasutatavuse valideerimiseks realiseeriti näidis-kasutusjuhud. Süsteem võimaldab hallata rakendusi, lehti ning neis olevaid regioone, mida antud töö käigus realiseeriti neli erinevat tüüpi: HTML-tekst, navigatsioon, raport ja vorm.\par
 Töö tulemus avaldati MIT litsentsiga ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
 \par
@@ -186,21 +186,22 @@ The thesis is in estonian and contains \totalpages{} pages of text, \totalsectio
 %---------------------LÜHENDITE JA MÕISTETE SÕNASTIK---------------------
 \section*{\centerline{Lühendite ja mõistete sõnastik}}
 \begin{labeling}{Metaandmetega juhitav}
-\item [SQL] \textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks
-\item [Juurutama] \textit{Deploy}, tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}
+\item [ACID] \textit{Atomicity, Consistency, Isolation, Durability}, atomaarsus, konsistentsus, isoleeritus, püsivus. ``Andmebaasihaldurite puhul tehingutöötluse põhikarakteristikud. Atomaarsus tähendab seda, et andmebaasihaldur tagab kas antud tehingu kõigi tegumite või mitte ühegi toimumise. Konsistentsus tähendab, et pärast tehingu lõppu peab andmebaas olema legaalses olekus. Isoleeritus tähendab, et tehing toimub varjatult teiste operatsioonide eest. Püsivus tähendab seda, et kui kasutajat on juba kord teavitatud tehingu edukast toimumisest, siis tehing jääb kehtima ja seda ei saa olematuks muuta'' \cite{Vallaste}
+\item [AJAX] \textit{Asynchronous JavaScript And XML}, asünkroonne JavaScript ja XML. ``Interaktiivsete veebirakenduste loomise meetod, kus andmevahetus brauseri ja veebiserveri vahel toimub ilma, et oleks vaja kogu lehte uuesti laadida'' \cite{Vallaste}
 \item [CRUD] \textit{Create Read Update Delete}, lühend, mis tähistab andmetega manipuleerimise nelja põhitegevust: loomine, lugemine, muutmine ja kustutamine
-\item [Metaandmed] Andmed andmeelementide kohta, sealhulgas nende andmekirjeldused, ning andmed andmete omanduse, pöördusteede, pääsuõiguste ja muutuvuse kohta \cite{metaAndmed}
-\item [Metaandmetega juhitav] Süsteemi käitumist ja väljanägemist juhitakse andmetega
-\item [URL] \textit{Uniform Resource Locator}, internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}
-\item [Kiirprogrammeerimine] \textit{Rapid Application Development}, arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega \cite{Vallaste}
-\item [DOM] \textit{Document Object Model}, dokumendiobjektide mudel. Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda \cite{Vallaste}
-\item [HTML] \textit{HyperText Markup Language}, hüpertekst-märgistuskeel. Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb \cite{Vallaste}
-\item [CSS] \textit{Cascading Style Sheets}, kaskaadlaadistik. Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena \cite{Vallaste}
-\item [AJAX] \textit{Asynchronous JavaScript And XML}, asünkroonne JavaScript ja XML. Interaktiivsete veebirakenduste loomise meetod, kus andmevahetus brauseri ja veebiserveri vahel toimub ilma, et oleks vaja kogu lehte uuesti laadida \cite{Vallaste}
-\item [FSF] \textit{Free Software Foundation}, MTÜ, mis propageerib arvuti kasutajate vabadust ja kaitseb vaba tarkvara kasutajate õigusi
-\item [OSI] \textit{Open Source Initiative}, organisatsioon, mis propageerib avatud lähtekoodiga tarkvara
 \item [CSRF] \textit{Cross-Site Request Forgery}, rünnak, mille puhul käivitatakse veebirakenduses mingi toiming teisest domeenist tulnud päringu korral
-\item [SQL süstimine] \textit{SQL Injection}, rünnak, mille puhul kasutaja muudab käivitatavat SQL päringut
+\item [CSS] \textit{Cascading Style Sheets}, kaskaadlaadistik. ``Veebilehtede valmistajatele ja kasutajatele mõeldud laadistik. Laadilehed (style sheets) kirjeldavad, kuidas HTML dokumente esitada kuvaril, printeril või kõnesüntesaatorist kostva kõnena'' \cite{Vallaste}
+\item [DOM] \textit{Document Object Model}, dokumendiobjektide mudel. ``Eeskiri selle kohta, kuidas objekte (tekst, pildid, pealkirjad, lingid jne) veebilehel esitada. DOM määrab ära, millised atribuudid kuuluvad millise objekti juurde ning kuidas objekte ja atribuute käsitleda'' \cite{Vallaste}
+\item [FSF] \textit{Free Software Foundation}, MTÜ, mis propageerib arvuti kasutajate vabadust ja kaitseb vaba tarkvara kasutajate õigusi
+\item [HTML] \textit{HyperText Markup Language}, hüpertekst-märgistuskeel. ``Enimlevinud kodeerimissüsteem (tekstivorming) veebidokumentide loomiseks. HTML koodid ehk märgendid määravad ära selle, kuidas veebileht arvutiekraanil välja näeb'' \cite{Vallaste}
+\item [Juurutama] \textit{Deploy}, tarkvara või riistvara töölepanekuga seotud protsesside - installeerimine, konfigureerimine, käitamine, testimine - läbimine \cite{Vallaste}
+\item [Kiirprogrammeerimine] \textit{Rapid Application Development}, ``arendussüsteem, mis annab programmeerijatele võimaluse kiiresti programme koostada. Üldiselt on RAD-süsteemides rida graafiliste kasutajaliideste loomiseks mõeldud tööriistu, mis oluliselt lühendab taoliste liideste loomisele kuluvat aega'' \cite{Vallaste}
+\item [Metaandmed] ``Andmed andmeelementide kohta, sealhulgas nende andmekirjeldused, ning andmed andmete omanduse, pöördusteede, pääsuõiguste ja muutuvuse kohta'' \cite{metaAndmed}
+\item [Metaandmetega juhitav] Süsteemi käitumist ja väljanägemist juhitakse andmetega
+\item [OSI] \textit{Open Source Initiative}, organisatsioon, mis propageerib avatud lähtekoodiga tarkvara
+\item [SQL süstimine] \textit{SQL Injection}, rünnak, mille puhul kasutaja muudab käivitatavat SQL lauset
+\item [SQL] \textit{Structured Query Language}, struktureeritud andmebaasikeel andmete käitlemiseks, õiguste jagamiseks ning andmebaasiobjektide haldamiseks
+\item [URL] \textit{Uniform Resource Locator}, internatiaadress. Viit arvutivõrgus olevale ressursile. \cite{Vallaste}
 \end{labeling}
 \pagebreak
 %----------------------------SISUKORD----------------------------------
@@ -215,10 +216,10 @@ The thesis is in estonian and contains \totalpages{} pages of text, \totalsectio
 %-----------------------------SISSEJUHATUS------------------------------- 
 \section{Sissejuhatus}
 \label{Sissejuhatus} %Võimaldab pealkirjale viidata \ref käsuga
-Tänapäeval on infosüsteemid väga laialdaselt kasutusel. Tihti aga puudub võimekus kiirelt reageerida muutuvatele vajadustele info haldamiseks ning kuvamiseks, kuna pole piisavalt vastavate oskustega inimesi. Seetõttu oleks palju kasu süsteemist, mis ei nõua kasutajalt programmeerimisoskust mitmes erinevas keeles, vaid võimaldaks infosüsteemi hallata kiiresti ja mugavalt graafilise kasutajaliidese abil.
+Tänapäeval on arvutisüsteemi toega infosüsteemid väga laialdaselt kasutusel. Tihti aga puudub võimekus kiirelt reageerida muutuvatele vajadustele info haldamiseks ning kuvamiseks, kuna pole piisavalt vastavate oskustega inimesi. Seetõttu oleks palju kasu süsteemist, mis ei nõua kasutajalt programmeerimisoskust mitmes erinevas keeles, vaid võimaldaks infosüsteemi info haldamiseks mõeldud veebirakendusi kiiresti ja mugavalt graafilise kasutajaliidese abil täiendada.
 
 \subsection{Taust ja probleem}
-Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi andmebaasiliidese. Antud aines võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada kiirprogrammeerimiskeskkonda Oracle APEX \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades PHP-d \cite{PHP}. See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele vaid peab tegelema ka lisaprogrammeerimisega. Töö tulemusena valmiva süsteemi abil peaks üliõpilastel olema lihtsam luua näidisrakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i. Samas leiab autor, et valmiv süsteem on piisavalt võimekas, et leida rakendust mujalgi.\par
+Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi andmebaasiliidese. Antud aines võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada kiirprogrammeerimiskeskkonda Oracle APEX \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades näiteks PHP-d \cite{PHP}. See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele vaid peab tegelema ka lisaprogrammeerimisega. Töö tulemusena valmiva süsteemi abil peaks üliõpilastel olema lihtsam luua näidisrakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i. Samas leiab autor, et valmiv süsteem on piisavalt võimekas, et leida rakendust mujalgi.\par
 Töö valmis 2016. aasta kevadel Tallinna Tehnikaülikoolis.
 
 \subsection{Ülesande püstitus}
@@ -226,14 +227,14 @@ Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi 
 Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0 ning tuleb välja anda vabavara litsentsi all, et soodustada süsteemi laialdasemat levikut ning edasist arendamist.
 
 \subsection{Metoodika}
-Esiteks tuleb uurida, kas liideste kasutamine andmebaasi poole peal annab süsteemile mingi eelise. Seejärel tuleb selgeks teha, kas ja kuidas saab ühest andmebaasist suhelda teiste andmebaasidega, mis asuvad samas andmebaasiserveris. Ning viimasena, kuidas küsida teistest andmebaasidest infot liideste kohta.
+Esiteks tuleb uurida, kas liideste kasutamine andmebaasi poole peal annab süsteemile mingi eelise. Seejärel tuleb selgeks teha, kas ja kuidas saab andmebaas suhelda teiste andmebaasidega, mis asuvad samas andmebaasiserveris. Ning viimasena, kuidas küsida teistest andmebaasidest infot liideste kohta.
 Lisaks uurin, milliseid sarnaseid süsteeme on veel olemas ning kuidas need on üles ehitatud.\par
 Töö tulemusena valmib süsteem, mille abil saab luua veebipõhiseid rakendusi, mis kasutavad andmebaasiga suhtlemiseks andmebaasiliideseid. Töö tulemuse valideerimiseks loodakse näidisrakendus, kus realiseeritakse õppejõu poolt ette antud kasutusjuhud, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele.
 \subsection{Ülevaade tööst}
 Töö alguses antakse ülevaade, mis on andmebaasiliides, kuidas toimub suhtlus väliste andmebaasidega ning kust saab infot andmebaasiobjektide kohta. Lisaks uuritakse milliseid sarnaseid süsteeme on veel olemas. Seejärel tuuakse välja nõudmised, mida süsteem täitma peab ning kirjeldatakse süsteemi ülesehitust. Lõpuks valideeritakse töö tulemust ette antud kasutusjuhtude realiseerimisega ning antakse ülevaade funktsionaalsustest, mida järgnevate iteratsioonide korral teostada võiks.
 
 \section{Teoreetiline taust}
-Selles peatükis uuritakse, kas ning miks peaks andmebaasiga suhtlemine käima läbi andmebaasiliidese, kuidas suhelda väliste andmebaasidega ja kust saada infot nendes olevate andmebaasiobjektide kohta ning milliseid sarnaseid süsteeme on juba olemas. Lisaks uuritakse, millise litsentsi all tuleks loodav süsteem avalikustada, et kõik soovijad saaksid seda kasutada nii nagu neil vaja.
+Selles peatükis uuritakse, kas ning miks peaks andmebaasiga suhtlemine käima läbi andmebaasiliidese, kuidas saab andmebaas suhelda teiste andmebaasidega ja kust saada infot nendes olevate andmebaasiobjektide kohta ning milliseid sarnaseid süsteeme on juba olemas. Lisaks uuritakse, millise litsentsi all tuleks loodav süsteem avalikustada, et kõik soovijad saaksid seda kasutada nii nagu neil vaja.
 
 \subsection{Andmebaasi avalik liides}
 \label{andmebaasi_avalik_liides}
@@ -249,10 +250,10 @@ Andmebaasis saab liideseid kirjeldada rutiinidena ja vaadetena (vt Joonis \ref{f
 
 \subsubsection{Vaadete kasutamise eelised ja võimalused}
 \begin{itemize}
-\item Võimaldavad igale rakendusele saab luua spetsiifilise vaate andmetest, ilma et oleks vaja teha muudatusi andmemudelis.
+\item Võimaldavad igale rakendusele luua spetsiifilise vaate andmetest, ilma et oleks vaja teha muudatusi andmestruktuurides, mille põhjalt vaateid serveeritakse.
 \item Võimaldavad vähendada rakenduse koodi ja andmemudeli vahelist sidusust.
 See võimaldab teha muudatusi andmemudelis, ilma et olemasolev rakendus katki läheks.
-\item Neile saab anda rakenduse-spetsiifilised veerunimed, andmetüübid ja pikkused, mis võimaldab otse andmete sidumist rakenduses kasutatavate mudelitega.
+\item Neis saab kasutada rakenduse-spetsiifilisi veerunimesid, andmetüüpe ja pikkuseid, mis võimaldab  andmete paremat sidumist rakenduses kasutatavate mudelitega.
 \item Võimaldavad jõustada andmete turvamist. Erinevatele kasutajagruppidele saab kuvada andmeid erineval kujul, nii et kasutaja näeb üksnes neid andmeid, mida ta on volitatud nägema. PostgreSQL andmebaasisüsteemis tuleks lisaks kasutada turvabarjääri \textit{WITH (security\_barrier)} lisatingimust. See takistab peidetud ridade kuvamist ka juhul, kui kasutatakse kuritahtlikult valitud funktsioone ja operaatoreid, et näha varjatud infot. \cite{PostgreSQLRulesAndPrivileges}
 \item Võimaldavad pärida andmeid erinevatest tabelitest ja andmebaasidest, peites kasutajate eest päringu tegeliku keerukuse. Vaate koostamiseks vajalik päring on eelnevalt kompilleeritud ja optimiseeritud, et tagada parem jõudlus. Vaated kasutavad päringu täitmisel baastabelitele loodud indekseid.
 \item Võimaldavad varjata rakenduse eest baastabelites olevaid disaini -ja andmevigasid, andes lisaaega nende parandamiseks.
@@ -346,7 +347,7 @@ FROM dblink(
 \subsubsection{postgres\_fdw}
 Selle mooduli poolt pakutav funktsionaalsus kattub suurel määral \textit{dblink} (\ref{dblink}) mooduli funktsionaalsusega, kuid pakub standardsemat süntaksit päringute koostamiseks ning võib \textit{dblink}-i kohati edestada jõudluse poolest.\par
 \textit{Postgres\_fdw} loob ühenduse välise serveriga siis, kui tehakse esimene päring välises andmebaasis oleva tabeli vastu. Seda ühendust hoitakse alles ning kasutatakse järgmiste päringute jaoks sama sessiooni piires. Kui väliselt serverilt küsitakse infot erinevate kasutajatena, siis luuakse iga kasutaja jaoks uus ühendus.\par
-\textit{Postgres\_fdw} üritab optimeerida väliseid päringuid, et vähendada küsitavate andmete hulka. Selleks saadetakse koos päringuga \textit{WHERE}-klausel ning ei laeta alla veerge, mida pole päringu täitmiseks vaja. Selleks et vältida valesid päringutulemusi, ei saadeta \textit{WHERE}-klauslit, kui kasutatakse midagi peale sisse ehitatud andmetüüpide, operaatorite ja funktsioonide või kui operaatorid ja funktsioonid pole muutumatud (\textit{immutable}). \cite{PostgreSQLfdw}\par
+\textit{Postgres\_fdw} üritab optimeerida väliseid päringuid, et vähendada küsitavate andmete hulka. Selleks saadetakse koos päringuga \textit{WHERE}-klausel ning ei laeta alla veerge, mida pole päringu täitmiseks vaja. Selleks, et vältida valesid päringutulemusi, ei saadeta \textit{WHERE}-klauslit, kui kasutatakse midagi peale sisse ehitatud andmetüüpide, operaatorite ja funktsioonide või kui operaatorid ja funktsioonid pole muutumatud (\textit{immutable}). \cite{PostgreSQLfdw}\par
 \textit{Postgres\_fdw} võimaldab lisaks andmete küsimisele (\textit{SELECT}) ka andmeid lisada (\textit{INSERT}), muuta (\textit{UPDATE}) ja kustutada (\textit{DELETE}). Küll aga ei võimalda antud moodul välja kutsuda välises andmebaasis olevaid funktsioone (vt Joonis \ref{fig_sql_funktsiooni_väljakutse}).
 \begin{figure}[H]
 \centering
@@ -372,7 +373,7 @@ Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõh
 APEX (v 5.0.3.00.03) koosneb neljast põhiosast:
 \begin{itemize}
 \item Application Builder - Võimaldab luua ja hallata uusi rakendusi. Rakendused koosnevad lehtedest. Lehed omakorda sisaldavad regioone. Regioonides võib kuvada raporteid, graafikuid, vorme jpm. Regioonid sisaldavad komponente, mille abil on võimalik kasutajalt infot küsida ning seda esitada. Lisaks on võimalik näha lehtede statistikat ning hallata seadeid.
-\item SQL Workshop - Võimaldab näha ja hallata andmebaasiobjekte, jooksutada päringuid, importida/exportida andmebaasis olevaid andmeid, koostada päringuid graafilise liidese abil, luua RESTful liideseid jpm.
+\item SQL Workshop - Võimaldab näha ja hallata andmebaasiobjekte, käivitada päringuid, importida/exportida andmebaasis olevaid andmeid, koostada päringuid graafilise liidese abil, luua RESTful liideseid jpm.
 \item Team Development - Tööde- ja vigadehaldussüsteem. Võimaldab arendajatel ülesandeid planeerida ja hallata.
 \item Packaged Apps - Galerii näidisrakendustest, mida on võimalik kohe kasutamiseks installeerida.
 \end{itemize}
@@ -406,7 +407,7 @@ Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skript
 \subsection{Litsents}
 Üheks töö eesmärgiks oli avaldada loodava prototüübi lähtekood avatud tarkvarana. Olemasolevaid litsentse on väga palju. Selleks, et valida välja litsents, mille alt avaldada loodav tarkvara, leian esiteks populaarseimad litsentsid ning võrdlen neid omavahel.
 GitHub-i poolt avaldatud statistika kohaselt on 2016 aasta veebruari seisuga populaarseimad litsentsid: MIT (44,69\%), GPLv2 (12,96\%), Apache (11,19\%) ja GPLv3 (8,88\%). \cite{GitHub_Opensource_Licence_Usage}\par
-Kõik eelpool nimetatud litsentsid täidavad nii \textit{Free Software} (vt Lisa 2) kui ka \textit{Open Source} (vt Lisa 3) tingimusi. Lisa 4 tabelis \ref{table_litsentside_vordlus} on välja toodud nende litsentside võrdlus.
+Kõik eelpool nimetatud litsentsid täidavad nii \textit{Free Software} (vt Lisa 2) kui ka \textit{Open Source} (vt Lisa 3) tingimusi. Lisas 4 tabelis \ref{table_litsentside_vordlus} on välja toodud nende litsentside võrdlus.
 Loodav süsteem avaldatakse MIT litsentsi all, kuna see seab kasutajatele kõige vähem piiranguid ning arendajale kõige vähem kohustusi.
 
 \section{Süsteemi analüüs}
@@ -454,13 +455,7 @@ Antud töös ei realiseerita mallide funktsionaalset allsüsteemi, kuna töö ma
 Allsüsteem ei teeninda ühtegi registrit.\par
 Allsüsteem kasutab andmebaasiobjektide registrit, rakenduste registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit ja mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.6\textwidth]{./diagrams/application-subsystem-use-case-digram.png}
-\caption{Rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
-\label{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{figure}
+Järgnevalt on esitatud rakenduse funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Ruumipuuduse tõttu on kasutusjuhtude ekiismudel esitatud Lisas 5 Joonisel \ref{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
 
 \underline{\textbf{Kasutusjuht:} Rakenduse kasutamine}
 \par
@@ -483,13 +478,8 @@ Allsüsteem teenindab rakenduste registrit.\par
 Allsüsteem kasutab andmebaasiobjektide registrit.\par
 Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/applications-subsystem-use-case-digram.png}
-\caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
-\label{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{figure}
+Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Ruumipuuduse tõttu on kasutusjuhtude ekiismudel esitatud Lisas 5 Joonisel \ref{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
+
 \underline{\textbf{Kasutusjuht:} Kasutaja identifitseerimine}
 \par
 \textbf{Tegutsejad:} Arendaja
@@ -504,7 +494,7 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude es
 \par
 \textbf{Kirjeldus:} Arendaja tahab saada ülevaadet, mis rakendused on loodud. Süsteem kuvab arendajale loetelu rakendustest, kus on esitatud rakenduse nimi.
 \par
-\pagebreak
+
 \underline{\textbf{Kasutusjuht:} Rakenduse lisamine}
 \par
 \textbf{Tegutsejad:} Arendaja
@@ -545,13 +535,8 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude es
 Allsüsteem teenindab lehtede registrit.\par
 Allsüsteem kasutab mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{./diagrams/pages-subsystem-use-case-digram.png}
-\caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
-\label{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{figure}
+Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Ruumipuuduse tõttu on kasutusjuhtude ekiismudel esitatud Lisas 5 Joonisel \ref{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
+
 \pagebreak
 \underline{\textbf{Kasutusjuht:} Lehtede loetelu vaatamine}
 \par
@@ -596,14 +581,7 @@ Järgnevalt on esitatud lehtede funktsionaalse allsüsteemi kasutusjuhtude eskii
 Allsüsteem teenindab regioonide registrit.\par
 Allsüsteem kasutab mallide registrit, navigatsioonide registrit, andmebaasiobjektide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/regions-subsystem-use-case-digram.png}
-\caption{Regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
-\label{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{figure}
-\pagebreak
+Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Ruumipuuduse tõttu on kasutusjuhtude ekiismudel esitatud Lisas 5 Joonisel \ref{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
 
 \underline{\textbf{Kasutusjuht:} Regioonide loetelu vaatamine}
 \par
@@ -663,13 +641,7 @@ Järgnevalt on esitatud regioonide funktsionaalse allsüsteemi kasutusjuhtude es
 Allsüsteem teenindab navigatsioonide registrit.\par
 Allsüsteem kasutab lehtede registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
-Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel (vt Joonis \ref{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}) ja seal esitatud kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis.
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/navigations-subsystem-use-case-digram.png}
-\caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
-\label{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
-\end{figure}
+Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Ruumipuuduse tõttu on kasutusjuhtude ekiismudel esitatud Lisas 5 Joonisel \ref{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
 
 \underline{\textbf{Kasutusjuht:} Navigatsioonide loetelu vaatamine}
 \par
@@ -691,7 +663,7 @@ Järgnevalt on esitatud navigatsioonide funktsionaalse allsüsteemi kasutusjuhtu
 \par
 \textbf{Kirjeldus:} Arendaja valib navigatsiooni, mida ta soovib muuta. Arendajale kuvatakse navigatsiooni nimi, mida ta saab muuta. Kui nimi on korrektne, siis see salvestatakse. Vastasel korral kuvatakse vastavad veateated.
 \par
-\pagebreak
+
 \underline{\textbf{Kasutusjuht:} Navigatsiooni kustutamine}
 \par
 \textbf{Tegutsejad:} Arendaja
@@ -766,10 +738,17 @@ Nii GET kui ka POST-meetodi korral kontrollitakse, kas kasutajal on ligipääs a
 Funktsioon pgapex.f\_app\_query\_page tagastab JSON-objekti, mis sisaldab kahte välja \textit{header} ja \textit{body}, mis sisaldavad vastavalt kasutajale saadetavat päist ning kuvatavat sisu.
 
 \subsection{Andmebaasikirjeldus}
-Järgnevalt esitatakse loodava süsteemi olemitüüpide ning nende atribuutide definitsioonid registrite kaupa. Olemi-suhte diagrammid  on välja toodud Lisas 5. Olemi-suhte diagrammide põhjal genereeritud tabelid on Lisas 6.
+Järgnevalt esitatakse loodava süsteemi olemi-suhte diagrammid ja neis esitatud olemitüüpide ning nende atribuutide definitsioonid registrite kaupa. Olemi-suhte diagrammide põhjal genereeritud tabelid on Lisas 6.
 
 \subsubsection{Andmebaasiobjektide register}
-Tabelis \ref{table_er_andmebaasiobjektide_registri_olemitüüpide_definitsioonid} on esitatud andmebaasiobjektide registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_andmebaasiobjektide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagramm on esitatud Joonisel \ref{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm}.
+Joonisel \ref{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm} on esitatud andmebaasiobjektide registri olemi-suhte diagramm. Tabelis \ref{table_er_andmebaasiobjektide_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_andmebaasiobjektide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./diagrams/database-object-er-diagram.png}
+\caption{Andmebaasiobjektide registri olemi-suhte diagramm.}
+\label{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -809,7 +788,14 @@ view & name & Vaate nimi \\ \hline
 \end{table}
 
 \subsubsection{Rakenduste register}
-Tabelis \ref{table_er_rakenduste_registri_olemitüüpide_definitsioonid} on esitatud rakenduste registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_rakenduste_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagramm on esitatud Joonisel \ref{fig_rakenduste_registri_olemi_suhte_diagramm}.
+Joonisel \ref{fig_rakenduste_registri_olemi_suhte_diagramm} on esitatud rakenduste registri olemi-suhte diagramm. Tabelis \ref{table_er_rakenduste_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_rakenduste_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/applications-er-diagram.png}
+\caption{Rakenduste registri olemi-suhte diagramm.}
+\label{fig_rakenduste_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -844,7 +830,14 @@ session & expiration\_time & Rakenduse kasutaja sessiooni aegumise aeg \\ \hline
 \end{table}
 
 \subsubsection{Lehtede register}
-Tabelis \ref{table_er_lehtede_registri_olemitüüpide_definitsioonid} on esitatud lehtede registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_lehtede_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagramm on esitatud Joonisel \ref{fig_lehtede_registri_olemi_suhte_diagramm}.
+Joonisel \ref{fig_lehtede_registri_olemi_suhte_diagramm} on esitatud lehtede registri olemi-suhte diagramm. Tabelis \ref{table_er_lehtede_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_lehtede_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./diagrams/page-er-diagram.png}
+\caption{Lehtede registri olemi-suhte diagramm.}
+\label{fig_lehtede_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -863,20 +856,48 @@ page\_item & Lehel kasutatavad vormielemendid ning URL-parameetrid \\ \hline
 \centering
 \caption{Lehtede registri olemitüüpide atribuutide definitsioonid.}
 \label{table_er_lehtede_registri_olemitüüpide_atribuutide_definitsioonid}
-\begin{tabular}{|p{4cm}|p{5cm}|p{6cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
 page & alias & Tähemärkidest ning numbritest koosnev sõne rakenduses lehe tuvastmiseks. Võimaldab luua URL aadressi, kus lehele viidatakse aliase abil \\ \hline
 page & title & Lehel kuvatav pealkiri \\ \hline
 page & is\_homepage & Kas tegu on avalehega. Ühel rakendusel saab olla ainult üks avaleht. Kui rakendus sisaldab lehti, siis peab üks leht olema avaleht \\ \hline
-page & is\_authentication\_required & Kas lehele pääsemiseks peab kasutaja olema autenditud \\ \hline
+page & is\_authentication\newline\_required & Kas lehele pääsemiseks peab kasutaja olema autenditud \\ \hline
 page\_item & name  & Vormielemendi või URL-parameetri nimi \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Regioonide register}
-Tabelis \ref{table_er_regioonide_registri_olemitüüpide_definitsioonid} on esitatud regioonide registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_regioonide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagrammid on esitatud Joonistel \ref{fig_regioonide_registri_olemi_suhte_diagramm}, \ref{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}, \ref{fig_raportite_regioonide_registri_olemi_suhte_diagramm} ja \ref{fig_vormide_regioonide_registri_olemi_suhte_diagramm}.
+Joonistel \ref{fig_regioonide_registri_olemi_suhte_diagramm}, \ref{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}, \ref{fig_raportite_regioonide_registri_olemi_suhte_diagramm} ja \ref{fig_vormide_regioonide_registri_olemi_suhte_diagramm} on esitatud regioonide registri olemi-suhte diagramm. Tabelis \ref{table_er_regioonide_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_regioonide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 1.}
+\label{fig_regioonide_registri_olemi_suhte_diagramm}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/navigation-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 2.}
+\label{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/report-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 3.}
+\label{fig_raportite_regioonide_registri_olemi_suhte_diagramm}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/form-region-er-diagram.png}
+\caption{Regioonide registri olemi-suhte diagramm osa 4.}
+\label{fig_vormide_regioonide_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -892,6 +913,16 @@ form\_field & Vormis kuvatav väli \\ \hline
 form\_pre\_fill & Seos vormi eeltäitmiseks vajaliku vaatega \\ \hline
 form\_region & Vormi tüüpi regioon \\ \hline
 html\_region & HTML tüüpi regioon \\ \hline
+
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{11cm}|}
+\hline
+\rowcolor{rowgray}
+Olemitüübi nimi & Definitsioon \\ \hline
+
 list\_of\_values & Kui vormi elemendi tüübiks on RADIO või DROP\_DOWN, siis määratakse siin ära, millise vaate väljade põhjal valikud luuakse \\ \hline
 navigation\_region & Navigatsiooni tüüpi regioon \\ \hline
 navigation\_type & Navigatsiooni tüüp\\ \hline
@@ -907,7 +938,7 @@ report\_region & Raporti tüüpi regioon \\ \hline
 \centering
 \caption{Regioonide registri olemitüüpide atribuutide definitsioonid.}
 \label{table_er_regioonide_registri_olemitüüpide_atribuutide_definitsioonid}
-\begin{tabular}{|p{4cm}|p{4cm}|p{7cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
@@ -921,36 +952,44 @@ form\_field & help\_text & Abistav tekst, mis selgitab, milliseid andmeid kasuta
 form\_region & button\_label & Saatmisnupul kuvatav tekst \\ \hline
 form\_region & success\_message & Vormi saatmisel käivitatava välise andmebaasi funktsiooni eduka lõpetamise korral kuvatav tekst \\ \hline
 form\_region & error\_message & Vormi saatmisel käivitatava välise andmebaasi funktsiooni ebaeduka lõpetamise korral kuvatav tekst. Lõpetamine loetakse ebaedukaks, kui funktsioon heidab veateate  \\ \hline
-form\_region & redirect\_url & Aadress, kuhu kasutaja suunatakse vormi eduka töötlemise korral. Võib sisaldada spetsiaalseid muutujaid \&APPLICATION\_ROOT\& - rakenduse faili asukoht, \&APPLICATION\_ID\& - rakenduse id, \&PAGE\_ID\& - lehe id \\ \hline
+form\_region & redirect\_url & Aadress, kuhu kasutaja suunatakse vormi eduka töötlemise korral. Võib sisaldada muutujaid \&APPLICATION\_ROOT\& - rakenduse faili asukoht, \&APPLICATION\_ID\& - rakenduse id, \&PAGE\_ID\& - lehe id \\ \hline
 html\_region & content & Lehel kuvatav sisu. Võib sisaldada HTML-i \\ \hline
 navigation\_region & repeat\_last\_level & Kui navigatsiooni sügavamatele elementidele pole loodud vastavat malli, siis kasutatakse viimast navigatsioonipunkti malli, et kuvada need navigatsioonipunktid. Vastasel juhul jäävad need kuvamata  \\ \hline
 navigation\_type & navigation\_type & Navigatsiooni tüüp. Selle põhjal otsustatakse, kuidas tuleb navigatsioon valmis renderdada. Võimalikd väärtused on MENU, BREADCRUMB, SITEMAP \\ \hline
 region & name & Regiooni nimi. Võidakse kuvada lehel \\ \hline
 region & sequence & Regiooni kuvamise järjekord \\ \hline
 region & is\_visible & Kas regioon on lehel nähtav \\ \hline
-report\_column & heading & Raporti veeri päise pealkiri \\ \hline
-report\_column & squence & Raporti veeru uvamise järjekord \\ \hline
-report\_column & is\_text\_escaped & Kas veerus kuvatavas tekstis muudetakse HTML erimärgid ohutuks \\ \hline
-report\_column\_link & url & Aadress, millele link viitab \\ \hline
+
 \end{tabular}
 \end{table}
-
 \begin{table}[H]
 \centering
-\begin{tabular}{|p{4cm}|p{4cm}|p{7cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
-report\_column\_link & attributes & Lisaatribuudid, mida on võimalik lingile lisada \\ \hline
-report\_column\_link & link\_text & Lingil kuvatav tekst \\ \hline
-report\_column\_type & report\_column\_type & Raporti veeru tüüp. Võimalikd väärtused on COLUMN, LINK. COLUMN-i korral kuvatakse vaatest saadava välja sisu, LINK-i korral aga link. \\ \hline
+
+report\_column & heading & Raporti veeri päise pealkiri \\ \hline
+report\_column & squence & Raporti veeru uvamise järjekord \\ \hline
+report\_column & is\_text\_escaped & Kas veerus kuvatavas tekstis muudetakse HTML erimärgid ohutuks \\ \hline
+report\_column\newline\_link & url & Aadress, millele link viitab. Võib sisaldada samau muutujaid kui \textit{form\_region.redirect\_url} \\ \hline
+report\_column\newline\_link & attributes & Lisaatribuudid, mida on võimalik lingile lisada \\ \hline
+report\_column\newline\_link & link\_text & Lingil kuvatav tekst. Võtmesõna \%VEERU\_NIMI\% asendatakse vastavas veerus oleva väärtusega \\ \hline
+report\_column\newline\_type & report\_column\newline\_type & Raporti veeru tüüp. Võimalikd väärtused on COLUMN, LINK. COLUMN-i korral kuvatakse vaatest saadava välja sisu, LINK-i korral aga link. \\ \hline
 report\_region & items\_per\_page & Mitu rida raportist kuvatakse ühel leheküljel. Ülejäänud ridade nägemiseks luuakse lingid \\ \hline
 report\_region & show\_header & Kas raportil kuvatakse veerude päiste pealkirjad \\ \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Navigatsioonide register}
-Tabelis \ref{table_er_navigatsioonide_registri_olemitüüpide_definitsioonid} on esitatud navigatsioonide registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_navigatsioonide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagramm on esitatud Joonisel \ref{fig_navigatsioonide_registri_olemi_suhte_diagramm}.
+Joonisel \ref{fig_navigatsioonide_registri_olemi_suhte_diagramm} on esitatud navigatsioonide registri olemi-suhte diagramm. Tabelis \ref{table_er_navigatsioonide_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_navigatsioonide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{./diagrams/navigation-er-diagram.png}
+\caption{Navigatsioonide registri olemi-suhte diagramm.}
+\label{fig_navigatsioonide_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -982,7 +1021,14 @@ url & url & Aadress, kuhu navigatsioonis kuvatav element suunab \\ \hline
 \end{table}
 
 \subsubsection{Mallide register}
-Tabelis \ref{table_er_mallide_registri_olemitüüpide_definitsioonid} on esitatud mallide registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_mallide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid. Olemi-suhte diagramm on esitatud Joonisel \ref{fig_mallide_registri_olemi_suhte_diagramm}.
+Joonisel \ref{fig_mallide_registri_olemi_suhte_diagramm} on esitatud mallide registri olemi-suhte diagramm. Tabelis \ref{table_er_mallide_registri_olemitüüpide_definitsioonid} on esitatud registrisse kuuluvate olemitüüpide definitsioonid ning tabelis \ref{table_er_mallide_registri_olemitüüpide_atribuutide_definitsioonid} nende atribuutide definitsioonid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/template-er-diagram.png}
+\caption{Mallide registri olemi-suhte diagramm.}
+\label{fig_mallide_registri_olemi_suhte_diagramm}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -1014,68 +1060,61 @@ textarea\_template & HTML textarea-elemendi mall \\ \hline
 \centering
 \caption{Mallide registri olemitüüpide atribuutide definitsioonid.}
 \label{table_er_mallide_registri_olemitüüpide_atribuutide_definitsioonid}
-\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
 button\_template & template & Nupu mall. Võib sisaldada võtmesõnu \#NAME\# ja \#LABEL\#, mis asendatakse vastavalt vormi elemendi nimega ning kasutajale kuvatava tekstga  \\ \hline
 display\_point & name & Asukoha nimi \\ \hline
-drop\_down\_template & drop\_down\_begin & HTML select-elemendi algus. Võib sisaldada võtmesõnu \#ROW\_LABEL\# ja \#NAME\#, mis asendatakse vastavalt vormi välja nimega ning vrmi elemendi nimega \\ \hline
-drop\_down\_template & drop\_down\_end & HTML select-elemendi lõpp \\ \hline
-drop\_down\_template & option\_begin & HTML option-elemendi algus. Võib sisaldada võtmesõnu \#VALUE\# ja \#SELECTED\#, mis asendatakse vastavalt valiku väärtusega ning millega tähistatakse aktiivset valikut\\ \hline
-drop\_down\_template & option\_end & HTML option-elemendi lõpp \\ \hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
-\hline
-\rowcolor{rowgray}
-Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
+drop\_down\newline\_template & drop\_down\_begin & HTML select-elemendi algus. Võib sisaldada võtmesõnu \#ROW\_LABEL\# ja \#NAME\#, mis asendatakse vastavalt vormi välja nimega ning vrmi elemendi nimega \\ \hline
+drop\_down\newline\_template & drop\_down\_end & HTML select-elemendi lõpp \\ \hline
+drop\_down\newline\_template & option\_begin & HTML option-elemendi algus. Võib sisaldada võtmesõnu \#VALUE\# ja \#SELECTED\#, mis asendatakse vastavalt valiku väärtusega ning millega tähistatakse aktiivset valikut\\ \hline
+drop\_down\newline\_template & option\_end & HTML option-elemendi lõpp \\ \hline
 form\_template & form\_begin & Vormi algus. Võib sisaldada võtmesõna \#SUBMIT\_BUTTON\#, mis asendatakse saatmisnupuga \\ \hline
 form\_template & form\_end & Vormi lõpp. Võib sisaldada võtmesõna \#SUBMIT\_BUTTON\#, mis asendatakse saatmisnupuga \\ \hline
 form\_template & row\_begin & Vormi rea algus \\ \hline
 form\_template & row\_end & Vormi rea lõpp \\ \hline
-form\_template & row & Vormi rida. Võib sisaldada võtmesõnu \#FORM\_ELEMENT\#, \#HELP\_TEXT\# ja \#LABEL\#, mis asendatakse vastavalt vormi elemendi, abistava teksti ja välja nimega \\ \hline
-form\_template & mandatory\_row\_begin & Vormi rea algus, mis sisaldab kohustuslikku elementi \\ \hline
-form\_template & mandatory\_row\_end & Vormi rea lõpp, mis sisaldab kohustuslikku elementi \\ \hline
-form\_template & mandatory\_row & Vormi rida, mis sisaldab kohustuslikku elementi. Võib sisaldada samu võtmesõnu kui \textit{form\_template.row} \\ \hline
-input\_template & template & HTML input-elemendi kujundus \\ \hline
-input\_template\_type & type & Võimalikud elemendi kuvamisviisid: TEXT, PASSWORD, CHECKBOX, RADIO \\ \hline
-navigation\_item\_template & active\_template & Aktiivse navigatsioonielemendi mall \\ \hline
-navigation\_item\_template & inactive\_template & Mitteaktiivse navigatsioonielemendi mall \\ \hline
-navigation\_item\_template & level & Navigatsioonielemendi sügavus, millal antud malli rakendatakse \\ \hline
-navigation\_template & navigation\_begin & Navigatsiooni algus \\ \hline
-navigation\_template & navigation\_end & Navigatsiooni lõpp \\ \hline
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
+form\_template & row & Vormi rida. Võib sisaldada võtmesõnu \#FORM\_ELEMENT\#, \#HELP\_TEXT\# ja \#LABEL\#, mis asendatakse vastavalt vormi elemendi, abistava teksti ja välja nimega \\ \hline
+form\_template & mandatory\_row\newline\_begin & Vormi rea algus, mis sisaldab kohustuslikku elementi \\ \hline
+form\_template & mandatory\_row\newline\_end & Vormi rea lõpp, mis sisaldab kohustuslikku elementi \\ \hline
+form\_template & mandatory\_row & Vormi rida, mis sisaldab kohustuslikku elementi. Võib sisaldada samu võtmesõnu kui \textit{form\_template.row} \\ \hline
+input\_template & template & HTML input-elemendi kujundus \\ \hline
+input\_template\newline\_type & type & Võimalikud elemendi kuvamisviisid: TEXT, PASSWORD, CHECKBOX, RADIO \\ \hline
+navigation\_item\newline\_template & active\_template & Aktiivse navigatsioonielemendi mall \\ \hline
+navigation\_item\newline\_template & inactive\_template & Mitteaktiivse navigatsioonielemendi mall \\ \hline
+navigation\_item\newline\_template & level & Navigatsioonielemendi sügavus, millal antud malli rakendatakse \\ \hline
+navigation\newline\_template & navigation\_begin & Navigatsiooni algus \\ \hline
+navigation\newline\_template & navigation\_end & Navigatsiooni lõpp \\ \hline
 page\_template & header & Lehe päis. Võib sisaldada võtmesõnu \#TITLE\#, \#APPLICATION\_NAME\#, \#ERROR\_MESSAGE\#, \#SUCCESS\_MESSAGE\#, \#LOGOUT\_LINK\#, mis asendatakse vastavalt lehe pealkirjaga, rakenduse nimega, veateatega, teatega, väljalogimise URL-aadressiga \\ \hline
 page\_template & body & Lehe sisuosa. Võib sisaldada samu võtmesõnu kui \textit{page\_template.header} ning lisaks  \#BODY\#, mis asendatakse regiooniga. Võib sisaldada veel teisigi positsiooni määravaid võtmesõnu, mis regioonidega asendatakse \\ \hline
 page\_template & footer & Lehe jalus. Võib sisaldada samu võtmesõnu kui \textit{page\_template.header} \\ \hline
 page\_template & error\_message & Lehel kuvatav veateade. Võib sisaldada võtmesõna \#MESSAGE\#, mis asendatakse vastava teatega \\ \hline
 page\_template & success\_message & Lehel kuvatav teade. Võib sisaldada võtmesõna \#MESSAGE\#, mis asendatakse vastava teatega \\ \hline
-page\_template\_display\_point & description & Lehel oleva asukoha kirjeldus \\ \hline
+page\_template\newline\_display\_point & description & Lehel oleva asukoha kirjeldus \\ \hline
 page\_type & page\_type & Lehe malli tüüp. Võimalikud väärtused: LOGIN, NORMAL. NORMAL tüüpi leht peab sisaldama \#BODY\# võtmesõna \\ \hline
 region\_template & template & Regiooni mall \\ \hline
-report\_template & report\_begin & Raporti algus. Võib sisaldada võtmesõna \#PAGINATION\#, mis asendatakse lehtedele jaotamise linkidega \\ \hline
-report\_template & report\_end & Raporti lõpp. Võib sisaldada samu võtmesõnu kui \textit{report\_template.report\_begin} \\ \hline
+
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 \hline
 \rowcolor{rowgray}
 Olemitüübi nimi & Atribuudi nimi & Definitsioon \\ \hline
+
+report\_template & report\_begin & Raporti algus. Võib sisaldada võtmesõna \#PAGINATION\#, mis asendatakse lehtedele jaotamise linkidega \\ \hline
+report\_template & report\_end & Raporti lõpp. Võib sisaldada samu võtmesõnu kui \textit{report\_template.report\_begin} \\ \hline
 report\_template & header\_begin & Raporti päise algus. Võib sisaldada samu võtmesõnu kui \textit{report\_template.report\_begin} \\ \hline
 report\_template & header\_row\_begin & Raporti päise rea algus \\ \hline
 report\_template & header\_cell & Raporti päise kast, kus kuvatakse veeru pealkiri \\ \hline
@@ -1100,7 +1139,7 @@ textarea\_template & template & HTML textarea-elemendi mall \\ \hline
 \section{Kasutatavad tehnoloogiad ja arendusprotsess}
 Järgnevalt antakse ülevaade, miks ja milliseid programme ning raamistikke süsteemi loomisel kasutati.
 \subsection{Vagrant}
-Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme jooksutada, vähendades võimalust, et ühes arvutis programm jookseb, teises aga mitte. \cite{Why_Vagrant}
+Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme käivitada, vähendades võimalust, et ühes arvutis programm töötab, teises aga mitte. \cite{Why_Vagrant}
 \subsection{Bower}
 Bower on paketihaldussüsteem (\textit{package manager}), mis on mõeldud veebis kasutatavate failide - HTML, CSS, javascript, fondid ja pildid - haldamiseks. Bower-i kasutamiseks peab masinasse olema installitud node, npm ja git. Paketide haldus toimub bower.json failis, kus kirjeldatakse ära soovitud paketid ning nende versioonid. Tänu sellele ei pea arendaja tegelema koodus kasutatavate pakettide haldamisega. \cite{Bower}
 \subsection{AngularJS}
@@ -1110,33 +1149,9 @@ Bootstrap on mobiilisõbralik kasutajaliidese raamistik, mille abil saab luua d�
 \subsection{TravisCI}
 TravisCI on pideva integratsiooni (\textit{continuous integration}) arendusvahend, mille abil saab luua virtuaalse keskkonna koodi kompilleerimiseks, testimiseks ja juurutamiseks. Keskkonna seadistamine toimub faili .travis.yml abil, kus määratakse ära virtuaalkeskkonna operatsioonisüsteem, installitavad teegid ning käivitatavad käsud. \cite{TravisCI}
 \subsection{PHP}
-PHP \textit{(PHP: Hypertext Preprocessor)} on avatud lähtekoodiga skriptimiskeel, mis on peamiselt mõeldud veebiprogrammeerimiseks. \cite{What_Is_PHP} PHP koodi protsessitakse PHP interpretaatori abil. Üldjuhul kasutatakse interpreteerimiseks \textit{Zend Engine}-t, kuid PHP-d on võimalik jooksutada ka \textit{HHVM}-i \cite{HHVM} abil. PHP toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
+PHP \textit{(PHP: Hypertext Preprocessor)} on avatud lähtekoodiga skriptimiskeel, mis on peamiselt mõeldud veebiprogrammeerimiseks. \cite{What_Is_PHP} PHP koodi protsessitakse PHP interpretaatori abil. Üldjuhul kasutatakse interpreteerimiseks \textit{Zend Engine}-t, kuid PHP koodi on võimalik interpreteerida ka \textit{HHVM}-i \cite{HHVM} abil. PHP toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
 \subsection{Composer}
 Composer on PHP-s kirjutatud sõltuvuste haldamise süsteem. Sõltuvused kirjeldatakse composer.json failis ning Composer ise tegeleb nende allalaadimisega ning uuendamisega. \cite{Composer}
-\subsection{Postgresql}
-PostgreSQL on avatud lähtekoodiga objekt-relatsiooniline andmebaasisüsteem, mis vastab täielikult \textit{ACID} nõuetele. See toetab \textit{foreign key}-sid, \textit{join}-e, \textit{view}-sid, \textit{trigger}-eid ja salvestatud rutiine. PostgreSQL toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
-\cite{PostgreSQL_About}
-\subsection{Arendusprotsess}
-Alustuseks sai paika pandud esmased nõuded, mida süsteem peaks võimaldama teha. Kuna süsteemi esimene potentsiaalne kasutuskoht oleks TTÜ-s õpetatavas aines ``Andmebaasid II'', siis konsulteeriti antud õppeaine õppejõuga ning kaardistati enim levinud kasutusjuhud, mida antud aine raames tuleb üliõpilastel realiseerida. Neid silmas pidades loodi andmemudel ning kasutajaliidese prototüüp, mis võeti hiljem loodavas süsteemis kasutusele. Prototüüp kasutas andmete kuvamiseks võltsandmeid (\textit{mock data}). See andis hea ettekujutuse loodava süsteemi võimekusest ning aitas juhtida tähelepanu aspektidele, millele ilma prototüübi abita ei oleks kohe tuldud.\par
-
-Selleks et loodavat süsteemi oleks ka teistel arendajatel lihtsam kasutusele võtta ning täiustada sai arenduskeskkonna loomiseks kasutatud Vagrant-i \cite{Vagrant}, mille abil loodi virtuaalmasin koos kõigi arenduseks vajalike teekidega. Virtuaalmasina konfigureerimiseks kasutati bash-i skripti.\par
-
-Dünaamilise kasutajaliidese loomiseks kasutati AngularJS 1.4 \cite{AngularJS}. Lihtsustamaks kasutajaliidese ühtset väljanägemist erinevates brauserites ning eri suurustes ekraanidega, kasutati Bootstrap 3 \cite{Bootstrap}. Kasutajaliidese poolt kasutatavaid sõltuvusi hallati Bower-i \cite{Bower} abil. Koodi kvaliteedi kontrollimiseks ja säilitamiseks kirjutati testid, mil jooksutamiseks kasutati Karma-t \cite{Karma}.\par
-
-Andmebaasi loomisel lähtuti ideest, et kogu suhtlus andmebaasiga peab käima läbi andmebaasiliidese (\ref{andmebaasi_avalik_liides}). Andmete salvestamiseks ning küsimiseks tuleb kasutajal välja kutsuda vastav andmebaasifunktsioon. Kasutamaks ära PostgreSQL-i \cite{PostgreSQL} võimalust väljastada JSON tüüpi andmeid luuakse kasutajaliidese jaoks vajalik vastus juba andmebaasis. Tänu sellele pole andmetega manipuleerimine süsteemis laiali jaotatud vaid toimub üksnes andmebaasi poolel.\par
-
-Andmebaasi ja kasutajaliidese vaheline suhtlus toimub läbi PHP-s \cite{PHP} kirjutatud rakenduse. Kuna antud rakenduse kiht on üpriski õhuke, siis sai selle loomiseks valitud ka lihtsakoeline raamistik Slim Framework 3 \cite{SlimFW}. PHP-s kirjutatud koodi testimiseks kasutati PHPUnit-it \cite{PHPUnit} ning Mockery-t \cite{Mockery}. Koodi sõltuvusi hallati Composer-i abil \cite{Composer}. \par
-
-Koodi hoidmiseks kasutatakse GitHub-i \cite{GitHub}. Iga kord, kui koodihoidlasse midagi üles laetakse luuakse TravisCI-s \cite{TravisCI} virtuaalkeskkond, kuhu tõmmatakse GitHub-st loodava süsteemi kood ning testide eduka jooksutamise korral juurutatakse serverisse. Tänu sellele on serveris alati näha süsteemi viimane töötav version.
-
-\section{Kasutajaliides}
-Kasutajaliides koosneb neljast põhiosast, milleks on moodulid, vaated, teenused ning tõlkefailid. Iga allsüsteemi haldamiseks ning kasutajate autentimiseks on loodud eraldi moodul. Moodulis on ära määratud, mis lehe korral mingit kontrollerit jooksutatakse ning millist vaadet kasutatakse. Vaadete osas on ära kirjeldatud erinevate lehtede väljanägemine ning teenuste osas suhtlus. Kuigi hetkel ei ole arendajatel võimalus kasutajaliidese keelt muuta, tuleb kogu kuvatav tekst tõlkefailidest. Seetõttu on lihtne tõlkida süsteemi ka teistesse keeltesse.\par
-Lehele minnes kontrollitakse, mis URL-ile kasutaja tuli ja käivitatakse vastav kontroller ning laetakse sisse vaade, mida antud kontroller kasutab. Kontrolleri käivitamisel antakse talle ette tööks vajalikud teenuste objektid. Selleks kasutatakse sõltuvuste süstimise (\textit{dependency injection}) disainimustrit. See tähendab, et kontrolleri loomisel vaadatakse, milliseid teenuseid ta vajab ja luuakse vajalikud instantsid ning antakse need kontrollerile kaasa. Seetõttu ei pea kontroller ise tegelema vajalike teenuste initsialiseerimisega.\par
-Igal kontrolleril on objekti tüüpi \$scope muutuja, mille abil toimub andmete vahetamine vaatega. Kui \$scope objektis andmed muutuvad, siis kuvatakse vastavad muudatused koheselt ka vaates ning vastupidi.\par
-Teenuste abil suheldakse rakenduse serveriga AJAX-i abil. Tänu sellele ei pea andmete küsimisel ega saatmisel kogu lehte uuesti laadima, vaid vajaliku info edastamine toimub rakenduse taustal. Andmete küsimine toimub GET-meetodi abil ning andmete lisamine, muutmine ja kustutamine POST-meetodi abil.
-
-\section{Rakenduse disain}
-Rakendus on kirjutatud PHP programmeerimiskeeles. Lihtsustamaks ning kiirendamaks rakenduse loomist võeti kasutusele PHP raamistik Slim Framework 3 \cite{SlimFW}.
 \subsection{Slim Framework 3}
 Slim on PHP mikro-raamistik. See tähendab, et temas on realiseeritud põhifunktsionaalsused ning paljud lisad on välja jäetud. Kuna loodud süsteemi PHP-rakenduse poolne osa on üpriski õhuke ning lihtne, siis valitigi antud raamistik.\par
 Slim koosneb järgmistest põhiosadest:
@@ -1146,6 +1161,32 @@ Slim koosneb järgmistest põhiosadest:
 \item Vahevara (\textit{middleware}) abil on võimalik manipuleerida päringu ja vastuse objekte enne ning pärast kontrollerisse jõudmist.
 \end{itemize}
 \cite{SlimFW}
+\subsection{Postgresql}
+PostgreSQL on avatud lähtekoodiga objekt-relatsiooniline andmebaasisüsteem, mis vastab täielikult \textit{ACID} nõuetele. See toetab \textit{foreign key}-sid, \textit{join}-e, \textit{view}-sid, \textit{trigger}-eid ja salvestatud rutiine. PostgreSQL toetab erinevaid operatsioonisüsteeme, sealhulgas Windows-i erinevaid versioone ja Linuxi erinevaid distributsioone.
+\cite{PostgreSQL_About}
+\subsection{Arendusprotsess}
+Alustuseks sai paika pandud esmased nõuded, mida süsteem peaks võimaldama teha. Kuna süsteemi esimene potentsiaalne kasutuskoht oleks TTÜ-s õpetatavas aines ``Andmebaasid II'', siis konsulteeriti antud õppeaine õppejõuga ning kaardistati enamlevinud kasutusjuhud, mida antud aine raames tuleb üliõpilastel realiseerida. Neid silmas pidades loodi andmemudel ning kasutajaliidese prototüüp, mis võeti hiljem loodavas süsteemis kasutusele. Prototüüp kasutas andmete kuvamiseks võltsandmeid. See andis hea ettekujutuse loodava süsteemi võimekusest ning aitas juhtida tähelepanu aspektidele, millele ilma prototüübi abita ei oleks kohe tuldud.\par
+
+Selleks, et loodavat süsteemi oleks ka teistel arendajatel lihtsam kasutusele võtta ning täiustada, sai arenduskeskkonna loomiseks kasutatud Vagrant-i \cite{Vagrant}, mille abil loodi virtuaalmasin koos kõigi arenduseks vajalike teekidega. Virtuaalmasina konfigureerimiseks kasutati bash-i skripti.\par
+
+Dünaamilise kasutajaliidese loomiseks kasutati AngularJS 1.4 \cite{AngularJS}. Lihtsustamaks kasutajaliidese ühtset väljanägemist erinevates brauserites ning eri suurustes ekraanidega, kasutati Bootstrap 3 \cite{Bootstrap}. Kasutajaliidese poolt kasutatavaid sõltuvusi hallati Bower-i \cite{Bower} abil. Koodi kvaliteedi kontrollimiseks ja säilitamiseks kirjutati testid, mille käivitamiseks kasutati Karma-t \cite{Karma}.\par
+
+Andmebaasi loomisel lähtuti ideest, et kogu suhtlus andmebaasiga peab käima läbi andmebaasiliidese (\ref{andmebaasi_avalik_liides}). Andmete salvestamiseks ning küsimiseks tuleb kasutajal välja kutsuda vastav andmebaasifunktsioon. Kasutamaks ära PostgreSQL-i \cite{PostgreSQL} võimalust väljastada JSON tüüpi andmeid luuakse kasutajaliidese jaoks vajalik vastus juba andmebaasis. Tänu sellele pole andmetega manipuleerimine süsteemis laiali jaotatud vaid toimub üksnes andmebaasi poolel.\par
+
+Andmebaasi ja kasutajaliidese vaheline suhtlus toimub läbi PHP-s \cite{PHP} kirjutatud rakenduse. Kuna antud rakenduse kiht on üpriski õhuke, siis sai selle loomiseks valitud ka lihtsakoeline raamistik Slim Framework 3 \cite{SlimFW}. PHP-s kirjutatud koodi testimiseks kasutati PHPUnit-it \cite{PHPUnit} ning Mockery-t \cite{Mockery}. Koodi sõltuvusi hallati Composer-i abil \cite{Composer}. \par
+
+Koodi hoidmiseks kasutatakse GitHub-i \cite{GitHub}. Iga kord, kui koodihoidlasse midagi üles laetakse luuakse TravisCI-s \cite{TravisCI} virtuaalkeskkond, kuhu tõmmatakse GitHub-st loodava süsteemi kood ning testide eduka läbimise korral juurutatakse serverisse. Tänu sellele on serveris alati näha süsteemi viimane töötav version.
+
+\section{Kasutajaliides}
+Kasutajaliides koosneb neljast põhiosast, milleks on moodulid, vaated, teenused ning tõlkefailid. Iga allsüsteemi haldamiseks ning kasutajate autentimiseks on loodud eraldi moodul. Moodulis on ära määratud, mis lehe korral mingi kontroller käivitatakse ning millist vaadet kasutatakse. Vaadete osas on ära kirjeldatud erinevate lehtede väljanägemine ning teenuste osas suhtlus. Kuigi hetkel ei ole arendajatel võimalus kasutajaliidese keelt muuta, tuleb kogu kuvatav tekst tõlkefailidest. Seetõttu on lihtne tõlkida süsteemi ka teistesse keeltesse.\par
+Lehele minnes kontrollitakse, mis URL-ile kasutaja tuli ja käivitatakse vastav kontroller ning laetakse sisse vaade, mida antud kontroller kasutab. Kontrolleri käivitamisel antakse talle ette tööks vajalikud teenuste objektid. Selleks kasutatakse sõltuvuste süstimise disainimustrit. See tähendab, et kontrolleri loomisel vaadatakse, milliseid teenuseid ta vajab ja luuakse vajalikud instantsid ning antakse need kontrollerile kaasa. Seetõttu ei pea kontroller ise tegelema vajalike teenuste initsialiseerimisega.\par
+Igal kontrolleril on objekti tüüpi \$scope muutuja, mille abil toimub andmete vahetamine vaatega. Kui \$scope objektis andmed muutuvad, siis kuvatakse vastavad muudatused koheselt ka vaates ning vastupidi.\par
+Teenuste abil suheldakse rakenduse serveriga AJAX-i abil. Tänu sellele ei pea andmete küsimisel ega saatmisel kogu lehte uuesti laadima, vaid vajaliku info edastamine toimub rakenduse taustal. Andmete küsimine toimub GET-meetodi abil ning andmete lisamine, muutmine ja kustutamine POST-meetodi abil.
+\par
+Olulisemad vaated kasutajaliidesest on välja toodud Lisas 7 Joonistel \ref{fig_loodud_süsteem_autentimine}, \ref{fig_loodud_süsteem_rakenduse_loomine}, \ref{fig_loodud_süsteem_raporti_regiooni_muutmine}, \ref{fig_loodud_süsteem_vormi_regiooni_muutmine}.
+
+\section{Rakenduse disain}
+Rakendus on kirjutatud PHP programmeerimiskeeles. Lihtsustamaks ning kiirendamaks rakenduse loomist võeti kasutusele PHP raamistik Slim Framework 3 \cite{SlimFW}.
 \subsection{Rakenduse ülesehitus}
 Loodud rakendus koosneb järgnevatest põhiosadest: kontrollerid (\textit{controller}), vahevara (\textit{middleware}), mudelid (\textit{model}), teenused (\textit{service}) ja marsruuter (\textit{router}).
 \subsubsection{Kontrollerid}
@@ -1221,7 +1262,7 @@ Kui kasutaja läheb lehele, mille nägemiseks peab ta olema autenditud, siis kuv
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{./diagrams/sample-app-user-auth.png}
-\caption{Kasutaja tuvastamine.}
+\caption{Näidisrakendus: Kasutaja tuvastamine.}
 \label{fig_näidisrakendus_kasutaja_tuvastamine}
 \end{figure}
 \subsection{Ruumi lõplikult mitteaktiivseks muutmine}
@@ -1229,7 +1270,7 @@ Kasutajale kuvatakse vorm, kus kust ta saab valida millist ruumi ta muuta soovib
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./diagrams/sample-app-form.png}
-\caption{Ruumi lõplikult mitteaktiivseks muutmine.}
+\caption{Näidisrakendus: Ruumi lõplikult mitteaktiivseks muutmine.}
 \label{fig_näidisrakendus_vorm}
 \end{figure}
 \subsection{Ruumide koondaruande ja kõikide ruumide vaatamine}
@@ -1237,7 +1278,7 @@ Kasutajale kuvatakse ühel lehel nii ruumide koondaruanne kui ka kõikide ruumid
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./diagrams/sample-app-reports.png}
-\caption{Ruumide koondaruande ja kõikide ruumide vaatamine.}
+\caption{Näidisrakendus: Ruumide koondaruande ja kõikide ruumide vaatamine.}
 \label{fig_näidisrakendus_raportid}
 \end{figure}
 
@@ -1302,10 +1343,10 @@ Töö tulemus on avaldatud MIT litsentsi all ning on avalikult kättesaadav aadr
 \section*{Lisa 2 - Free Software}
 \label{lisa_free_software}
 \addcontentsline{toc}{section}{Lisa 2 - Free Software}
-\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara jooksutada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} rõhub kasutaja vabadusele, mitte tarkvara hinnale. \par
+\textit{Free Software} (Vaba tarkvara) tähendab, et kasutajatel on vabadus tarkvara käivitada, kopeerida, levitada, uurida, muuta ja täiustada. Seega \textit{Free Software} rõhub kasutaja vabadusele, mitte tarkvara hinnale. \par
 Tarkvara on \textit{Free Software}, kui selle kasutajate jaoks on täidetud neli olulist kriteeriumit:
 \begin{itemize}
-\item Vabadus 0: jooksutada programmi oma suva järgi, ükskõik mis eesmärgil
+\item Vabadus 0: käivitada programmi oma suva järgi, ükskõik mis eesmärgil
 \item Vabadus 1: uurida, kuidas programm töötab ja seda muuta (eeldab ligipääsu lähtekoodile)
 \item Vabadus 2: levitada antud tarkvara
 \item Vabadus 3: levitada antud tarkvara muudetud kujul (eeldab ligipääsu lähtekoodile)
@@ -1362,87 +1403,56 @@ GNU GPLv2 & Litsents ja copyright märge & Jagamine &  \\
 \end{table}
 \pagebreak
 
-\section*{Lisa 5 - Olemi-suhte diagrammid}
-\label{lisa_olemi_suhte_diagrammid}
-\addcontentsline{toc}{section}{Lisa 5 - Olemi-suhte diagrammid}
-Punasega on tähistatud registri põhiobjekt, kollasega registrisse kuuluvad mitte-põhiobjektid ning rohelisega teistesse registritesse kuuluvad objektid, mida vaadeldav register vajab. Diagrammidel on objektid kirjeldatud inglise keeles, kuna nende põhjal genereeriti tabelid ning lootes, et loodav süsteem leiab laiemat kasutust, siis oleks kasulik, kui süsteemi poolt kasutatavad osad oleks kirjutatud inglise keeles, et suurendada potentsiaalsete arendajate hulka.
+\section*{Lisa 5 - Kasutusjuhtude eskiismudelid}
+\addcontentsline{toc}{section}{Lisa 5 - Kasutusjuhtude eskiismudelid}
+Alljärgnevalt on esitatud kasutusjuhtude eskiismudelid allsüsteemide kaupa.
 
-\subsection*{Andmebaasiobjektide register}
+\subsection*{Rakenduse funktsionaalne allsüsteem}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{./diagrams/database-object-er-diagram.png}
-\caption{Andmebaasiobjektide registri olemi-suhte diagramm.}
-\label{fig_andmebaasiobjektide_registri_olemi_suhte_diagramm}
+\includegraphics[width=0.6\textwidth]{./diagrams/application-subsystem-use-case-digram.png}
+\caption{Rakenduse funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
+\label{fig_rakenduse_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{figure}
 
-\subsection*{Rakenduste register}
+\subsection*{Rakenduste funktsionaalne allsüsteem}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{./diagrams/applications-er-diagram.png}
-\caption{Rakenduste registri olemi-suhte diagramm.}
-\label{fig_rakenduste_registri_olemi_suhte_diagramm}
+\includegraphics[width=\textwidth]{./diagrams/applications-subsystem-use-case-digram.png}
+\caption{Rakenduste funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
+\label{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{figure}
 
-\subsection*{Lehtede register}
+\subsection*{Lehtede funktsionaalne allsüsteem}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{./diagrams/page-er-diagram.png}
-\caption{Lehtede registri olemi-suhte diagramm.}
-\label{fig_lehtede_registri_olemi_suhte_diagramm}
+\includegraphics[width=0.8\textwidth]{./diagrams/pages-subsystem-use-case-digram.png}
+\caption{Lehtede funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
+\label{fig_lehtede_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{figure}
 
-\subsection*{Regioonide register}
+\subsection*{Regioonide funktsionaalne allsüsteem}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{./diagrams/region-er-diagram.png}
-\caption{Regioonide registri olemi-suhte diagramm osa 1.}
-\label{fig_regioonide_registri_olemi_suhte_diagramm}
+\includegraphics[width=\textwidth]{./diagrams/regions-subsystem-use-case-digram.png}
+\caption{Regioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
+\label{fig_regioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{figure}
 
+\subsection*{Navigatsioonide funktsionaalne allsüsteem}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{./diagrams/navigation-region-er-diagram.png}
-\caption{Regioonide registri olemi-suhte diagramm osa 2.}
-\label{fig_navigatsiooni_regioonide_registri_olemi_suhte_diagramm}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/report-region-er-diagram.png}
-\caption{Regioonide registri olemi-suhte diagramm osa 3.}
-\label{fig_raportite_regioonide_registri_olemi_suhte_diagramm}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/form-region-er-diagram.png}
-\caption{Regioonide registri olemi-suhte diagramm osa 4.}
-\label{fig_vormide_regioonide_registri_olemi_suhte_diagramm}
+\includegraphics[width=\textwidth]{./diagrams/navigations-subsystem-use-case-digram.png}
+\caption{Navigatsioonide funktsionaalse allsüsteemi kasutusjuhtude eskiismudel.}
+\label{fig_navigatsioonide_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}
 \end{figure}
 
 \pagebreak
-
-\subsection*{Navigatsioonide register}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{./diagrams/navigation-er-diagram.png}
-\caption{Navigatsioonide registri olemi-suhte diagramm.}
-\label{fig_navigatsioonide_registri_olemi_suhte_diagramm}
-\end{figure}
-
-\subsection*{Mallide register}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./diagrams/template-er-diagram.png}
-\caption{Mallide registri olemi-suhte diagramm.}
-\label{fig_mallide_registri_olemi_suhte_diagramm}
-\end{figure}
 
 \section*{Lisa 6 - Andmebaasi diagrammid}
 \label{lisa_andmebaasi_diagrammid}
 \addcontentsline{toc}{section}{Lisa 6 - Andmebaasi diagrammid}
 Järgnevalt on välja toodud andmebaasidiagrammid registrite kaupa.
-
 
 \subsection*{Andmebaasiobjektide register}
 Andmebaasiobjekte kirjeldavad tabelid realiseeriti materialiseeritud vaadetena. Kuna vaatele ei saa viidata, siis sisaldavad alltoodud vaated rohkem infot kui olemi-suhte diagrammidel näha. Sedasi tagatakse iga rea unikaalsus.
@@ -1491,6 +1501,42 @@ Andmebaasiobjekte kirjeldavad tabelid realiseeriti materialiseeritud vaadetena. 
 \includegraphics[width=\textwidth]{./diagrams/template-db-diagram.png}
 \caption{Mallide registri andmebaasi diagramm.}
 \label{fig_mallide_registri_andmebaasi_diagramm}
+\end{figure}
+
+\pagebreak
+
+\section*{Lisa 7 - Ekraanipildid loodud süsteemist}
+\label{lisa_kasutajaliidese_ekraanipildid}
+\addcontentsline{toc}{section}{Lisa 7 - Kasutajaliidese ekraanipildid}
+Järgnevalt on välja toodud väike osa süsteemi kuvadest, et anda lugejale aimdus sellest, milline süsteem välja näeb.
+Selleks, et ekraanipildid lehtedele ära mahuksid, on mõningatel piltidel vormielementide laiusi ning nende vahelisi kaugusi vähendatud.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{./diagrams/pgapex-login.png}
+\caption{Loodud süsteem: Autentimine.}
+\label{fig_loodud_süsteem_autentimine}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/pgapex-create-application.png}
+\caption{Loodud süsteem: Rakenduse loomine.}
+\label{fig_loodud_süsteem_rakenduse_loomine}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/pgapex-edit-report-region.png}
+\caption{Loodud süsteem: Raporti regiooni muutmine.}
+\label{fig_loodud_süsteem_raporti_regiooni_muutmine}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./diagrams/pgapex-edit-form-region.png}
+\caption{Loodud süsteem: Vormi regiooni muutmine.}
+\label{fig_loodud_süsteem_vormi_regiooni_muutmine}
 \end{figure}
 
 \end{document}
