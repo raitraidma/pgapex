@@ -169,28 +169,30 @@ Autor: Rait Raidma\par
 \section*{\centerline{Annotatsioon}}
 Käesoleva magistritöö eesmärgiks oli disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine ja veebipõhine kiirprogrammeerimise keskkond, mis võimaldaks luua veebirakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida andmebaasis hoitavate metaandmetega.\par
 Töö käigus uuriti, kuidas saab PostgreSQL andmebaasisüsteem suhelda mitme samas serveris asuva PostgreSQL andmebaasiga ning kust saab infot vajalike andmebaasiobjektide kohta. Seejärel kirjeldati loodava süsteemi funktsionaalsus, disainiti selle andmebaas, kasutajaliides ning rakendus.\par
-Töö tulemusena valmis süsteemi kirjeldav dokumentatsioon ning sellele vastav süsteem, mille kasutatavuse valideerimiseks realiseeriti ühe rakenduse näidis-kasutusjuhud \cite{pgapexSampleApp}. Süsteem võimaldab hallata rakendusi, lehti ning neis olevaid regioone, mida antud töö käigus realiseeriti neli erinevat tüüpi: HTML-tekst, navigatsioon, raport ja vorm.\par
+Töö tulemusena valmis süsteemi kirjeldav dokumentatsioon ning sellele vastav süsteem, mille kasutatavuse valideerimiseks realiseeriti ühe rakenduse näidis-kasutusjuhud. Süsteem võimaldab hallata rakendusi, lehti ning neis olevaid regioone, mida antud töö käigus realiseeriti neli erinevat tüüpi: HTML-tekst, navigatsioon, raport ja vorm.\par
+Näidisrakendusele pääseb ligi kasutajanimega \textit{kask@ttu.ee} ja parooliga \textit{test} aadressilt \newline \url{http://apex.ttu.ee/pgapex/public/index.php/app/ruumid}. \par
 Töö tulemus avaldati MIT litsentsiga ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
 \par
-Lõputöö on kirjutatud eesti keeles ning sisaldab teksti 71 leheküljel, \totalsections{} peatükki, \totalfigures{} joonist, \totaltables{} tabelit.
+Lõputöö on kirjutatud eesti keeles ning sisaldab teksti 72 leheküljel, \totalsections{} peatükki, \totalfigures{} joonist, \totaltables{} tabelit.
 \pagebreak
 %-----------------------------ABSTRACT-----------------------------------
 \section*{\centerline{Abstract}}
 \subsection*{A PostgreSQL-based Rapid Development Environment for the Metadata-driven Web Applications}
-The purpose of this master thesis is to design and implement a PostgreSQL-based and web-based rapid development environment for the metadata-driven web applications that store data in the same database server. These web applications must communicate with a database through database interface. Applications' look and behaviour must be possible to manipulate by using metadata that is kept in the database.\par
+The goal of this master thesis is to design and implement a PostgreSQL-based and web-based rapid development environment for the metadata-driven web applications that store data in the same database server. These web applications must communicate with a database through database interface. Applications' look and behaviour must be possible to manipulate by using metadata that is kept in the database.\par
 
-The work investigates how it is possible to connect with multiple PostgreSQL databases in PostgreSQL database managemnet system and where to look for the information about necessary database objects. After that system functionality, database, user interface and application design are described.\par
+The work investigates how it is possible to connect with multiple PostgreSQL databases in PostgreSQL database management system and where to look for the information about necessary database objects. After that the system functionality, database, user interface, and application design are described.\par
 
-The outcomes of this thesis are documentation that describes the system and implementatsion of that system. The create the system PHP, PostgreSQL, AngularJS, Bootstrap and Slim Framework were used. The system uses PostgreSQL's \textit{dblink} extension to communicate to external databases. Information about database objects are asked from \textit{information\_schema} and \textit{pg\_catalog}.
+The outcomes of this thesis are documentation that describes the system and implementatsion of the system. For the creation of the system PHP, PostgreSQL, AngularJS, Bootstrap, and Slim Framework were used. The system uses PostgreSQL's \textit{dblink} extension to communicate to external databases. Information about database objects are asked from \textit{information\_schema} and \textit{pg\_catalog}.
 \par
-The system allowes developers to create applications based on external databases and manage authentication methods. Application may contain pages that consist of regions.
-Four region types were implemented in the system. HTML region allowes to add HTML-formatted text. Navigation region displays menus that can be used to navigate between application pages or refer to external ones. Report region displays table based on a view which rows can be devided between pages. Form region allowes to ask information from user and send it to external database by calling out a function from external database.
+The system allows developers to create applications based on external databases and for each application select the authentication method from the set of two methods (no authentication and authentication based on the database function). Application may contain pages that consist of regions.
+Four region types were implemented in the system. HTML region allows us to add HTML-formatted text. Navigation region displays menus that can be used to navigate between application's pages or refer to external ones. Report region displays a table based on a view which rows can be divided between pages. Form region allows us to ask information from a user and send it to external database by calling out a function from external database.
 \par
-Created system is the result of the first itteration. Only most important functionality was implemented to ensure the system's primary usability to create real applications. To validate the results, a sample application  \cite{pgapexSampleApp} was made to show what the system can do.
+Created system is the result of the first development iteration. Only the most important functionality was implemented to ensure the system's primary usability to create real applications. To validate the results, a sample application  was made to show what the system can do.\par
+Sample application can be accessed with username \textit{kask@ttu.ee} and password \textit{test} from \newline \url{http://apex.ttu.ee/pgapex/public/index.php/app/ruumid}.
 \par
-The result of current thesis is available under MIT licecne from \url{https://github.com/raitraidma/pgapex}.
+The result of current thesis is available under MIT licecne from \newline \url{https://github.com/raitraidma/pgapex}.
 \par
-The thesis is in estonian and contains 71 pages of text, \totalsections{} chapters, \totalfigures{} figures, \totaltables{} tables.
+The thesis is in Estonian and contains 72 pages of text, \totalsections{} chapters, \totalfigures{} figures, \totaltables{} tables.
 \pagebreak
 %---------------------LÜHENDITE JA MÕISTETE SÕNASTIK---------------------
 \section*{\centerline{Lühendite ja mõistete sõnastik}}
@@ -228,39 +230,41 @@ The thesis is in estonian and contains 71 pages of text, \totalsections{} chapte
 Tänapäeval on arvutisüsteemi toega infosüsteemid väga laialdaselt kasutusel. Tihti aga puudub võimekus kiirelt reageerida muutuvatele info haldamise ning kuvamise vajadustele, kuna pole piisavalt vastavate oskustega inimesi. Seetõttu oleks palju kasu süsteemist, mis ei nõua kasutajalt programmeerimisoskust mitmes erinevas keeles, vaid võimaldaks infosüsteemi info haldamiseks mõeldud veebirakendusi kiiresti ja mugavalt graafilise kasutajaliidese abil täiendada.
 
 \subsection{Taust ja probleem}
-Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi andmebaasiliidese. Antud aines võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada kiirprogrammeerimise keskkonda Oracle APEX \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades näiteks PHP-d \cite{PHP}.
-\par
-See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele vaid peab tegelema ka lisaprogrammeerimisega. Töö tulemusena valmiva süsteemi abil peaks üliõpilastel olema lihtsam luua näidisrakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i. Samas leiab autor, et valmiv süsteem on piisavalt võimekas, et leida rakendust mujalgi.\par
+Töö idee sai alguse TTÜ-s õpetatavast ainest ``Andmebaasid II'', mille raames tuleb üliõpilastel ühe õpiväljundina luua andmebaas koos seda kasutava rakendusega, kus rakendus suhtleb andmebaasiga läbi andmebaasiliidese. Antud aines võib kasutada andmebaasisüsteeme PostgreSQL \cite{PostgreSQL} ja Oracle \cite{Oracle_DB}. Juhul, kui andmebaas on loodud Oracle andmebaasisüsteemi abil, siis on üliõpilastel rakenduse loomiseks võimalus kasutada metaandmetega juhitavat veebipõhist kiirprogrammeerimise keskkonda Oracle APEX \cite{Oracle_APEX}. PostgreSQL andmabaasisüsteemiga loodud andmebaasi korral tuleb rakendus programmeerida kasutades näiteks PHP-d \cite{PHP}.
+See tähendab, et üliõpilane ei saa keskenduda täielikult andmebaasi täiustamisele, vaid peab tegelema ka lisaprogrammeerimisega. Töö tulemusena valmiva süsteemi abil peaks üliõpilastel olema lihtsam luua veebipõhiseid andmebaasirakendusi, mis kasutavad andmebaasisüsteemina PostgreSQL-i. Samas leiab autor, et valmiv süsteem on piisavalt võimekas, et leida rakendust mujalgi.\par
 
 PostgreSQL on avatud lähtekoodiga ja tasuta pakutav andmebaasisüsteem. 2016. aasta maikuu seisuga on see andmebaasisüsteemide populaarsuse indeksis \cite{dbRanking} viiendal kohal. On hea võimalus, et sellel põhineval arendussüsteemil võiks olla lai kasutajaskond. Oracle samalaadse Oracle APEX arenduskeskkonna abil arendajate kogukond ulatub 300000 inimeseni \cite{oracleApexUsers} ning seda kasutatakse mitmesuguse äritarkvara loomiseks.\par
 
-2008. aastal kaitsti magistritöö \cite{pgdb}, mille käigus juba uuriti sellise süsteemi PostgreSQL-i põhjal realiseerimise võimalust ning realiseeriti esialgne prototüüp. Selle töö tulemused näitasid, et taolisel põhimõttel loodud süsteemi loomine PostgreSQL-i põhjal on põhimõtteliselt võimalik. Paraku oli loodud prototüüp algeline, selle lähtekood läks kaduma ning mingit edasist arendust sellega ei toimunud. Seega tuleb pidada õigustatuks selle süsteemi idee uuesti elule äratamist ja süsteemi täiesti uuesti loomist.\par
+2008. aastal kaitsti magistritöö \cite{pgdb}, mille käigus juba uuriti sellise süsteemi PostgreSQL-i põhjal realiseerimise võimalust ning realiseeriti esialgne prototüüp. Selle töö tulemused näitasid, et taolisel põhimõttel loodud süsteemi loomine PostgreSQL-i põhjal on põhimõtteliselt võimalik. Paraku oli loodud prototüüp suhteliselt algeline, selle lähtekood läks kaduma ning mingit edasist arendust sellega ei toimunud. Seega tuleb pidada õigustatuks selle süsteemi idee uuesti elule äratamist ja süsteemi täiesti uuesti loomist.\par
 
-Autor tutvus 2008. aasta lõputöö dokumendiga, kuid nii süsteemi kavandid kui ka realisatsioon on täiesti uus tulemus.\par
+Autor tutvus 2008. aasta lõputöö dokumendiga, kuid nii käesoleva süsteemi kavandid kui ka realisatsioon on täiesti uus tulemus.\par
 
 Töö valmis 2016. aasta kevadel Tallinna Tehnikaülikoolis.
 
 \subsection{Ülesande püstitus}
-Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine kiirprogrammeerimise keskkond, mille abil saaks luua teisi veebipõhiseid rakendusi, mis suhtlevad samas andmebaasiserveris olevate andmebaasidega, kui loodav süsteem. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi andmebaasiliidese. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
+Töö eesmärgiks on disainida ning realiseerida PostgreSQL andmebaasisüsteemi põhine, veebipõhine ja metaandmetega juhitav kiirprogrammeerimise keskkond, mille abil saaks luua teisi veebipõhiseid rakendusi. Need rakendused kasutaksid arendussüsteemiga samas serveris olevaid PostgreSQL andmebaase. Loodavates rakendustes peab andmete pärimine, lisamine, muutmine ning kustutamine käima läbi avaliku andmebaasiliidese e virtuaalse andmete kihi. Kogu vajalik info rakenduste kuvamiseks ja käitumise juhtimiseks tuleb hoida loodava süsteemi metaandmete andmebaasis.\par
 Loodav süsteem peab toetama PostgreSQL 9.4 ja PHP 5.5.0 ning tuleb välja anda vaba tarkvara litsentsi all, et soodustada süsteemi laialdasemat levikut ning edasist arendamist.
 
 \subsection{Metoodika}
-Esiteks tuleb uurida, kas liideste kasutamine andmebaasi poole peal annab süsteemile mingi eelise. Seejärel tuleb selgeks teha, kas ja kuidas saab PostgreSQL andmebaasisüsteem ja selle kaudu tema teenuseid kasutav rakendus suhelda mitme samas serveris asuva PostgreSQL andmebaasiga. Samuti on vaja selgitada, kuidas küsida teistest andmebaasidest infot liideste kohta. Lisaks uurin, milliseid sarnaseid süsteeme on veel olemas ning kuidas need on üles ehitatud.\par
+Esiteks tuleb uurida, kas liideste kasutamine andmebaasi poole peal annab süsteemile mingi eelise. Seejärel tuleb selgeks teha, kas ja kuidas saab PostgreSQL andmebaasisüsteem ja selle kaudu tema teenuseid kasutav rakendus suhelda mitme samas serveris asuva PostgreSQL andmebaasiga. Samuti on vaja selgitada, kuidas küsida teistest andmebaasidest infot liideseid moodustavate andmebaasiobjektide kohta. Lisaks uuritakse, milliseid sarnaseid süsteeme on veel olemas ning kuidas need on üles ehitatud. Viimane võimaldab leida nõudeid uuele süsteemile.\par
+Süsteemi kavandamiseks ning töös realiseeritava süsteemi alamosa leidmiseks kasutatakse süsteemi tükeldamist allsüsteemideks. Allsüsteemideks jagamine võimaldab ka süsteemi mudeleid paremini struktureerida ja esitada. Süsteemi kavandamine toimub mitmevaateliselt (andmevaade, funktsionaalne vaade) ja mudelipõhiselt. Kontseptuaalseid andmemudeleid kasutati tehnilise lahenduse e tabelite kirjelduste genereerimiseks.\par
 Töö tulemusena valmib veebipõhine süsteem, mille abil saab luua veebirakendusi, mis kasutavad andmebaasiga suhtlemiseks andmebaasiliideseid. Töö tulemuse valideerimiseks loodakse näiterakendus, kus realiseeritakse õppejõu poolt ette antud kasutusjuhud, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele.
 \subsection{Ülevaade tööst}
 Töö alguses antakse ülevaade, mis on andmebaasiliides, kuidas toimub suhtlus väliste andmebaasidega ning kust saab infot andmebaasiobjektide kohta. Lisaks uuritakse milliseid sarnaseid süsteeme on veel olemas. Seejärel tuuakse välja nõudmised, mida süsteem täitma peab ning kirjeldatakse süsteemi ülesehitust. Lõpuks valideeritakse töö tulemust näiterakenduse realiseerimisega ning antakse ülevaade funktsionaalsustest, mida järgnevate iteratsioonide korral teostada võiks.
 
 \section{Teoreetiline taust}
-Selles peatükis uuritakse, kas ning miks peaks andmebaasiga suhtlemine käima läbi andmebaasiliidese, kuidas saab PostgreSQL andmebaasisüsteem suhelda erinevate samas serveris olevate PostgreSQL andmebaasidega, kust saada infot nendes olevate andmebaasiobjektide kohta ning milliseid sarnaseid süsteeme on juba olemas. Lisaks uuritakse, millise litsentsi all tuleks loodav süsteem avalikustada, et kõik soovijad saaksid seda kasutada nii nagu neil vaja.
+Selles peatükis uuritakse, kas ning miks peaks andmebaasiga suhtlemine käima läbi avaliku andmebaasiliidese, kuidas saab PostgreSQL andmebaasisüsteem suhelda erinevate samas serveris olevate PostgreSQL andmebaasidega, kust saada infot nendes olevate andmebaasiobjektide kohta ning milliseid sarnaseid süsteeme on juba olemas. Lisaks uuritakse, millise litsentsi all tuleks loodav süsteem avalikustada, et kõik soovijad saaksid seda kasutada nii nagu neil vaja.
 
 \subsection{Andmebaasi avalik liides}
 \label{andmebaasi_avalik_liides}
 Liides on sõltumatute süsteemide vaheline leping, kus on kirjeldatud, millisel viisil saab üks süsteem teisega suhelda.
-Andmebaasis saab liideseid kirjeldada kasutades andmebaasiserveris talletatud rutiine (funktsioone ja protseduure), vaateid ning materialiseeritud vaateid e hetktõmmiseid (vt Joonis \ref{fig_andmebaasi_avalik_liides}).\par
+Andmebaasis saab liideseid kirjeldada kasutades andmebaasiserveris talletatud rutiine (funktsioone ja protseduure), vaateid ning materialiseeritud vaateid e hetktõmmiseid (vt Joonis \ref{fig_andmebaasi_avalik_liides}).
+Sellist liidest nimetatakse ka virtuaalseks andmete kihiks \cite[lk 108]{BuildingTheAgileDatabase}. Liidese avalikkus tähendab, et see on nähtav andmebaasi teenuse tarbijatele e rakendustele. Selle vastandiks on privaatne liides, mida moodustavatele elementidele pole rakendustel otse juurdepääsu, kuid mida võivad sisemiselt kasutada avaliku liidese realiseerimiseks mõeldud andmebaasiobjektid \cite{privateInterface}.
+\par
 PostgreSQL-is saavad arendajad luua andmebaasi avaliku liidese kasutades vaateid, materialiseeritud vaateid ja funktsioone. Loodav arendussüsteem peab võimaldama luua veebirakendusi, mis kasutavad andmebaasi läbi selle avaliku liidese (st ei pöördu otse baastabelite poole). Samuti peab loodav arendussüsteem kasutama ka ise andmebaasiliidest.
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{./diagrams/db-interface.png}
+\includegraphics[width=0.8\textwidth]{./diagrams/db-interface.png}
 \caption{Andmebaasi avalik liides.}
 \label{fig_andmebaasi_avalik_liides}
 \end{figure}
@@ -292,7 +296,7 @@ Kõik järgnevad punktid osutavad sellele, et tehes vaate põhjal päringu võib
 \subsubsection{Andmebaasiserveris talletatud rutiinide kasutamise eelised}
 \begin{itemize}
 \item Üle võrgu saadetavate andmete ja SQL koodi hulk hoitakse minimaalsena, mille tulemusel suureneb rakenduse jõudlus.
-\item Rutiinide kood on andmebaasiserveris eelnevalt kompilleeritud ja optimiseeritud, suurendades rutiini täitmise efektiivsust.
+\item Rutiinide kood on andmebaasiserveris eelnevalt koostatud ja optimeeritud, suurendades rutiini täitmise efektiivsust.
 \item Andmetöötluse jaoks kasutatakse andmebaasiserveri jõudlust, mitte rakendusserveri ega kliendi masina oma.
 \item Rutiinis olevat SQL koodi on lihtsam testida ja optimeerida, kui rakendusse sisse kirjutatud SQL-i.
 \item Rutiinide käivitusõiguste abil saab piirata andmetele ligipääsu teatud rollidele ning suurendada seeläbi turvalisust.
@@ -387,7 +391,7 @@ Loodav süsteem peab teistest andmebaasidest küsima infot andmebaasibjektide ko
 \subsection{Eksisteerivate programmide analüüs}
 Töö käigus uuriti, milliseid sarnaseid süsteeme on veel loodud ning kuidas need on üles ehitatud. Järgnevalt on esitatud lühiülevaade nendest süsteemidest.
 \subsubsection{Oracle Application Express (APEX)}
-Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõhiseid rakendusi. Kogu süsteem on juhitav andmebaasis hoitavate metaandmetega ning kasutab tööks Oracle anembaasisüsteemi.\par
+Oracle APEX on veebipõhine rakendus loomaks kiirelt ja lihtsalt teisi veebipõhiseid rakendusi. Kogu süsteem on juhitav andmebaasis hoitavate metaandmetega ning kasutab tööks Oracle andmebaasisüsteemi.\par
 APEX (v 5.0.3.00.03) koosneb neljast põhiosast:
 \begin{itemize}
 \item Application Builder - Võimaldab luua ja hallata uusi rakendusi. Rakendused koosnevad lehtedest. Lehed omakorda sisaldavad regioone. Regioonides võib kuvada raporteid, graafikuid, vorme jpm. Regioonid sisaldavad komponente, mille abil on võimalik kasutajalt infot küsida ning seda esitada. Lisaks on võimalik näha lehtede statistikat ning hallata seadeid.
@@ -399,8 +403,8 @@ APEX (v 5.0.3.00.03) koosneb neljast põhiosast:
 Käesoleva süsteemi idee on tekkinud just Oracle APEX arenduskeskkonna põhjal. Soov on midagi sarnast realiseerida ka PostgreSQL-i jaoks. Käesolevas töös realiseeritav funktsionaalsus on alamosa Oracle APEX-i Application Builderi poolt pakutavast funktsionaalsusest.
 \subsubsection{NuBuilder}
 NuBuilder on veebipõhine arendusplatvorm loomaks veebipõhiseid rakendusi. Lehtede kirjeldused (sh PHP, JS ja SQL päringud) hoitakse andmebaasis, mis muudab rakenduse varundamise lihtsaks.\par
-NuBuilder on kirjutatud PHP-s ning andmeid hoitakse MySQL andmebaasis. Tabelite põhjal on võimalik luua lihtsaid CRUD vorme, kus on võimalik tabelis olevaid andmeid lugeda, lisada, muuta ja kustutada. SQL päringute põhjal on võimalik luua raporteid, mida arendaja saab veebiliidese kaudu disainida. Rakenduse genereerimine toimub PHP-poole peal.
-Oma kodulehel väidavad nad, et tegu on avatud lähtekoodiga tarkvaraga ning lähtekood on avalikult üleval \cite{nuBuilderGitHub}, kuid kusagil pole mainitud, millise litsentsi alt on tarkvara välja antud.\par
+NuBuilder on kirjutatud PHP-s ning andmeid hoitakse MySQL andmebaasis. Tabelite põhjal on võimalik luua lihtsaid CRUD vorme, kus on võimalik tabelis olevaid andmeid lugeda, lisada, muuta ja kustutada. SQL päringute põhjal on võimalik luua raporteid, mida arendaja saab veebiliidese kaudu disainida. Rakenduse genereerimine toimub PHP-poole peal. \cite{nuBuilder}
+Oma kodulehel väidavad nad, et tegu on avatud lähtekoodiga tarkvaraga ning lähtekood on avalikult üleval \cite{nuBuilderGitHub}, kuid kusagil pole mainitud, millise litsentsi alt on tarkvara välja antud. \par
 Koodi puhul täheldasin mitut puudujääki:
 \begin{itemize}
 \item Failid on kehvasti struktureeritud - php, js, png ja gif failid on kõik koos ühes kaustas.
@@ -408,17 +412,17 @@ Koodi puhul täheldasin mitut puudujääki:
 \item Kasutatakse \$GLOBALS muutujat - see raskendab arusaamist, kus võidakse muutujale programmi töö ajal väärtusi omistada.
 \item Funktsioonid on liiga pikad - paljud funktsioonid täidavad korraga liiga palju ülesandeid ja seetõttu on raskendatud nendest arusaamine.
 \end{itemize}
-\cite{nuBuilder}
+
 \subsubsection{Xataface}
 Xataface on programm, millega saab tabelite põhjal genereerida vorme ja kuvasid. Pärast genereerimist tuleb loodud failid serverisse üles laadida. Lehtede konfigureerimine toimub INI failide abil.\cite{Xataface}\par
 Xataface on avatud lähtekoodiga ning antud välja GPL litsentsi all. Programm on kirjutatud PHP-s \cite{PHP} ning andmebaasisüsteemina kasutatakse MySQL-i \cite{MySQL}.\par
 Kasutatud on palju väliseid teeke. Programmil on üks põhiline arendaja ning igapäevast arendustööd ei toimu. \cite{XatafaceGitHub}
 \subsubsection{Andmetega juhitav arendussüsteem PostgreSQL andmebaasirakenduste genereerimiseks}
 Tegu on Mati Metsise magistritöö \cite{pgdb} tulemusega. Paraku läks selle lähtekood kaduma ning edasist arendust sellega ei toimunud. Küll aga on olemas dokument, mille põhjal on võimalik saada ülevaade, mida tema poolt loodud prototüüp võimaldas teha.\par
-Prototüübis realiseeriti alamosa dokumendis kirjeldatud funktsionaalsusest. Loodud süsteem võimaldas luua rakendusi ja lisada neisse lehti, mis omakorda sisaldasid regioone. Raporti tüüpi regioon genereeriti SQL päringu põhjal. Lisaks oli võimalik luua vorme. Valikkasti ja raadionupu väärtuste määramine käis SQL-päringu abil. Andmete muutmise võimalust antud töös ei realiseeritud.\par
-Dokumendi põhjal jäi mulje, et prototüüp ei genereerinud loodud rakendust andmebaasi poolel vaid seda tehti PHP-abil rakenduskihis.
+Prototüübis realiseeriti alamosa dokumendis kirjeldatud funktsionaalsusest. Loodud süsteem võimaldas luua rakendusi ja lisada neisse lehti, mis omakorda sisaldasid regioone. Raporti tüüpi regioon genereeriti SQL päringu põhjal. Lisaks oli võimalik luua vorme. Valikkasti ja raadionupu väärtuste määramine käis SQL-päringu abil. Iga rakenduse jaoks loodi andmebaasi uus skeem. Andmete muutmise võimalust antud töös ei realiseeritud.\par
+Dokumendi põhjal jäi mulje, et prototüüp ei genereerinud loodud rakendust andmebaasi poolel, vaid seda tehti PHP-abil rakenduskihis.
 \subsection{Täpsustunud ülesande püstitus}
-Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida veebipõhine arendussüsteem, mille abil saab luua teisi veebipõhiseid rakendusi. Tarkvara versioonid, mille põhjal süsteemi arendati, valiti lähtuvalt süsteemi esimese kasutaja oodatavast keskkonnast. Süsteem on vaja luua nii, et see töötaks ka hilisemate versioonide põhjal. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaatede ja funktsioonide abil loodud liidest (\ref{andmebaasi_avalik_liides}). Loodav süsteem peab info liideste kohta küsima samas serveris asuvate väliste PostgreSQL andmebaaside süsteemikataloogidest (\ref{andmebaasi_objektide_kirjelduste_küsimine}) kasutades dblink moodulit (\ref{dblink}) ning hoidma seda enda andmebaasis. Kasutamaks võimalikult palju ära andmebaasi võimekust, tuleb rakendused genereerida valmis andmebaasi poole peal. Süsteemi tööpõhimõtet kirjeldab Joonis \ref{fig_süsteemi_tööpõhimõte}. Valminud süsteemi lähtekood tuleb avaldada.
+Kasutades PostgreSQL 9.4 andmebaasisüsteemi \cite{PostgreSQL} ja PHP 5.5 skriptimiskeelt \cite{PHP}, tuleb realiseerida veebipõhine arendussüsteem, mille abil saab luua teisi veebirakendusi. Tarkvara versioonid, mille põhjal süsteemi arendati, valiti lähtuvalt süsteemi esimese kasutaja käsutuses olevast keskkonnast. Süsteem on vaja luua nii, et see töötaks ka hilisemate versioonide põhjal. Loodavad rakendused peavad andmebaasiga suhtlemiseks kasutama vaadete, materialiseeritud vaadete ja funktsioonide abil loodud andmebaasi avalikku liidest (\ref{andmebaasi_avalik_liides}). Loodav süsteem peab infot liidest moodustavate andmebaasiobjektide kohta küsima samas serveris asuvate väliste PostgreSQL andmebaaside süsteemikataloogidest (\ref{andmebaasi_objektide_kirjelduste_küsimine}) kasutades \textit{dblink} moodulit (\ref{dblink}) ning hoidma seda enda andmebaasis. Kasutamaks võimalikult palju ära andmebaasi võimekust, tuleb rakendused genereerida valmis andmebaasi poole peal. Süsteemi tööpõhimõtet kirjeldab Joonis \ref{fig_süsteemi_tööpõhimõte}. Valminud süsteemi lähtekood tuleb avaldada.
 
 \begin{figure}[H]
 \centering
@@ -462,7 +466,7 @@ Kasutaja pädevusala kasutab ainult rakenduse allsüsteemi.
 Antud töös ei realiseerita mallide funktsionaalset allsüsteemi, kuna töö maht läheks liiga suureks ning loodav süsteem on kasutatav ka ilma selleta.
 \subsubsection{Registrid}
 \begin{itemize}
-\item Andmebaasiobjektide register.
+\item Andmebaasiobjektide register. Sellele ei vasta eraldi funktsionaalset allsüsteemi. Sellesse registrisse laaditakse andmeid väliste andmebaaside süsteemikataloogidest. See funktsionaalsus kuulub rakenduste funktsionaalse allsüsteemi alla.
 \item Rakenduste register.
 \item Lehtede register.
 \item Regioonide register.
@@ -475,6 +479,7 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi eesmärgid, kasut
 \subsubsection{Eesmärgid}
 \begin{itemize}
 \item Võimaldada arendajal saada ülevaade loodud rakendustest.
+\item Võimaldada värskendada infot andmebaasiobjektide kohta, mille põhjal rakendust luuakse.
 \item Võimaldada arendajal luua uus rakendus.
 \item Võimaldada arendajal muuta olemasolevate rakenduste seadeid.
 \item Võimaldada arendajal kustutada olemasolevaid rakendusi.
@@ -482,8 +487,8 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi eesmärgid, kasut
 \item Võimaldada arendajal ja kasutajal kasutada loodud rakendust.
 \end{itemize}
 \subsubsection{Allsüsteemi poolt kasutatavad registrid}
-Allsüsteem teenindab rakenduste registrit.\par
-Allsüsteem kasutab andmebaasiobjektide registrit, lehtede registrit, regioonide registrit, navigatsioonide registrit ja mallide registrit.
+Allsüsteem teenindab rakenduste registrit ja andmebaasiobjektide registrit.\par
+Allsüsteem kasutab lehtede registrit, regioonide registrit, navigatsioonide registrit ja mallide registrit.
 \subsubsection{Allsüsteemi kasutusjuhtude eskiismudel}
 Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude tekstikirjeldused kõrgtaseme formaadis. Kasutusjuhtude mudel on eeskätt tekstiline mudel. Kasutusjuhtude diagramm on sisuliselt selle sisukorraks. Tulenevalt sellest ja tööle seatud mahupiirangutest pidasin paremaks esitada kasutusjuhtude diagrammid siin ja edaspidi lisades. Selle allsüsteemi kasutusjuhtude diagramm on Lisas 5 Joonisel \ref{fig_rakenduste_funktsionaalse_allsüsteemi_kasutusjuhtude_eskiismudel}.
 
@@ -494,6 +499,13 @@ Järgnevalt on esitatud rakenduste funktsionaalse allsüsteemi kasutusjuhtude te
 \textbf{Kirjeldus:} Arendaja identifitseerib ennast sisestades kasutajanime ja parooli. Kui sellise kasutajanime ja parooliga kasutaja on andmebaasis olemas ning tal on ülikasutaja õigused, siis lubatakse arendajal süsteemi siseneda, vastasel juhul mitte.
 \par
 \textit{Märkus:} Kasutusjuht  ``Kasutaja identifitseerimine'' on kasutusel ka järgnevates allsüsteemides: lehtede funktsionaalne allsüsteem, regioonide funktsionaalne allsüsteem, navigatsioonide funktsionaalne allsüsteem.\par
+
+\underline{\textbf{Kasutusjuht:} Andmebaasiobjektide informatsiooni värskendamine}
+\par
+\textbf{Tegutsejad:} Arendaja
+\par
+\textbf{Kirjeldus:} Arendaja tahab uuendada infot välistes andmebaasides hoitavate andmebaasiobjektide kohta. Arendajale kuvatakse nupp, millele vajutades uuendatakse infot andmebaasiobjektide kohta ainult nendest andmebaasidest mida loodud rakendused kasutavad.
+\par
 
 \underline{\textbf{Kasutusjuht:} Rakenduste loetelu vaatamine}
 \par
@@ -1155,7 +1167,7 @@ textarea\_template & template & HTML textarea-elemendi mall \\ \hline
 \end{table}
 
 \section{Kasutatavad tehnoloogiad ja arendusprotsess}
-Järgnevalt antakse ülevaade, miks ja milliseid programme ning raamistikke süsteemi loomisel kasutati.
+Järgnevalt antakse ülevaade, miks ja milliseid programme ning raamistikke süsteemi loomisel kasutati. Seejärel antakse ülevaade süsteemi arendamise protsessist.
 \subsection{Vagrant}
 Vagrant on käsureaprogramm, millega saab hallata virtuaalmasina elutsüklit. Vagrant isoleerib programmilised sõltuvused ja nende konfiguratsioonid ühtsesse eraldiseisvasse keskkonda. Keskkonna konfigureerimiseks saab kasutada käsurea käsklusi, \textit{Ansible}-t \cite{Ansible}, \textit{Puppet}-it \cite{Puppet}, \textit{Chef}-i \cite{Chef}, \textit{Docker}-it \cite{Docker} ja \textit{Salt}-i \cite{Salt}. Tänu Vagrantile saavad kõik luua endale täpselt ühesuguse keskkonna, kus programme käivitada, vähendades võimalust, et ühes arvutis programm töötab, teises aga mitte. \cite{Why_Vagrant}
 \subsection{Bower}
@@ -1185,7 +1197,7 @@ PostgreSQL on avatud lähtekoodiga objekt-relatsiooniline andmebaasisüsteem, mi
 \subsection{Arendusprotsess}
 Sellise mahuka ja potentsiaalselt väga suure funktsionaalsuse hulgaga süsteemi puhul on selge, et arendus peab toimuma iteratiivselt ja inkrementaalselt ning magistritöö tulemusena pole reaalne tervet süsteemi valmis saada. \par
 
-Alustuseks sai paika pandud esmased nõuded, mida süsteem peaks võimaldama teha. Kuna süsteemi esimene potentsiaalne kasutuskoht oleks TTÜ-s õpetatavas aines ``Andmebaasid II'', siis konsulteeriti antud õppeaine õppejõuga ning kaardistati enamlevinud kasutusjuhud, mida antud aine raames tuleb üliõpilastel andmebaasirakenduste ehitamisel realiseerida.
+Alustuseks sai paika pandud esmased nõuded, mida süsteem peaks võimaldama teha. Kuna süsteemi esimene võimalik kasutuskoht oleks TTÜ-s õpetatavas aines ``Andmebaasid II'', siis konsulteeriti antud õppeaine õppejõuga ning kaardistati enamlevinud kasutusjuhud, mida antud aine raames tuleb üliõpilastel andmebaasirakenduste ehitamisel realiseerida.
 
 Neid silmas pidades loodi süsteemi esialgne tükeldus allsüsteemideks, mida koos juhendajaga üle vaadates pandi paika prioriteedid ja määrati kindlaks allsüsteemid, millele antud töös keskenduda. Need allsüsteemid on toodud välja ka töö peatükis \ref{süsteemi_analüüs}.
 \par
@@ -1275,7 +1287,7 @@ Teenustesse on talletatud loogika, mida võivad kasutada mitmed süsteemi osad. 
 Marsruuteris on ära kirjeldatud, millise päringu korral mingi kontroller käivitatakse. Lisaks on seal ära defineeritud, millistele päringutele poogitakse külge vahevara.
 
 \section{Näidisrakendus}
-Valideerimaks, kas loodud süsteem vastab nõuetele,loodi näiterakendus ja realiseeriti neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilaste töödes esinevatele kasutusjuhtudele. \cite{pgapexSampleApp} Rakendus realiseerib hotelli infosüsteemi ruumide arvestuse allsüsteemi funktsionaalsuse juhataja töökoha ulatuses. Kasutaja tuvastamine põhineb funktsioonil \textit{functions.f\_is\_boss}, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide andmete vaatamine põhineb vaatel \textit{public.overview\_of\_rooms}. Ruumide koondaruande vaatamine põhineb vaatel \textit{public.number\_of\_rooms\_by\_state}. Ruumi mitteaktiivseks muutmine põhineb funktsioonil \textit{functions.f\_permanently\_inactivate\_a\_room}, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest \newline \textit{public.active\_temporariliy\_inactive\_rooms}.
+Valideerimaks, kas loodud süsteem vastab nõuetele,loodi näiterakendus ja realiseeriti neli kasutusjuhtu (vt Joonis \ref{fig_näidisrakendus_kasutusjuhtude_eskiismudel}), mis sarnanevad üliõpilaste töödes esinevatele kasutusjuhtudele. \cite{pgapexSampleApp} Rakendus realiseerib hotelli infosüsteemi ruumide arvestuse allsüsteemi funktsionaalsuse juhataja töökoha ulatuses. Kasutaja tuvastamine põhineb funktsioonil \textit{functions.f\_is\_boss}, mille esimese parameetri oodatav väärtus on kasutajanimi ja teise parameetri oodatav väärtus on paool. Kõikide ruumide andmete vaatamine põhineb vaatel \textit{public.overview\_of\_rooms}. Ruumide koondaruande vaatamine põhineb vaatel \textit{public.number\_of\_rooms\_by\_state}. Ruumi mitteaktiivseks muutmine põhineb funktsioonil \textit{functions.f\_permanently\_inactivate\_a\_room}, mille oodatavaks argumendiks on ruumi kood, mis tuleb valida vaatest \textit{public.active\_temporariliy\_inactive\_rooms}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{./diagrams/sample-application-use-case-diagram.png}
@@ -1328,17 +1340,23 @@ Järgnevalt on esitatud loetelu funktsionaalsustest, mida võiks süsteemile lis
 
 %-------------------------------KOKKUVÕTE---------------------------
 \section{Kokkuvõte}
-Antud töö eesmärgiks oli luua PostgreSQL andmebaasisüsteemi põhine ja veebipõhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebirakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida metaandmetega.\par
+Antud töö eesmärgiks oli luua PostgreSQL andmebaasisüsteemi põhine ja veebipõhine kiirprogrammeerimiskeskkond, mis võimaldaks luua veebirakendusi. Loodavad rakendused peavad suhtlema andmebaasiga läbi avaliku andmebaasiliidese ning rakenduste väljanägemist ning käitumist peab olema võimalik juhtida metaandmetega.\par
 
 Töö käigus selgitati, kuidas seda eesmärki saavutada. Selleks oli vaja uurida, kuidas toimub andmete pärimine välisest andmebaasist ning kust saab infot andmebaasiobjektide kohta. Seejärel pandi paika esmased nõuded süsteemile, kirjeldati kasutusjuhud kõrgformaadis ning loodi olemi-suhte diagrammid, mis kirjeldasid süsteemi poolt vajatavaid metaandmeid.\par
 
 Töö tulemusena valmis veebipõhine süsteem, mille loomiseks kasutati PHP-d, PostgreSQL-i, AngularJS-i, Bootstrapi ning Slim Framework-i. Süsteem võimaldab arendajatel luua veebirakendusi ning valida rakenduse autentimismeetodite vahel. Rakendusse saab luua lehti, mis omakorda sisaldavad regioone, mida antud töös realiseeriti neli erinevat tüüpi. HTML-regioon võimaldab lisada lehele HTML-vormindusega teksti. Navigatsiooni regiooni abil saab kuvada lehel navigeerimiseks vajaliku menüüd. Raportite regioon kuvab kasutajale vaate põhjal tabeli, mida on võimalik jagada mitmele leheküljele. Vormi regioon võimaldab küsida kasutajalt infot ning saata seda välisesse andmebaasi kutsudes välja välises andmebaasis oleva funktsiooni.\par
 
-Loodud süsteem oli esimese iteratsiooni tulemus ning seetõttu realiseeriti vaid oluliseimad funktsionaalsused, et tagada süsteemi esmane kasutatavus reaalse tarkvara loomiseks. Seetõttu esitati töös nägemus funktsionaalsustest, mida järgnevate iteratsioonide korral võiks süsteemile juurde lisada.\par
+Loodud süsteem on arenduse esimese iteratsiooni tulemus ning seetõttu realiseeriti vaid oluliseimad funktsionaalsused, et tagada süsteemi esmane kasutatavus reaalse tarkvara loomiseks. Seetõttu esitati töös nägemus funktsionaalsustest, mida järgnevate iteratsioonide korral võiks süsteemile juurde lisada. Süsteemi lähtekoodi avaldamine võiks aidata kaasa sellele, et tulevikus selle arendamine jätkub.\par
 
-Kõige olulisem põhimõtteline erinevus loodud arendussüsteemi ja Oracle APEX-i vahel seisneb selles, et Oracle APEX võimaldab luua rakenduse nii otse baastabelitele kui ka andmebaasi avalikule liidesele. Samas loodav süsteem nõuab, et rakendus kasutaks andmebaasi avaliku liidese elemente (vaated, materialiseeritud vaated, funktsioonid). Otse baastabelitele selle abil rakendusi luua ei saa ning tarkvara loomisel ei pakuta valikutesse baastabeleid. NuBuilder-ist, Xataface-st ja Mati Metsise magistritööst erineb loodud süsteem enim selle poolest, et loodud süsteemi puhul genereeritakse rakendused valmis andmebaasis, mitte rakenduskihis, kasutades võimalikult palju ära andmebaasi võimekust. Lisaks ei  nõua võrdluses välja toodud süsteemid andmebaasi avaliku liidese kasutamist.\par
+Kõige olulisem põhimõtteline erinevus loodud arendussüsteemi ja Oracle APEX-i vahel seisneb selles, et Oracle APEX võimaldab luua rakenduse nii otse baastabelitele kui ka andmebaasi avalikule liidesele. Samas loodav süsteem nõuab, et rakendus kasutaks andmebaasi avaliku liidese elemente (vaated, materialiseeritud vaated, funktsioonid). Otse baastabelitele selle abil rakendusi luua ei saa ning tarkvara loomisel ei pakuta valikutesse baastabeleid.
+\par
+NuBuilder-ist, Xataface-st ja Mati Metsise magistritööst erineb loodud süsteem enim selle poolest, et loodud süsteemi puhul genereeritakse rakendused valmis andmebaasis, mitte rakenduskihis, kasutades võimalikult palju ära andmebaasi võimekust. Näiteks on töö tulemusena valminud süsteemis allsüsteemide teenindamiseks loodud 103 andmebaasis talletatud funktsiooni. Lisaks ei  nõua võrdluses välja toodud süsteemid andmebaasi avaliku liidese kasutamist.
+\par
+Mati Metsise magistritöö tulemusena valminud süsteemis loodi iga rakenduse jaoks samas andmebaasis uus skeem. Antud töö tulemusena valminud süsteem võimaldab aga luua rakendusi samas andmebaasiserveris olevate andmebaaside põhjal ning kasutada funktsioone, vaateid ja materialiseeritud vaateid kõikidest skeemidest peale \textit{information\_schema} ja \textit{pg\_catalog}-i.
+Lisaks võimaldavad antud töö tulemusena valminud süsteemi abil loodud rakendused teostada andmebaasides andmemuudatusi. Samuti realiseeriti suurem hulk erinevaid regiooni tüüpe.
+\par
 
-Loodud tulemuse valideerimiseks reliseeriti õppejõu poolt ette antud rakenduse kasutusjuhud, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Sellega sai süsteem edukalt hakkama ning seetõttu võib väita, et töö eesmärk saavutati. Näidisrakendus asub aadressil \url{http://apex.ttu.ee/pgapex/public/index.php/app/ruumid}. Arenduskeskkond asub aadressil \url{http://apex.ttu.ee/pgapex}. \par
+Loodud tulemuse valideerimiseks reliseeriti õppejõu poolt ette antud rakenduse kasutusjuhud, mis sarnanevad üliõpilastöödes esinevatele kasutusjuhtudele. Sellega sai süsteem edukalt hakkama ning seetõttu võib väita, et töö eesmärk saavutati. Näidisrakendus asub aadressil \url{http://apex.ttu.ee/pgapex/public/index.php/app/ruumid} (kasutajanimi: \textit{kask@ttu.ee}, parool: \textit{test}). Arenduskeskkond asub aadressil \url{http://apex.ttu.ee/pgapex}. \par
 
 Töö tulemus on avaldatud MIT litsentsi all ning on avalikult kättesaadav aadressilt \newline \url{https://github.com/raitraidma/pgapex}.
 
@@ -1485,7 +1503,7 @@ Alljärgnevalt on esitatud kasutusjuhtude diagrammid allsüsteemide kaupa.
 Järgnevalt on välja toodud andmebaasidiagrammid registrite kaupa.
 
 \subsection*{Andmebaasiobjektide register}
-Andmebaasiobjekte kirjeldavad tabelid realiseeriti materialiseeritud vaadetena. Kuna vaatele ei saa viidata, siis sisaldavad alltoodud vaated rohkem infot kui olemi-suhte diagrammidel näha. Sedasi tagatakse iga rea unikaalsus.\par
+Andmebaasiobjekte kirjeldavad tabelid realiseeriti materialiseeritud vaadetena. Kuna vaadetes olevaid veerge ei saa kasutada välisvõtmekitsendustes, siis sisaldavad alltoodud vaated rohkem infot kui olemi-suhte diagrammidel näha. Sedasi tagatakse iga rea unikaalsus.\par
 Arenduskeskkonna kasutajale on loodud nupp, millele vajutades tema loodava rakenduse andmebaasi kirjeldust värskendatakse.
 \begin{figure}[H]
 \centering
