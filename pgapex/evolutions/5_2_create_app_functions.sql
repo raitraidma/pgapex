@@ -313,7 +313,7 @@ RETURNS int AS $$
   SELECT (
     CASE
       WHEN v_page_id ~ '^[0-9]+$' AND
-          (SELECT EXISTS(SELECT 1 FROM pgapex.page WHERE page_id = v_page_id::int)) THEN
+          (SELECT EXISTS(SELECT 1 FROM pgapex.page WHERE page_id = v_page_id::int AND application_id = i_application_id)) THEN
             v_page_id::int
       WHEN (SELECT EXISTS(SELECT 1 FROM pgapex.page WHERE application_id = i_application_id AND alias = v_page_id)) THEN
         (SELECT page_id FROM pgapex.page WHERE application_id = i_application_id AND alias = v_page_id)
@@ -378,13 +378,17 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_open_session(
 DECLARE
   v_session_id      VARCHAR;
   t_expiration_time TIMESTAMP;
+  j_data            JSONB;
 BEGIN
   SELECT pgapex.f_app_get_cookie('PGAPEX_SESSION_' || i_application_id::VARCHAR, j_headers) INTO v_session_id;
   IF v_session_id IS NOT NULL THEN
-    SELECT expiration_time INTO t_expiration_time FROM pgapex.session WHERE session_id = v_session_id;
+    SELECT expiration_time, data INTO t_expiration_time, j_data FROM pgapex.session WHERE session_id = v_session_id;
     IF t_expiration_time > current_timestamp THEN
       UPDATE pgapex.session SET expiration_time = (current_timestamp + interval '1 hour') WHERE session_id = v_session_id;
       PERFORM pgapex.f_app_add_setting('session_id', v_session_id);
+      IF j_data IS NOT NULL AND j_data ? 'username' THEN
+        PERFORM pgapex.f_app_add_setting('username', j_data->>'username');
+      END IF;
       RETURN;
     ELSE
       DELETE FROM pgapex.session WHERE session_id = v_session_id;
@@ -518,13 +522,14 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_replace_system_variables(
 )
   RETURNS text AS $$
 BEGIN
-  t_template := replace(t_template, '&SESSION_ID&', pgapex.f_app_get_session_id());
-  t_template := replace(t_template, '&APPLICATION_ROOT&', pgapex.f_app_get_setting('application_root'));
-  t_template := replace(t_template, '&APPLICATION_ID&', pgapex.f_app_get_setting('application_id'));
-  t_template := replace(t_template, '&PAGE_ID&', pgapex.f_app_get_setting('page_id'));
-  t_template := replace(t_template, '&APPLICATION_NAME&', (SELECT name FROM pgapex.application WHERE application_id = pgapex.f_app_get_setting('application_id')::int));
-  t_template := replace(t_template, '&TITLE&', (SELECT title FROM pgapex.page WHERE page_id = pgapex.f_app_get_setting('page_id')::int));
-  t_template := replace(t_template, '&LOGOUT_LINK&', pgapex.f_app_get_logout_link());
+  t_template := replace(t_template, '&SESSION_ID&', COALESCE(pgapex.f_app_get_session_id(), ''));
+  t_template := replace(t_template, '&APPLICATION_ROOT&', COALESCE(pgapex.f_app_get_setting('application_root'), ''));
+  t_template := replace(t_template, '&APPLICATION_ID&', COALESCE(pgapex.f_app_get_setting('application_id'), ''));
+  t_template := replace(t_template, '&PAGE_ID&', COALESCE(pgapex.f_app_get_setting('page_id'), ''));
+  t_template := replace(t_template, '&USERNAME&', COALESCE(pgapex.f_app_get_setting('username'), ''));
+  t_template := replace(t_template, '&APPLICATION_NAME&', (SELECT COALESCE(name, '') FROM pgapex.application WHERE application_id = pgapex.f_app_get_setting('application_id')::int));
+  t_template := replace(t_template, '&TITLE&', (SELECT COALESCE(title, '') FROM pgapex.page WHERE page_id = pgapex.f_app_get_setting('page_id')::int));
+  t_template := replace(t_template, '&LOGOUT_LINK&', COALESCE(pgapex.f_app_get_logout_link(), ''));
   RETURN t_template;
 END
 $$ LANGUAGE plpgsql
@@ -739,6 +744,8 @@ BEGIN
 
     IF b_is_permitted THEN
       PERFORM pgapex.f_app_session_write('is_authenticated', TRUE::VARCHAR);
+      PERFORM pgapex.f_app_session_write('username', j_post_params->>'USERNAME');
+      PERFORM pgapex.f_app_add_setting('username', j_post_params->>'USERNAME');
     ELSE
       PERFORM pgapex.f_app_add_error_message('Permission denied!');
     END IF;
@@ -1298,6 +1305,8 @@ BEGIN
   )
   LOOP
     t_form_element := '';
+    r_form_row.default_value := pgapex.f_app_replace_system_variables(r_form_row.default_value);
+
     IF r_form_row.field_pre_fill_view_column_name IS NOT NULL AND j_pre_fetched_values ? r_form_row.field_pre_fill_view_column_name THEN
       r_form_row.default_value := j_pre_fetched_values->>r_form_row.field_pre_fill_view_column_name;
     END IF;
