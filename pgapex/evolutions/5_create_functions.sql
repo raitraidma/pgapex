@@ -151,6 +151,27 @@ $$ LANGUAGE plpgsql
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_application_application_may_have_a_name(
+  i_id    pgapex.application.application_id%TYPE
+, v_name  pgapex.application.name%TYPE
+)
+RETURNS boolean AS $$
+DECLARE
+  b_name_already_exists BOOLEAN;
+BEGIN
+  IF i_id IS NULL THEN
+    SELECT COUNT(1) = 0 INTO b_name_already_exists FROM pgapex.application WHERE name = v_name;
+  ELSE
+    SELECT COUNT(1) = 0 INTO b_name_already_exists FROM pgapex.application WHERE name = v_name AND application_id <> i_id;
+  END IF;
+  RETURN b_name_already_exists;
+END
+$$ LANGUAGE plpgsql
+  SECURITY DEFINER
+  SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_application_save_application(
   i_id                 pgapex.application.application_id%TYPE
 , v_name               pgapex.application.name%TYPE

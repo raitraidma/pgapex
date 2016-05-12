@@ -161,6 +161,7 @@ CREATE TABLE pgapex.application (
 	database_username VARCHAR ( 64 ) NOT NULL,
 	database_password VARCHAR ( 64 ) NOT NULL,
 	CONSTRAINT uq_application_alias UNIQUE (alias),
+	CONSTRAINT uq_application_name UNIQUE (name),
 	CONSTRAINT pk_application PRIMARY KEY (application_ID),
 	CONSTRAINT chk_application_authentication_scheme_requires_function CHECK ((authentication_scheme_id = 'NO_AUTHENTICATION' AND authentication_function_name IS NULL) OR (authentication_scheme_id <> 'NO_AUTHENTICATION' AND authentication_function_name IS NOT NULL)),
 	CONSTRAINT chk_application_authentication_function_name_and_schema_coexist CHECK ((authentication_function_name IS NULL AND authentication_function_schema_name IS NULL) OR

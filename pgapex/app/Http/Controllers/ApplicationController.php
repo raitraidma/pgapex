@@ -5,6 +5,7 @@ use App\Http\Request;
 use App\Http\Response;
 use App\Models\Database;
 use App\Services\Validators\Application\ApplicationValidator;
+use App\Services\Validators\Application\ApplicationAuthenticationValidator;
 use Exception;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Models\Application;
@@ -19,6 +20,14 @@ class ApplicationController extends Controller {
 
   private function getApp() {
     return $this->application;
+  }
+
+  private function getApplicationValidator() {
+    return new ApplicationValidator($this->getContainer()['db']);
+  }
+
+  private function getApplicationAuthenticationValidator() {
+    return new ApplicationAuthenticationValidator($this->getContainer()['db']);
   }
 
   public function getApplications(Request $request, Response $response) {
@@ -37,8 +46,7 @@ class ApplicationController extends Controller {
   }
 
   public function saveApplication(Request $request, Response $response) {
-    $validator = new ApplicationValidator($this->getContainer()['db']);
-
+    $validator = $this->getApplicationValidator();
     try {
       $validator->validate($request);
       if (!$validator->hasErrors()) {
@@ -62,7 +70,12 @@ class ApplicationController extends Controller {
   }
 
   public function saveApplicationAuthentication(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getApp()->saveApplicationAuthentication($request))
-                    ->getApiResponse();
+    $validator = $this->getApplicationAuthenticationValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getApp()->saveApplicationAuthentication($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
   }
 }

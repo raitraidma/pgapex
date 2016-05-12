@@ -37,6 +37,9 @@
     "editApplicationAuthentication": "Muuda rakenduse autentimist",
     "pages": "Lehed",
     "refreshDatabaseObjects": "Uuenda andmebaasiobjekte",
+    "suchAuthenticationSchemeDoesNotExist": "Sellist autentimise plaani ei eksisteeri.",
+    "suchFunctionDoesNotExist": "Sellist funktsiooni ei eksisteeri.",
+    "suchLoginPageTemplateDoesNotExist": "Sellist sisse logimise lehe malli ei eksisteeri.",
 
     "databaseUsernameHelpText": "Kasutajanimi, kellena pgapex suhtleb valitud andmebaasiga.",
     "databasePasswordHelpText": "Eelnevalt sisestatud kasutaja parool, kellena pgapex suhtleb valitud andmebaasiga."

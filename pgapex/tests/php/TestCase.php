@@ -28,18 +28,32 @@ class TestCase extends \PHPUnit_Framework_TestCase
         return $classProperty;
     }
 
-    /**
-     * Invoke method of an object.
-     *
-     * @param $instance
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
-     */
-    public function invokeObjectMethod($instance, $method, $parameters = []) {
-        $classMethod = $this->makeClassMethodAccessible(get_class($instance), $method);
-        return $classMethod->invokeArgs($instance, $parameters);
-    }
+  /**
+   * Invoke method of an object.
+   *
+   * @param $instance
+   * @param string $method
+   * @param array $parameters
+   * @return mixed
+   */
+  public function invokeObjectMethod($instance, $method, $parameters = []) {
+    $classMethod = $this->makeClassMethodAccessible(get_class($instance), $method);
+    return $classMethod->invokeArgs($instance, $parameters);
+  }
+
+  /**
+   * Invoke method of an object.
+   *
+   * @param $class
+   * @param $instance
+   * @param string $method
+   * @param array $parameters
+   * @return mixed
+   */
+  public function invokeObjectMethodWithClass($class, $instance, $method, $parameters = []) {
+    $classMethod = $this->makeClassMethodAccessible($class, $method);
+    return $classMethod->invokeArgs($instance, $parameters);
+  }
 
     /**
      * Get property value of an object.
