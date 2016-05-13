@@ -115,3 +115,25 @@ DROP TRIGGER IF EXISTS trig_list_of_values_must_be_deleted_with_form_field ON pg
 CREATE CONSTRAINT TRIGGER trig_list_of_values_must_be_deleted_with_form_field AFTER DELETE ON pgapex.form_field
 	DEFERRABLE INITIALLY DEFERRED
 	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_list_of_values_must_be_deleted_with_form_field();
+
+--------------------------------
+---------- NAVIGATION ----------
+--------------------------------
+
+CREATE OR REPLACE FUNCTION pgapex.f_trig_navigation_item_may_not_contain_cycles()
+RETURNS trigger AS $$
+BEGIN
+  IF pgapex.f_navigation_navigation_item_contains_cycle(NEW.navigation_item_id, NEW.parent_navigation_item_id) THEN
+    RAISE EXCEPTION 'Navigation may not contain cycles';
+  END IF;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql
+	SECURITY DEFINER
+	SET search_path = public, pg_temp;
+
+DROP TRIGGER IF EXISTS trig_navigation_item_may_not_contain_cycles ON pgapex.navigation_item;
+
+CREATE CONSTRAINT TRIGGER trig_navigation_item_may_not_contain_cycles AFTER INSERT OR UPDATE ON pgapex.navigation_item
+	DEFERRABLE INITIALLY DEFERRED
+	FOR EACH ROW EXECUTE PROCEDURE pgapex.f_trig_navigation_item_may_not_contain_cycles();

@@ -744,6 +744,30 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_navigation_may_have_a_name(
+    i_navigation_id  pgapex.navigation.navigation_id%TYPE
+  , i_application_id pgapex.navigation.application_id%TYPE
+  , v_name           pgapex.navigation.name%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  b_name_already_exists BOOLEAN;
+BEGIN
+  IF i_navigation_id IS NULL THEN
+    SELECT COUNT(1) = 0 INTO b_name_already_exists
+    FROM pgapex.navigation WHERE name = v_name AND application_id = i_application_id;
+  ELSE
+    SELECT COUNT(1) = 0 INTO b_name_already_exists
+    FROM pgapex.navigation WHERE name = v_name AND application_id = i_application_id AND navigation_id <> i_navigation_id;
+  END IF;
+  RETURN b_name_already_exists;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_navigation_get_navigation(
   i_navigation_id    pgapex.navigation.navigation_id%TYPE
 )
@@ -807,6 +831,89 @@ FROM (
   WHERE ni.navigation_id = i_navigation_id
   ORDER BY ni.sequence, ni.name
 ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_navigation_item_contains_cycle(
+  i_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
+, i_parent_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
+)
+RETURNS boolean AS $$
+  SELECT EXISTS (
+      WITH RECURSIVE navigation_item_search_graph(parent_id, path, has_cycle)
+      AS (
+        SELECT i_parent_navigation_item_id, ARRAY[i_navigation_item_id, i_parent_navigation_item_id], (i_navigation_item_id = i_parent_navigation_item_id)
+
+        UNION ALL
+
+        SELECT ni.parent_navigation_item_id, nisg.path || ni.parent_navigation_item_id, ni.parent_navigation_item_id = ANY(nisg.path)
+        FROM navigation_item_search_graph nisg
+        JOIN pgapex.navigation_item ni ON ni.navigation_item_id = nisg.parent_id
+        WHERE NOT nisg.has_cycle
+      )
+      SELECT 1
+      FROM navigation_item_search_graph
+      WHERE has_cycle
+      LIMIT 1
+  );
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_navigation_item_may_have_a_sequence(
+  i_navigation_item_id         pgapex.navigation_item.navigation_item_id%TYPE
+, i_navigation_id              pgapex.navigation_item.navigation_id%TYPE
+, i_parent_navigation_item_id  pgapex.navigation_item.parent_navigation_item_id%TYPE
+, i_sequence                   pgapex.navigation_item.sequence%TYPE
+)
+RETURNS boolean AS $$
+  SELECT NOT EXISTS(
+    SELECT 1 FROM pgapex.navigation_item
+    WHERE
+      (CASE
+        WHEN i_navigation_item_id IS NULL THEN TRUE
+        ELSE navigation_item_id <> i_navigation_item_id
+      END)
+      AND navigation_id = i_navigation_id
+      AND (
+       CASE
+         WHEN i_parent_navigation_item_id IS NULL THEN parent_navigation_item_id IS NULL
+         ELSE parent_navigation_item_id = i_parent_navigation_item_id
+       END)
+      AND sequence = i_sequence
+  );
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_navigation_navigation_item_may_refer_to_page(
+  i_navigation_item_id pgapex.navigation_item.navigation_item_id%TYPE
+, i_navigation_id      pgapex.navigation_item.navigation_id%TYPE
+, i_page_id            pgapex.navigation_item.page_id%TYPE
+)
+RETURNS boolean AS $$
+  SELECT NOT EXISTS(
+    SELECT 1 FROM pgapex.navigation_item
+    WHERE
+      navigation_id = i_navigation_id
+      AND (
+       CASE
+         WHEN i_page_id IS NULL THEN FALSE
+         ELSE page_id = i_page_id
+       END)
+      AND (
+       CASE
+         WHEN i_navigation_item_id IS NULL THEN TRUE
+         ELSE navigation_item_id <> i_navigation_item_id
+       END)
+  );
 $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;

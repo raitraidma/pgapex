@@ -18,18 +18,20 @@
     "areYouSureThatYouWantToDeleteThisNavigationItem": "Oled kindel, et soovid selle menüüpunkti kustutada? Selle kustutamisel kustutatakse ka alam-menüüpunktid.",
     "editNavigationItem": "Muuda menüüpunkti",
     "sequence": "Järjekord",
-    "parentNavigationItem": "Ülem menüüpunkt",
+    "parentNavigationItem": "Ülem-menüüpunkt",
     "page": "Leht",
     "url": "URL",
     "target": "Sihtkoht",
     "sequenceIsMandatory": "Järjekord on kohustuslik.",
     "minValueIsZero": "Vähim väärtus on 0.",
+    "sequenceAlreadyExists": "Selline järjekorranumber juba eksisteerib sellel tasemel.",
     "pageIsMandatory": "Leht on kohustuslik.",
     "urlIsMandatory": "URL on kohustuslik.",
-    "sequenceAlreadyExists": "Järjekord juba eksisteerib.",
     "navigationItemDoesNotExist": "Menüüpunkti ei eksisteeri.",
     "pageId": "Lehe ID",
     "rootItem": "Põhimenüüpunkt",
-    "navigationItems": "Menüüpunktid"
+    "navigationItems": "Menüüpunktid",
+    "selectingThisParentNavigationItemCreatesCycle": "Selle ülem-menüüpunkti valimine tekitab tsükli.",
+    "pageIsAlreadyInUseInThisNavigation": "Leht on selles navigatsioonis juba kasutusel.."
   }
 }

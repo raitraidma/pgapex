@@ -24,12 +24,14 @@
     "target": "Target",
     "sequenceIsMandatory": "Sequence is mandatory.",
     "minValueIsZero": "Min value is 0.",
+    "sequenceAlreadyExists": "Such sequence already exists on this level.",
     "pageIsMandatory": "Page is mandatory.",
     "urlIsMandatory": "URL is mandatory.",
-    "sequenceAlreadyExists": "Sequence already exists.",
     "navigationItemDoesNotExist": "Navigation item does not exist.",
     "pageId": "Page ID",
     "rootItem": "Root item",
-    "navigationItems": "Navigation items"
+    "navigationItems": "Navigation items",
+    "selectingThisParentNavigationItemCreatesCycle": "Selecting this parent navigation item creates cycle.",
+    "pageIsAlreadyInUseInThisNavigation": "Page is already in use in this navigation."
   }
 }

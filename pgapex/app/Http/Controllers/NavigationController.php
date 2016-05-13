@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Http\Request;
 use App\Http\Response;
 use App\Models\Navigation;
+use App\Services\Validators\Navigation\NavigationValidator;
+use App\Services\Validators\Navigation\NavigationItemValidator;
 use Interop\Container\ContainerInterface as ContainerInterface;
 
 class NavigationController extends Controller {
@@ -24,8 +26,13 @@ class NavigationController extends Controller {
   }
 
   public function saveNavigation(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getNavigationModel()->saveNavigation($request))
-      ->getApiResponse();
+    $validator = $this->getNavigationValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getNavigationModel()->saveNavigation($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
   }
 
   public function getNavigation(Request $request, Response $response, $args) {
@@ -54,7 +61,20 @@ class NavigationController extends Controller {
   }
 
   public function saveNavigationItem(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getNavigationModel()->saveNavigationItem($request))
-      ->getApiResponse();
+    $validator = $this->getNavigationItemValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getNavigationModel()->saveNavigationItem($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
+  }
+
+  private function getNavigationValidator() {
+    return new NavigationValidator($this->getContainer()['db']);
+  }
+
+  private function getNavigationItemValidator() {
+    return new NavigationItemValidator($this->getContainer()['db']);
   }
 }
