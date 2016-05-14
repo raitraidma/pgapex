@@ -16,9 +16,7 @@
     "titleIsMandatory": "Pealkiri on kohustuslik.",
     "aliasAlreadyExists": "Alias juba eksisteerib.",
     "templateIsMandatory": "Mall on kohustuslik.",
-    "functionDoesNotExist": "Funktsiooni ei eksisteeri",
     "template": "Mall",
-    "pageCondition": "Lehe tingimus",
     "regions": "Regioonid"
   }
 }

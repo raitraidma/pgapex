@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Request;
 use App\Http\Response;
+use App\Services\Validators\Page\PageValidator;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Models\Page;
 
@@ -34,7 +35,16 @@ class PageController extends Controller {
   }
 
   public function savePage(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getPageModel()->savePage($request))
-      ->getApiResponse();
+    $validator = $this->getPageValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getPageModel()->savePage($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
+  }
+
+  private function getPageValidator() {
+    return new PageValidator($this->getContainer()['db']);
   }
 }

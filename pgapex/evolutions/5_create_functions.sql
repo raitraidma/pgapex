@@ -695,6 +695,29 @@ $$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_page_page_may_have_an_alias(
+  i_page_id        pgapex.page.page_id%TYPE
+, i_application_id pgapex.page.application_id%TYPE
+, v_alias          pgapex.page.alias%TYPE
+)
+RETURNS boolean AS $$
+  SELECT NOT EXISTS (
+    SELECT 1 FROM pgapex.page
+    WHERE application_id = i_application_id
+    AND alias = v_alias
+    AND (
+      CASE
+        WHEN i_page_id IS NULL THEN TRUE
+        ELSE page_id <> i_page_id
+      END
+    )
+  );
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
 --------------------------------
 ---------- NAVIGATION ----------
 --------------------------------
