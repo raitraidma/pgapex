@@ -3,6 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Request;
 use App\Http\Response;
+use App\Services\Validators\Region\FormRegionValidator;
+use App\Services\Validators\Region\HtmlRegionValidator;
+use App\Services\Validators\Region\NavigationRegionValidator;
+use App\Services\Validators\Region\ReportRegionValidator;
 use Interop\Container\ContainerInterface as ContainerInterface;
 use App\Models\Region;
 
@@ -34,22 +38,58 @@ class RegionController extends Controller {
   }
 
   public function saveHtmlRegion(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getRegionModel()->saveHtmlRegion($request))
-      ->getApiResponse();
+    $validator = $this->getHtmlRegionValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getRegionModel()->saveHtmlRegion($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
   }
 
   public function saveNavigationRegion(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getRegionModel()->saveNavigationRegion($request))
-      ->getApiResponse();
+    $validator = $this->getNavigationRegionValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getRegionModel()->saveNavigationRegion($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
   }
 
   public function saveReportRegion(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getRegionModel()->saveReportRegion($request))
-      ->getApiResponse();
+    $validator = $this->getReportRegionValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getRegionModel()->saveReportRegion($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
   }
 
   public function saveFormRegion(Request $request, Response $response) {
-    return $response->setApiDataAsJson($this->getRegionModel()->saveFormRegion($request))
-      ->getApiResponse();
+    $validator = $this->getFormRegionValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getRegionModel()->saveFormRegion($request);
+    }
+    $validator->attachErrorsToResponse($response);
+    return $response->getApiResponse();
+  }
+
+  private function getHtmlRegionValidator() {
+    return new HtmlRegionValidator($this->getContainer()['db']);
+  }
+
+  private function getNavigationRegionValidator() {
+    return new NavigationRegionValidator($this->getContainer()['db']);
+  }
+
+  private function getReportRegionValidator() {
+    return new ReportRegionValidator($this->getContainer()['db']);
+  }
+
+  private function getFormRegionValidator() {
+    return new FormRegionValidator($this->getContainer()['db']);
   }
 }

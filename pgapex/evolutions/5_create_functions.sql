@@ -1750,3 +1750,27 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_form_region(
 $$ LANGUAGE sql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_region_may_have_a_sequence(
+    i_region_id                      pgapex.region.region_id%TYPE
+  , i_page_id                        pgapex.region.page_id%TYPE
+  , i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
+  , i_sequence                       pgapex.region.sequence%TYPE
+)
+RETURNS boolean AS $$
+  SELECT NOT EXISTS(
+    SELECT 1 FROM pgapex.region
+    WHERE page_id = i_page_id
+      AND sequence = i_sequence
+      AND page_template_display_point_id = i_page_template_display_point_id
+      AND (
+        CASE
+          WHEN i_region_id IS NULL THEN TRUE
+          ELSE region_id <> i_region_id
+        END)
+  );
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

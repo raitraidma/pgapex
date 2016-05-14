@@ -35,7 +35,6 @@
     "navigationTypeMenu": "Menu",
     "navigationTypeBreadcrumb": "Breadcrumb",
     "navigationTypeSitemap": "Sitemap",
-    "navigation": "Navigation",
     "navigationIsMandatory": "Navigation is mandatory.",
     "repeatLastLevel": "Repeat last level",
     "reportTemplate": "Report template",
@@ -98,7 +97,6 @@
     "preFillForm": "Pre fill form",
     "firstReturnedValueIsUsed": "First returned value is used",
     "atLeastOneColumnConditionMustBeAdded": "At least one condition must be added.",
-    "fieldTemplate": "Field template",
     "preFillColumn": "Pre fill column",
     "inputNameIsMandatory": "Input name is mandatory.",
     "labelIsMandatory": "Label is mandatory.",
@@ -111,6 +109,7 @@
     "helpText": "Help text",
     "visible": "Visible",
     "hidden": "Hidden",
+    "sequenceAlreadyExists": "Sequence already exists.",
 
     "repeatLastLevelHelpText": "When navigation has more levels than defined in template, then use navigation item template with largest level to render navigation items. Otherwise deeper elements are not displayed.",
     "preFillFormHelpText": "If you want form to be pre filled with data then check it, select view where you get this data and add at least one condition that is used to select correct row from that view. Condition must be url parameter. Eg. if you create link to this page and add '?param_name=param_value' then add param_name to condition input. Then param_value will be used to create query from the view.",
