@@ -31,6 +31,7 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_application_delete_application(pgapex.application.application_id%TYPE)
 , pgapex.f_application_get_application_authentication(pgapex.application.application_id%TYPE)
 , pgapex.f_application_application_may_have_an_alias(pgapex.application.application_id%TYPE, pgapex.application.alias%TYPE)
+, pgapex.f_application_application_may_have_a_name(pgapex.application.application_id%TYPE, pgapex.application.name%TYPE)
 , pgapex.f_application_save_application(pgapex.application.application_id%TYPE, pgapex.application.name%TYPE, pgapex.application.alias%TYPE, pgapex.application.database_name%TYPE, pgapex.application.database_username%TYPE, pgapex.application.database_password%TYPE)
 , pgapex.f_application_save_application_authentication(pgapex.application.application_id%TYPE, pgapex.application.authentication_scheme_id%TYPE, pgapex.application.authentication_function_schema_name%TYPE, pgapex.application.authentication_function_name%TYPE, pgapex.application.login_page_template_id%TYPE)
 -- DATABASE OBJECT --
@@ -53,6 +54,7 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_page_save_page(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.template_id%TYPE, pgapex.page.title%TYPE, pgapex.page.alias%TYPE, pgapex.page.is_homepage%TYPE, pgapex.page.is_authentication_required%TYPE)
 , pgapex.f_page_get_page(pgapex.page.page_id%TYPE)
 , pgapex.f_page_delete_page(pgapex.page.page_id%TYPE)
+, pgapex.f_page_page_may_have_an_alias(pgapex.page.page_id%TYPE, pgapex.page.application_id%TYPE, pgapex.page.alias%TYPE)
 -- NAVIGATION --
 , pgapex.f_navigation_get_navigations(pgapex.navigation.application_id%TYPE)
 , pgapex.f_navigation_save_navigation(pgapex.navigation.navigation_id%TYPE, pgapex.navigation.application_id%TYPE, pgapex.navigation.name%TYPE)
@@ -63,6 +65,11 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_navigation_delete_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
 , pgapex.f_navigation_get_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE)
 , pgapex.f_navigation_save_navigation_item(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.parent_navigation_item_id%TYPE, pgapex.navigation_item.navigation_id%TYPE, pgapex.navigation_item.name%TYPE, pgapex.navigation_item.sequence%TYPE, pgapex.navigation_item.page_id%TYPE, pgapex.navigation_item.url%TYPE)
+
+, pgapex.f_navigation_navigation_may_have_a_name(pgapex.navigation.navigation_id%TYPE, pgapex.navigation.application_id%TYPE, pgapex.navigation.name%TYPE)
+, pgapex.f_navigation_navigation_item_contains_cycle(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.navigation_item_id%TYPE)
+, pgapex.f_navigation_navigation_item_may_have_a_sequence(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.navigation_id%TYPE, pgapex.navigation_item.parent_navigation_item_id%TYPE, pgapex.navigation_item.sequence%TYPE)
+, pgapex.f_navigation_navigation_item_may_refer_to_page(pgapex.navigation_item.navigation_item_id%TYPE, pgapex.navigation_item.navigation_id%TYPE, pgapex.navigation_item.page_id%TYPE)
 -- REGION --
 , pgapex.f_region_get_display_points_with_regions(pgapex.page.page_id%TYPE)
 , pgapex.f_region_get_region(pgapex.region.region_id%TYPE)
@@ -79,6 +86,8 @@ GRANT EXECUTE ON FUNCTION
 , pgapex.f_region_save_fetch_row_condition(pgapex.fetch_row_condition.form_pre_fill_id%TYPE, pgapex.region.region_id%TYPE, pgapex.page_item.name%TYPE, pgapex.fetch_row_condition.view_column_name%TYPE)
 , pgapex.f_region_save_form_field(pgapex.form_field.region_id%TYPE, pgapex.form_field.field_type_id%TYPE, pgapex.form_field.list_of_values_id%TYPE, pgapex.template.template_id%TYPE, pgapex.form_field.field_pre_fill_view_column_name%TYPE, pgapex.page_item.name%TYPE, pgapex.form_field.label%TYPE, pgapex.form_field.sequence%TYPE, pgapex.form_field.is_mandatory%TYPE, pgapex.form_field.is_visible%TYPE, pgapex.form_field.default_value%TYPE, pgapex.form_field.help_text%TYPE, pgapex.form_field.function_parameter_type%TYPE, pgapex.form_field.function_parameter_ordinal_position%TYPE)
 , pgapex.f_region_save_list_of_values(pgapex.list_of_values.value_view_column_name%TYPE, pgapex.list_of_values.label_view_column_name%TYPE, pgapex.list_of_values.view_name%TYPE, pgapex.list_of_values.schema_name%TYPE)
+
+, pgapex.f_region_region_may_have_a_sequence(pgapex.region.region_id%TYPE, pgapex.region.page_id%TYPE, pgapex.region.page_template_display_point_id%TYPE, pgapex.region.sequence%TYPE)
 -- APP --
 , pgapex.f_app_query_page(VARCHAR, VARCHAR, VARCHAR, VARCHAR, JSONB, JSONB, JSONB)
 , pgapex.f_app_logout(VARCHAR, VARCHAR, JSONB)
