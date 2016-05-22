@@ -24,7 +24,7 @@ class NavigationItemValidator extends Validator {
     $navigationId = $request->getApiAttribute('navigationId');
     $parentNavigationItemId = $request->getApiAttribute('parentNavigationItem');
     $sequence = $request->getApiAttribute('sequence');
-    if ($sequence === null || !is_int($sequence)) {
+    if (!$this->isValidSequence($sequence)) {
       $this->addError('navigation.sequenceIsMandatory', '/data/attributes/sequence');
     } elseif ($sequence < 0) {
       $this->addError('navigation.minValueIsZero', '/data/attributes/sequence');

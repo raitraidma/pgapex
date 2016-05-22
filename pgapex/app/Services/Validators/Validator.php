@@ -28,5 +28,13 @@ abstract class Validator implements Service {
     }
   }
 
+  protected function isValidNumericId($id) {
+    return ($id !== null && is_int($id) && $id > 0);
+  }
+
+  protected function isValidSequence($sequence) {
+    return ($sequence !== null && is_int($sequence));
+  }
+
   abstract public function validate(Request $request);
 }

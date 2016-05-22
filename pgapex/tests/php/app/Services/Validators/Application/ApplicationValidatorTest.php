@@ -72,11 +72,11 @@ class ApplicationValidatorTest extends \TestCase
     $numbersOnly = $this->invokeObjectMethodWithClass(ApplicationValidator::class, $this->validator, $method, ['123']);
     $numberAndUnderscore = $this->invokeObjectMethodWithClass(ApplicationValidator::class, $this->validator, $method, ['1_']);
 
-    $this->assertFalse($empty);
-    $this->assertFalse($containsSpace);
-    $this->assertFalse($spaceOnly);
-    $this->assertFalse($numbersOnly);
-    $this->assertFalse($numberAndUnderscore);
+    $this->assertFalse($empty, 'May not be empty');
+    $this->assertFalse($containsSpace, 'May not contain space');
+    $this->assertFalse($spaceOnly, 'May not consist of spaces');
+    $this->assertFalse($numbersOnly, 'May not consist of numbers');
+    $this->assertFalse($numberAndUnderscore, 'May not contain only numbers and underscores');
   }
 
   public function testAliasMustContainCharactersAndMayContainNumbersAndUnderscoresIsTrue() {

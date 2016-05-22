@@ -28,7 +28,7 @@ class PageValidator extends Validator {
 
   private function validateTemplate($request) {
     $template = $request->getApiAttribute('template');
-    if ($template === null || !is_int($template) || $template <= 0) {
+    if (!$this->isValidNumericId($template)) {
       $this->addError('page.templateIsMandatory', '/data/attributes/template');
     }
   }

@@ -28,7 +28,7 @@ abstract class RegionValidator extends Validator {
 
   private function validateRegionTemplate($request) {
     $template = $request->getApiAttribute('regionTemplate');
-    if ($template === null || !is_int($template) || $template <= 0) {
+    if (!$this->isValidNumericId($template)) {
       $this->addError('page.regionTemplateIsMandatory', '/data/attributes/regionTemplate');
     }
   }
@@ -39,7 +39,7 @@ abstract class RegionValidator extends Validator {
     $pageTemplateDisplayPointId = $request->getApiAttribute('pageTemplateDisplayPointId');
     $sequence = $request->getApiAttribute('sequence');
 
-    if ($sequence === null || !is_int($sequence)) {
+    if (!$this->isValidSequence($sequence)) {
       $this->addError('region.sequenceIsMandatory', '/data/attributes/sequence');
     } elseif ($sequence < 0) {
       $this->addError('region.minValueIsZero', '/data/attributes/sequence');
