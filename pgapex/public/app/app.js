@@ -30,7 +30,7 @@
     $translateProvider.useLoader('$translatePartialLoader', {
       urlTemplate: 'app/lang/{lang}/{part}.json'
     });
-    $translateProvider.useSanitizeValueStrategy('escape');
+    $translateProvider.useSanitizeValueStrategy(null);
     $translateProvider.preferredLanguage('en');
     $translatePartialLoaderProvider.addPart('general');
   }

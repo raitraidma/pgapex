@@ -36,5 +36,9 @@ abstract class Validator implements Service {
     return ($sequence !== null && is_int($sequence));
   }
 
+  protected function isValidPageItem($paginationQueryParameter) {
+    return preg_match('/[a-zA-Z_]+/', $paginationQueryParameter);
+  }
+
   abstract public function validate(Request $request);
 }
