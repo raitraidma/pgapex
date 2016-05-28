@@ -166,6 +166,9 @@
 
   ManageFormRegionController.prototype.atLeastOneFormPreFillColumnHasValue = function() {
     var columns = this.$scope.region.formPreFillColumns;
+    if (columns === null) {
+      return false;
+    }
     for(var i = 0; i < columns.length; i++) {
       if (columns[i].value !== null && columns[i].value.trim() !== '') {
         return true;
