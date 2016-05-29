@@ -119,7 +119,12 @@
       <div class="form-group form-group-striped" ng-repeat="formPreFillColumn in region.formPreFillColumns">
         <label for="prefillFormViewColumn{{$index}}" class="col-sm-3 control-label">{{formPreFillColumn.column.attributes.name}}</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" ng-model="formPreFillColumn.value" id="prefillFormViewColumn{{$index}}">
+          <select id="prefillFormViewColumn{{$index}}" class="form-control"
+                  ng-model="formPreFillColumn.value"
+                  ng-options="functionParameter.inputName as functionParameter.inputName for functionParameter in region.functionParameters | filter: {inputName: ''} track by (functionParameter.inputName || functionParameter)"
+            >
+            <option value=""></option>
+          </select>
         </div>
       </div>
       <div class="row form-group has-error" ng-show="formError.showErrors(null, 'formPreFillColumns')">
