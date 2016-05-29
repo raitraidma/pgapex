@@ -98,43 +98,7 @@
       </div>
     </div>
 
-    <div ng-show="region.formPreFill">
-      <h3>{{'region.preFillForm'|translate}} <small>{{'region.firstReturnedValueIsUsed'|translate}}</small></h3>
-      <div class="alert alert-info">
-        {{'region.atLeastOneColumnConditionMustBeAdded'|translate}}
-      </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.formPreFillView, 'formPreFillView')}">
-        <label for="formPreFillView" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
-        <div class="col-sm-9">
-          <select id="formPreFillView" name="formPreFillView" ng-model="region.formPreFillView" ng-change="changeFormPreFillColumns()" class="form-control" ng-required="region.formPreFill"
-                  ng-options="viewWithColumns as (viewWithColumns.attributes.schema + '.' + viewWithColumns.attributes.name) for viewWithColumns in viewsWithColumns track by trackDatabaseObject(viewWithColumns)">
-            <option value="" disabled>-- {{'region.view'|translate}} * --</option>
-          </select>
-          <div ng-show="formError.showErrors(manageRegionForm.formPreFillView, 'formPreFillView')">
-            <span ng-show="manageRegionForm.formPreFillView.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('formPreFillView')" class="help-block">{{error|translate}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group form-group-striped" ng-repeat="formPreFillColumn in region.formPreFillColumns">
-        <label for="prefillFormViewColumn{{$index}}" class="col-sm-3 control-label">{{formPreFillColumn.column.attributes.name}}</label>
-        <div class="col-sm-9">
-          <select id="prefillFormViewColumn{{$index}}" class="form-control"
-                  ng-model="formPreFillColumn.value"
-                  ng-options="functionParameter.inputName as functionParameter.inputName for functionParameter in region.functionParameters | filter: {inputName: ''} track by (functionParameter.inputName || functionParameter)"
-            >
-            <option value=""></option>
-          </select>
-        </div>
-      </div>
-      <div class="row form-group has-error" ng-show="formError.showErrors(null, 'formPreFillColumns')">
-        <div class="col-sm-12">
-          <span ng-repeat="error in formError.getErrors('formPreFillColumns')" class="help-block">{{error|translate}}</span>
-        </div>
-      </div>
-    </div>
-
-    <div ng-show="region.function">
+    <div ng-show="region.function.attributes.name">
       <h3>{{'region.functionParameters'|translate}}</h3>
       <div class="form-group form-group-striped" ng-repeat="functionParameter in region.functionParameters">
         <ng-form name="functionParameterForm">
@@ -265,6 +229,42 @@
             </div>
           </div>
         </ng-form>
+      </div>
+    </div>
+
+    <div ng-show="region.formPreFill">
+      <h3>{{'region.preFillForm'|translate}} <small>{{'region.firstReturnedValueIsUsed'|translate}}</small></h3>
+      <div class="alert alert-info">
+        {{'region.atLeastOneColumnConditionMustBeAdded'|translate}}
+      </div>
+      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.formPreFillView, 'formPreFillView')}">
+        <label for="formPreFillView" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
+        <div class="col-sm-9">
+          <select id="formPreFillView" name="formPreFillView" ng-model="region.formPreFillView" ng-change="changeFormPreFillColumns()" class="form-control" ng-required="region.formPreFill"
+                  ng-options="viewWithColumns as (viewWithColumns.attributes.schema + '.' + viewWithColumns.attributes.name) for viewWithColumns in viewsWithColumns track by trackDatabaseObject(viewWithColumns)">
+            <option value="" disabled>-- {{'region.view'|translate}} * --</option>
+          </select>
+          <div ng-show="formError.showErrors(manageRegionForm.formPreFillView, 'formPreFillView')">
+            <span ng-show="manageRegionForm.formPreFillView.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('formPreFillView')" class="help-block">{{error|translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-group-striped" ng-repeat="formPreFillColumn in region.formPreFillColumns">
+        <label for="prefillFormViewColumn{{$index}}" class="col-sm-3 control-label">{{formPreFillColumn.column.attributes.name}}</label>
+        <div class="col-sm-9">
+          <select id="prefillFormViewColumn{{$index}}" class="form-control"
+                  ng-model="formPreFillColumn.value"
+                  ng-options="functionParameter.inputName as functionParameter.inputName for functionParameter in region.functionParameters | filter: {inputName: ''} track by (functionParameter.inputName || functionParameter)"
+            >
+            <option value=""></option>
+          </select>
+        </div>
+      </div>
+      <div class="row form-group has-error" ng-show="formError.showErrors(null, 'formPreFillColumns')">
+        <div class="col-sm-12">
+          <span ng-repeat="error in formError.getErrors('formPreFillColumns')" class="help-block">{{error|translate}}</span>
+        </div>
       </div>
     </div>
 
