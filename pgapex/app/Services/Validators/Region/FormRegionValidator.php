@@ -133,7 +133,7 @@ class FormRegionValidator extends RegionValidator {
         $this->addError('region.fieldTemplateIsMandatory', '/data/attributes/functionParameters/' . $i . '/fieldTemplate');
       }
 
-      if (!in_array($formField['fieldType'], ['RADIO', 'DROP_DOWN'])) {
+      if (in_array($formField['fieldType'], ['RADIO', 'DROP_DOWN'])) {
         $schemaName = $formField['listOfValuesSchema'];
         $viewName = $formField['listOfValuesView'];
         if ($schemaName === null || $viewName === null | trim($schemaName) === '' || trim($viewName) === '') {
