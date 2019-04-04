@@ -77,6 +77,12 @@ class RegionController extends Controller {
     return $response->getApiResponse();
   }
 
+  public function saveTabularFormRegion(Request $request, Response $response) {
+    $this->getRegionModel()->saveTabularFormRegion($request);
+
+    return $response->getApiResponse();
+  }
+
   private function getHtmlRegionValidator() {
     return new HtmlRegionValidator($this->getContainer()['db']);
   }

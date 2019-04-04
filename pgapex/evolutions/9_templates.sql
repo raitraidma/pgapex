@@ -163,3 +163,20 @@ INSERT INTO pgapex.input_template (template_id, input_template_type_id, template
 INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (12, 'PASSWORD', '<input type="password" class="form-control" placeholder="#ROW_LABEL#" name="#NAME#" value="#VALUE#">');
 INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (13, 'RADIO', '<div><input type="radio" name="#NAME#" value="#VALUE#"#CHECKED#> #INPUT_LABEL#</div>');
 INSERT INTO pgapex.input_template (template_id, input_template_type_id, template) VALUES (14, 'CHECKBOX', '<input type="checkbox" class="checkbox" name="#NAME#" value="#VALUE#"#CHECKED#>');
+
+INSERT INTO pgapex.tabularform_template (template_ID, tabularform_begin, tabularform_end, form_begin, buttons_row_begin,
+buttons_row_content, buttons_row_end, table_begin, table_header_begin, table_header_row_begin, table_header_checkbox,
+table_header_cell, table_header_row_end, table_header_end, table_body_begin, table_body_row_begin,
+table_body_row_checkbox, table_body_row_cell, table_body_row_end, table_body_end, table_end, form_end, pagination_begin,
+pagination_end, previous_page, next_page, active_page, inactive_page)
+VALUES (15, '<div>', '#PAGINATION#</div>', '<form><input type="hidden" name="PGAPEX_TABULARFORM" value="#TABULARFORM_FUNCTION_ID#">',
+'<div class="form-group pull-right">', '#SUBMIT_BUTTON#',
+'</div>', '<div class="form-group"><table class="table table-bordered">', '<thead>', '</tr>',
+'<th style="width: 1%"><input type="checkbox" id="check"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
+'<tbody>', '<tr>', '<td><input type="checkbox" id="check" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
+'<td>#CELL_CONTENT#</td>', '</td>', '</tbody>', '</table>', '</form>', '<nav><ul class="pagination">', '</ul></nav>',
+'<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
+'<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
+
+INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (16,
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-secondary">#LABEL#</button>');

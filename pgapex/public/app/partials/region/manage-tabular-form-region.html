@@ -1,0 +1,103 @@
+<div ng-include="'app/partials/page-navigation/main.html'"></div>
+<div ng-include="'app/partials/page-navigation/application-builder.html'"></div>
+
+<div class="container">
+  <h2 ng-show="mode === 'create'">{{'region.createTabularFormRegion'|translate}}</h2>
+  <h2 ng-show="mode === 'edit'">{{'region.editTabularFormRegion'|translate}}</h2>
+
+  <form name="manageRegionForm" class="form-horizontal" ng-submit="saveRegion()" novalidate>
+    <div ng-include="'app/partials/region/_manage-region-common.html'"></div>
+
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.tabularFormTemplate, 'tabularFormTemplate')}">
+      <label for="tabularFormTemplate" class="col-sm-3 control-label">{{'region.tabularFormTemplate'|translate}} *</label>
+      <div class="col-sm-8">
+        <select id="tabularFormTemplate" name="tabularFormTemplate" ng-model="region.tabularFormTemplate" class="form-control" required
+                ng-options="tabularFormTemplate.id as tabularFormTemplate.attributes.name for tabularFormTemplate in tabularFormTemplates">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.tabularFormTemplate, 'tabularFormTemplate')">
+          <span ng-show="manageRegionForm.tabularFormTemplate.$error.required" class="help-block">{{'region.tabularFormTemplateIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('tabularFormTemplate')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.view, 'view')}">
+      <label for="view" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
+      <div class="col-sm-8">
+        <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control"
+                required ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
+        </select>
+        <div ng-show="formError.showErrors(manageRegionForm.view, 'view')">
+          <span ng-show="manageRegionForm.view.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('view')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.showHeader, 'showHeader')}">
+      <label for="showHeader" class="col-sm-3 control-label">{{'region.showHeader'|translate}}</label>
+      <div class="col-sm-8" class="checkbox">
+        <input id="showHeader" name="showHeader" ng-model="region.showHeader" type="checkbox">
+        <div ng-show="formError.showErrors(manageRegionForm.showHeader, 'showHeader')">
+          <span ng-repeat="error in formError.getErrors('showHeader')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')}">
+      <label for="itemsPerPage" class="col-sm-3 control-label">{{'region.itemsPerPage'|translate}} *</label>
+      <div class="col-sm-8">
+        <input type="number" min="1" class="form-control" name="itemsPerPage" ng-model="region.itemsPerPage" id="itemsPerPage" placeholder="{{'region.itemsPerPage'|translate}}" required>
+        <div ng-show="formError.showErrors(manageRegionForm.itemsPerPage, 'itemsPerPage')">
+          <span ng-show="manageRegionForm.itemsPerPage.$error.required" class="help-block">{{'region.itemsPerPageIsMandatory'|translate}}</span>
+          <span ng-show="manageRegionForm.itemsPerPage.$error.min" class="help-block">{{'region.minValueIsOne'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('itemsPerPage')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')}">
+      <label for="paginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}} *</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" name="paginationQueryParameter" ng-model="region.paginationQueryParameter" id="paginationQueryParameter"
+               placeholder="{{'region.paginationQueryParameter'|translate}}" required ng-pattern="'[a-zA-Z_]+'">
+        <div ng-show="formError.showErrors(manageRegionForm.paginationQueryParameter, 'paginationQueryParameter')">
+          <span ng-show="manageRegionForm.paginationQueryParameter.$error.required" class="help-block">{{'region.paginationQueryParameterIsMandatory'|translate}}</span>
+          <span ng-repeat="error in formError.getErrors('paginationQueryParameter')" class="help-block">{{error|translate}}</span>
+        </div>
+      </div>
+      <div class="col-sm-1">
+        <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.paginationQueryParameterHelpText')"></span>
+      </div>
+    </div>
+
+    <div ng-show="region.view">
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>{{'region.setUniqueId'|translate}}</h3>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="uniqueId" class="col-sm-3 control-label">{{'region.uniqueId'|translate}} *</label>
+        <div class="col-sm-8">
+          <select id="uniqueId" name="uniqueId" class="form-control" ng-model="region.uniqueId"
+                  ng-options="viewColumn.attributes.name as viewColumn.attributes.name for viewColumn in viewColumns">
+          </select>
+        </div>
+      </div>
+
+      <add-button application-id="tabularFormAppId" form-names="tabularFormButtonsFormNames" buttons="region.tabularFormButtons" button-templates="tabularFormButtonTemplates"></add-button>
+      <add-column-link names="tabularFormColumnsFormNames" view-columns="viewColumns" columns="region.tabularFormColumns"></add-column-link>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="manageRegionForm.$invalid || region.tabularFormColumns.length < 1 || region.tabularFormButtons < 1">
+          <span ng-show="mode === 'create'">{{'region.createTabularFormRegion'|translate}}</span>
+          <span ng-show="mode === 'edit'">{{'region.editTabularFormRegion'|translate}}</span>
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

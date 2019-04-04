@@ -41,6 +41,10 @@
     return this.apiService.get('template/form-templates');
   };
 
+  TemplateService.prototype.getTabularFormTemplates = function() {
+    return this.apiService.get('template/tabularform-templates');
+  };
+
   TemplateService.prototype.getButtonTemplates = function () {
     return this.apiService.get('template/button-templates');
   };
@@ -67,6 +71,10 @@
 
   TemplateService.prototype.getDropDownTemplates = function () {
     return this.apiService.get('template/drop-down-templates');
+  };
+
+  TemplateService.prototype.getTabularFormButtonTemplates = function () {
+    return this.apiService.get('template/tabularform-button-templates');
   };
 
   function init() {

@@ -48,6 +48,11 @@ class TemplateController extends Controller {
       ->getApiResponse();
   }
 
+  public function getTabularFormTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getTabularFormTemplates())
+      ->getApiResponse();
+  }
+
   public function getButtonTemplates(Request $request, Response $response) {
     return $response->setApiDataAsJson($this->getTemplateModel()->getButtonTemplates())
       ->getApiResponse();
@@ -60,6 +65,11 @@ class TemplateController extends Controller {
 
   public function getDropDownTemplates(Request $request, Response $response) {
     return $response->setApiDataAsJson($this->getTemplateModel()->getDropDownTemplates())
+      ->getApiResponse();
+  }
+
+  public function getTabularFormButtonTemplates(Request $request, Response $response) {
+    return $response->setApiDataAsJson($this->getTemplateModel()->getTabularFormButtonTemplates())
       ->getApiResponse();
   }
 

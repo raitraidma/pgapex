@@ -49,6 +49,13 @@ class Template extends Model {
     return $statement->fetchColumn();
   }
 
+  public function getTabularFormTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_tabularform_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
   public function getButtonTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_button_templates()');
@@ -66,6 +73,13 @@ class Template extends Model {
   public function getDropDownTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_drop_down_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getTabularFormButtonTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_tabularform_button_templates()');
     $statement->execute();
     return $statement->fetchColumn();
   }

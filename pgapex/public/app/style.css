@@ -51,3 +51,11 @@ a.toggle {
   cursor: pointer;
   font-size: 14px;
 }
+
+.add-button {
+  margin-bottom: 3em;
+}
+
+.add-button .add-button__item {
+  margin-bottom: 1em;
+}

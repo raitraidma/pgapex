@@ -140,6 +140,37 @@
       .getRequest();
     return this.apiService.post('region/region/form/save', request);
   };
+  
+  RegionService.prototype.saveTabularFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, regionTemplate,
+                                                            name, sequence, isVisible, tabularFormTemplate, viewSchema,
+                                                            viewName, showHeader, itemsPerPage,
+                                                            paginationQueryParameter, uniqueId, tabularFormColumns,
+                                                            tabularFormButtons) {
+    let attributes = {
+      "pageId": pageId,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
+      "regionId": regionId,
+      "regionTemplate": regionTemplate,
+      "name": name,
+      "sequence": sequence,
+      "isVisible": isVisible,
+      "tabularFormTemplate": tabularFormTemplate,
+      "viewSchema": viewSchema,
+      "viewName": viewName,
+      "showHeader": showHeader,
+      "itemsPerPage": itemsPerPage,
+      "paginationQueryParameter": paginationQueryParameter,
+      "uniqueId": uniqueId,
+      "tabularFormColumns": tabularFormColumns,
+      "tabularFormButtons": tabularFormButtons
+    };
+
+    let request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+
+    return this.apiService.post('region/region/tabularform/save', request);
+  };
 
   function init() {
     module.service('regionService', ['apiService', RegionService]);

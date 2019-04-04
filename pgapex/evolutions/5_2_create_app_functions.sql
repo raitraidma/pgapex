@@ -18,6 +18,22 @@ CREATE TYPE pgapex.t_report_column_with_link AS (
   , attributes       VARCHAR
 );
 
+CREATE TYPE pgapex.t_tabularform_column_with_link AS (
+    view_column_name VARCHAR
+  , heading          VARCHAR
+  , sequence         INT
+  , is_text_escaped  BOOLEAN
+  , url              VARCHAR
+  , link_text        VARCHAR
+  , attributes       VARCHAR
+);
+
+CREATE TYPE pgapex.t_tabularform_button AS (
+    tabularform_function_id VARCHAR,
+    button_label VARCHAR,
+    template VARCHAR
+);
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_query_page(
   v_application_root VARCHAR
 , v_application_id   VARCHAR
@@ -556,6 +572,7 @@ RETURNS TABLE(
        WHEN nr.region_id IS NOT NULL THEN 'NAVIGATION'
        WHEN rr.region_id IS NOT NULL THEN 'REPORT'
        WHEN fr.region_id IS NOT NULL THEN 'FORM'
+       WHEN tfr.region_id IS NOT NULL THEN 'TABULARFORM'
        END) AS region_type
     , ptdp.display_point_id AS display_point
     , r.sequence
@@ -566,6 +583,7 @@ RETURNS TABLE(
     LEFT JOIN pgapex.navigation_region nr ON nr.region_id = r.region_id
     LEFT JOIN pgapex.report_region rr ON rr.region_id = r.region_id
     LEFT JOIN pgapex.form_region fr ON fr.region_id = r.region_id
+    LEFT JOIN pgapex.tabularform_region tfr ON tfr.region_id = r.region_id
     LEFT JOIN pgapex.page_template_display_point ptdp ON ptdp.page_template_display_point_id = r.page_template_display_point_id
   WHERE r.page_id = i_page_id AND r.is_visible = TRUE
   ORDER BY r.sequence;
@@ -616,6 +634,8 @@ BEGIN
         SELECT pgapex.f_app_get_report_region(r_region.region_id, j_get_params) INTO t_region_content;
       ELSIF r_region.region_type = 'FORM' THEN
         SELECT pgapex.f_app_get_form_region(r_region.region_id, j_get_params) INTO t_region_content;
+      ELSIF r_region.region_type = 'TABULARFORM' THEN
+        SELECT pgapex.f_app_get_tabularform_region(r_region.region_id, j_get_params) INTO t_region_content;
       END IF;
       t_region_template := replace(t_region_template, '#NAME#', r_region.name);
       t_region_template := replace(t_region_template, '#BODY#', t_region_content);
@@ -751,6 +771,8 @@ BEGIN
     END IF;
   ELSIF j_post_params ? 'PGAPEX_REGION' THEN
     PERFORM pgapex.f_app_form_region_submit(i_page_id, (j_post_params->>'PGAPEX_REGION')::int, j_post_params);
+  ELSIF j_post_params ? 'PGAPEX_TABULARFORM' THEN
+    PERFORM pgapex.f_app_tabularform_region_submit(i_page_id, (j_post_params->>'PGAPEX_TABULARFORM')::int, j_post_params);
   END IF;
 END
 $$ LANGUAGE plpgsql
@@ -796,6 +818,59 @@ BEGIN
                              ORDER BY ff.function_parameter_ordinal_position ASC
                            ) a);
   t_function_call := t_function_call || ' );';
+
+  BEGIN
+    SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );
+    IF v_success_message IS NOT NULL THEN
+      PERFORM pgapex.f_app_add_success_message(v_success_message);
+    END IF;
+    IF v_redirect_url IS NOT NULL THEN
+      PERFORM pgapex.f_app_set_header('location', pgapex.f_app_replace_system_variables(v_redirect_url));
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      PERFORM pgapex.f_app_add_error_message(coalesce(v_error_message, SQLERRM));
+  END;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_tabularform_region_submit(
+    i_page_id               INT
+  , i_region_id             INT
+  , j_post_params           JSONB
+)
+  RETURNS void AS $$
+DECLARE
+  v_schema_name             VARCHAR;
+  v_function_name           VARCHAR;
+  v_success_message         VARCHAR;
+  v_error_message           VARCHAR;
+  v_redirect_url            VARCHAR;
+  f_function_params_as_text TEXT;
+  t_function_call           TEXT;
+  i_function_response       INT;
+BEGIN
+  IF (SELECT NOT EXISTS(SELECT 1
+                        FROM pgapex.region r
+                        LEFT JOIN pgapex.tabularform_region tfr ON tfr.region_id = r.region_id
+                        WHERE r.page_id = i_page_id AND r.region_id = i_region_id AND tfr.region_id IS NOT NULL)) THEN
+    PERFORM pgapex.f_app_add_error_message('Region does not exist');
+  END IF;
+
+  SELECT tfr.schema_name, tff.function_name, tff.success_message, tff.error_message, tff.redirect_url
+  INTO v_schema_name, v_function_name, v_success_message, v_error_message, v_redirect_url
+  FROM pgapex.tabularform_function tff
+  INNER JOIN pgapex.tabularform_region tfr ON tff.region_id = tfr.region_id
+  WHERE tff.region_id = i_region_id AND tff.tabularform_function_id = (j_post_params->>'PGAPEX_BUTTON')::int;
+
+  SELECT string_agg('"' || elem || '"', ',') INTO f_function_params_as_text
+  FROM jsonb_array_elements_text((j_post_params->>'#UNIQUE_ID_COLUMN#')::jsonb) elem;
+
+  t_function_call := 'SELECT ' || v_schema_name || '.' || v_function_name || ' (''{' || f_function_params_as_text || '}'');';
 
   BEGIN
     SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );

@@ -221,4 +221,88 @@ class Region extends Model {
     }
     return false;
   }
+
+  public function saveTabularFormRegion(Request $request) {
+    $connection = $this->getDb()->getConnection();
+    $connection->beginTransaction();
+
+    try {
+      if (count($request->getApiAttribute('tabularFormColumns')) === 0) {
+        throw new Exception('At least one report column is mandatory');
+      }
+
+      if (count($request->getApiAttribute('tabularFormButtons')) === 0) {
+        throw new Exception('At least one button is mandatory');
+      }
+
+      $statement = $connection->prepare('SELECT pgapex.f_region_save_tabularform_region(:regionId, :pageId, '
+      . ':regionTemplateId, :tplDpId, :name, :sequence, :isVisible, :tabularFormTemplateId, :viewSchema, :viewName, '
+      . ':itemsPerPage, :showHeader, :uniqueId, :paginationQueryParameter)');
+      $statement->bindValue(':regionId',                 $request->getApiAttribute('regionId'),                   PDO::PARAM_INT);
+      $statement->bindValue(':pageId',                   $request->getApiAttribute('pageId'),                     PDO::PARAM_INT);
+      $statement->bindValue(':regionTemplateId',         $request->getApiAttribute('regionTemplate'),             PDO::PARAM_INT);
+      $statement->bindValue(':tplDpId',                  $request->getApiAttribute('pageTemplateDisplayPointId'), PDO::PARAM_INT);
+      $statement->bindValue(':name',                     $request->getApiAttribute('name'),                       PDO::PARAM_STR);
+      $statement->bindValue(':sequence',                 $request->getApiAttribute('sequence'),                   PDO::PARAM_INT);
+      $statement->bindValue(':isVisible',                $request->getApiAttribute('isVisible'),                  PDO::PARAM_BOOL);
+      $statement->bindValue(':tabularFormTemplateId',    $request->getApiAttribute('tabularFormTemplate'),        PDO::PARAM_INT);
+      $statement->bindValue(':viewSchema',               $request->getApiAttribute('viewSchema'),                 PDO::PARAM_STR);
+      $statement->bindValue(':viewName',                 $request->getApiAttribute('viewName'),                   PDO::PARAM_STR);
+      $statement->bindValue(':itemsPerPage',             $request->getApiAttribute('itemsPerPage'),               PDO::PARAM_INT);
+      $statement->bindValue(':showHeader',               $request->getApiAttribute('showHeader'),                 PDO::PARAM_BOOL);
+      $statement->bindValue(':uniqueId',                 $request->getApiAttribute('uniqueId'),                   PDO::PARAM_STR);
+      $statement->bindValue(':paginationQueryParameter', $request->getApiAttribute('paginationQueryParameter'),   PDO::PARAM_STR);
+      $statement->execute();
+      $regionId = $statement->fetchColumn();
+
+      $statement = $connection->prepare('SELECT pgapex.f_region_delete_region_columns(:regionId, \'TABULARFORM\')');
+      $statement->bindValue(':regionId', $regionId, PDO::PARAM_INT);
+      $statement->execute();
+
+      $columnStatement = $connection->prepare('SELECT pgapex.f_region_create_region_column(:regionId, :viewColumnName, '
+        . ':heading, :sequence, :isTextEscaped, \'TABULARFORM\')');
+      $linkStatement = $connection->prepare('SELECT pgapex.f_region_create_region_link(:regionId, :heading,'
+        . ':sequence, :isTextEscaped, :url, :linkText, :attributes, \'TABULARFORM\')');
+      foreach ($request->getApiAttribute('tabularFormColumns') as $tabularFormColumn) {
+        if ($tabularFormColumn['attributes']['type'] === 'COLUMN') {
+          $columnStatement->bindValue(':regionId',       $regionId,                                         PDO::PARAM_INT);
+          $columnStatement->bindValue(':viewColumnName', $tabularFormColumn['attributes']['column'],        PDO::PARAM_STR);
+          $columnStatement->bindValue(':heading',        $tabularFormColumn['attributes']['heading'],       PDO::PARAM_STR);
+          $columnStatement->bindValue(':sequence',       $tabularFormColumn['attributes']['sequence'],      PDO::PARAM_INT);
+          $columnStatement->bindValue(':isTextEscaped',  $tabularFormColumn['attributes']['isTextEscaped'], PDO::PARAM_BOOL);
+          $columnStatement->execute();
+        } elseif ($tabularFormColumn['attributes']['type'] === 'LINK') {
+          $linkStatement->bindValue(':regionId',       $regionId,                                          PDO::PARAM_INT);
+          $linkStatement->bindValue(':heading',        $tabularFormColumn['attributes']['heading'],        PDO::PARAM_STR);
+          $linkStatement->bindValue(':sequence',       $tabularFormColumn['attributes']['sequence'],       PDO::PARAM_INT);
+          $linkStatement->bindValue(':isTextEscaped',  $tabularFormColumn['attributes']['isTextEscaped'],  PDO::PARAM_BOOL);
+          $linkStatement->bindValue(':url',            $tabularFormColumn['attributes']['linkUrl'],        PDO::PARAM_BOOL);
+          $linkStatement->bindValue(':linkText',       $tabularFormColumn['attributes']['linkText'],       PDO::PARAM_BOOL);
+          $linkStatement->bindValue(':attributes',     $tabularFormColumn['attributes']['linkAttributes'], PDO::PARAM_BOOL);
+          $linkStatement->execute();
+        } else {
+          throw new Exception('Unknown column type: ' . $tabularFormColumn['attributes']['type']);
+        }
+      }
+
+      $buttonStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_function(:regionId, '
+        . ':buttonTemplateId, :functionName, :buttonLabel, :sequence, :successMessage, :errorMessage)');
+      foreach ($request->getApiAttribute('tabularFormButtons') as $tabularFormButton) {
+        $buttonStatement->bindValue(':regionId',         $regionId, PDO::PARAM_INT);
+        $buttonStatement->bindValue(':buttonTemplateId', $tabularFormButton['template_id'],     PDO::PARAM_INT);
+        $buttonStatement->bindValue(':functionName',     $tabularFormButton['function_name'],   PDO::PARAM_STR);
+        $buttonStatement->bindValue(':buttonLabel',      $tabularFormButton['label'],           PDO::PARAM_STR);
+        $buttonStatement->bindValue(':sequence',         $tabularFormButton['sequence'],        PDO::PARAM_INT);
+        $buttonStatement->bindValue(':successMessage',   $tabularFormButton['success_message'], PDO::PARAM_STR);
+        $buttonStatement->bindValue(':errorMessage',     $tabularFormButton['error_message'],   PDO::PARAM_INT);
+        $buttonStatement->execute();
+      }
+
+      $connection->commit();
+      return true;
+    } catch (Exception $e) {
+      $connection->rollBack();
+    }
+    return false;
+  }
 }

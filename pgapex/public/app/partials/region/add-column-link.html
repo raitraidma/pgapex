@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-xs-10">
+    <h3>{{names.title|translate}}</h3>
+  </div>
+  <div class="col-xs-2 text-right">
+    <div class="dropdown">
+      <button title="{{names.attributeTitle|translate}}" class="btn btn-sm btn-primary dropdown-toggle"
+              type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="" ng-click="addColumn('COLUMN')">{{'region.column'|translate}}</a></li>
+        <li><a href="" ng-click="addColumn('LINK')">{{'region.link'|translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row form-group hidden-xs hidden-sm">
+  <div class="col-md-2">{{'region.heading'|translate}}</div>
+  <div class="col-md-1">{{'region.sequence'|translate}}</div>
+  <div class="col-md-1">{{'region.isTextEscaped'|translate}}</div>
+</div>
+
+<div class="alert alert-info" ng-show="columns.length < 1">
+  {{'region.atLeastOneColumnMustBeAdded'|translate}}
+</div>
+
+<div class="form-group form-group-striped" ng-repeat="column in columns">
+  <ng-form name="names.formName">
+    <div class="row">
+      <div class="col-md-2"
+           ng-class="{'has-error': formError.showErrors(names.formName.heading, names.entityName + '/' + $index + '/heading')}">
+        <input required ng-model="column.attributes.heading" name="heading" type="text" class="form-control" placeholder="{{'region.heading'|translate}} *">
+      </div>
+      <div class="col-md-1" ng-class="{'has-error': formError.showErrors(names.formName.sequence, names.entityName + '/' + $index + '/sequence')}">
+        <input required ng-model="column.attributes.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
+      </div>
+      <div class="col-md-1" ng-class="{'has-error': formError.showErrors(names.formName.isTextEscaped, names.entityName + '/' + $index + '/isTextEscaped')}">
+        <label>
+          <input ng-model="column.attributes.isTextEscaped" type="checkbox" title="{{'region.isTextEscaped'|translate}}">
+          <span class="visible-xs-inline-block visible-sm-inline-block">{{'region.isTextEscaped'|translate}}</span>
+        </label>
+      </div>
+      <!-- COLUMN -->
+      <div class="col-md-7" ng-show="column.attributes.type === 'COLUMN'" ng-class="{'has-error': formError.showErrors(names.formName.column, names.entityName + '/' + $index + '/column')}">
+        <select class="form-control" name="column" ng-required="column.attributes.type === 'COLUMN'" ng-model="column.attributes.column"
+                ng-options="viewColumn.attributes.name as viewColumn.attributes.name for viewColumn in viewColumns">
+          <option value="">-- {{'region.column'|translate}} * --</option>
+        </select>
+      </div>
+      <!-- LINK -->
+      <div class="col-md-3" ng-show="column.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(names.formName.linkUrl, names.entityName + '/' + $index + '/linkUrl')}">
+        <input ng-required="column.attributes.type === 'LINK'" name="linkUrl" ng-model="column.attributes.linkUrl" type="text" class="form-control" placeholder="{{'region.url'|translate}}">
+      </div>
+      <div class="col-md-2" ng-show="column.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(names.formName.linkText, names.entityName + '/' + $index + '/linkText')}">
+        <input ng-required="column.attributes.type === 'LINK'" name="linkText" ng-model="column.attributes.linkText" type="text" class="form-control" placeholder="{{'region.text'|translate}}">
+      </div>
+      <div class="col-md-2" ng-show="column.attributes.type === 'LINK'" ng-class="{'has-error': formError.showErrors(names.formName.linkAttributes, names.entityName + '/' + $index + '/linkAttributes')}">
+        <input ng-model="column.attributes.linkAttributes" name="linkAttributes" type="text" class="form-control" placeholder="{{'region.attributes'|translate}}">
+      </div>
+
+      <div class="col-md-1 text-right">
+        <a title="{{'region.deleteTabularFormColumn'|translate}}" ng-click="deleteColumn($index)" class="btn btn-sm btn-danger">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row has-error" ng-show="
+        formError.showErrors(names.formName.heading, names.entityName + '/' + $index + '/heading') ||
+        formError.showErrors(names.formName.sequence, names.entityName + '/' + $index + '/sequence') ||
+        formError.showErrors(names.formName.column, names.entityName + '/' + $index + '/column') ||
+        formError.showErrors(names.formName.linkUrl, names.entityName + '/' + $index + '/linkUrl') ||
+        formError.showErrors(names.formName.linkText, names.entityName + '/' + $index + '/linkText') ||
+        formError.showErrors(names.formName.linkAttributes, names.entityName + '/' + $index + '/linkAttributes')
+       ">
+      <div class="col-sm-12">
+        <span ng-show="names.formName.heading.$touched && names.formName.heading.$error.required" class="help-block">{{'region.headingIsMandatory'|translate}}</span>
+        <span ng-show="names.formName.sequence.$touched && names.formName.sequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
+        <span ng-show="names.formName.column.$touched && names.formName.column.$error.required" class="help-block">{{'region.columnIsMandatory'|translate}}</span>
+        <span ng-show="names.formName.linkUrl.$touched && names.formName.linkUrl.$error.required" class="help-block">{{'region.linkUrlIsMandatory'|translate}}</span>
+        <span ng-show="names.formName.linkText.$touched && names.formName.linkText.$error.required" class="help-block">{{'region.linkTextIsMandatory'|translate}}</span>
+
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/heading')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/sequence')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/column')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/linkUrl')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/linkText')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors(names.entityName + '/' + $index + '/linkAttributes')" class="help-block">{{error|translate}}</span>
+      </div>
+    </div>
+  </ng-form>
+</div>
