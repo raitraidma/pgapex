@@ -135,6 +135,8 @@ CREATE TABLE pgapex.page_item (
 	page_ID INTEGER NOT NULL,
 	form_field_ID INTEGER,
 	region_ID INTEGER,
+	tabularform_region_ID INTEGER,
+	detailview_region_ID INTEGER,
 	name VARCHAR ( 60 ) NOT NULL,
 	CONSTRAINT uq_page_item_page_id_name UNIQUE (page_ID, name),
 	CONSTRAINT pk_page_item PRIMARY KEY (page_item_ID),
@@ -516,8 +518,96 @@ CREATE TABLE pgapex.tabularform_button_template (
   CONSTRAINT pk_tabularform_button_template PRIMARY KEY (template_ID)
   );
 
+CREATE TABLE pgapex.detailview_region (
+  region_ID INTEGER NOT NULL,
+  table_template_ID INTEGER NOT NULL,
+  page_template_ID INTEGER NOT NULL,
+  schema_name VARCHAR ( 64 ) NOT NULL,
+  view_name VARCHAR ( 64 ) NOT NULL,
+  unique_ID VARCHAR ( 64 ) NOT NULL,
+  items_per_page INTEGER NOT NULL,
+  show_header BOOLEAN DEFAULT TRUE NOT NULL,
+  CONSTRAINT pk_detailview_region PRIMARY KEY (region_ID)
+  );
+CREATE INDEX idx_detailview_region_table_template_ID ON pgapex.detailview_region (table_template_ID);
+CREATE INDEX idx_detailview_region_page_template_ID ON pgapex.detailview_region (page_template_ID);
+CREATE INDEX idx_detailview_region_schema_name ON pgapex.detailview_region (schema_name);
+CREATE INDEX idx_detailview_region_view_name ON pgapex.detailview_region (view_name);
+CREATE INDEX idx_detailview_region_unique_ID ON pgapex.detailview_region (unique_ID);
+
+CREATE TABLE pgapex.detailview_table_template (
+  template_ID INTEGER NOT NULL,
+  detailview_table_begin TEXT NOT NULL,
+  detailview_table_end TEXT NOT NULL,
+  header_begin TEXT NOT NULL,
+  header_row_begin TEXT NOT NULL,
+  header_cell TEXT NOT NULL,
+  header_row_end TEXT NOT NULL,
+  header_end TEXT NOT NULL,
+  body_begin TEXT NOT NULL,
+  body_row_begin TEXT NOT NULL,
+  body_row_link_to_page TEXT NOT NULL,
+  body_row_cell_content TEXT NOT NULL,
+  body_row_end TEXT NOT NULL,
+  body_end TEXT NOT NULL,
+  pagination_begin TEXT NOT NULL,
+	pagination_end TEXT NOT NULL,
+	previous_page TEXT NOT NULL,
+	next_page TEXT NOT NULL,
+	active_page TEXT NOT NULL,
+	inactive_page TEXT NOT NULL,
+	CONSTRAINT pk_detailview_table_template PRIMARY KEY (template_ID)
+  );
+
+CREATE TABLE pgapex.detailview_page_template (
+  template_ID INTEGER NOT NULL,
+  detailview_page_begin TEXT NOT NULL,
+  detailview_page_end TEXT NOT NULL,
+  column_heading TEXT NOT NULL,
+  column_content TEXT NOT NULL,
+  CONSTRAINT pk_detailview_page_template PRIMARY KEY (template_ID)
+  );
+
+CREATE TABLE pgapex.detailview_column_type (
+  detailview_column_type_ID VARCHAR ( 30 ) NOT NULL,
+  CONSTRAINT pk_detailview_column_type PRIMARY KEY (detailview_column_type_ID)
+  );
+
+CREATE TABLE pgapex.detailview_column_place (
+  detailview_column_place_ID VARCHAR ( 30 ) NOT NULL,
+  CONSTRAINT pk_detailview_column_place PRIMARY KEY (detailview_column_place_ID)
+  );
+
+CREATE TABLE pgapex.detailview_column (
+  detailview_column_ID SERIAL NOT NULL,
+  detailview_column_type_ID VARCHAR ( 30 ) NOT NULL,
+  detailview_column_place_ID VARCHAR ( 30 ) NOT NULL,
+  region_ID INTEGER NOT NULL,
+  view_column_name VARCHAR ( 64 ) NOT NULL,
+  heading VARCHAR ( 60 ) NOT NULL,
+  sequence INTEGER NOT NULL,
+  is_text_escaped BOOLEAN DEFAULT TRUE NOT NULL,
+  CONSTRAINT pk_detailview_column PRIMARY KEY (detailview_column_ID),
+	CONSTRAINT chk_detailview_column_sequence_must_be_not_negative CHECK (sequence >= 0)
+  );
+CREATE INDEX idx_detailview_column_view_column_name ON pgapex.detailview_column (view_column_name);
+CREATE INDEX idx_detailview_column_detailview_column_type_id ON pgapex.detailview_column (detailview_column_type_ID);
+CREATE INDEX idx_detailview_column_detailview_column_place_id ON pgapex.detailview_column (detailview_column_place_ID);
+CREATE INDEX idx_detailview_column_region_id ON pgapex.detailview_column (region_ID);
+
+CREATE TABLE pgapex.detailview_column_link (
+  detailview_column_link_ID SERIAL NOT NULL,
+  detailview_column_ID INTEGER NOT NULL,
+  url VARCHAR ( 255 ) NOT NULL,
+  link_text VARCHAR ( 60 ) NOT NULL,
+  attributes VARCHAR ( 255 ) NOT NULL,
+  CONSTRAINT uq_detailview_column_link_detailview_column_id UNIQUE (detailview_column_ID),
+	CONSTRAINT pk_detailview_column_link PRIMARY KEY (detailview_column_link_ID)
+  );
+
 ALTER TABLE pgapex.button_template ADD CONSTRAINT fk_button_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.report_region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_detailview_region_id FOREIGN KEY (detailview_region_ID) REFERENCES pgapex.detailview_region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_page_id FOREIGN KEY (page_ID) REFERENCES pgapex.page (page_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.page_item ADD CONSTRAINT fk_page_item_form_field_id FOREIGN KEY (form_field_ID) REFERENCES pgapex.form_field (form_field_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.form_template ADD CONSTRAINT fk_form_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -583,4 +673,12 @@ ALTER TABLE pgapex.navigation_template ADD CONSTRAINT fk_navigation_template_tem
 ALTER TABLE pgapex.report_column_link ADD CONSTRAINT fk_report_column_link_report_column_id FOREIGN KEY (report_column_ID) REFERENCES pgapex.report_column (report_column_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.tabularform_column_link ADD CONSTRAINT fk_tabularform_column_link_tabularform_column_id FOREIGN KEY (tabularform_column_ID) REFERENCES pgapex.tabularform_column (tabularform_column_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE pgapex.tabularform_button_template ADD CONSTRAINT fk_tabularform_button_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
-
+ALTER TABLE pgapex.detailview_region ADD CONSTRAINT fk_detailview_region_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_region ADD CONSTRAINT fk_detailview_region_template_id FOREIGN KEY (table_template_ID) REFERENCES pgapex.detailview_table_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_region ADD CONSTRAINT fk_detailview_region_template_id FOREIGN KEY (page_template_ID) REFERENCES pgapex.detailview_page_template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_table_template ADD CONSTRAINT fk_detailview_table_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_page_template ADD CONSTRAINT fk_detailview_page_template_template_id FOREIGN KEY (template_ID) REFERENCES pgapex.template (template_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_column ADD CONSTRAINT fk_detailview_column_region_id FOREIGN KEY (region_ID) REFERENCES pgapex.detailview_region (region_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_column ADD CONSTRAINT fk_detailview_column_detailview_column_type_id FOREIGN KEY (detailview_column_type_ID) REFERENCES pgapex.detailview_column_type (detailview_column_type_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_column ADD CONSTRAINT fk_detailview_column_detailview_column_place_id FOREIGN KEY (detailview_column_place_ID) REFERENCES pgapex.detailview_column_place (detailview_column_place_ID)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE pgapex.detailview_column_link ADD CONSTRAINT fk_detailview_column_link_detailview_column_id FOREIGN KEY (detailview_column_ID) REFERENCES pgapex.detailview_column (detailview_column_ID)  ON DELETE CASCADE ON UPDATE NO ACTION;

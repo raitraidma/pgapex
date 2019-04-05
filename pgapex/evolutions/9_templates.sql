@@ -12,6 +12,12 @@ INSERT INTO pgapex.template (template_id, name) VALUES (11, 'Text input template
 INSERT INTO pgapex.template (template_id, name) VALUES (12, 'Password input template');
 INSERT INTO pgapex.template (template_id, name) VALUES (13, 'Radio template');
 INSERT INTO pgapex.template (template_id, name) VALUES (14, 'Checkbox template');
+INSERT INTO pgapex.template (template_id, name) VALUES (15, 'Tabular form template');
+INSERT INTO pgapex.template (template_id, name) VALUES (16, 'Default button');
+INSERT INTO pgapex.template (template_id, name) VALUES (17, 'Green button');
+INSERT INTO pgapex.template (template_id, name) VALUES (18, 'Red button');
+INSERT INTO pgapex.template (template_id, name) VALUES (19, 'Default detail view table');
+INSERT INTO pgapex.template (template_id, name) VALUES (20, 'Default detail view page');
 
 
 INSERT INTO pgapex.navigation_template (template_id, navigation_begin, navigation_end) VALUES (3, '<ul class="nav navbar-nav">', '</ul>');
@@ -180,3 +186,22 @@ VALUES (15, '<div>', '#PAGINATION#</div>', '<form><input type="hidden" name="PGA
 
 INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (16,
 '<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-secondary">#LABEL#</button>');
+INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (17,
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-success">#LABEL#</button>');
+INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (18,
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-danger">#LABEL#</button>');
+
+INSERT INTO pgapex.detailview_table_template (template_ID, detailview_table_begin, detailview_table_end, header_begin,
+header_row_begin, header_cell, header_row_end, header_end, body_begin, body_row_begin, body_row_link_to_page,
+body_row_cell_content, body_row_end, body_end, pagination_begin, pagination_end, previous_page, next_page, active_page,
+inactive_page) VALUES (19, '<div><table class="table table-bordered">', '</table>#PAGINATION#</div>', '<thead>', '<tr>',
+'<th>#CELL_CONTENT#</th>', '</tr>', '</thead>', '<tbody>', '<tr>',
+'<td><a href="?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>',
+'<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>', '<nav><ul class="pagination">', '</ul></nav>',
+'<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
+'<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
+
+INSERT INTO pgapex.detailview_page_template (template_ID, detailview_page_begin, detailview_page_end, column_heading,
+column_content)
+VALUES (20, '<dl class="dl-horizontal">', '</dl>', '<dt>#COLUMN_HEADING#</dt>',
+'<dd style="margin-bottom: 2em">#COLUMN_CONTENT#</dd>');
