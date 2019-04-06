@@ -214,7 +214,6 @@ BEGIN
 
   v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' LIMIT ' || i_items_per_page || ' OFFSET ' || i_offset || ') AS a';
 
-
   SELECT res_rows INTO j_rows FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_rows JSON );
 
   RETURN pgapex.f_app_get_tabularform_region_with_template(i_region_id, j_rows, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
@@ -224,3 +223,189 @@ SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
 ----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_detailview_table_with_template(
+  i_region_id              INT
+, j_data                   JSON
+, v_pagination_query_param VARCHAR
+, i_page_count             INT
+, i_current_page           INT
+, b_show_header            BOOLEAN
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_response                TEXT;
+  t_pagination              TEXT     := '';
+  v_url_prefix              VARCHAR;
+  t_detailview_table_begin  TEXT;
+  t_detailview_table_end    TEXT;
+  t_header_begin            TEXT;
+  t_header_row_begin        TEXT;
+  t_header_cell             TEXT;
+  t_header_row_end          TEXT;
+  t_header_end              TEXT;
+  t_body_begin              TEXT;
+  t_body_row_begin          TEXT;
+  t_body_row_link_to_page   TEXT;
+  t_body_row_cell_content   TEXT;
+  t_body_row_end            TEXT;
+  t_body_end                TEXT;
+  t_pagination_begin        TEXT;
+  t_pagination_end          TEXT;
+  t_previous_page           TEXT;
+  t_next_page               TEXT;
+  t_active_page             TEXT;
+  t_inactive_page           TEXT;
+  t_unique_id               TEXT;
+  r_detailview_column       pgapex.t_column_with_link;
+  r_detailview_columns      pgapex.t_column_with_link[];
+  j_row                     JSON;
+  r_column                  RECORD;
+  t_cell_content            TEXT;
+BEGIN
+  SELECT dvtt.detailview_table_begin, dvtt.detailview_table_end, dvtt.header_begin, dvtt.header_row_begin,
+         dvtt.header_cell, dvtt.header_row_end, dvtt.header_end, dvtt.body_begin, dvtt.body_row_begin,
+         dvtt.body_row_link_to_page, dvtt.body_row_cell_content, dvtt.body_row_end, dvtt.body_end,
+         dvtt.pagination_begin, dvtt.pagination_end, dvtt.previous_page, dvtt.next_page, dvtt.active_page,
+         dvtt.inactive_page, dvr.unique_id
+  INTO t_detailview_table_begin, t_detailview_table_end, t_header_begin, t_header_row_begin,
+       t_header_cell, t_header_row_end, t_header_end, t_body_begin, t_body_row_begin,
+       t_body_row_link_to_page, t_body_row_cell_content, t_body_row_end, t_body_end,
+       t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page, t_unique_id
+  FROM pgapex.detailview_region dvr
+  LEFT JOIN pgapex.detailview_table_template dvtt ON dvr.table_template_id = dvtt.template_id
+  WHERE dvr.region_id = i_region_id;
+
+  SELECT ARRAY(
+	    SELECT ROW(dvc.view_column_name, dvc.heading, dvc.sequence, dvc.is_text_escaped, dvcl.url, dvcl.link_text, dvcl.attributes)
+	    FROM pgapex.detailview_column dvc
+	    LEFT JOIN pgapex.detailview_column_link dvcl ON dvc.detailview_column_id = dvcl.detailview_column_id
+	    WHERE dvc.region_id = i_region_id
+	    ORDER BY dvc.sequence
+  ) INTO r_detailview_columns;
+
+  t_response := t_detailview_table_begin;
+
+  IF b_show_header THEN
+    t_response := t_response || t_header_begin || t_header_row_begin || '<th></th>';
+
+    FOREACH r_detailview_column IN ARRAY r_detailview_columns
+    LOOP
+      t_response := t_response || replace(t_header_cell, '#CELL_CONTENT#', r_detailview_column.heading);
+    END LOOP;
+
+    t_response := t_response || t_header_row_end || t_header_end;
+  END IF;
+
+  t_response := t_response || t_body_begin;
+
+  IF j_data IS NOT NULL THEN
+    FOR j_row IN SELECT * FROM json_array_elements(j_data)
+    LOOP
+      t_response := t_response || t_body_row_begin || t_body_row_link_to_page;
+        FOREACH r_detailview_column IN ARRAY r_detailview_columns
+        LOOP
+          IF r_detailview_column.view_column_name IS NOT NULL THEN
+            t_cell_content := COALESCE(j_row->>r_detailview_column.view_column_name, '');
+            IF r_detailview_column.is_text_escaped THEN
+              t_cell_content := pgapex.f_app_html_special_chars(t_cell_content);
+            END IF;
+            t_response := t_response || replace(t_body_row_cell_content, '#CELL_CONTENT#', t_cell_content);
+          ELSE
+            FOR r_column IN SELECT * FROM json_each_text(j_row)
+            LOOP
+              r_detailview_column.link_text := replace(r_detailview_column.link_text, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+              r_detailview_column.url := replace(r_detailview_column.url, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+            END LOOP;
+            IF r_detailview_column.is_text_escaped THEN
+              r_detailview_column.link_text := pgapex.f_app_html_special_chars(r_detailview_column.link_text);
+            END IF;
+            t_response := t_response || replace(t_body_row_cell_content, '#CELL_CONTENT#', '<a href="' || r_detailview_column.url || '" ' || COALESCE(r_detailview_column.attributes, '') || '>' || r_detailview_column.link_text || '</a>');
+          END IF;
+        END LOOP;
+      t_response := t_response || t_body_row_end;
+    END LOOP;
+  END IF;
+
+  t_response := t_response || t_body_end || t_detailview_table_end;
+
+  v_url_prefix := pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' || pgapex.f_app_get_setting('page_id') || '?' || v_pagination_query_param || '=';
+
+  IF i_page_count > 1 THEN
+    t_pagination := t_pagination_begin;
+
+    IF i_current_page > 1 THEN
+      t_pagination := t_pagination || replace(t_previous_page, '#LINK#', v_url_prefix || 1);
+    END IF;
+
+    FOR p in 1 .. i_page_count
+    LOOP
+      IF p = i_current_page THEN
+        t_pagination := t_pagination || replace(replace(t_active_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      ELSE
+        t_pagination := t_pagination || replace(replace(t_inactive_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      END IF;
+    END LOOP;
+
+    IF i_current_page < i_page_count THEN
+      t_pagination := t_pagination || replace(t_next_page, '#LINK#', v_url_prefix || i_page_count);
+    END IF;
+
+    t_pagination := t_pagination || t_pagination_end;
+  END IF;
+
+  RETURN replace(t_response, '#PAGINATION#', t_pagination);
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_detail_view_table(
+    i_region_id  INT
+  , j_get_params JSONB
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_region_template        TEXT;
+  v_schema_name            VARCHAR;
+  v_view_name              VARCHAR;
+  i_items_per_page         INT;
+  b_show_header            BOOLEAN;
+  v_pagination_query_param VARCHAR;
+  i_current_page           INT      := 1;
+  i_row_count              INT;
+  i_page_count             INT;
+  i_offset                 INT      := 0;
+  j_rows                   JSON;
+  v_query                  VARCHAR;
+BEGIN
+  SELECT dvr.schema_name, dvr.view_name, dvr.items_per_page, dvr.show_header, pi.name
+  INTO v_schema_name, v_view_name, i_items_per_page, b_show_header, v_pagination_query_param
+  FROM pgapex.detailview_region dvr
+  LEFT JOIN pgapex.page_item pi ON dvr.region_id = pi.detailview_region_id
+  WHERE dvr.region_id = i_region_id;
+
+  IF j_get_params IS NOT NULL AND j_get_params ? v_pagination_query_param THEN
+    i_current_page := (j_get_params->>v_pagination_query_param)::INT;
+  END IF;
+
+  i_row_count := pgapex.f_app_get_row_count(v_schema_name, v_view_name);
+  i_page_count := ceil(i_row_count::float/i_items_per_page::float);
+
+  IF (i_page_count < i_current_page) OR (i_current_page < 1) THEN
+    i_current_page := 1;
+  END IF;
+
+  i_offset := (i_current_page - 1) * i_items_per_page;
+
+  v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' LIMIT ' || i_items_per_page || ' OFFSET ' || i_offset || ') AS a';
+
+  SELECT res_rows INTO j_rows FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_rows JSON );
+
+  RETURN pgapex.f_app_get_detailview_table_with_template(i_region_id, j_rows, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

@@ -196,7 +196,7 @@ header_row_begin, header_cell, header_row_end, header_end, body_begin, body_row_
 body_row_cell_content, body_row_end, body_end, pagination_begin, pagination_end, previous_page, next_page, active_page,
 inactive_page) VALUES (19, '<div><table class="table table-bordered">', '</table>#PAGINATION#</div>', '<thead>', '<tr>',
 '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>', '<tbody>', '<tr>',
-'<td><a href="?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>',
+'<td style="width: 1%"><a href="?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>',
 '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>', '<nav><ul class="pagination">', '</ul></nav>',
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');

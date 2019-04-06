@@ -28,6 +28,16 @@ CREATE TYPE pgapex.t_tabularform_column_with_link AS (
   , attributes       VARCHAR
 );
 
+CREATE TYPE pgapex.t_column_with_link AS (
+    view_column_name VARCHAR
+  , heading          VARCHAR
+  , sequence         INT
+  , is_text_escaped  BOOLEAN
+  , url              VARCHAR
+  , link_text        VARCHAR
+  , attributes       VARCHAR
+);
+
 CREATE TYPE pgapex.t_tabularform_button AS (
     tabularform_function_id VARCHAR,
     button_label VARCHAR,
@@ -573,6 +583,7 @@ RETURNS TABLE(
        WHEN rr.region_id IS NOT NULL THEN 'REPORT'
        WHEN fr.region_id IS NOT NULL THEN 'FORM'
        WHEN tfr.region_id IS NOT NULL THEN 'TABULARFORM'
+       WHEN dvr.region_id IS NOT NULL THEN 'DETAIL_VIEW_TABLE'
        END) AS region_type
     , ptdp.display_point_id AS display_point
     , r.sequence
@@ -584,6 +595,7 @@ RETURNS TABLE(
     LEFT JOIN pgapex.report_region rr ON rr.region_id = r.region_id
     LEFT JOIN pgapex.form_region fr ON fr.region_id = r.region_id
     LEFT JOIN pgapex.tabularform_region tfr ON tfr.region_id = r.region_id
+    LEFT JOIN pgapex.detailview_region dvr ON dvr.region_id = r.region_id
     LEFT JOIN pgapex.page_template_display_point ptdp ON ptdp.page_template_display_point_id = r.page_template_display_point_id
   WHERE r.page_id = i_page_id AND r.is_visible = TRUE
   ORDER BY r.sequence;
@@ -636,6 +648,8 @@ BEGIN
         SELECT pgapex.f_app_get_form_region(r_region.region_id, j_get_params) INTO t_region_content;
       ELSIF r_region.region_type = 'TABULARFORM' THEN
         SELECT pgapex.f_app_get_tabularform_region(r_region.region_id, j_get_params) INTO t_region_content;
+      ELSIF r_region.region_type = 'DETAIL_VIEW_TABLE' THEN
+        SELECT pgapex.f_app_get_detail_view_table(r_region.region_id, j_get_params) INTO t_region_content;
       END IF;
       t_region_template := replace(t_region_template, '#NAME#', r_region.name);
       t_region_template := replace(t_region_template, '#BODY#', t_region_content);
