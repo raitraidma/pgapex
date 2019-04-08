@@ -24,9 +24,6 @@ INSERT INTO pgapex.tabularform_column_type (tabularform_column_type_id) VALUES (
 INSERT INTO pgapex.detailview_column_type (detailview_column_type_id) VALUES ('LINK');
 INSERT INTO pgapex.detailview_column_type (detailview_column_type_id) VALUES ('COLUMN');
 
-INSERT INTO pgapex.detailview_column_place (detailView_column_place_id) VALUES ('TABLE');
-INSERT INTO pgapex.detailview_column_place (detailView_column_place_id) VALUES ('PAGE');
-
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('BODY');
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_1');
 INSERT INTO pgapex.display_point (display_point_id) VALUES ('POSITION_2');

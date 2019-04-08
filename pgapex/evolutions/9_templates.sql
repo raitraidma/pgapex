@@ -201,7 +201,7 @@ inactive_page) VALUES (19, '<div><table class="table table-bordered">', '</table
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
 
-INSERT INTO pgapex.detailview_page_template (template_ID, detailview_page_begin, detailview_page_end, column_heading,
+INSERT INTO pgapex.detailview_template (template_ID, detailview_page_begin, detailview_page_end, column_heading,
 column_content)
 VALUES (20, '<dl class="dl-horizontal">', '</dl>', '<dt>#COLUMN_HEADING#</dt>',
 '<dd style="margin-bottom: 2em">#COLUMN_CONTENT#</dd>');

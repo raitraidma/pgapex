@@ -409,3 +409,121 @@ END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_detail_view_with_template(
+    i_region_id   INT
+  , j_row         JSON
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_detailview_begin    TEXT;
+  t_detailview_end      TEXT;
+  t_column_heading      TEXT;
+  t_column_content      TEXT;
+  t_response            TEXT;
+  r_detailview_column   pgapex.t_column_with_link;
+  r_detailview_columns  pgapex.t_column_with_link[];
+  t_heading             TEXT;
+  t_content             TEXT;
+  r_column              RECORD;
+BEGIN
+  SELECT dvt.detailview_begin, dvt.detailview_end, dvt.column_heading, dvt.column_content
+  INTO t_detailview_begin, t_detailview_end, t_column_heading, t_column_content
+  FROM pgapex.detailview_region dvr
+  LEFT JOIN pgapex.detailview_template dvt ON dvr.template_id = dvt.template_id
+  WHERE dvr.region_id = i_region_id;
+
+  SELECT ARRAY (
+	  SELECT ROW(dvc.view_column_name, dvc.heading, dvc.sequence, dvc.is_text_escaped, dvcl.url, dvcl.link_text, dvcl.attributes)
+	  FROM pgapex.detailview_column dvc
+	  LEFT JOIN pgapex.detailview_column_link dvcl ON dvc.detailview_column_id = dvcl.detailview_column_id
+	  WHERE dvc.region_id = i_region_id
+	  ORDER BY dvc.sequence
+  ) INTO r_detailview_columns;
+
+  t_response := t_detailview_begin;
+
+  IF j_row IS NOT NULL THEN
+    FOREACH r_detailview_column IN ARRAY r_detailview_columns
+      LOOP
+        IF r_detailview_column.view_column_name IS NOT NULL THEN
+          t_heading := r_detailview_column.heading;
+          t_content := COALESCE(j_row->>r_detailview_column.view_column_name, '');
+
+          t_response := t_response || replace(t_column_heading, '#COLUMN_HEADING#', t_heading);
+          t_response := t_response || replace(t_column_content, '#COLUMN_CONTENT#', t_content);
+        ELSE
+          FOR r_column IN SELECT * FROM json_each_text(j_row)
+            LOOP
+              r_detailview_column.link_text := replace(r_detailview_column.link_text, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+              r_detailview_column.url := replace(r_detailview_column.url, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+            END LOOP;
+            IF r_detailview_column.is_text_escaped THEN
+              r_detailview_column.link_text := pgapex.f_app_html_special_chars(r_detailview_column.link_text);
+            END IF;
+            t_heading := r_detailview_column.heading;
+
+            t_response := t_response || replace(t_column_heading, '#COLUMN_HEADING#', t_heading);
+            t_response := t_response || replace(t_column_content, '#COLUMN_CONTENT#', '<a href="' ||
+              r_detailview_column.url || '" ' || COALESCE(r_detailview_column.attributes, '') || '>' || r_detailview_column.link_text || '</a>');
+        END IF;
+      END LOOP;
+  END IF;
+
+  t_response := t_response || t_detailview_end;
+
+  RETURN t_response;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_detail_view(
+    i_region_id  INT
+  , j_get_params JSONB
+)
+  RETURNS TEXT AS $$
+DECLARE
+  v_schema_name       VARCHAR;
+  v_view_name         VARCHAR;
+  v_linked_column     VARCHAR;
+  v_page_query_param  VARCHAR;
+  v_query             VARCHAR;
+  v_argument          VARCHAR;
+  t_negative_response TEXT;
+  j_row               JSONB;
+BEGIN
+  SELECT dvr.schema_name, dvr.view_name, dvr.linked_column, pi.name
+  INTO v_schema_name, v_view_name, v_linked_column, v_page_query_param
+  FROM pgapex.detailview_region dvr
+  LEFT JOIN pgapex.page_item pi ON dvr.region_id = pi.detailview_region_id
+  WHERE dvr.region_id = i_region_id;
+
+  SELECT (j_get_params->>v_linked_column)::varchar INTO v_argument;
+
+  IF (v_argument = '') IS FALSE THEN
+    v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' WHERE ' ||
+      v_linked_column || ' = ' || quote_literal(v_argument) || ' LIMIT 1) AS a';
+  ELSE
+    v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' LIMIT 1) AS a';
+  END IF;
+
+  SELECT res_rows INTO j_row FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS (res_rows JSON);
+
+  IF j_row IS NOT NULL THEN
+    RETURN pgapex.f_app_get_detail_view_with_template(i_region_id, (j_row->>0)::json);
+  ELSE
+    t_negative_response := '<h4></span>Row not found</h4>';
+    t_negative_response := t_negative_response || '<h5>View <b>' || v_schema_name || '.' || v_view_name ||
+      '</b> has not row, where <b>' || v_linked_column || '</b> is <b>' || v_argument || '</b></h5>';
+
+    RETURN t_negative_response;
+  END IF;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;

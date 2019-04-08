@@ -583,7 +583,7 @@ RETURNS TABLE(
        WHEN rr.region_id IS NOT NULL THEN 'REPORT'
        WHEN fr.region_id IS NOT NULL THEN 'FORM'
        WHEN tfr.region_id IS NOT NULL THEN 'TABULARFORM'
-       WHEN dvr.region_id IS NOT NULL THEN 'DETAIL_VIEW_TABLE'
+       WHEN dvr.region_id IS NOT NULL THEN 'DETAIL_VIEW'
        END) AS region_type
     , ptdp.display_point_id AS display_point
     , r.sequence
@@ -648,8 +648,8 @@ BEGIN
         SELECT pgapex.f_app_get_form_region(r_region.region_id, j_get_params) INTO t_region_content;
       ELSIF r_region.region_type = 'TABULARFORM' THEN
         SELECT pgapex.f_app_get_tabularform_region(r_region.region_id, j_get_params) INTO t_region_content;
-      ELSIF r_region.region_type = 'DETAIL_VIEW_TABLE' THEN
-        SELECT pgapex.f_app_get_detail_view_table(r_region.region_id, j_get_params) INTO t_region_content;
+      ELSIF r_region.region_type = 'DETAIL_VIEW' THEN
+        SELECT pgapex.f_app_get_detail_view(r_region.region_id, j_get_params) INTO t_region_content;
       END IF;
       t_region_template := replace(t_region_template, '#NAME#', r_region.name);
       t_region_template := replace(t_region_template, '#BODY#', t_region_content);
