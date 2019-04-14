@@ -255,14 +255,14 @@ class Region extends Model {
       $statement->execute();
       $regionId = $statement->fetchColumn();
 
-      $statement = $connection->prepare('SELECT pgapex.f_region_delete_region_columns(:regionId, \'TABULARFORM\')');
+      $statement = $connection->prepare('SELECT pgapex.f_region_delete_tabularform_region_columns(:regionId)');
       $statement->bindValue(':regionId', $regionId, PDO::PARAM_INT);
       $statement->execute();
 
-      $columnStatement = $connection->prepare('SELECT pgapex.f_region_create_region_column(:regionId, :viewColumnName, '
-        . ':heading, :sequence, :isTextEscaped, \'TABULARFORM\')');
-      $linkStatement = $connection->prepare('SELECT pgapex.f_region_create_region_link(:regionId, :heading,'
-        . ':sequence, :isTextEscaped, :url, :linkText, :attributes, \'TABULARFORM\')');
+      $columnStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_region_column(:regionId, :viewColumnName, '
+        . ':heading, :sequence, :isTextEscaped)');
+      $linkStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_region_link(:regionId, :heading,'
+        . ':sequence, :isTextEscaped, :url, :linkText, :attributes)');
       foreach ($request->getApiAttribute('tabularFormColumns') as $tabularFormColumn) {
         if ($tabularFormColumn['attributes']['type'] === 'COLUMN') {
           $columnStatement->bindValue(':regionId',       $regionId,                                         PDO::PARAM_INT);
@@ -285,7 +285,11 @@ class Region extends Model {
         }
       }
 
-      $buttonStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_function(:regionId, '
+      $statement = $connection->prepare('SELECT pgapex.f_region_delete_tabularform_region_functions(:regionId)');
+      $statement->bindValue(':regionId', $regionId, PDO::PARAM_INT);
+      $statement->execute();
+
+      $buttonStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_region_function(:regionId, '
         . ':buttonTemplateId, :functionName, :buttonLabel, :sequence, :successMessage, :errorMessage)');
       foreach ($request->getApiAttribute('tabularFormButtons') as $tabularFormButton) {
         $buttonStatement->bindValue(':regionId',         $regionId, PDO::PARAM_INT);

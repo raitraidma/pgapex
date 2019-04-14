@@ -25,22 +25,22 @@
     <div class="row add-button__item">
       <div class="col-md-2">
         <select class="form-control" ng-class="{'has-error': formError.showErrors(formNames.formName.buttonTemplate, names.entityName + '/' + $index + '/buttonTemplate')}"
-                name="buttonTemplate" ng-model="button.attributes.id" required
+                name="buttonTemplate" ng-model="button.buttonTemplateId" required
                 ng-options="buttonTemplate.id as buttonTemplate.attributes.name for buttonTemplate in buttonTemplates">
           <option value="" disabled>-- {{'region.buttonTemplate'|translate}} * --</option>
         </select>
       </div>
       <div class="col-md-1">
         <input ng-class="{'has-error': formError.showErrors(formNames.formName.sequence, names.entityName + '/' + $index + '/sequence')}"
-               required ng-model="button.attributes.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
+               required ng-model="button.sequence" name="sequence" type="number" min="0" class="form-control" placeholder="{{'region.sequence'|translate}} *">
       </div>
       <div class="col-md-3">
         <input ng-class="{'has-error': formError.showErrors(formNames.formName.label, names.entityName + '/' + $index + '/label')}"
-               required ng-model="button.attributes.label" name="label" type="text" class="form-control" placeholder="{{'region.label'|translate}} *">
+               required ng-model="button.label" name="label" type="text" class="form-control" placeholder="{{'region.label'|translate}} *">
       </div>
       <div class="col-md-5">
         <select ng-class="{'has-error': formError.showErrors(formNames.formName.function, names.entityName + '/' + $index + '/function')}"
-                id="function" name="function" ng-model="button.attributes.function" class="form-control" required
+                id="function" name="function" ng-model="button.function" class="form-control" required
                 ng-options="function.attributes.name as function.attributes.displayText for function in functions">
           <option value="" disabled>-- {{'region.function'|translate}} * --</option>
         </select>
@@ -54,11 +54,11 @@
     <div class="row">
       <div class="col-md-5">
         <input ng-class="{'has-error': formError.showErrors(formNames.formName.successMessage, names.entityName + '/' + $index + '/successMessage')}"
-               required ng-model="button.attributes.successMessage" name="successMessage" type="text" class="form-control" placeholder="{{'region.successMessage'|translate}} *">
+               required ng-model="button.successMessage" name="successMessage" type="text" class="form-control" placeholder="{{'region.successMessage'|translate}} *">
       </div>
       <div class="col-md-5">
         <input ng-class="{'has-error': formError.showErrors(formNames.formName.errorMessage, names.entityName + '/' + $index + '/errorMessage')}"
-               required ng-model="button.attributes.errorMessage" name="errorMessage" type="text" class="form-control" placeholder="{{'region.errorMessage'|translate}} *">
+               required ng-model="button.errorMessage" name="errorMessage" type="text" class="form-control" placeholder="{{'region.errorMessage'|translate}} *">
       </div>
     </div>
 

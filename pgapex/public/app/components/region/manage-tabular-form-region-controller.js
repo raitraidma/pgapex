@@ -54,6 +54,8 @@
     this.initTabularFormTemplates();
     this.initTabularFormButtonTemplates();
     this.initViewsWithColumns();
+
+    this.loadRegion();
   };
 
   ManageTabularFormRegionController.prototype.getApplicationId = function() {
@@ -162,12 +164,12 @@
   ManageTabularFormRegionController.prototype.getTabularFormButtons = function() {
     return this.$scope.region.tabularFormButtons.map(function (tabularFormButton) {
       return {
-        'template_id': tabularFormButton.attributes.id,
-        'sequence': tabularFormButton.attributes.sequence,
-        'label': tabularFormButton.attributes.label,
-        'function_name': tabularFormButton.attributes.function,
-        'success_message': tabularFormButton.attributes.successMessage,
-        'error_message': tabularFormButton.attributes.errorMessage
+        'template_id': tabularFormButton.buttonTemplateId,
+        'sequence': tabularFormButton.sequence,
+        'label': tabularFormButton.label,
+        'function_name': tabularFormButton.function,
+        'success_message': tabularFormButton.successMessage,
+        'error_message': tabularFormButton.errorMessage
       };
     });
   };
@@ -200,6 +202,16 @@
     } else {
       this.$scope.formError = this.formErrorService.parseApiResponse(response);
     }
+  };
+
+  ManageTabularFormRegionController.prototype.loadRegion = function() {
+    if (!this.isEditPage()) { return; }
+    this.regionService.getRegion(this.getRegionId()).then(function (response) {
+      var region = response.getDataOrDefault({'attributes': {}}).attributes;
+      region['view'] = {'attributes': {'schema': region.viewSchema, 'name': region.viewName}};
+      this.$scope.region = region;
+      this.setViewColumns();
+    }.bind(this));
   };
 
   function init() {
