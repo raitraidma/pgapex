@@ -127,6 +127,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/resources/js/region.js"></script>
   </body>', '</html>', '<div class="alert alert-danger" role="alert">#MESSAGE#</div>', '<div class="alert alert-success" role="alert">#MESSAGE#</div>');
 
 INSERT INTO pgapex.region_template (template_id, template) VALUES (4, '<div class="panel panel-default">
@@ -178,8 +179,8 @@ pagination_end, previous_page, next_page, active_page, inactive_page)
 VALUES (15, '<div>', '#PAGINATION#</div>', '<form><input type="hidden" name="PGAPEX_TABULARFORM" value="#TABULARFORM_FUNCTION_ID#">',
 '<div class="form-group pull-right">', '#SUBMIT_BUTTON#',
 '</div>', '<div class="form-group"><table class="table table-bordered">', '<thead>', '</tr>',
-'<th style="width: 1%"><input type="checkbox" id="check"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
-'<tbody>', '<tr>', '<td><input type="checkbox" id="check" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
+'<th style="width: 1%"><input type="checkbox" onclick="checkAll(this)"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
+'<tbody>', '<tr>', '<td><input type="checkbox" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
 '<td>#CELL_CONTENT#</td>', '</td>', '</tbody>', '</table>', '</form>', '<nav><ul class="pagination">', '</ul></nav>',
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
