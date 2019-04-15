@@ -859,14 +859,15 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_tabularform_region_submit(
 )
   RETURNS void AS $$
 DECLARE
-  v_schema_name             VARCHAR;
-  v_function_name           VARCHAR;
-  v_success_message         VARCHAR;
-  v_error_message           VARCHAR;
-  v_redirect_url            VARCHAR;
-  f_function_params_as_text TEXT;
-  t_function_call           TEXT;
-  i_function_response       INT;
+  v_schema_name       VARCHAR;
+  v_function_name     VARCHAR;
+  v_success_message   VARCHAR;
+  v_error_message     VARCHAR;
+  v_redirect_url      VARCHAR;
+  t_function_params   TEXT[];
+  t_function_param    TEXT;
+  t_function_call     TEXT;
+  i_function_response INT;
 BEGIN
   IF (SELECT NOT EXISTS(SELECT 1
                         FROM pgapex.region r
@@ -881,13 +882,16 @@ BEGIN
   INNER JOIN pgapex.tabularform_region tfr ON tff.region_id = tfr.region_id
   WHERE tff.region_id = i_region_id AND tff.tabularform_function_id = (j_post_params->>'PGAPEX_BUTTON')::int;
 
-  SELECT string_agg('"' || elem || '"', ',') INTO f_function_params_as_text
-  FROM jsonb_array_elements_text((j_post_params->>'#UNIQUE_ID_COLUMN#')::jsonb) elem;
-
-  t_function_call := 'SELECT ' || v_schema_name || '.' || v_function_name || ' (''{' || f_function_params_as_text || '}'');';
+  SELECT ARRAY(SELECT quote_literal(argument) FROM json_array_elements_text((j_post_params->>'#UNIQUE_ID_COLUMN#')::json) AS argument)
+  INTO t_function_params;
 
   BEGIN
-    SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );
+    FOREACH t_function_param IN ARRAY t_function_params
+    LOOP
+      t_function_call := 'SELECT ' || v_schema_name || '.' || v_function_name || '(' || t_function_param || ');';
+      SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );
+    END LOOP;
+
     IF v_success_message IS NOT NULL THEN
       PERFORM pgapex.f_app_add_success_message(v_success_message);
     END IF;
