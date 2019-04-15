@@ -60,7 +60,7 @@ a.toggle {
   margin-bottom: 1em;
 }
 
-.checkbox-cell {
+.cell--fit-content {
   white-space: nowrap;
   width: 1%;
 }

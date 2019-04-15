@@ -1126,6 +1126,40 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_detailview_path(
+  i_report_region_id  INT
+)
+  RETURNS TEXT AS $$
+DECLARE
+  i_detailview_region_id  INT;
+  i_application_id        INT;
+  i_page_id               INT;
+  t_url                   TEXT;
+BEGIN
+	SELECT dvr.region_id
+  INTO i_detailview_region_id
+  FROM pgapex.region r
+  LEFT JOIN pgapex.detailview_region dvr ON r.region_id = dvr.report_region_id
+  WHERE r.region_id = i_report_region_id;
+
+  IF i_detailview_region_id IS NOT NULL THEN
+    SELECT p.application_id, p.page_id
+    INTO i_application_id, i_page_id
+    FROM pgapex.region r
+    LEFT JOIN pgapex.page p ON r.page_id = p.page_id
+    WHERE r.region_id = i_detailview_region_id;
+
+    t_url := '../' || i_application_id::text || '/' || i_page_id::text;
+  END IF;
+
+  RETURN t_url;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region_with_template(
   i_region_id              INT
 , j_data                   JSON
@@ -1139,6 +1173,7 @@ DECLARE
   t_response         TEXT;
   t_pagination       TEXT     := '';
   v_url_prefix       VARCHAR;
+  v_linked_column    VARCHAR;
   t_report_begin     TEXT;
   t_report_end       TEXT;
   t_header_begin     TEXT;
@@ -1148,6 +1183,7 @@ DECLARE
   t_header_end       TEXT;
   t_body_begin       TEXT;
   t_body_row_begin   TEXT;
+  t_body_row_link    TEXT;
   t_body_row_cell    TEXT;
   t_body_row_end     TEXT;
   t_body_end         TEXT;
@@ -1161,17 +1197,38 @@ DECLARE
   r_report_columns   pgapex.t_report_column_with_link[];
   j_row              JSON;
   r_column           RECORD;
+  t_button_link      TEXT;
+  t_detailview_path  TEXT;
   t_cell_content     TEXT;
 BEGIN
-  SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
+  SELECT rr.linked_column
+  INTO v_linked_column
+  FROM pgapex.report_region rr
+  WHERE rr.region_id = i_region_id;
+
+  IF v_linked_column IS NULL THEN
+    SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
          rt.body_begin, rt.body_row_begin, rt.body_row_cell, rt.body_row_end, rt.body_end,
          rt.pagination_begin, rt.pagination_end, rt.previous_page, rt.next_page, rt.active_page, rt.inactive_page
-  INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
-       t_body_begin, t_body_row_begin, t_body_row_cell, t_body_row_end, t_body_end,
-       t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
-  FROM pgapex.report_region rr
-  LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
-  WHERE rr.region_id = i_region_id;
+    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
+         t_body_begin, t_body_row_begin, t_body_row_cell, t_body_row_end, t_body_end,
+         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
+    FROM pgapex.report_region rr
+    LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
+    WHERE rr.region_id = i_region_id;
+  ELSE
+    SELECT rlt.report_begin, rlt.report_end, rlt.header_begin, rlt.header_row_begin, rlt.header_cell, rlt.header_row_end, rlt.header_end,
+         rlt.body_begin, rlt.body_row_begin, rlt.body_row_link, rlt.body_row_cell, rlt.body_row_end, rlt.body_end,
+         rlt.pagination_begin, rlt.pagination_end, rlt.previous_page, rlt.next_page, rlt.active_page, rlt.inactive_page
+    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
+         t_body_begin, t_body_row_begin, t_body_row_link, t_body_row_cell, t_body_row_end, t_body_end,
+         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
+    FROM pgapex.report_region rr
+    LEFT JOIN pgapex.report_link_template rlt ON rlt.template_id = rr.link_template_id
+    WHERE rr.region_id = i_region_id;
+
+    SELECT pgapex.f_app_get_detailview_path(i_region_id) INTO t_detailview_path;
+  END IF;
 
   SELECT ARRAY(
       SELECT ROW(rc.view_column_name, rc.heading, rc.sequence, rc.is_text_escaped, rcl.url, rcl.link_text, rcl.attributes)
@@ -1200,6 +1257,13 @@ BEGIN
     FOR j_row IN SELECT * FROM json_array_elements(j_data)
     LOOP
       t_response := t_response || t_body_row_begin;
+      IF t_body_row_link IS NOT NULL THEN
+        t_button_link := replace(t_body_row_link, '#PATH#', t_detailview_path);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID#', v_linked_column);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID_VALUE#', (j_row->>v_linked_column)::text);
+        t_response := t_response || t_button_link;
+      END IF;
+
         FOREACH r_report_column IN ARRAY r_report_columns
         LOOP
           IF r_report_column.view_column_name IS NOT NULL THEN
