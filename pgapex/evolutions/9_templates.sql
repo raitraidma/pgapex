@@ -34,6 +34,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app/style.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -95,6 +96,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app/style.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -179,25 +181,25 @@ pagination_end, previous_page, next_page, active_page, inactive_page)
 VALUES (15, '<div>', '#PAGINATION#</div>', '<form><input type="hidden" name="PGAPEX_TABULARFORM" value="#TABULARFORM_FUNCTION_ID#">',
 '<div class="form-group pull-right">', '#SUBMIT_BUTTON#',
 '</div>', '<div class="form-group"><table class="table table-bordered">', '<thead>', '</tr>',
-'<th style="width: 1%"><input type="checkbox" onclick="checkAll(this)"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
-'<tbody>', '<tr>', '<td><input type="checkbox" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
+'<th class="checkbox-cell"><input type="checkbox" onclick="checkAll(this)"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
+'<tbody>', '<tr>', '<td class="checkbox-cell"><input type="checkbox" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
 '<td>#CELL_CONTENT#</td>', '</td>', '</tbody>', '</table>', '</form>', '<nav><ul class="pagination">', '</ul></nav>',
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
 
 INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (16,
-'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-secondary">#LABEL#</button>');
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-secondary btn--margin-left">#LABEL#</button>');
 INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (17,
-'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-success">#LABEL#</button>');
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-success btn--margin-left">#LABEL#</button>');
 INSERT INTO pgapex.tabularform_button_template (template_ID, template) VALUES (18,
-'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-danger">#LABEL#</button>');
+'<button type="submit" name="PGAPEX_BUTTON" value="#VALUE#"class="btn btn-danger btn--margin-left">#LABEL#</button>');
 
 INSERT INTO pgapex.detailview_table_template (template_ID, detailview_table_begin, detailview_table_end, header_begin,
 header_row_begin, header_cell, header_row_end, header_end, body_begin, body_row_begin, body_row_link_to_page,
 body_row_cell_content, body_row_end, body_end, pagination_begin, pagination_end, previous_page, next_page, active_page,
 inactive_page) VALUES (19, '<div><table class="table table-bordered">', '</table>#PAGINATION#</div>', '<thead>', '<tr>',
 '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>', '<tbody>', '<tr>',
-'<td style="width: 1%"><a href="?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>',
+'<td><a href="?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>',
 '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>', '<nav><ul class="pagination">', '</ul></nav>',
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');

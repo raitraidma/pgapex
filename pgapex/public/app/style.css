@@ -59,3 +59,12 @@ a.toggle {
 .add-button .add-button__item {
   margin-bottom: 1em;
 }
+
+.checkbox-cell {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.btn--margin-left {
+  margin-left: 0.5em;
+}
