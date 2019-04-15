@@ -1307,6 +1307,8 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_save_report_region(
   , v_view_name                      pgapex.report_region.view_name%TYPE
   , i_items_per_page                 pgapex.report_region.items_per_page%TYPE
   , b_show_header                    pgapex.report_region.show_header%TYPE
+  , i_unique_id                      pgapex.report_region.unique_id%TYPE
+  , i_link_template_id               pgapex.report_region.link_template_id%TYPE
   , v_pagination_query_parameter     pgapex.page_item.name%TYPE
 )
   RETURNS int AS $$
@@ -1319,8 +1321,8 @@ BEGIN
     INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
     VALUES (i_new_region_id, i_page_id, i_region_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
 
-    INSERT INTO pgapex.report_region (region_id, template_id, schema_name, view_name, items_per_page, show_header)
-    VALUES (i_new_region_id, i_report_template_id, v_schema_name, v_view_name, i_items_per_page, b_show_header);
+    INSERT INTO pgapex.report_region (region_id, template_id, schema_name, view_name, items_per_page, show_header, unique_id, link_template_id)
+    VALUES (i_new_region_id, i_report_template_id, v_schema_name, v_view_name, i_items_per_page, b_show_header, i_unique_id, i_link_template_id);
 
     INSERT INTO pgapex.page_item (page_id, region_id, name) VALUES (i_page_id, i_new_region_id, v_pagination_query_parameter);
     RETURN i_new_region_id;
@@ -1340,6 +1342,8 @@ BEGIN
       , view_name = v_view_name
       , items_per_page = i_items_per_page
       , show_header = b_show_header
+      , unique_id = i_unique_id
+      , link_template_id = i_link_template_id
     WHERE region_id = i_region_id;
 
     UPDATE pgapex.page_item
@@ -1685,6 +1689,121 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_delete_tabularform_functions(
 BEGIN
   DELETE FROM pgapex.tabularform_function WHERE region_id = i_region_id;
 
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_save_detailview_region(
+    i_region_id                      pgapex.region.region_id%TYPE
+  , i_page_id                        pgapex.region.page_id%TYPE
+  , i_region_template_id             pgapex.region.template_id%TYPE
+  , i_page_template_display_point_id pgapex.region.page_template_display_point_id%TYPE
+  , v_name                           pgapex.region.name%TYPE
+  , i_sequence                       pgapex.region.sequence%TYPE
+  , b_is_visible                     pgapex.region.is_visible%TYPE
+  , i_report_region_id               pgapex.detailview_region.report_region_id%TYPE
+  , i_detailview_template_id         pgapex.detailview_region.template_id%TYPE
+  , v_schema_name                    pgapex.detailview_region.schema_name%TYPE
+  , v_view_name                      pgapex.detailview_region.view_name%TYPE
+  , v_unique_id                      pgapex.detailview_region.unique_id%TYPE
+)
+  RETURNS int AS $$
+DECLARE
+  i_new_region_id INT;
+BEGIN
+  IF i_region_id IS NULL THEN
+    SELECT nextval('pgapex.region_region_id_seq') INTO i_new_region_id;
+
+    INSERT INTO pgapex.region (region_id, page_id, template_id, page_template_display_point_id, name, sequence, is_visible)
+    VALUES (i_new_region_id, i_page_id, i_region_template_id, i_page_template_display_point_id, v_name, i_sequence, b_is_visible);
+
+    INSERT INTO pgapex.detailview_region (region_id, report_region_id, template_id, schema_name, view_name, unique_id)
+    VALUES (i_new_region_id, i_report_region_id, i_detailview_template_id, v_schema_name, v_view_name, v_unique_id);
+  ELSE
+    UPDATE pgapex.region
+    SET page_id = i_page_id
+    ,   template_id = i_region_template_id
+    ,   page_template_display_point_id = i_page_template_display_point_id
+    ,   name = v_name
+    ,   sequence = i_sequence
+    ,   is_visible = b_is_visible
+    WHERE region_id = i_region_id;
+
+    UPDATE pgapex.detailview_region
+    SET report_region_id = i_report_region_id
+    ,   template_id = i_detailview_template_id
+    ,   schema_name = v_schema_name
+    ,   view_name = v_view_name
+    ,   unique_id = v_unique_id
+    WHERE region_id = i_region_id;
+
+    RETURN i_region_id;
+  END IF;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_create_detailview_region_column(
+    i_region_id             pgapex.detailview_column.region_id%TYPE
+  , v_view_column_name      pgapex.detailview_column.view_column_name%TYPE
+  , v_heading               pgapex.detailview_column.heading%TYPE
+  , i_sequence              pgapex.detailview_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.detailview_column.is_text_escaped%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_detailview_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.detailview_column_detailview_column_id_seq') INTO i_new_detailview_column_id;
+  INSERT INTO pgapex.detailview_column (detailview_column_id, detailview_column_type_id, region_id, view_column_name, heading, sequence, is_text_escaped)
+    VALUES (i_new_detailview_column_id, 'COLUMN', i_region_id, v_view_column_name, v_heading, i_sequence, b_is_text_escaped);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_create_detailview_region_link(
+    i_region_id             pgapex.detailview_column.region_id%TYPE
+  , v_heading               pgapex.detailview_column.heading%TYPE
+  , i_sequence              pgapex.detailview_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.detailview_column.is_text_escaped%TYPE
+  , v_url                   pgapex.detailview_column_link.url%TYPE
+  , v_link_text             pgapex.detailview_column_link.link_text%TYPE
+  , v_attributes            pgapex.detailview_column_link.attributes%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_detailview_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.detailview_column_detailview_column_id_seq') INTO i_new_detailview_column_id;
+  INSERT INTO pgapex.detailview_column (detailview_column_id, region_id, detailview_column_type_id, heading, sequence, is_text_escaped)
+    VALUES (i_new_detailview_column_id, i_region_id, 'LINK', v_heading, i_sequence, b_is_text_escaped);
+  INSERT INTO pgapex.detailview_column_link (detailview_column_id, url, link_text, attributes)
+    VALUES (i_new_detailview_column_id, v_url, v_link_text, v_attributes);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_delete_detailview_region_columns(
+  i_region_id pgapex.region.region_id%TYPE
+)
+  RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.detailview_column WHERE region_id = i_region_id;
   RETURN FOUND;
 END
 $$ LANGUAGE plpgsql

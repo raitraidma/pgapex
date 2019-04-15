@@ -1173,7 +1173,7 @@ DECLARE
   t_response         TEXT;
   t_pagination       TEXT     := '';
   v_url_prefix       VARCHAR;
-  v_linked_column    VARCHAR;
+  v_unique_id        VARCHAR;
   t_report_begin     TEXT;
   t_report_end       TEXT;
   t_header_begin     TEXT;
@@ -1201,12 +1201,12 @@ DECLARE
   t_detailview_path  TEXT;
   t_cell_content     TEXT;
 BEGIN
-  SELECT rr.linked_column
-  INTO v_linked_column
+  SELECT rr.unique_id
+  INTO v_unique_id
   FROM pgapex.report_region rr
   WHERE rr.region_id = i_region_id;
 
-  IF v_linked_column IS NULL THEN
+  IF v_unique_id IS NULL THEN
     SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
          rt.body_begin, rt.body_row_begin, rt.body_row_cell, rt.body_row_end, rt.body_end,
          rt.pagination_begin, rt.pagination_end, rt.previous_page, rt.next_page, rt.active_page, rt.inactive_page
@@ -1259,8 +1259,8 @@ BEGIN
       t_response := t_response || t_body_row_begin;
       IF t_body_row_link IS NOT NULL THEN
         t_button_link := replace(t_body_row_link, '#PATH#', t_detailview_path);
-        t_button_link := replace(t_button_link, '#UNIQUE_ID#', v_linked_column);
-        t_button_link := replace(t_button_link, '#UNIQUE_ID_VALUE#', (j_row->>v_linked_column)::text);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID#', v_unique_id);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID_VALUE#', (j_row->>v_unique_id)::text);
         t_response := t_response || t_button_link;
       END IF;
 

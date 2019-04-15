@@ -289,7 +289,7 @@ CREATE TABLE pgapex.report_region (
 	view_name VARCHAR ( 64 ) NOT NULL,
 	items_per_page INTEGER NOT NULL,
 	show_header BOOLEAN DEFAULT TRUE NOT NULL,
-	linked_column VARCHAR ( 64 ),
+	unique_id VARCHAR ( 64 ),
 	CONSTRAINT pk_report_region PRIMARY KEY (region_ID)
 	);
 CREATE INDEX idx_report_region_view_name ON pgapex.report_region (view_name );
@@ -549,7 +549,7 @@ CREATE TABLE pgapex.detailview_region (
   template_ID INTEGER NOT NULL,
   schema_name VARCHAR ( 64 ) NOT NULL,
   view_name VARCHAR ( 64 ) NOT NULL,
-  linked_column VARCHAR ( 64 ) NOT NULL,
+  unique_id VARCHAR ( 64 ) NOT NULL,
   CONSTRAINT pk_detailview_region PRIMARY KEY (region_ID)
   );
 CREATE INDEX idx_detailview_region_template_ID ON pgapex.detailview_region (template_ID);

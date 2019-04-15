@@ -75,7 +75,7 @@ class Region extends Model {
       }
 
       $statement = $connection->prepare('SELECT pgapex.f_region_save_report_region(:regionId, :pageId, :templateId, :tplDpId, :name, :sequence, :isVisible, '
-        . ':reportTemplate, :viewSchema, :viewName, :itemsPerPage, :showHeader, :paginationQueryParameter)');
+        . ':reportTemplate, :viewSchema, :viewName, :itemsPerPage, :showHeader, null, null, :paginationQueryParameter)');
       $statement->bindValue(':regionId',                 $request->getApiAttribute('regionId'),                   PDO::PARAM_INT);
       $statement->bindValue(':pageId',                   $request->getApiAttribute('pageId'),                     PDO::PARAM_INT);
       $statement->bindValue(':templateId',               $request->getApiAttribute('regionTemplate'),             PDO::PARAM_INT);

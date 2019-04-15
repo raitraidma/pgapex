@@ -490,24 +490,23 @@ CREATE OR REPLACE FUNCTION pgapex.f_app_get_detail_view(
 DECLARE
   v_schema_name       VARCHAR;
   v_view_name         VARCHAR;
-  v_linked_column     VARCHAR;
+  v_unique_id         VARCHAR;
   v_page_query_param  VARCHAR;
   v_query             VARCHAR;
   v_argument          VARCHAR;
   t_negative_response TEXT;
   j_row               JSONB;
 BEGIN
-  SELECT dvr.schema_name, dvr.view_name, dvr.linked_column, pi.name
-  INTO v_schema_name, v_view_name, v_linked_column, v_page_query_param
+  SELECT dvr.schema_name, dvr.view_name, dvr.unique_id
+  INTO v_schema_name, v_view_name, v_unique_id
   FROM pgapex.detailview_region dvr
-  LEFT JOIN pgapex.page_item pi ON dvr.region_id = pi.detailview_region_id
   WHERE dvr.region_id = i_region_id;
 
-  SELECT (j_get_params->>v_linked_column)::varchar INTO v_argument;
+  SELECT (j_get_params->>v_unique_id)::varchar INTO v_argument;
 
   IF (v_argument = '') IS FALSE THEN
     v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' WHERE ' ||
-      v_linked_column || ' = ' || quote_literal(v_argument) || ' LIMIT 1) AS a';
+      v_unique_id || ' = ' || quote_literal(v_argument) || ' LIMIT 1) AS a';
   ELSE
     v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name || ' LIMIT 1) AS a';
   END IF;
@@ -519,7 +518,7 @@ BEGIN
   ELSE
     t_negative_response := '<h4></span>Row not found</h4>';
     t_negative_response := t_negative_response || '<h5>View <b>' || v_schema_name || '.' || v_view_name ||
-      '</b> has not row, where <b>' || v_linked_column || '</b> is <b>' || v_argument || '</b></h5>';
+      '</b> has not row, where <b>' || v_unique_id || '</b> is <b>' || v_argument || '</b></h5>';
 
     RETURN t_negative_response;
   END IF;
