@@ -36,6 +36,8 @@ $app->group('/api', function () {
     $this->get('/template/region-templates', '\App\Http\Controllers\TemplateController:getRegionTemplates');
     $this->get('/template/navigation-templates', '\App\Http\Controllers\TemplateController:getNavigationTemplates');
     $this->get('/template/report-templates', '\App\Http\Controllers\TemplateController:getReportTemplates');
+    $this->get('/template/report-link-templates', '\App\Http\Controllers\TemplateController:getReportLinkTemplates');
+    $this->get('/template/detail-view-templates', '\App\Http\Controllers\TemplateController:getDetailViewTemplates');
     $this->get('/template/form-templates', '\App\Http\Controllers\TemplateController:getFormTemplates');
     $this->get('/template/tabularform-templates', '\App\Http\Controllers\TemplateController:getTabularFormTemplates');
     $this->get('/template/button-templates', '\App\Http\Controllers\TemplateController:getButtonTemplates');
@@ -65,6 +67,7 @@ $app->group('/api', function () {
     $this->post('/region/region/html/save', '\App\Http\Controllers\RegionController:saveHtmlRegion');
     $this->post('/region/region/navigation/save', '\App\Http\Controllers\RegionController:saveNavigationRegion');
     $this->post('/region/region/report/save', '\App\Http\Controllers\RegionController:saveReportRegion');
+    $this->post('/region/region/report-and-detailview/save', '\App\Http\Controllers\RegionController:saveReportAndDetailViewRegion');
     $this->post('/region/region/form/save', '\App\Http\Controllers\RegionController:saveFormRegion');
     $this->post('/region/region/tabularform/save', '\App\Http\Controllers\RegionController:saveTabularFormRegion');
   })->add(new AuthMiddleware($this->getContainer()));

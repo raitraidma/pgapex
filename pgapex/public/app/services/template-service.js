@@ -37,6 +37,14 @@
     return this.apiService.get('template/report-templates');
   };
 
+  TemplateService.prototype.getReportLinkTemplates = function () {
+    return this.apiService.get('template/report-link-templates');
+  };
+
+  TemplateService.prototype.getDetailViewTemplates = function () {
+    return this.apiService.get('template/detail-view-templates');
+  };
+
   TemplateService.prototype.getFormTemplates = function () {
     return this.apiService.get('template/form-templates');
   };

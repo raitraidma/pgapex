@@ -42,6 +42,20 @@ class Template extends Model {
     return $statement->fetchColumn();
   }
 
+  public function getReportLinkTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_report_link_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getDetailViewTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_detailview_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
   public function getFormTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_form_templates()');

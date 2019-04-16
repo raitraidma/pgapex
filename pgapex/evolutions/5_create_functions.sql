@@ -459,6 +459,46 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_report_link_templates()
+  RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      t.template_id AS id
+    , 'report-link-template' AS type
+    , json_build_object(
+        'name', t.name
+    ) AS attributes
+    FROM pgapex.report_link_template rlt
+    LEFT JOIN pgapex.template t ON rlt.template_id = t.template_id
+    ORDER BY t.name
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_template_get_detailview_templates()
+  RETURNS json AS $$
+SELECT COALESCE(JSON_AGG(a), '[]')
+  FROM (
+    SELECT
+      t.template_id AS id
+    , 'detail-view-template' AS type
+    , json_build_object(
+        'name', t.name
+    ) AS attributes
+    FROM pgapex.detailview_template dvt
+    LEFT JOIN pgapex.template t ON dvt.template_id = t.template_id
+    ORDER BY t.name
+  ) a
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_template_get_form_templates()
   RETURNS json AS $$
 SELECT COALESCE(JSON_AGG(a), '[]')

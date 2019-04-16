@@ -111,6 +111,43 @@
     return this.apiService.post('region/region/report/save', request);
   };
 
+  RegionService.prototype.saveReportAndDetailViewRegion = function (viewSchema, viewName, uniqueId, reportName,
+                                                                    reportSequence, reportRegionTemplate, reportIsVisible,
+                                                                    reportLinkTemplate, reportShowHeader, reportItemsPerPage,
+                                                                    reportPaginationQueryParameter, reportPageId,
+                                                                    detailViewName, detailViewSequence, detailViewRegionTemplate,
+                                                                    detailViewIsVisible, detailViewTemplate, detailViewPageId,
+                                                                    reportColumns, detailViewColumns) {
+    let attributes = {
+      'viewSchema': viewSchema,
+      'viewName': viewName,
+      'uniqueId': uniqueId,
+      'reportName': reportName,
+      'reportSequence': reportSequence,
+      'reportRegionTemplate': reportRegionTemplate,
+      'reportIsVisible': reportIsVisible,
+      'reportLinkTemplate': reportLinkTemplate,
+      'reportShowHeader': reportShowHeader,
+      'reportItemsPerPage': reportItemsPerPage,
+      'reportPaginationQueryParameter': reportPaginationQueryParameter,
+      'reportPageId': reportPageId,
+      'detailViewName': detailViewName,
+      'detailViewSequence': detailViewSequence,
+      'detailViewRegionTemplate': detailViewRegionTemplate,
+      'detailViewIsVisible': detailViewIsVisible,
+      'detailViewTemplate': detailViewTemplate,
+      'detailViewPageId': detailViewPageId,
+      'reportColumns': reportColumns,
+      'detailViewColumns': detailViewColumns
+    };
+
+    let request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+
+    return this.apiService.post('region/region/report-and-detailview/save', request);
+  };
+
   RegionService.prototype.saveFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                         formTemplate, buttonTemplate, buttonLabel, successMessage,
                                                         errorMessage, redirectUrl, functionSchema, functionName, formPreFill,
