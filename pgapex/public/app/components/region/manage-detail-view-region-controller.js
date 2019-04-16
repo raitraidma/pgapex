@@ -34,8 +34,8 @@
     };
 
     this.$scope.region = {
-      'showHeader': true,
-      'itemsPerPage': 15,
+      'reportShowHeader': true,
+      'reportItemsPerPage': 15,
       'reportColumns': [],
       'detailViewColumns': []
     };
@@ -205,6 +205,34 @@
         };
       }
     });
+  };
+
+  ManageDetailViewRegionController.prototype.saveRegion = function () {
+    this.regionService.saveReportAndDetailViewRegion(
+      this.$scope.region.view.attributes.schema,
+      this.$scope.region.view.attributes.name,
+      this.$scope.region.uniqueId,
+      this.getRegionId(),
+      this.$scope.region.reportName,
+      this.$scope.region.reportSequence,
+      this.$scope.region.reportRegionTemplate,
+      this.$scope.region.reportIsVisible,
+      this.$scope.region.reportTemplate,
+      this.$scope.region.reportShowHeader,
+      this.$scope.region.reportItemsPerPage,
+      this.$scope.region.reportPaginationQueryParameter,
+      this.getPageId(),
+      null,
+      this.$scope.region.detailViewName,
+      this.$scope.region.detailViewSequence,
+      this.$scope.region.detailViewRegionTemplate,
+      this.$scope.region.detailViewIsVisible,
+      this.$scope.region.detailViewTemplate,
+      this.$scope.region.detailViewPageId,
+      this.getReportColumns(),
+      this.getDetailViewColumns(),
+      this.getDisplayPoint()
+    ).then(this.handleSaveResponse.bind(this));
   };
 
   ManageDetailViewRegionController.prototype.handleSaveResponse = function(response) {

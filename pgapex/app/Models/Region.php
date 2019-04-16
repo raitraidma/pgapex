@@ -128,6 +128,119 @@ class Region extends Model {
     return false;
   }
 
+  public function saveReportAndDetailViewRegion(Request $request) {
+    $connection = $this->getDb()->getConnection();
+    $connection->beginTransaction();
+
+    try {
+      if (count($request->getApiAttribute('reportColumns')) === 0) {
+        throw new Exception('At least one report column is mandatory');
+      }
+
+      if (count($request->getApiAttribute('detailViewColumns')) === 0) {
+        throw new Exception('At least one detail view column is mandatory');
+      }
+
+      $reportStatement = $connection->prepare('SELECT pgapex.f_region_save_report_region(:regionId, :pageId, :templateId, :tplDpId, :name, :sequence, :isVisible, '
+        . 'null, :viewSchema, :viewName, :itemsPerPage, :showHeader, :uniqueId, :linkTemplateId, :paginationQueryParameter)');
+      $reportStatement->bindValue(':regionId',                 $request->getApiAttribute('reportRegionId'),                 PDO::PARAM_INT);
+      $reportStatement->bindValue(':pageId',                   $request->getApiAttribute('reportPageId'),                   PDO::PARAM_INT);
+      $reportStatement->bindValue(':templateId',               $request->getApiAttribute('reportRegionTemplate'),           PDO::PARAM_INT);
+      $reportStatement->bindValue(':tplDpId',                  $request->getApiAttribute('pageTemplateDisplayPointId'),     PDO::PARAM_INT);
+      $reportStatement->bindValue(':name',                     $request->getApiAttribute('reportName'),                     PDO::PARAM_STR);
+      $reportStatement->bindValue(':sequence',                 $request->getApiAttribute('reportSequence'),                 PDO::PARAM_INT);
+      $reportStatement->bindValue(':isVisible',                $request->getApiAttribute('reportIsVisible'),                PDO::PARAM_BOOL);
+      $reportStatement->bindValue(':viewSchema',               $request->getApiAttribute('viewSchema'),                     PDO::PARAM_STR);
+      $reportStatement->bindValue(':viewName',                 $request->getApiAttribute('viewName'),                       PDO::PARAM_STR);
+      $reportStatement->bindValue(':itemsPerPage',             $request->getApiAttribute('reportItemsPerPage'),             PDO::PARAM_INT);
+      $reportStatement->bindValue(':showHeader',               $request->getApiAttribute('reportShowHeader'),               PDO::PARAM_BOOL);
+      $reportStatement->bindValue(':uniqueId',                 $request->getApiAttribute('uniqueId'),                       PDO::PARAM_STR);
+      $reportStatement->bindValue(':linkTemplateId',           $request->getApiAttribute('reportTemplate'),                 PDO::PARAM_INT);
+      $reportStatement->bindValue(':paginationQueryParameter', $request->getApiAttribute('reportPaginationQueryParameter'), PDO::PARAM_STR);
+      $reportStatement->execute();
+      $reportRegionId = $reportStatement->fetchColumn();
+
+      $reportStatement = $connection->prepare('SELECT pgapex.f_region_delete_report_region_columns(:regionId)');
+      $reportStatement->bindValue(':regionId', $reportRegionId, PDO::PARAM_INT);
+      $reportStatement->execute();
+
+      $reportColumnStatement = $connection->prepare('SELECT pgapex.f_region_create_report_region_column(:regionId, :viewColumnName, :heading, :sequence, :isTextEscaped)');
+      $reportLinkStatement = $connection->prepare('SELECT pgapex.f_region_create_report_region_link(:regionId, :heading, :sequence, :isTextEscaped, :url, :linkText, :attributes)');
+      foreach ($request->getApiAttribute('reportColumns') as $reportColumn) {
+        if ($reportColumn['attributes']['type'] === 'COLUMN') {
+          $reportColumnStatement->bindValue(':regionId',       $reportRegionId,                              PDO::PARAM_INT);
+          $reportColumnStatement->bindValue(':viewColumnName', $reportColumn['attributes']['column'],        PDO::PARAM_STR);
+          $reportColumnStatement->bindValue(':heading',        $reportColumn['attributes']['heading'],       PDO::PARAM_STR);
+          $reportColumnStatement->bindValue(':sequence',       $reportColumn['attributes']['sequence'],      PDO::PARAM_INT);
+          $reportColumnStatement->bindValue(':isTextEscaped',  $reportColumn['attributes']['isTextEscaped'], PDO::PARAM_BOOL);
+          $reportColumnStatement->execute();
+        } elseif ($reportColumn['attributes']['type'] === 'LINK') {
+          $reportLinkStatement->bindValue(':regionId',       $reportRegionId,                               PDO::PARAM_INT);
+          $reportLinkStatement->bindValue(':heading',        $reportColumn['attributes']['heading'],        PDO::PARAM_STR);
+          $reportLinkStatement->bindValue(':sequence',       $reportColumn['attributes']['sequence'],       PDO::PARAM_INT);
+          $reportLinkStatement->bindValue(':isTextEscaped',  $reportColumn['attributes']['isTextEscaped'],  PDO::PARAM_BOOL);
+          $reportLinkStatement->bindValue(':url',            $reportColumn['attributes']['linkUrl'],        PDO::PARAM_BOOL);
+          $reportLinkStatement->bindValue(':linkText',       $reportColumn['attributes']['linkText'],       PDO::PARAM_BOOL);
+          $reportLinkStatement->bindValue(':attributes',     $reportColumn['attributes']['linkAttributes'], PDO::PARAM_BOOL);
+          $reportLinkStatement->execute();
+        } else {
+          throw new Exception('Unknown column type: ' . $reportColumn['attributes']['type']);
+        }
+      }
+
+      $detailViewStatement = $connection->prepare('SELECT pgapex.f_region_save_detailview_region(:regionId, :pageId, '
+      . ':templateId, :tplDpId, :name, :sequence, :isVisible, :reportRegionId, :detailViewTemplateId, :viewSchema, :viewName, :uniqueId)');
+      $detailViewStatement->bindValue(':regionId',              $request->getApiAttribute('detailViewRegionId'),          PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':pageId',                $request->getApiAttribute('detailViewPageId'),            PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':templateId',            $request->getApiAttribute('detailViewRegionTemplate'),    PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':tplDpId',               $request->getApiAttribute('pageTemplateDisplayPointId'),  PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':name',                  $request->getApiAttribute('detailViewName'),              PDO::PARAM_STR);
+      $detailViewStatement->bindValue(':sequence',              $request->getApiAttribute('detailViewSequence'),          PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':isVisible',             $request->getApiAttribute('detailViewIsVisible'),         PDO::PARAM_BOOL);
+      $detailViewStatement->bindValue(':reportRegionId',        $reportRegionId,                                                   PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':detailViewTemplateId',  $request->getApiAttribute('detailViewTemplate'),          PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':viewSchema',            $request->getApiAttribute('viewSchema'),                  PDO::PARAM_STR);
+      $detailViewStatement->bindValue(':viewName',              $request->getApiAttribute('viewName'),                    PDO::PARAM_STR);
+      $detailViewStatement->bindValue(':uniqueId',              $request->getApiAttribute('uniqueId'),                    PDO::PARAM_STR);
+      $detailViewStatement->execute();
+      $detailViewRegionId = $detailViewStatement->fetchColumn();
+
+      $detailViewStatement = $connection->prepare('SELECT pgapex.f_region_delete_detailview_region_columns(:regionId)');
+      $detailViewStatement->bindValue(':regionId', $reportRegionId, PDO::PARAM_INT);
+      $detailViewStatement->execute();
+
+      $detailViewColumnStatement = $connection->prepare('SELECT pgapex.f_region_create_detailview_region_column(:regionId, :viewColumnName, :heading, :sequence, :isTextEscaped)');
+      $detailViewLinkStatement = $connection->prepare('SELECT pgapex.f_region_create_detailview_region_link(:regionId, :heading, :sequence, :isTextEscaped, :url, :linkText, :attributes)');
+      foreach ($request->getApiAttribute('detailViewColumns') as $detailViewColumn) {
+        if ($detailViewColumn['attributes']['type'] === 'COLUMN') {
+          $detailViewColumnStatement->bindValue(':regionId',       $detailViewRegionId,                                PDO::PARAM_INT);
+          $detailViewColumnStatement->bindValue(':viewColumnName', $detailViewColumn['attributes']['column'],          PDO::PARAM_STR);
+          $detailViewColumnStatement->bindValue(':heading',        $detailViewColumn['attributes']['heading'],         PDO::PARAM_STR);
+          $detailViewColumnStatement->bindValue(':sequence',       $detailViewColumn['attributes']['sequence'],        PDO::PARAM_INT);
+          $detailViewColumnStatement->bindValue(':isTextEscaped',  $detailViewColumn['attributes']['isTextEscaped'],   PDO::PARAM_BOOL);
+          $detailViewColumnStatement->execute();
+        } elseif ($detailViewColumn['attributes']['type'] === 'LINK') {
+          $detailViewLinkStatement->bindValue(':regionId',       $detailViewRegionId,                               PDO::PARAM_INT);
+          $detailViewLinkStatement->bindValue(':heading',        $detailViewColumn['attributes']['heading'],        PDO::PARAM_STR);
+          $detailViewLinkStatement->bindValue(':sequence',       $detailViewColumn['attributes']['sequence'],       PDO::PARAM_INT);
+          $detailViewLinkStatement->bindValue(':isTextEscaped',  $detailViewColumn['attributes']['isTextEscaped'],  PDO::PARAM_BOOL);
+          $detailViewLinkStatement->bindValue(':url',            $detailViewColumn['attributes']['linkUrl'],        PDO::PARAM_BOOL);
+          $detailViewLinkStatement->bindValue(':linkText',       $detailViewColumn['attributes']['linkText'],       PDO::PARAM_BOOL);
+          $detailViewLinkStatement->bindValue(':attributes',     $detailViewColumn['attributes']['linkAttributes'], PDO::PARAM_BOOL);
+          $detailViewLinkStatement->execute();
+        } else {
+          throw new Exception('Unknown column type: ' . $detailViewColumn['attributes']['type']);
+        }
+      }
+      $connection->commit();
+      return true;
+    } catch (Exception $e) {
+      $connection->rollBack();
+    }
+
+    return false;
+  }
+
   public function saveFormRegion(Request $request) {
     $connection = $this->getDb()->getConnection();
     $connection->beginTransaction();

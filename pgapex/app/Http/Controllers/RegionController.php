@@ -67,6 +67,12 @@ class RegionController extends Controller {
     return $response->getApiResponse();
   }
 
+  public function saveReportAndDetailViewRegion(Request $request, Response $response) {
+    $this->getRegionModel()->saveReportAndDetailViewRegion($request);
+
+    return $response->getApiResponse();
+  }
+
   public function saveFormRegion(Request $request, Response $response) {
     $validator = $this->getFormRegionValidator();
     $validator->validate($request);

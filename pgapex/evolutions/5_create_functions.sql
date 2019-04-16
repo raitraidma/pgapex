@@ -1763,6 +1763,8 @@ BEGIN
 
     INSERT INTO pgapex.detailview_region (region_id, report_region_id, template_id, schema_name, view_name, unique_id)
     VALUES (i_new_region_id, i_report_region_id, i_detailview_template_id, v_schema_name, v_view_name, v_unique_id);
+
+    RETURN i_new_region_id;
   ELSE
     UPDATE pgapex.region
     SET page_id = i_page_id
