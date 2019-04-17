@@ -149,8 +149,6 @@
       .setAttributes(attributes)
       .getRequest();
 
-    console.log(request);
-
     return this.apiService.post('region/region/report-and-detailview/save', request);
   };
 

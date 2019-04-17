@@ -206,7 +206,7 @@ class Region extends Model {
       $detailViewRegionId = $detailViewStatement->fetchColumn();
 
       $detailViewStatement = $connection->prepare('SELECT pgapex.f_region_delete_detailview_region_columns(:regionId)');
-      $detailViewStatement->bindValue(':regionId', $reportRegionId, PDO::PARAM_INT);
+      $detailViewStatement->bindValue(':regionId', $detailViewRegionId, PDO::PARAM_INT);
       $detailViewStatement->execute();
 
       $detailViewColumnStatement = $connection->prepare('SELECT pgapex.f_region_create_detailview_region_column(:regionId, :viewColumnName, :heading, :sequence, :isTextEscaped)');

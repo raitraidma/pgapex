@@ -52,7 +52,11 @@
       controller: 'pgApexApp.region.ManageDetailViewRegionController',
       templateUrl: 'app/partials/region/manage-detail-view-region.html'
     })
-    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report-and-detail-view/:regionId/edit', {
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/detail-view/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageDetailViewRegionController',
+      templateUrl: 'app/partials/region/manage-detail-view-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report-for-detail-view/:regionId/edit', {
       controller: 'pgApexApp.region.ManageDetailViewRegionController',
       templateUrl: 'app/partials/region/manage-detail-view-region.html'
     });

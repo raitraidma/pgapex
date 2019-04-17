@@ -55,6 +55,8 @@
     this.initReportLinkTemplates();
     this.initDetailViewTemplates();
     this.initAvailablePages();
+
+    this.loadRegion();
   };
 
   ManageDetailViewRegionController.prototype.getApplicationId = function() {
@@ -212,7 +214,7 @@
       this.$scope.region.view.attributes.schema,
       this.$scope.region.view.attributes.name,
       this.$scope.region.uniqueId,
-      this.getRegionId(),
+      this.$scope.region.reportRegionId || null,
       this.$scope.region.reportName,
       this.$scope.region.reportSequence,
       this.$scope.region.reportRegionTemplate,
@@ -221,8 +223,8 @@
       this.$scope.region.reportShowHeader,
       this.$scope.region.reportItemsPerPage,
       this.$scope.region.reportPaginationQueryParameter,
-      this.getPageId(),
-      null,
+      this.$scope.region.reportPageId || this.getPageId(),
+      this.$scope.region.detailViewRegionId || null,
       this.$scope.region.detailViewName,
       this.$scope.region.detailViewSequence,
       this.$scope.region.detailViewRegionTemplate,
@@ -242,6 +244,25 @@
     } else {
       this.$scope.formError = this.formErrorService.parseApiResponse(response);
     }
+  };
+
+  ManageDetailViewRegionController.prototype.loadRegion = function() {
+    if (!this.isEditPage()) { return; }
+    this.regionService.getRegion(this.getRegionId()).then(function (response) {
+      let region = response.getDataOrDefault({'attributes': {}});
+      region.view = {'attributes': {'schema': region.viewSchema, 'name': region.viewName}};
+      this.$scope.region = region;
+
+      if (this.$scope.region.reportColumns === null) {
+        this.$scope.region.reportColumns = [];
+      }
+
+      if (this.$scope.region.detailViewColumns === null) {
+        this.$scope.region.detailViewColumns = [];
+      }
+
+      this.setViewColumns();
+    }.bind(this));
   };
 
   function init() {
