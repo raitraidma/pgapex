@@ -68,3 +68,11 @@ a.toggle {
 .btn--margin-left {
   margin-left: 0.5em;
 }
+
+.subregion .table {
+  margin: 0;
+}
+
+.subregion .pagination {
+  margin-left: 1em;
+}

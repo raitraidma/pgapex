@@ -605,6 +605,36 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_parent_region_subregions(
+  i_parent_region_id INT
+)
+RETURNS TABLE(
+  subregion_id    INT,
+  sequence        INT,
+  template_id     INT,
+  name            VARCHAR,
+  query_parameter VARCHAR,
+  subregion_type  VARCHAR
+) AS $$
+  SELECT
+    sr.subregion_id,
+	  sr.sequence,
+	  sr.template_id,
+	  sr.name,
+	  sr.query_parameter,
+	    (CASE
+			  WHEN rr.subregion_id IS NOT NULL THEN 'REPORT'
+		  END) AS subregion_type
+  FROM pgapex.subregion sr
+    LEFT JOIN pgapex.report_region rr ON sr.subregion_id = rr.subregion_id
+  WHERE sr.parent_region_id = i_parent_region_id AND Sr.is_visible = TRUE
+  ORDER BY sr.sequence;
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_create_page(
     i_application_id INT
   , i_page_id        INT
@@ -1115,6 +1145,23 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_row_count_by_param(
+  v_schema_name   VARCHAR
+, v_view_name     VARCHAR
+, parameter       VARCHAR
+, parameter_value VARCHAR
+)
+RETURNS INT AS $$
+  SELECT res_row_count
+  FROM dblink(pgapex.f_app_get_dblink_connection_name()
+  , 'SELECT COUNT(1) FROM ' || v_schema_name || '.' || v_view_name || ' WHERE ' || parameter || ' = ' || parameter_value
+  , FALSE) AS ( res_row_count INT)
+$$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_html_special_chars(
   t_text text
 )
@@ -1163,6 +1210,7 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region_with_template(
   i_region_id              INT
 , j_data                   JSON
+, v_additional_parameters  VARCHAR
 , v_pagination_query_param VARCHAR
 , i_page_count             INT
 , i_current_page           INT
@@ -1215,7 +1263,7 @@ BEGIN
          t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
     FROM pgapex.report_region rr
     LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
-    WHERE rr.region_id = i_region_id;
+    WHERE rr.region_id = i_region_id OR rr.subregion_id = i_region_id;
   ELSE
     SELECT rlt.report_begin, rlt.report_end, rlt.header_begin, rlt.header_row_begin, rlt.header_cell, rlt.header_row_end, rlt.header_end,
          rlt.body_begin, rlt.body_row_begin, rlt.body_row_link, rlt.body_row_cell, rlt.body_row_end, rlt.body_end,
@@ -1234,7 +1282,7 @@ BEGIN
       SELECT ROW(rc.view_column_name, rc.heading, rc.sequence, rc.is_text_escaped, rcl.url, rcl.link_text, rcl.attributes)
       FROM pgapex.report_column rc
       LEFT JOIN pgapex.report_column_link rcl ON rcl.report_column_id = rc.report_column_id
-      WHERE rc.region_id = i_region_id
+      WHERE rc.region_id = i_region_id OR rc.subregion_id = i_region_id
       ORDER BY rc.sequence
   ) INTO r_report_columns;
 
@@ -1290,7 +1338,8 @@ BEGIN
 
   t_response := t_response || t_body_end || t_report_end;
 
-  v_url_prefix := pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' || pgapex.f_app_get_setting('page_id') || '?' || v_pagination_query_param || '=';
+  v_url_prefix := pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' ||
+    pgapex.f_app_get_setting('page_id') || '?' || v_additional_parameters || v_pagination_query_param || '=';
 
   IF i_page_count > 1 THEN
     t_pagination := t_pagination_begin;
@@ -1340,6 +1389,7 @@ DECLARE
   i_page_count             INT;
   i_offset                 INT      := 0;
   j_rows                   JSON;
+  v_additional_parameters  VARCHAR  := '';
   v_query                  VARCHAR;
 BEGIN
   SELECT rr.schema_name, rr.view_name, rr.items_per_page, rr.show_header, pi.name
@@ -1365,7 +1415,7 @@ BEGIN
 
   SELECT res_rows INTO j_rows FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_rows JSON );
 
-  RETURN pgapex.f_app_get_report_region_with_template(i_region_id, j_rows, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
+  RETURN pgapex.f_app_get_report_region_with_template(i_region_id, j_rows, v_additional_parameters, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
@@ -1780,6 +1830,96 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_subregion(
+    i_subregion_id            INT
+  , v_parent_region_unique_id VARCHAR
+  , v_argument                VARCHAR
+  , v_pagination_query_param  VARCHAR
+  , j_get_params              JSONB
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_region_template        TEXT;
+  v_schema_name            VARCHAR;
+  v_view_name              VARCHAR;
+  i_items_per_page         INT;
+  b_show_header            BOOLEAN;
+  v_unique_id              VARCHAR;
+  i_current_page           INT      := 1;
+  i_row_count              INT;
+  i_page_count             INT;
+  i_offset                 INT      := 0;
+  j_rows                   JSON;
+  v_additional_parameters  VARCHAR;
+  v_query                  VARCHAR;
+BEGIN
+  SELECT rr.schema_name, rr.view_name, rr.items_per_page, rr.show_header, rr.unique_id
+  INTO v_schema_name, v_view_name, i_items_per_page, b_show_header, v_unique_id
+  FROM pgapex.report_region rr
+  WHERE rr.subregion_id = i_subregion_id;
+
+  IF j_get_params IS NOT NULL AND j_get_params ? v_pagination_query_param THEN
+    i_current_page := (j_get_params->>v_pagination_query_param)::INT;
+  END IF;
+
+  i_row_count := pgapex.f_app_get_row_count_by_param(v_schema_name, v_view_name, v_unique_id, v_argument);
+  i_page_count := ceil(i_row_count::float/i_items_per_page::float);
+
+  IF (i_page_count < i_current_page) OR (i_current_page < 1) THEN
+    i_current_page := 1;
+  END IF;
+
+  i_offset := (i_current_page - 1) * i_items_per_page;
+
+  v_query := 'SELECT json_agg(a) FROM (SELECT * FROM ' || v_schema_name || '.' || v_view_name
+  || ' WHERE ' || v_unique_id || '=' || quote_literal(v_argument) || ' LIMIT ' || i_items_per_page || ' OFFSET ' || i_offset || ') AS a';
+
+  SELECT res_rows INTO j_rows FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_rows JSON );
+
+  v_additional_parameters := v_parent_region_unique_id || '=' || v_argument || '&';
+
+  RETURN pgapex.f_app_get_report_region_with_template(i_subregion_id, j_rows, v_additional_parameters, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_subregions(
+    i_parent_region_id        INT
+  , v_parent_region_unique_id VARCHAR
+  , v_argument                VARCHAR
+  , j_get_params              JSONB
+)
+  RETURNS TEXT AS $$
+DECLARE
+  r_subregion           RECORD;
+  t_subregion_content   TEXT;
+  t_subregion_template  TEXT;
+  t_response            TEXT  := '';
+BEGIN
+  FOR r_subregion IN (SELECT * FROM pgapex.f_app_get_parent_region_subregions(i_parent_region_id))
+    LOOP
+        SELECT template INTO t_subregion_template FROM pgapex.subregion_template WHERE template_id = r_subregion.template_id;
+
+        IF r_subregion.subregion_type = 'REPORT' THEN
+          SELECT pgapex.f_app_get_report_subregion(r_subregion.subregion_id, v_parent_region_unique_id, v_argument,
+            r_subregion.query_parameter, j_get_params) INTO t_subregion_content;
+        END IF;
+
+        t_subregion_template := replace(t_subregion_template, '#SUBREGION_TITLE#', r_subregion.name);
+        t_response := t_response || replace(t_subregion_template, '#SUBREGION_BODY#', t_subregion_content);
+    END LOOP;
+
+  RETURN t_response;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_detail_view_with_template(
     i_region_id   INT
   , j_row         JSON
@@ -1864,6 +2004,8 @@ DECLARE
   v_argument          VARCHAR;
   t_negative_response TEXT;
   j_row               JSONB;
+  t_detailview        TEXT;
+  t_subregions        TEXT;
   t_response          TEXT;
 BEGIN
   SELECT dvr.schema_name, dvr.view_name, dvr.unique_id
@@ -1883,7 +2025,13 @@ BEGIN
   SELECT res_rows INTO j_row FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS (res_rows JSON);
 
   IF j_row IS NOT NULL THEN
-    RETURN pgapex.f_app_get_detail_view_with_template(i_region_id, (j_row->>0)::json);
+    SELECT pgapex.f_app_get_detail_view_with_template(i_region_id, (j_row->>0)::json) INTO t_detailview;
+    SELECT pgapex.f_app_get_subregions(i_region_id, v_unique_id, (j_row->>0)::json->>v_unique_id, j_get_params) INTO t_subregions;
+
+    t_response := t_detailview;
+    t_response := t_response || t_subregions;
+
+    RETURN t_response;
   ELSE
     t_negative_response := '<h4></span>Row not found</h4>';
     t_negative_response := t_negative_response || '<h5>View <b>' || v_schema_name || '.' || v_view_name ||

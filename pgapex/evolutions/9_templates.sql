@@ -18,6 +18,7 @@ INSERT INTO pgapex.template (template_id, name) VALUES (17, 'Green button');
 INSERT INTO pgapex.template (template_id, name) VALUES (18, 'Red button');
 INSERT INTO pgapex.template (template_id, name) VALUES (19, 'Default detail view table');
 INSERT INTO pgapex.template (template_id, name) VALUES (20, 'Default detail view page');
+INSERT INTO pgapex.template (template_id, name) VALUES (21, 'Subregion template');
 
 
 INSERT INTO pgapex.navigation_template (template_id, navigation_begin, navigation_end) VALUES (3, '<ul class="nav navbar-nav">', '</ul>');
@@ -207,3 +208,5 @@ INSERT INTO pgapex.detailview_template (template_ID, detailview_page_begin, deta
 column_content)
 VALUES (20, '<dl class="dl-horizontal">', '</dl>', '<dt>#COLUMN_HEADING#</dt>',
 '<dd style="margin-bottom: 2em">#COLUMN_CONTENT#</dd>');
+
+INSERT INTO pgapex.subregion_template (template_id, template) VALUES (21, '<div class="panel panel-info subregion"> <div class="panel-heading">#SUBREGION_TITLE#</div> #SUBREGION_BODY# </div>');
