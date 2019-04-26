@@ -942,9 +942,21 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_html_region(
   i_region_id   INT
 )
-RETURNS TEXT AS $$
-  SELECT content FROM pgapex.html_region WHERE region_id = i_region_id;
-$$ LANGUAGE sql
+  RETURNS TEXT AS $$
+DECLARE
+  t_response        TEXT;
+  t_app_user_value  VARCHAR;
+BEGIN
+  SELECT content INTO t_response FROM pgapex.html_region WHERE region_id = i_region_id;
+  SELECT pgapex.f_app_get_setting('username') INTO t_app_user_value;
+
+  IF t_app_user_value IS NOT NULL THEN
+    t_response := replace(t_response, '#APP_USER#', t_app_user_value);
+  END IF;
+
+  RETURN t_response;
+END
+$$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
