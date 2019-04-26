@@ -76,3 +76,38 @@ a.toggle {
 .subregion .pagination {
   margin-left: 1em;
 }
+
+.subregion-form {
+  margin-top: 2.5em;
+  margin-bottom: 1.5em;
+}
+
+.subregion-form__row {
+  margin: auto;
+}
+
+.subregion-form__row .has-error {
+  color: #a94442;
+}
+
+.subregion-form__panel {
+  background-color: #f7f7f9;
+  margin-bottom: 2.5em;
+}
+
+.heading {
+  margin-top: auto;
+}
+
+.add-column-link {
+  margin-top: 2.5em;
+}
+
+.add-column-link__column-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.add-column-link__heading {
+  margin-top: 0;
+}

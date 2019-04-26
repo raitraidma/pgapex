@@ -2065,6 +2065,117 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_region_save_report_subregion(
+    i_subregion_id                   pgapex.subregion.subregion_id%TYPE
+  , i_subregion_template_id          pgapex.subregion.template_id%TYPE
+  , v_name                           pgapex.subregion.name%TYPE
+  , i_sequence                       pgapex.subregion.sequence%TYPE
+  , b_is_visible                     pgapex.subregion.is_visible%TYPE
+  , v_query_parameter                pgapex.subregion.query_parameter%TYPE
+  , i_parent_region_id               pgapex.subregion.parent_region_id%TYPE
+  , i_report_template_id             pgapex.report_region.template_id%TYPE
+  , v_schema_name                    pgapex.report_region.schema_name%TYPE
+  , v_view_name                      pgapex.report_region.view_name%TYPE
+  , i_items_per_page                 pgapex.report_region.items_per_page%TYPE
+  , b_show_header                    pgapex.report_region.show_header%TYPE
+  , i_unique_id                      pgapex.report_region.unique_id%TYPE
+)
+  RETURNS int AS $$
+DECLARE
+  i_new_subregion_id INT;
+BEGIN
+  SELECT nextval('pgapex.subregion_subregion_id_seq') INTO i_new_subregion_id;
+
+    INSERT INTO pgapex.subregion (subregion_id, template_id, name, is_visible, query_parameter, parent_region_id, sequence)
+    VALUES (i_new_subregion_id, i_subregion_template_id, v_name, b_is_visible, v_query_parameter, i_parent_region_id, i_sequence);
+
+    INSERT INTO pgapex.report_region (subregion_id, template_id, schema_name, view_name, items_per_page, show_header, unique_id)
+    VALUES (i_new_subregion_id, i_report_template_id, v_schema_name, v_view_name, i_items_per_page, b_show_header, i_unique_id);
+
+    RETURN i_new_subregion_id;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_subregion_delete_subregion(
+  i_parent_region_id  pgapex.subregion.parent_region_id%TYPE
+)
+  RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.subregion WHERE parent_region_id = i_parent_region_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_subregion_delete_report_subregion_columns(
+  i_subregion_id pgapex.subregion.subregion_id%TYPE
+)
+  RETURNS boolean AS $$
+BEGIN
+  DELETE FROM pgapex.report_column WHERE subregion_id = i_subregion_id;
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_subregion_create_report_subregion_column(
+    i_subregion_id          pgapex.report_column.subregion_id%TYPE
+  , v_view_column_name      pgapex.report_column.view_column_name%TYPE
+  , v_heading               pgapex.report_column.heading%TYPE
+  , i_sequence              pgapex.report_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.report_column.is_text_escaped%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_report_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.report_column_report_column_id_seq') INTO i_new_report_column_id;
+  INSERT INTO pgapex.report_column (report_column_id, subregion_id, report_column_type_id, view_column_name, heading, sequence, is_text_escaped)
+    VALUES (i_new_report_column_id, i_subregion_id, 'COLUMN', v_view_column_name, v_heading, i_sequence, b_is_text_escaped);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_subregion_create_report_subregion_link(
+    i_subregion_id          pgapex.report_column.subregion_id%TYPE
+  , v_heading               pgapex.report_column.heading%TYPE
+  , i_sequence              pgapex.report_column.sequence%TYPE
+  , b_is_text_escaped       pgapex.report_column.is_text_escaped%TYPE
+  , v_url                   pgapex.report_column_link.url%TYPE
+  , v_link_text             pgapex.report_column_link.link_text%TYPE
+  , v_attributes            pgapex.report_column_link.attributes%TYPE
+)
+  RETURNS boolean AS $$
+DECLARE
+  i_new_report_column_id INT;
+BEGIN
+  SELECT nextval('pgapex.report_column_report_column_id_seq') INTO i_new_report_column_id;
+  INSERT INTO pgapex.report_column (report_column_id, subregion_id, report_column_type_id, heading, sequence, is_text_escaped)
+    VALUES (i_new_report_column_id, i_subregion_id, 'LINK', v_heading, i_sequence, b_is_text_escaped);
+  INSERT INTO pgapex.report_column_link (report_column_id, url, link_text, attributes)
+    VALUES (i_new_report_column_id, v_url, v_link_text, v_attributes);
+  RETURN FOUND;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_region_get_form_region(
   i_region_id pgapex.region.region_id%TYPE
 )
@@ -2255,6 +2366,80 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_tabularform_region(
     tfr.template_id, tfr.schema_name, tfr.view_name, tfr.items_per_page, tfr.show_header, tfr.unique_id;
 
 $$ LANGUAGE sql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_subregions(
+  i_region_id pgapex.detailview_region.region_id%TYPE
+)
+RETURNS json AS $$
+DECLARE
+  j_result        JSON;
+BEGIN
+  SELECT json_agg(json_build_object(a)) INTO j_result FROM (SELECT
+    json_build_object(
+      'type', 'SUBREPORT',
+      'subRegionId', sr.subregion_id,
+      'parentRegionId', sr.parent_region_id,
+      'name', sr.name,
+      'sequence', sr.sequence,
+      'paginationQueryParameter', sr.query_parameter,
+      'reportTemplate', rr.template_id,
+      'viewSchema', rr.schema_name,
+      'viewName', rr.view_name,
+      'showHeader', rr.show_header,
+      'itemsPerPage', rr.items_per_page,
+      'linkedColumn', rr.unique_id,
+      'columns', json_agg(
+        CASE
+        WHEN rcl.report_column_link_id IS NULL THEN
+          json_build_object(
+            'id', rc.report_column_id,
+            'type', 'report-column',
+            'attributes', json_build_object(
+              'type', 'COLUMN',
+              'isTextEscaped', rc.is_text_escaped,
+              'heading', rc.heading,
+              'sequence', rc.sequence,
+              'column', rc.view_column_name
+            )
+          )
+        ELSE
+          json_build_object(
+            'id', rc.report_column_id,
+            'type', 'report-link',
+            'attributes', json_build_object(
+              'type', 'LINK',
+              'isTextEscaped', rc.is_text_escaped,
+              'heading', rc.heading,
+              'sequence', rc.sequence,
+              'linkUrl', rcl.url,
+              'linkText', rcl.link_text,
+              'linkAttributes', rcl.attributes
+            )
+          )
+        END
+      )
+    )
+  FROM pgapex.subregion sr
+    LEFT JOIN pgapex.report_region rr ON sr.subregion_id = rr.subregion_id
+	LEFT JOIN pgapex.detailview_region dvr ON sr.parent_region_id = dvr.region_id
+    LEFT JOIN pgapex.report_column rc ON rc.subregion_id = rr.subregion_id
+    LEFT JOIN pgapex.report_column_link rcl ON rcl.report_column_id = rc.report_column_id
+  WHERE dvr.region_id = i_region_id
+  GROUP BY sr.name, sr.subregion_id, sr.sequence, sr.query_parameter,
+    rr.template_id, rr.schema_name, rr.view_name, rr.show_header, rr.items_per_page, rr.unique_id
+    ) AS a;
+
+  IF j_result IS NOT NULL THEN
+    RETURN j_result;
+  ELSE
+    RETURN ('[]')::json;
+  END IF;
+END
+$$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
 
@@ -2456,6 +2641,7 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_and_detailview_region_by_d
         LEFT JOIN pgapex.detailview_column_link dvcl ON dvc.detailview_column_id = dvcl.detailview_column_id
       WHERE dvc.region_id = dvr.region_id
 	  ),
+	  'subRegions', (SELECT pgapex.f_region_get_report_subregions(i_region_id)),
 	  'pageTemplateDisplayPointId', r.page_template_display_point_id
   )
   FROM pgapex.region r

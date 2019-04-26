@@ -118,7 +118,8 @@
                                                                     reportPageId, detailViewRegionId, detailViewName,
                                                                     detailViewSequence, detailViewRegionTemplate,
                                                                     detailViewIsVisible, detailViewTemplate, detailViewPageId,
-                                                                    reportColumns, detailViewColumns, pageTemplateDisplayPointId) {
+                                                                    reportColumns, detailViewColumns, pageTemplateDisplayPointId,
+                                                                    subRegions) {
     let attributes = {
       'viewSchema': viewSchema,
       'viewName': viewName,
@@ -142,7 +143,8 @@
       'detailViewPageId': detailViewPageId,
       'reportColumns': reportColumns,
       'detailViewColumns': detailViewColumns,
-      'pageTemplateDisplayPointId': pageTemplateDisplayPointId
+      'pageTemplateDisplayPointId': pageTemplateDisplayPointId,
+      'subRegions': subRegions
     };
 
     let request = this.apiService.createApiRequest()

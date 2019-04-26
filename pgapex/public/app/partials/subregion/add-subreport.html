@@ -1,0 +1,66 @@
+<ng-form name="subReportForm">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-3" ng-class="{'has-error': formError.showErrors(subReportForm.name, 'name')}">
+        <input required type="text" class="form-control" name="name" ng-model="subReport.name"
+               placeholder="{{'region.name'|translate}} *">
+      </div>
+      <div class="col-md-3" ng-class="{'has-error': formError.showErrors(subReportForm.sequence, 'sequence')}">
+        <input required type="number" min="0" class="form-control" name="sequence" ng-model="subReport.sequence"
+               placeholder="{{'region.sequence'|translate}} *">
+      </div>
+      <div class="col-md-3"
+           ng-class="{'has-error': formError.showErrors(subReportForm.paginationQueryParameter, 'paginationQueryParameter')}">
+        <input required type="text" class="form-control" name="paginationQueryParameter"
+               ng-model="subReport.paginationQueryParameter"
+               placeholder="{{'region.paginationQueryParameter'|translate}} *">
+      </div>
+      <div class="col-md-3" ng-class="{'has-error': formError.showErrors(subReportForm.itemsPerPage, 'itemsPerPage')}">
+        <input required type="number" class="form-control" name="itemsPerPage" ng-model="subReport.itemsPerPage"
+               placeholder="{{'region.itemsPerPage'|translate}} *">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6" ng-class="{'has-error': formError.showErrors(subReportForm.view, 'view')}">
+        <select name="view" ng-model="subReport.view" class="form-control" ng-change="changeViewColumns()"
+                required
+                ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
+          <option value="">-- {{'region.view'|translate}} * --</option>
+        </select>
+      </div>
+      <div class="col-md-6" ng-class="{'has-error': formError.showErrors(subReportForm.linkedColumn, 'linkedColumn')}">
+        <select name="linkedColumn" ng-model="subReport.linkedColumn" class="form-control" required
+                ng-options="viewColumn.attributes.name as viewColumn.attributes.name for viewColumn in viewColumns">
+          <option value="">-- {{'region.linkedColumn'|translate}} * --</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div ng-show="subReportForm.name.$touched && subReportForm.name.$error.required" class="row has-error">
+    {{'region.nameIsMandatory'|translate}}
+  </div>
+  <div ng-show="subReportForm.sequence.$touched && subReportForm.sequence.$error.required" class="row has-error">
+    {{'region.sequenceIsMandatory'|translate}}
+  </div>
+  <div
+      ng-show="subReportForm.paginationQueryParameter.$touched && subReportForm.paginationQueryParameter.$error.required"
+      class="row has-error">
+    {{'region.paginationQueryParameter'|translate}}
+  </div>
+  <div ng-show="subReportForm.itemsPerPage.$touched && subReportForm.itemsPerPage.$error.required"
+       class="row has-error">
+    {{'region.itemsPerPageIsMandatory'|translate}}
+  </div>
+  <div ng-show="subReportForm.view.$touched && subReportForm.view.$error.required" class="row has-error">
+    {{'region.viewIsMandatory'|translate}}
+  </div>
+  <div ng-show="subReportForm.linkedColumn.$touched && subReportForm.linkedColumn.$error.required"
+       class="row has-error">
+    {{'region.linkedColumnIsMandatory'|translate}}
+  </div>
+
+  <add-column-link title="region.reportColumns" attribute-title="region.addReportColumn"
+                   view-columns="viewColumns" columns="subReport.columns"></add-column-link>
+</ng-form>

@@ -232,6 +232,64 @@ class Region extends Model {
           throw new Exception('Unknown column type: ' . $detailViewColumn['attributes']['type']);
         }
       }
+
+      $subReport = $connection->prepare('SELECT pgapex.f_subregion_delete_subregion(:parentRegionId)');
+      $subReport->bindValue(':parentRegionId', $detailViewRegionId, PDO::PARAM_INT);
+      $subReport->execute();
+
+      if (count($request->getApiAttribute('subRegions')) > 0) {
+        foreach ($request->getApiAttribute('subRegions') as $subRegion) {
+          if ($subRegion['type'] === 'SUBREPORT') {
+            $subReportStatement = $connection->prepare('SELECT pgapex.f_region_save_report_subregion(:subRegionId, :subRegionTemplateId, :name, :sequence, :isVisible, :queryParameter, :parentRegionId, :reportTemplateId,:viewSchema, :viewName, :itemsPerPage, :showHeader, :uniqueId)');
+
+            $subReportStatement->bindValue(':subRegionId',          $subRegion['attributes']['subRegionId'],               PDO::PARAM_INT);
+            $subReportStatement->bindValue(':subRegionTemplateId',  $subRegion['attributes']['subRegionTemplateId'],       PDO::PARAM_INT);
+            $subReportStatement->bindValue(':name',                 $subRegion['attributes']['name'],                      PDO::PARAM_STR);
+            $subReportStatement->bindValue(':sequence',             $subRegion['attributes']['sequence'],                  PDO::PARAM_INT);
+            $subReportStatement->bindValue(':isVisible',            $subRegion['attributes']['isVisible'],                 PDO::PARAM_BOOL);
+            $subReportStatement->bindValue(':queryParameter',       $subRegion['attributes']['paginationQueryParameter'],  PDO::PARAM_STR);
+            $subReportStatement->bindValue(':parentRegionId',       $detailViewRegionId,                                   PDO::PARAM_INT);
+            $subReportStatement->bindValue(':reportTemplateId',     $subRegion['attributes']['reportTemplateId'],          PDO::PARAM_INT);
+            $subReportStatement->bindValue(':viewSchema',           $subRegion['attributes']['viewSchema'],                PDO::PARAM_STR);
+            $subReportStatement->bindValue(':viewName',             $subRegion['attributes']['viewName'],                  PDO::PARAM_STR);
+            $subReportStatement->bindValue(':itemsPerPage',         $subRegion['attributes']['itemsPerPage'],              PDO::PARAM_INT);
+            $subReportStatement->bindValue(':showHeader',           $subRegion['attributes']['showHeader'],                PDO::PARAM_BOOL);
+            $subReportStatement->bindValue(':uniqueId',             $subRegion['attributes']['linkedColumn'],              PDO::PARAM_STR);
+            $subReportStatement->execute();
+            $subReportSubRegionId = $subReportStatement->fetchColumn();
+
+            $subReportStatement = $connection->prepare('SELECT pgapex.f_subregion_delete_report_subregion_columns(:subRegionId)');
+            $subReportStatement->bindValue(':subRegionId', $subReportSubRegionId, PDO::PARAM_INT);
+            $subReportStatement->execute();
+
+            $subReportColumnStatement = $connection->prepare('SELECT pgapex.f_subregion_create_report_subregion_column(:subRegionId, :viewColumnName, :heading, :sequence, :isTextEscaped)');
+            $subReportLinkStatement = $connection->prepare('SELECT pgapex.f_subregion_create_report_subregion_link(:subRegionId, :heading, :sequence, :isTextEscaped, :url, :linkText, :attributes)');
+
+            foreach ($subRegion['attributes']['columns'] as $subReportColumn) {
+              if ($subReportColumn['attributes']['type'] === 'COLUMN') {
+                $subReportColumnStatement->bindValue(':subRegionId',    $subReportSubRegionId,                           PDO::PARAM_INT);
+                $subReportColumnStatement->bindValue(':viewColumnName', $subReportColumn['attributes']['column'],        PDO::PARAM_STR);
+                $subReportColumnStatement->bindValue(':heading',        $subReportColumn['attributes']['heading'],       PDO::PARAM_STR);
+                $subReportColumnStatement->bindValue(':sequence',       $subReportColumn['attributes']['sequence'],      PDO::PARAM_INT);
+                $subReportColumnStatement->bindValue(':isTextEscaped',  $subReportColumn['attributes']['isTextEscaped'], PDO::PARAM_BOOL);
+                $subReportColumnStatement->execute();
+              } elseif ($subReportColumn['attributes']['type'] === 'LINK') {
+                $subReportLinkStatement->bindValue(':subRegionId',    $subReportSubRegionId,                            PDO::PARAM_INT);
+                $subReportLinkStatement->bindValue(':heading',        $subReportColumn['attributes']['heading'],        PDO::PARAM_STR);
+                $subReportLinkStatement->bindValue(':sequence',       $subReportColumn['attributes']['sequence'],       PDO::PARAM_INT);
+                $subReportLinkStatement->bindValue(':isTextEscaped',  $subReportColumn['attributes']['isTextEscaped'],  PDO::PARAM_BOOL);
+                $subReportLinkStatement->bindValue(':url',            $subReportColumn['attributes']['linkUrl'],        PDO::PARAM_BOOL);
+                $subReportLinkStatement->bindValue(':linkText',       $subReportColumn['attributes']['linkText'],       PDO::PARAM_BOOL);
+                $subReportLinkStatement->bindValue(':attributes',     $subReportColumn['attributes']['linkAttributes'], PDO::PARAM_BOOL);
+                $subReportLinkStatement->execute();
+              } else {
+                throw new Exception('Unknown column type: ' . $subReportColumn['attributes']['type']);
+              }
+            }
+          }
+        }
+      }
+
       $connection->commit();
       return true;
     } catch (Exception $e) {

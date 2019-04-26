@@ -19,25 +19,12 @@
   ManageDetailViewRegionController.prototype.init = function () {
     this.$scope.detailViewAppId = this.getApplicationId();
 
-    this.$scope.reportNames = {
-      'title': 'region.reportColumns',
-      'entityName': 'reportColumns',
-      'attributeTitle': 'region.addReportColumn',
-      'formName': 'reportColumnsForm'
-    };
-
-    this.$scope.detailViewNames = {
-      'title': 'region.detailViewColumns',
-      'entityName': 'detailViewColumns',
-      'attributeTitle': 'region.addDetailViewColumn',
-      'formName': 'detailViewColumnsForm'
-    };
-
     this.$scope.region = {
       'reportShowHeader': true,
       'reportItemsPerPage': 15,
       'reportColumns': [],
-      'detailViewColumns': []
+      'detailViewColumns': [],
+      'subRegions': []
     };
 
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
@@ -55,8 +42,6 @@
     this.initReportLinkTemplates();
     this.initDetailViewTemplates();
     this.initAvailablePages();
-
-    this.loadRegion();
   };
 
   ManageDetailViewRegionController.prototype.getApplicationId = function() {
@@ -75,6 +60,8 @@
     this.databaseService.getViewsWithColumns(this.$scope.detailViewAppId).then(function (response) {
       this.$scope.viewsWithColumns = response.getDataOrDefault([]);
       this.setViewColumns();
+
+      this.loadRegion();
     }.bind(this));
   };
 
@@ -209,6 +196,64 @@
     });
   };
 
+  function getSubReportColumns(subRegion) {
+    return subRegion.columns.map(function(column) {
+      if (column.attributes.type === 'COLUMN') {
+        return {
+          'type': 'subreport-column',
+          'attributes': {
+            'type': column.attributes.type,
+            'column': column.attributes.column,
+            'heading': column.attributes.heading,
+            'isTextEscaped': column.attributes.isTextEscaped || false,
+            'sequence': column.attributes.sequence
+          }
+        };
+      } else {
+        return {
+          'type': 'subreport-column',
+          'attributes': {
+            'type': column.attributes.type,
+            'heading': column.attributes.heading,
+            'isTextEscaped': column.attributes.isTextEscaped || false,
+            'sequence': column.attributes.sequence,
+            'linkText': column.attributes.linkText,
+            'linkUrl': column.attributes.linkUrl,
+            'linkAttributes': column.attributes.linkAttributes || null
+          }
+        };
+      }
+    });
+  }
+
+  ManageDetailViewRegionController.prototype.getSubRegions = function() {
+    return this.$scope.region.subRegions.map(function (subRegion) {
+      if (subRegion.type === 'SUBREPORT') {
+        return {
+          'type': subRegion.type,
+          'attributes': {
+            'subRegionId': subRegion.subRegionId || null,
+            'subRegionTemplateId': 21,
+            'name': subRegion.name,
+            'sequence': subRegion.sequence,
+            'isVisible': true,
+            'paginationQueryParameter': subRegion.paginationQueryParameter,
+            'parentRegionId': subRegion.parentRegionId || null,
+            'reportTemplateId': 6,
+            'viewSchema': subRegion.view.attributes.schema,
+            'viewName': subRegion.view.attributes.name,
+            'itemsPerPage': subRegion.itemsPerPage,
+            'showHeader': true,
+            'linkedColumn': subRegion.linkedColumn,
+            'columns': getSubReportColumns(subRegion)
+          }
+        };
+      } else {
+        return null;
+      }
+    });
+  };
+
   ManageDetailViewRegionController.prototype.saveRegion = function () {
     this.regionService.saveReportAndDetailViewRegion(
       this.$scope.region.view.attributes.schema,
@@ -233,7 +278,8 @@
       this.$scope.region.detailViewPageId,
       this.getReportColumns(),
       this.getDetailViewColumns(),
-      this.getDisplayPoint()
+      this.getDisplayPoint(),
+      this.getSubRegions()
     ).then(this.handleSaveResponse.bind(this));
   };
 

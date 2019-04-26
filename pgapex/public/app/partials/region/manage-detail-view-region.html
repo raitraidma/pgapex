@@ -15,7 +15,8 @@
       <label for="view" class="col-sm-3 control-label">{{'region.view'|translate}} *</label>
       <div class="col-sm-8">
         <select id="view" name="view" ng-model="region.view" ng-change="changeViewColumns()" class="form-control"
-                required ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
+                required
+                ng-options="view as view.attributes.schema + '.' + view.attributes.name for view in viewsWithColumns track by trackView(view)">
         </select>
         <div ng-show="formError.showErrors(manageRegionForm.view, 'view')">
           <span ng-show="manageRegionForm.view.$error.required" class="help-block">{{'region.viewIsMandatory'|translate}}</span>
@@ -52,28 +53,34 @@
       <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportName, 'reportName')}">
         <label for="reportName" class="col-sm-3 control-label">{{'region.name'|translate}} *</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" name="reportName" ng-model="region.reportName" id="reportName" placeholder="{{'region.name'|translate}}" required autofocus>
+          <input type="text" class="form-control" name="reportName" ng-model="region.reportName" id="reportName"
+                 placeholder="{{'region.name'|translate}}" required autofocus>
           <div ng-show="formError.showErrors(manageRegionForm.reportName, 'reportName')">
             <span ng-show="manageRegionForm.reportName.$error.required" class="help-block">{{'region.nameIsMandatory'|translate}}</span>
             <span ng-repeat="error in formError.getErrors('reportName')" class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportSequence, 'reportSequence')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportSequence, 'reportSequence')}">
         <label for="reportSequence" class="col-sm-3 control-label">{{'region.sequence'|translate}} *</label>
         <div class="col-sm-8">
-          <input type="number" min="0" class="form-control" name="reportSequence" ng-model="region.reportSequence" id="reportSequence" placeholder="{{'region.sequence'|translate}}" required>
+          <input type="number" min="0" class="form-control" name="reportSequence" ng-model="region.reportSequence"
+                 id="reportSequence" placeholder="{{'region.sequence'|translate}}" required>
           <div ng-show="formError.showErrors(manageRegionForm.reportSequence, 'reportSequence')">
             <span ng-show="manageRegionForm.reportSequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
             <span ng-show="manageRegionForm.reportSequence.$error.min" class="help-block">{{'region.minValueIsZero'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('reportSequence')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('reportSequence')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportRegionTemplate, 'reportRegionTemplate')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportRegionTemplate, 'reportRegionTemplate')}">
         <label for="reportRegionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}} *</label>
         <div class="col-sm-8">
-          <select id="reportRegionTemplate" name="reportRegionTemplate" ng-model="region.reportRegionTemplate" class="form-control" required
+          <select id="reportRegionTemplate" name="reportRegionTemplate" ng-model="region.reportRegionTemplate"
+                  class="form-control" required
                   ng-options="regionTemplate.id as regionTemplate.attributes.name for regionTemplate in regionTemplates">
           </select>
           <div ng-show="formError.showErrors(manageRegionForm.reportRegionTemplate, 'reportRegionTemplate')">
@@ -82,63 +89,79 @@
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportIsVisible, 'reportIsVisible')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportIsVisible, 'reportIsVisible')}">
         <label for="reportIsVisible" class="col-sm-3 control-label">{{'region.isVisible'|translate}}</label>
         <div class="col-sm-8" class="checkbox">
           <input id="reportIsVisible" name="reportIsVisible" ng-model="region.reportIsVisible" type="checkbox">
           <div ng-show="formError.showErrors(manageRegionForm.reportIsVisible, 'reportIsVisible')">
-            <span ng-repeat="error in formError.getErrors('reportIsVisible')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('reportIsVisible')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')}">
         <label for="reportTemplate" class="col-sm-3 control-label">{{'region.reportTemplate'|translate}} *</label>
         <div class="col-sm-8">
-          <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control" required
+          <select id="reportTemplate" name="reportTemplate" ng-model="region.reportTemplate" class="form-control"
+                  required
                   ng-options="reportTemplate.id as reportTemplate.attributes.name for reportTemplate in reportTemplates">
           </select>
           <div ng-show="formError.showErrors(manageRegionForm.reportTemplate, 'reportTemplate')">
             <span ng-show="manageRegionForm.reportTemplate.$error.required" class="help-block">{{'region.reportTemplateIsMandatory'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('reportTemplate')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('reportTemplate')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportShowHeader, 'reportShowHeader')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportShowHeader, 'reportShowHeader')}">
         <label for="reportShowHeader" class="col-sm-3 control-label">{{'region.showHeader'|translate}}</label>
         <div class="col-sm-8" class="checkbox">
           <input id="reportShowHeader" name="reportShowHeader" ng-model="region.reportShowHeader" type="checkbox">
           <div ng-show="formError.showErrors(manageRegionForm.reportShowHeader, 'reportShowHeader')">
-            <span ng-repeat="error in formError.getErrors('reportShowHeader')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('reportShowHeader')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportItemsPerPage, 'reportItemsPerPage')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportItemsPerPage, 'reportItemsPerPage')}">
         <label for="reportItemsPerPage" class="col-sm-3 control-label">{{'region.itemsPerPage'|translate}} *</label>
         <div class="col-sm-8">
-          <input type="number" min="1" class="form-control" name="reportItemsPerPage" ng-model="region.reportItemsPerPage"
+          <input type="number" min="1" class="form-control" name="reportItemsPerPage"
+                 ng-model="region.reportItemsPerPage"
                  id="reportItemsPerPage" placeholder="{{'region.itemsPerPage'|translate}}" required>
           <div ng-show="formError.showErrors(manageRegionForm.reportItemsPerPage, 'reportItemsPerPage')">
             <span ng-show="manageRegionForm.reportItemsPerPage.$error.required" class="help-block">{{'region.itemsPerPageIsMandatory'|translate}}</span>
             <span ng-show="manageRegionForm.reportItemsPerPage.$error.min" class="help-block">{{'region.minValueIsOne'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('reportItemsPerPage')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('reportItemsPerPage')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.reportPaginationQueryParameter, 'reportPaginationQueryParameter')}">
-        <label for="reportPaginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}} *</label>
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.reportPaginationQueryParameter, 'reportPaginationQueryParameter')}">
+        <label for="reportPaginationQueryParameter" class="col-sm-3 control-label">{{'region.paginationQueryParameter'|translate}}
+          *</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" name="reportPaginationQueryParameter" ng-model="region.reportPaginationQueryParameter" id="reportPaginationQueryParameter"
+          <input type="text" class="form-control" name="reportPaginationQueryParameter"
+                 ng-model="region.reportPaginationQueryParameter" id="reportPaginationQueryParameter"
                  placeholder="{{'region.paginationQueryParameter'|translate}}" required ng-pattern="'[a-zA-Z_]+'">
-          <div ng-show="formError.showErrors(manageRegionForm.reportPaginationQueryParameter, 'reportPaginationQueryParameter')">
+          <div
+              ng-show="formError.showErrors(manageRegionForm.reportPaginationQueryParameter, 'reportPaginationQueryParameter')">
             <span ng-show="manageRegionForm.reportPaginationQueryParameter.$error.required" class="help-block">{{'region.paginationQueryParameterIsMandatory'|translate}}</span>
             <span ng-repeat="error in formError.getErrors('reportPaginationQueryParameter')" class="help-block">{{error|translate}}</span>
           </div>
         </div>
         <div class="col-sm-1">
-          <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.paginationQueryParameterHelpText')"></span>
+          <span class="glyphicon glyphicon-info-sign help-text"
+                ng-click="helper.info('region.paginationQueryParameterHelpText')"></span>
         </div>
       </div>
-      <add-column-link names="reportNames" view-columns="viewColumns" columns="region.reportColumns"></add-column-link>
+      <add-column-link title="region.reportColumns" attribute-title="region.addReportColumn" view-columns="viewColumns"
+                       columns="region.reportColumns"></add-column-link>
 
       <!-- CREATE DETAIL VIEW REGION -->
       <div class="row">
@@ -146,32 +169,41 @@
           <h3>{{'region.createDetailViewRegion'|translate}}</h3>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewName, 'detailViewName')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewName, 'detailViewName')}">
         <label for="detailViewName" class="col-sm-3 control-label">{{'region.name'|translate}} *</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control" name="detailViewName" ng-model="region.detailViewName" id="detailViewName" placeholder="{{'region.name'|translate}}" required autofocus>
+          <input type="text" class="form-control" name="detailViewName" ng-model="region.detailViewName"
+                 id="detailViewName" placeholder="{{'region.name'|translate}}" required autofocus>
           <div ng-show="formError.showErrors(manageRegionForm.detailViewName, 'detailViewName')">
             <span ng-show="manageRegionForm.detailViewName.$error.required" class="help-block">{{'region.nameIsMandatory'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('detailViewName')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('detailViewName')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewSequence, 'detailViewSequence')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewSequence, 'detailViewSequence')}">
         <label for="detailViewSequence" class="col-sm-3 control-label">{{'region.sequence'|translate}} *</label>
         <div class="col-sm-8">
-          <input type="number" min="0" class="form-control" name="detailViewSequence" ng-model="region.detailViewSequence"
+          <input type="number" min="0" class="form-control" name="detailViewSequence"
+                 ng-model="region.detailViewSequence"
                  id="detailViewSequence" placeholder="{{'region.sequence'|translate}}" required>
           <div ng-show="formError.showErrors(manageRegionForm.detailViewSequence, 'detailViewSequence')">
             <span ng-show="manageRegionForm.detailViewSequence.$error.required" class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
             <span ng-show="manageRegionForm.detailViewSequence.$error.min" class="help-block">{{'region.minValueIsZero'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('detailViewSequence')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('detailViewSequence')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewRegionTemplate, 'detailViewRegionTemplate')}">
-        <label for="detailViewRegionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}} *</label>
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewRegionTemplate, 'detailViewRegionTemplate')}">
+        <label for="detailViewRegionTemplate" class="col-sm-3 control-label">{{'region.regionTemplate'|translate}}
+          *</label>
         <div class="col-sm-8">
-          <select id="detailViewRegionTemplate" name="detailViewRegionTemplate" ng-model="region.detailViewRegionTemplate" class="form-control" required
+          <select id="detailViewRegionTemplate" name="detailViewRegionTemplate"
+                  ng-model="region.detailViewRegionTemplate" class="form-control" required
                   ng-options="regionTemplate.id as regionTemplate.attributes.name for regionTemplate in regionTemplates">
           </select>
           <div ng-show="formError.showErrors(manageRegionForm.detailViewRegionTemplate, 'detailViewRegionTemplate')">
@@ -180,28 +212,36 @@
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewIsVisible, 'detailViewIsVisible')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewIsVisible, 'detailViewIsVisible')}">
         <label for="detailViewIsVisible" class="col-sm-3 control-label">{{'region.isVisible'|translate}}</label>
         <div class="col-sm-8" class="checkbox">
-          <input id="detailViewIsVisible" name="detailViewIsVisible" ng-model="region.detailViewIsVisible" type="checkbox">
+          <input id="detailViewIsVisible" name="detailViewIsVisible" ng-model="region.detailViewIsVisible"
+                 type="checkbox">
           <div ng-show="formError.showErrors(manageRegionForm.detailViewIsVisible, 'detailViewIsVisible')">
-            <span ng-repeat="error in formError.getErrors('detailViewIsVisible')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('detailViewIsVisible')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewTemplate, 'detailViewTemplate')}">
-        <label for="detailViewTemplate" class="col-sm-3 control-label">{{'region.detailViewTemplate'|translate}} *</label>
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewTemplate, 'detailViewTemplate')}">
+        <label for="detailViewTemplate" class="col-sm-3 control-label">{{'region.detailViewTemplate'|translate}}
+          *</label>
         <div class="col-sm-8">
-          <select id="detailViewTemplate" name="detailViewTemplate" ng-model="region.detailViewTemplate" class="form-control" required
+          <select id="detailViewTemplate" name="detailViewTemplate" ng-model="region.detailViewTemplate"
+                  class="form-control" required
                   ng-options="detailViewTemplate.id as detailViewTemplate.attributes.name for detailViewTemplate in detailViewTemplates">
           </select>
           <div ng-show="formError.showErrors(manageRegionForm.detailViewTemplate, 'detailViewTemplate')">
             <span ng-show="manageRegionForm.detailViewTemplate.$error.required" class="help-block">{{'region.detailViewTemplateIsMandatory'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('detailViewTemplate')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('detailViewTemplate')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewPageId, 'detailViewPageId')}">
+      <div class="form-group"
+           ng-class="{'has-error': formError.showErrors(manageRegionForm.detailViewPageId, 'detailViewPageId')}">
         <label for="detailViewPageId" class="col-sm-3 control-label">{{'region.page'|translate}} *</label>
         <div class="col-sm-8">
           <select id="detailViewPageId" name="detailViewPageId" ng-model="region.detailViewPageId" class="form-control"
@@ -209,13 +249,20 @@
           </select>
           <div ng-show="formError.showErrors(manageRegionForm.detailViewPageId, 'detailViewPageId')">
             <span ng-show="manageRegionForm.detailViewPageId.$error.required" class="help-block">{{'region.pageIsMandatory'|translate}}</span>
-            <span ng-repeat="error in formError.getErrors('detailViewPageId')" class="help-block">{{error|translate}}</span>
+            <span ng-repeat="error in formError.getErrors('detailViewPageId')"
+                  class="help-block">{{error|translate}}</span>
           </div>
         </div>
       </div>
-      <add-column-link names="detailViewNames" view-columns="viewColumns" columns="region.detailViewColumns"></add-column-link>
-    </div>
+      <add-column-link title="region.detailViewColumns" attribute-title="region.addDetailViewColumn"
+                       view-columns="viewColumns"
+                       columns="region.detailViewColumns"></add-column-link>
 
+      <!-- CREATE SUBREGION -->
+      <add-sub-region mode="mode" sub-regions="region.subRegions" application-id="detailViewAppId"
+                      detail-view-region-id="region.detailViewRegionId"></add-sub-region>
+
+    </div>
 
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">

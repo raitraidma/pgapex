@@ -5,9 +5,10 @@
   function AddColumnLinkDirective() {
     return {
       scope: {
-        names: '<',
-        columns: '<',
-        viewColumns: '<'
+        columns: '=',
+        viewColumns: '=',
+        title: '@',
+        attributeTitle: '@'
       },
       controller: 'pgApexApp.region.AddColumnLinkController',
       templateUrl: 'app/partials/region/add-column-link.html',
