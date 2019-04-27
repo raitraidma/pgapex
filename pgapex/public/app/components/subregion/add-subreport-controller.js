@@ -7,6 +7,10 @@
     this.databaseService = databaseService;
     this.formErrorService = formErrorService;
 
+    $scope.$watch('subReport.columns', function (items) {
+      $scope.subReportForm.$setValidity('columnsArrayLength', items.length > 0);
+    }, true);
+
     this.init();
   }
 

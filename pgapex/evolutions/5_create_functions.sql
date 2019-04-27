@@ -2445,6 +2445,25 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_region_get_detailview_region_id_by_report_region_id(
+  i_region_id INT
+)
+RETURNS INT AS $$
+DECLARE
+  i_detailview_region_id  INT;
+BEGIN
+  SELECT dvr.region_id INTO i_detailview_region_id FROM pgapex.detailview_region dvr
+  INNER JOIN pgapex.report_region rr ON dvr.report_region_id = rr.region_id
+  WHERE rr.region_id = i_region_id;
+
+  RETURN i_detailview_region_id;
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_and_detailview_region_by_report_id(
   i_region_id pgapex.region.region_id%TYPE
 )
@@ -2535,6 +2554,9 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_and_detailview_region_by_r
       FROM pgapex.detailview_column dvc
         LEFT JOIN pgapex.detailview_column_link dvcl ON dvc.detailview_column_id = dvcl.detailview_column_id
       WHERE dvc.region_id = dvr.region_id
+	  ),
+	  'subRegions', (SELECT pgapex.f_region_get_report_subregions(
+	    (SELECT pgapex.f_region_get_detailview_region_id_by_report_region_id(i_region_id)))
 	  ),
 	  'pageTemplateDisplayPointId', r.page_template_display_point_id
   )
