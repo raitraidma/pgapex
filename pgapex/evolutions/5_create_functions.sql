@@ -2577,9 +2577,9 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_report_and_detailview_region_by_d
 )
   RETURNS json AS $$
   SELECT json_build_object(
-    'viewSchema', rr.schema_name,
-    'viewName', rr.view_name,
-    'uniqueId', rr.unique_id,
+    'viewSchema', dvr.schema_name,
+    'viewName', dvr.view_name,
+    'uniqueId', dvr.unique_id,
     'reportRegionId', rr.region_id,
     'reportName', (SELECT name FROM pgapex.region WHERE region_id = rr.region_id),
     'reportSequence', (SELECT sequence FROM pgapex.region WHERE region_id = rr.region_id),
