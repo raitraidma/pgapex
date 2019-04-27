@@ -1219,8 +1219,8 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
-CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region_with_template(
-  i_region_id              INT
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_subregion_with_template(
+  i_subregion_id              INT
 , j_data                   JSON
 , v_additional_parameters  VARCHAR
 , v_pagination_query_param VARCHAR
@@ -1264,37 +1264,23 @@ BEGIN
   SELECT rr.unique_id
   INTO v_unique_id
   FROM pgapex.report_region rr
-  WHERE rr.region_id = i_region_id;
+  WHERE rr.subregion_id = i_subregion_id;
 
-  IF v_unique_id IS NULL THEN
-    SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
+  SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
          rt.body_begin, rt.body_row_begin, rt.body_row_cell, rt.body_row_end, rt.body_end,
          rt.pagination_begin, rt.pagination_end, rt.previous_page, rt.next_page, rt.active_page, rt.inactive_page
-    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
-         t_body_begin, t_body_row_begin, t_body_row_cell, t_body_row_end, t_body_end,
-         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
-    FROM pgapex.report_region rr
-    LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
-    WHERE rr.region_id = i_region_id OR rr.subregion_id = i_region_id;
-  ELSE
-    SELECT rlt.report_begin, rlt.report_end, rlt.header_begin, rlt.header_row_begin, rlt.header_cell, rlt.header_row_end, rlt.header_end,
-         rlt.body_begin, rlt.body_row_begin, rlt.body_row_link, rlt.body_row_cell, rlt.body_row_end, rlt.body_end,
-         rlt.pagination_begin, rlt.pagination_end, rlt.previous_page, rlt.next_page, rlt.active_page, rlt.inactive_page
-    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
-         t_body_begin, t_body_row_begin, t_body_row_link, t_body_row_cell, t_body_row_end, t_body_end,
-         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
-    FROM pgapex.report_region rr
-    LEFT JOIN pgapex.report_link_template rlt ON rlt.template_id = rr.link_template_id
-    WHERE rr.region_id = i_region_id;
-
-    SELECT pgapex.f_app_get_detailview_path(i_region_id) INTO t_detailview_path;
-  END IF;
+  INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
+       t_body_begin, t_body_row_begin, t_body_row_cell, t_body_row_end, t_body_end,
+       t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
+  FROM pgapex.report_region rr
+  LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
+  WHERE rr.subregion_id = i_subregion_id;
 
   SELECT ARRAY(
       SELECT ROW(rc.view_column_name, rc.heading, rc.sequence, rc.is_text_escaped, rcl.url, rcl.link_text, rcl.attributes)
       FROM pgapex.report_column rc
       LEFT JOIN pgapex.report_column_link rcl ON rcl.report_column_id = rc.report_column_id
-      WHERE rc.region_id = i_region_id OR rc.subregion_id = i_region_id
+      WHERE rc.subregion_id = i_subregion_id
       ORDER BY rc.sequence
   ) INTO r_report_columns;
 
@@ -1384,6 +1370,170 @@ SET search_path = pgapex, public, pg_temp;
 
 ----------
 
+CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region_with_template(
+  i_region_id              INT
+, j_data                   JSON
+, v_pagination_query_param VARCHAR
+, i_page_count             INT
+, i_current_page           INT
+, b_show_header            BOOLEAN
+)
+  RETURNS TEXT AS $$
+DECLARE
+  t_response         TEXT;
+  t_pagination       TEXT     := '';
+  v_url_prefix       VARCHAR;
+  v_unique_id        VARCHAR;
+  t_report_begin     TEXT;
+  t_report_end       TEXT;
+  t_header_begin     TEXT;
+  t_header_row_begin TEXT;
+  t_header_cell      TEXT;
+  t_header_row_end   TEXT;
+  t_header_end       TEXT;
+  t_body_begin       TEXT;
+  t_body_row_begin   TEXT;
+  t_body_row_link    TEXT;
+  t_body_row_cell    TEXT;
+  t_body_row_end     TEXT;
+  t_body_end         TEXT;
+  t_pagination_begin TEXT;
+  t_pagination_end   TEXT;
+  t_previous_page    TEXT;
+  t_next_page        TEXT;
+  t_active_page      TEXT;
+  t_inactive_page    TEXT;
+  r_report_column    pgapex.t_report_column_with_link;
+  r_report_columns   pgapex.t_report_column_with_link[];
+  j_row              JSON;
+  r_column           RECORD;
+  t_button_link      TEXT;
+  t_detailview_path  TEXT;
+  t_cell_content     TEXT;
+BEGIN
+  SELECT rr.unique_id
+  INTO v_unique_id
+  FROM pgapex.report_region rr
+  WHERE rr.region_id = i_region_id;
+
+  IF v_unique_id IS NULL THEN
+    SELECT rt.report_begin, rt.report_end, rt.header_begin, rt.header_row_begin, rt.header_cell, rt.header_row_end, rt.header_end,
+         rt.body_begin, rt.body_row_begin, rt.body_row_cell, rt.body_row_end, rt.body_end,
+         rt.pagination_begin, rt.pagination_end, rt.previous_page, rt.next_page, rt.active_page, rt.inactive_page
+    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
+         t_body_begin, t_body_row_begin, t_body_row_cell, t_body_row_end, t_body_end,
+         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
+    FROM pgapex.report_region rr
+    LEFT JOIN pgapex.report_template rt ON rt.template_id = rr.template_id
+    WHERE rr.region_id = i_region_id;
+  ELSE
+    SELECT rlt.report_begin, rlt.report_end, rlt.header_begin, rlt.header_row_begin, rlt.header_cell, rlt.header_row_end, rlt.header_end,
+         rlt.body_begin, rlt.body_row_begin, rlt.body_row_link, rlt.body_row_cell, rlt.body_row_end, rlt.body_end,
+         rlt.pagination_begin, rlt.pagination_end, rlt.previous_page, rlt.next_page, rlt.active_page, rlt.inactive_page
+    INTO t_report_begin, t_report_end, t_header_begin, t_header_row_begin, t_header_cell, t_header_row_end, t_header_end,
+         t_body_begin, t_body_row_begin, t_body_row_link, t_body_row_cell, t_body_row_end, t_body_end,
+         t_pagination_begin, t_pagination_end, t_previous_page, t_next_page, t_active_page, t_inactive_page
+    FROM pgapex.report_region rr
+    LEFT JOIN pgapex.report_link_template rlt ON rlt.template_id = rr.link_template_id
+    WHERE rr.region_id = i_region_id;
+
+    SELECT pgapex.f_app_get_detailview_path(i_region_id) INTO t_detailview_path;
+  END IF;
+
+  SELECT ARRAY(
+      SELECT ROW(rc.view_column_name, rc.heading, rc.sequence, rc.is_text_escaped, rcl.url, rcl.link_text, rcl.attributes)
+      FROM pgapex.report_column rc
+      LEFT JOIN pgapex.report_column_link rcl ON rcl.report_column_id = rc.report_column_id
+      WHERE rc.region_id = i_region_id
+      ORDER BY rc.sequence
+  ) INTO r_report_columns;
+
+  t_response := t_report_begin;
+
+  IF b_show_header THEN
+    t_response := t_response || t_header_begin || t_header_row_begin;
+
+    FOREACH r_report_column IN ARRAY r_report_columns
+    LOOP
+      t_response := t_response || replace(t_header_cell, '#CELL_CONTENT#', r_report_column.heading);
+    END LOOP;
+
+    t_response := t_response || t_header_row_end || t_header_end;
+  END IF;
+
+  t_response := t_response || t_body_begin;
+
+  IF j_data IS NOT NULL THEN
+    FOR j_row IN SELECT * FROM json_array_elements(j_data)
+    LOOP
+      t_response := t_response || t_body_row_begin;
+      IF t_body_row_link IS NOT NULL THEN
+        t_button_link := replace(t_body_row_link, '#PATH#', t_detailview_path);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID#', v_unique_id);
+        t_button_link := replace(t_button_link, '#UNIQUE_ID_VALUE#', (j_row->>v_unique_id)::text);
+        t_response := t_response || t_button_link;
+      END IF;
+
+        FOREACH r_report_column IN ARRAY r_report_columns
+        LOOP
+          IF r_report_column.view_column_name IS NOT NULL THEN
+            t_cell_content := COALESCE(j_row->>r_report_column.view_column_name, '');
+            IF r_report_column.is_text_escaped THEN
+              t_cell_content := pgapex.f_app_html_special_chars(t_cell_content);
+            END IF;
+            t_response := t_response || replace(t_body_row_cell, '#CELL_CONTENT#', t_cell_content);
+          ELSE
+            FOR r_column IN SELECT * FROM json_each_text(j_row)
+            LOOP
+              r_report_column.link_text := replace(r_report_column.link_text, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+              r_report_column.url := replace(r_report_column.url, '%' || r_column.key || '%', coalesce(r_column.value, ''));
+            END LOOP;
+            IF r_report_column.is_text_escaped THEN
+              r_report_column.link_text := pgapex.f_app_html_special_chars(r_report_column.link_text);
+            END IF;
+            t_response := t_response || replace(t_body_row_cell, '#CELL_CONTENT#', '<a href="' || r_report_column.url || '" ' || COALESCE(r_report_column.attributes, '') || '>' || r_report_column.link_text || '</a>');
+          END IF;
+        END LOOP;
+      t_response := t_response || t_body_row_end;
+    END LOOP;
+  END IF;
+
+  t_response := t_response || t_body_end || t_report_end;
+
+  v_url_prefix := pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' ||
+    pgapex.f_app_get_setting('page_id') || '?' || v_pagination_query_param || '=';
+
+  IF i_page_count > 1 THEN
+    t_pagination := t_pagination_begin;
+
+    IF i_current_page > 1 THEN
+      t_pagination := t_pagination || replace(t_previous_page, '#LINK#', v_url_prefix || 1);
+    END IF;
+
+    FOR p in 1 .. i_page_count
+    LOOP
+      IF p = i_current_page THEN
+        t_pagination := t_pagination || replace(replace(t_active_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      ELSE
+        t_pagination := t_pagination || replace(replace(t_inactive_page, '#LINK#', v_url_prefix || p), '#NUMBER#', p::varchar);
+      END IF;
+    END LOOP;
+
+    IF i_current_page < i_page_count THEN
+      t_pagination := t_pagination || replace(t_next_page, '#LINK#', v_url_prefix || i_page_count);
+    END IF;
+
+    t_pagination := t_pagination || t_pagination_end;
+  END IF;
+
+  RETURN replace(t_response, '#PAGINATION#', t_pagination);
+END
+$$ LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pgapex, public, pg_temp;
+
+----------
+
 CREATE OR REPLACE FUNCTION pgapex.f_app_get_report_region(
     i_region_id  INT
   , j_get_params JSONB
@@ -1401,7 +1551,6 @@ DECLARE
   i_page_count             INT;
   i_offset                 INT      := 0;
   j_rows                   JSON;
-  v_additional_parameters  VARCHAR  := '';
   v_query                  VARCHAR;
 BEGIN
   SELECT rr.schema_name, rr.view_name, rr.items_per_page, rr.show_header, pi.name
@@ -1427,7 +1576,7 @@ BEGIN
 
   SELECT res_rows INTO j_rows FROM dblink(pgapex.f_app_get_dblink_connection_name(), v_query, FALSE) AS ( res_rows JSON );
 
-  RETURN pgapex.f_app_get_report_region_with_template(i_region_id, j_rows, v_additional_parameters, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
+  RETURN pgapex.f_app_get_report_region_with_template(i_region_id, j_rows, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
@@ -1890,7 +2039,7 @@ BEGIN
 
   v_additional_parameters := v_parent_region_unique_id || '=' || v_argument || '&';
 
-  RETURN pgapex.f_app_get_report_region_with_template(i_subregion_id, j_rows, v_additional_parameters, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
+  RETURN pgapex.f_app_get_report_subregion_with_template(i_subregion_id, j_rows, v_additional_parameters, v_pagination_query_param, i_page_count, i_current_page, b_show_header);
 END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
