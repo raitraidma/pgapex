@@ -40,8 +40,6 @@
     this.initTabularFormTemplates();
     this.initTabularFormButtonTemplates();
     this.initViewsWithColumns();
-
-    this.loadRegion();
   };
 
   ManageTabularFormRegionController.prototype.getApplicationId = function() {
@@ -65,6 +63,8 @@
   ManageTabularFormRegionController.prototype.initTabularFormTemplates = function() {
     this.templateService.getTabularFormTemplates().then(function (response) {
       this.$scope.tabularFormTemplates = response.getDataOrDefault([]);
+
+      this.loadRegion();
     }.bind(this));
   };
 
@@ -150,12 +150,12 @@
   ManageTabularFormRegionController.prototype.getTabularFormButtons = function() {
     return this.$scope.region.tabularFormButtons.map(function (tabularFormButton) {
       return {
-        'template_id': tabularFormButton.buttonTemplateId,
+        'templateId': tabularFormButton.buttonTemplateId,
         'sequence': tabularFormButton.sequence,
         'label': tabularFormButton.label,
-        'function_name': tabularFormButton.function,
-        'success_message': tabularFormButton.successMessage,
-        'error_message': tabularFormButton.errorMessage
+        'functionName': tabularFormButton.function,
+        'successMessage': tabularFormButton.successMessage,
+        'errorMessage': tabularFormButton.errorMessage
       };
     });
   };

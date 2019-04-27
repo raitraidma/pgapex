@@ -463,13 +463,13 @@ class Region extends Model {
       $buttonStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_region_function(:regionId, '
         . ':buttonTemplateId, :functionName, :buttonLabel, :sequence, :successMessage, :errorMessage)');
       foreach ($request->getApiAttribute('tabularFormButtons') as $tabularFormButton) {
-        $buttonStatement->bindValue(':regionId',         $regionId, PDO::PARAM_INT);
-        $buttonStatement->bindValue(':buttonTemplateId', $tabularFormButton['template_id'],     PDO::PARAM_INT);
-        $buttonStatement->bindValue(':functionName',     $tabularFormButton['function_name'],   PDO::PARAM_STR);
+        $buttonStatement->bindValue(':regionId',         $regionId,                             PDO::PARAM_INT);
+        $buttonStatement->bindValue(':buttonTemplateId', $tabularFormButton['templateId'],      PDO::PARAM_INT);
+        $buttonStatement->bindValue(':functionName',     $tabularFormButton['functionName'],    PDO::PARAM_STR);
         $buttonStatement->bindValue(':buttonLabel',      $tabularFormButton['label'],           PDO::PARAM_STR);
         $buttonStatement->bindValue(':sequence',         $tabularFormButton['sequence'],        PDO::PARAM_INT);
-        $buttonStatement->bindValue(':successMessage',   $tabularFormButton['success_message'], PDO::PARAM_STR);
-        $buttonStatement->bindValue(':errorMessage',     $tabularFormButton['error_message'],   PDO::PARAM_INT);
+        $buttonStatement->bindValue(':successMessage',   $tabularFormButton['successMessage'],  PDO::PARAM_STR);
+        $buttonStatement->bindValue(':errorMessage',     $tabularFormButton['errorMessage'],    PDO::PARAM_INT);
         $buttonStatement->execute();
       }
 
