@@ -6,9 +6,10 @@
     return {
       scope: {
         applicationId: '=',
-        formNames: '=',
         buttons: '=',
-        buttonTemplates: '='
+        buttonTemplates: '=',
+        title: '@',
+        attributeTitle: '@'
       },
       controller: 'pgApexApp.region.AddButtonController',
       templateUrl: 'app/partials/region/add-button.html',

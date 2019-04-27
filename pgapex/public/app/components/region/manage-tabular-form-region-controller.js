@@ -19,20 +19,6 @@
   ManageTabularFormRegionController.prototype.init = function() {
     this.$scope.tabularFormAppId = this.getApplicationId();
 
-    this.$scope.tabularFormColumnsFormNames = {
-      'title': 'region.columns',
-      'entityName': 'tabularFormColumns',
-      'attributeTitle': 'region.addTabularFormColumn',
-      'formName': 'tabularFormColumnForm'
-    };
-
-    this.$scope.tabularFormButtonsFormNames = {
-      'title': 'region.buttons',
-      'entityName': 'tabularFormButtons',
-      'attributeTitle': 'region.addTabularFormButton',
-      'formName': 'tabularFormButtonsForm'
-    };
-
     this.$scope.region = {
       'showHeader': true,
       'itemsPerPage': 15,
