@@ -11,8 +11,6 @@
   }
 
   AddButtonController.prototype.init = function () {
-    this.$scope.formError = this.formErrorService.empty();
-
     this.$scope.addButton = this.addButton.bind(this);
     this.$scope.deleteButton = this.deleteButton.bind(this);
 

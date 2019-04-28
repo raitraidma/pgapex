@@ -7,6 +7,7 @@
       scope: {
         viewsWithColumns: '=',
         subReport: '=',
+        formError: '=',
         mode: '='
       },
       controller: 'pgApexApp.region.AddSubReportController',

@@ -15,7 +15,6 @@
   }
 
   AddSubReportController.prototype.init = function () {
-    this.$scope.formError = this.formErrorService.empty();
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
 
     this.$scope.trackView = function(view) {

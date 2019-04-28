@@ -7,6 +7,7 @@
       scope: {
         columns: '=',
         viewColumns: '=',
+        formError: '=',
         title: '@',
         attributeTitle: '@'
       },

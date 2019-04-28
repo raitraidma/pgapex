@@ -10,8 +10,6 @@
   }
 
   AddColumnLinkController.prototype.init = function () {
-    this.$scope.formError = this.formErrorService.empty();
-
     this.$scope.addColumn = this.addColumn.bind(this);
     this.$scope.deleteColumn = this.deleteColumn.bind(this);
   };

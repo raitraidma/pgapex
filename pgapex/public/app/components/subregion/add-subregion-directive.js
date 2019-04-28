@@ -7,6 +7,7 @@
       scope: {
         mode: '=',
         subRegions: '=',
+        formError: '=',
         applicationId: '=',
         detailViewRegionId: '='
       },

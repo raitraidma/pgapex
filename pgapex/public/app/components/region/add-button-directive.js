@@ -8,6 +8,7 @@
         applicationId: '=',
         buttons: '=',
         buttonTemplates: '=',
+        formError: '=',
         title: '@',
         attributeTitle: '@'
       },
