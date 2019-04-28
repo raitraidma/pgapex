@@ -114,6 +114,8 @@
     "visible": "Visible",
     "hidden": "Hidden",
     "sequenceAlreadyExists": "Sequence already exists.",
+    "paginationQueryParameterAlreadyExists": "Pagination query parameter already exists.",
+    "subreportQueryParameterNotSameAsReportParameter": "Subreport pagination query parameter should not be same as report query parameter.",
     "navigationTypeMustBeMenuBreadcrumbSitemap": "Navigation type must be either Menu, Breadcrumb or Sitemap.",
     "paginationQueryParameterMayConsistOfCharsAndUnderscores": "Pagination query parameter may consists of characters a-z A-Z and _.",
     "preFillFieldsMustBeFilled": "Pre fill parameters must be filled.",

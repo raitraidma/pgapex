@@ -61,6 +61,13 @@
     {{'region.linkedColumnIsMandatory'|translate}}
   </div>
 
+  <span ng-repeat="error in formError.getErrors('name')" class="help-block has-error">{{error|translate}}</span>
+  <span ng-repeat="error in formError.getErrors('sequence')" class="help-block has-error">{{error|translate}}</span>
+  <span ng-repeat="error in formError.getErrors('paginationQueryParameter')" class="help-block has-error">{{error|translate}}</span>
+  <span ng-repeat="error in formError.getErrors('itemsPerPage')" class="help-block has-error">{{error|translate}}</span>
+  <span ng-repeat="error in formError.getErrors('view')" class="help-block has-error">{{error|translate}}</span>
+  <span ng-repeat="error in formError.getErrors('linkedColumn')" class="help-block has-error">{{error|translate}}</span>
+
   <add-column-link title="region.reportColumns" attribute-title="region.addReportColumn"
                    view-columns="viewColumns"  form-error="formError" columns="subReport.columns"></add-column-link>
 </ng-form>

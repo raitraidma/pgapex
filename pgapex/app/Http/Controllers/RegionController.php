@@ -6,6 +6,7 @@ use App\Http\Response;
 use App\Services\Validators\Region\FormRegionValidator;
 use App\Services\Validators\Region\HtmlRegionValidator;
 use App\Services\Validators\Region\NavigationRegionValidator;
+use App\Services\Validators\Region\ReportAndDetailViewValidator;
 use App\Services\Validators\Region\ReportRegionValidator;
 use App\Services\Validators\Region\TabularFormRegionValidator;
 use Interop\Container\ContainerInterface as ContainerInterface;
@@ -69,8 +70,12 @@ class RegionController extends Controller {
   }
 
   public function saveReportAndDetailViewRegion(Request $request, Response $response) {
-    $this->getRegionModel()->saveReportAndDetailViewRegion($request);
-
+    $validator = $this->getReportAndDetailViewValidator();
+    $validator->validate($request);
+    if (!$validator->hasErrors()) {
+      $this->getRegionModel()->saveReportAndDetailViewRegion($request);
+    }
+    $validator->attachErrorsToResponse($response);
     return $response->getApiResponse();
   }
 
@@ -104,6 +109,10 @@ class RegionController extends Controller {
 
   private function getReportRegionValidator() {
     return new ReportRegionValidator($this->getContainer()['db']);
+  }
+
+  private function getReportAndDetailViewValidator() {
+    return new ReportAndDetailViewValidator($this->getContainer()['db']);
   }
 
   private function getFormRegionValidator() {
