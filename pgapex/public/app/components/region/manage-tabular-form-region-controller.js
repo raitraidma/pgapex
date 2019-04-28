@@ -178,7 +178,8 @@
       this.$scope.region.paginationQueryParameter,
       this.$scope.region.uniqueId,
       this.getTabularFormColumns(),
-      this.getTabularFormButtons()
+      this.getTabularFormButtons(),
+      'tabularFormColumns'
     ).then(this.handleSaveResponse.bind(this));
   };
 

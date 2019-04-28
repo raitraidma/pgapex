@@ -17,7 +17,7 @@ class TabularFormRegionValidator extends RegionValidator {
     $this->validateItemsPerPage($request);
     $this->validatePaginationQueryParameter($request);
     $this->validateButtons($request);
-    $this->validateColumns($request);
+    $this->validateColumns($request, $request->getApiAttribute('addTabularFormColumnsFormName'));
   }
 
   private function validateTabularFormTemplate($request) {
@@ -92,34 +92,34 @@ class TabularFormRegionValidator extends RegionValidator {
     }
   }
 
-  private function validateColumns($request) {
+  private function validateColumns($request, $formName) {
     $columns = $request->getApiAttribute('tabularFormColumns');
     $sequences = [];
 
     for ($i = 0; $i < count($columns); $i++) {
       $column = $columns[$i]['attributes'];
       if (trim($column['heading']) === '') {
-        $this->addError('region.headingIsMandatory', '/data/attributes/addColumnLink/' . $i . '/heading');
+        $this->addError('region.headingIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/heading');
       }
       if (!$this->isValidSequence($column['sequence'])) {
-        $this->addError('region.sequenceIsMandatory', '/data/attributes/addColumnLink' . $i . '/sequence');
+        $this->addError('region.sequenceIsMandatory', '/data/attributes/addColumnLink' . $formName . '/' . $i . '/sequence');
       } else {
         if (in_array($column['sequence'], $sequences)) {
-          $this->addError('region.sequenceAlreadyExists', '/data/attributes/addColumnLink/' . $i . '/sequence');
+          $this->addError('region.sequenceAlreadyExists', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/sequence');
         }
         $sequences[] = $column['sequence'];
       }
 
       if ($column['type'] === 'COLUMN'){
         if (trim($column['column']) === '') {
-          $this->addError('region.columnIsMandatory', '/data/attributes/addColumnLink/' . $i . '/column');
+          $this->addError('region.columnIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/column');
         }
       } else {
         if (trim($column['linkUrl']) === '') {
-          $this->addError('region.linkUrlIsMandatory', '/data/attributes/addColumnLink/' . $i . '/linkUrl');
+          $this->addError('region.linkUrlIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/linkUrl');
         }
         if (trim($column['linkText']) === '') {
-          $this->addError('region.linkTextIsMandatory', '/data/attributes/addColumnLink/' . $i . '/linkText');
+          $this->addError('region.linkTextIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/linkText');
         }
       }
     }

@@ -8,7 +8,8 @@
         viewsWithColumns: '=',
         subReport: '=',
         formError: '=',
-        mode: '='
+        mode: '=',
+        index: '='
       },
       controller: 'pgApexApp.region.AddSubReportController',
       templateUrl: 'app/partials/subregion/add-subreport.html',

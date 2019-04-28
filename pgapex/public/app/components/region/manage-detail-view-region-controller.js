@@ -245,7 +245,8 @@
             'itemsPerPage': subRegion.itemsPerPage,
             'showHeader': true,
             'linkedColumn': subRegion.linkedColumn,
-            'columns': getSubReportColumns(subRegion)
+            'columns': getSubReportColumns(subRegion),
+            'addSubregionFormName': 'subreport/' + subRegion.index
           }
         };
       } else {
@@ -279,7 +280,9 @@
       this.getReportColumns(),
       this.getDetailViewColumns(),
       this.getDisplayPoint(),
-      this.getSubRegions()
+      this.getSubRegions(),
+      'reportColumns',
+      'detailViewColumns'
     ).then(this.handleSaveResponse.bind(this));
   };
 

@@ -16,6 +16,7 @@
 
   AddSubReportController.prototype.init = function () {
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
+    this.$scope.subReport.index = this.$scope.index;
 
     this.$scope.trackView = function(view) {
       if (!view || !view.attributes) { return view; }

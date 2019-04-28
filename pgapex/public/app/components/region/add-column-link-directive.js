@@ -8,6 +8,7 @@
         columns: '=',
         viewColumns: '=',
         formError: '=',
+        name: '@',
         title: '@',
         attributeTitle: '@'
       },

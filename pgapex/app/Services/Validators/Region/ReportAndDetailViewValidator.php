@@ -27,8 +27,8 @@ class ReportAndDetailViewValidator extends Validator {
     $this->validateItemsPerPage($request);
     $this->validatePaginationQueryParameter($request);
     $this->validateDetailViewPageId($request);
-    $this->validateColumns($request->getApiAttribute('reportColumns'));
-    $this->validateColumns($request->getApiAttribute('detailViewColumns'));
+    $this->validateColumns($request->getApiAttribute('reportColumns'), $request->getApiAttribute('addReportColumnsFormName'));
+    $this->validateColumns($request->getApiAttribute('detailViewColumns'), $request->getApiAttribute('addDetailViewColumnsFormName'));
     $this->validateSubRegions($request);
   }
 
@@ -157,33 +157,33 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
-  private function validateColumns($columns) {
+  private function validateColumns($columns, $formName) {
     $sequences = [];
 
     for ($i = 0; $i < count($columns); $i++) {
       $column = $columns[$i]['attributes'];
       if (trim($column['heading']) === '') {
-        $this->addError('region.headingIsMandatory', '/data/attributes/addColumnLink/' . $i . '/heading');
+        $this->addError('region.headingIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/heading');
       }
       if (!$this->isValidSequence($column['sequence'])) {
-        $this->addError('region.sequenceIsMandatory', '/data/attributes/addColumnLink' . $i . '/sequence');
+        $this->addError('region.sequenceIsMandatory', '/data/attributes/addColumnLink' . $formName . '/' . $i . '/sequence');
       } else {
         if (in_array($column['sequence'], $sequences)) {
-          $this->addError('region.sequenceAlreadyExists', '/data/attributes/addColumnLink/' . $i . '/sequence');
+          $this->addError('region.sequenceAlreadyExists', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/sequence');
         }
         $sequences[] = $column['sequence'];
       }
 
       if ($column['type'] === 'COLUMN'){
         if (trim($column['column']) === '') {
-          $this->addError('region.columnIsMandatory', '/data/attributes/addColumnLink/' . $i . '/column');
+          $this->addError('region.columnIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/column');
         }
       } else {
         if (trim($column['linkUrl']) === '') {
-          $this->addError('region.linkUrlIsMandatory', '/data/attributes/addColumnLink/' . $i . '/linkUrl');
+          $this->addError('region.linkUrlIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/linkUrl');
         }
         if (trim($column['linkText']) === '') {
-          $this->addError('region.linkTextIsMandatory', '/data/attributes/addColumnLink/' . $i . '/linkText');
+          $this->addError('region.linkTextIsMandatory', '/data/attributes/addColumnLink/' . $formName . '/' . $i . '/linkText');
         }
       }
     }
@@ -198,20 +198,20 @@ class ReportAndDetailViewValidator extends Validator {
       $subRegion = $subRegions[$i]['attributes'];
 
       if ($subRegion['name'] === '') {
-        $this->addError('region.nameIsMandatory', '/data/attributes/name');
+        $this->addError('region.nameIsMandatory', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/name');
       }
 
       if (!$this->isValidSequence($subRegion['sequence'])) {
-        $this->addError('region.sequenceIsMandatory', '/data/attributes/sequence');
+        $this->addError('region.sequenceIsMandatory', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/sequence');
       } else {
         if (in_array($subRegion['sequence'], $sequences)) {
-          $this->addError('region.sequenceAlreadyExists', '/data/attributes/sequence');
+          $this->addError('region.sequenceAlreadyExists', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/sequence');
         }
         $sequences[] = $subRegion['sequence'];
       }
 
       $paginationQueryParameter = $subRegion['paginationQueryParameter'];
-      $pointer = '/data/attributes/paginationQueryParameter';
+      $pointer = '/data/attributes/' . $subRegion['addSubregionFormName'] . '/paginationQueryParameter';
       if (trim($paginationQueryParameter) === '') {
         $this->addError('region.paginationQueryParameterIsMandatory', $pointer);
       } elseif (!$this->isValidPageItem($paginationQueryParameter)) {
@@ -219,12 +219,12 @@ class ReportAndDetailViewValidator extends Validator {
       }
 
       if (in_array($paginationQueryParameter, $paginationQueryParameters)) {
-        $this->addError('region.paginationQueryParameterAlreadyExists', '/data/attributes/paginationQueryParameter');
+        $this->addError('region.paginationQueryParameterAlreadyExists', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/paginationQueryParameter');
       }
       $paginationQueryParameters[] = $paginationQueryParameter;
 
       if ($paginationQueryParameter === $request->getApiAttribute('reportPaginationQueryParameter')) {
-        $this->addError('region.subreportQueryParameterNotSameAsReportParameter', '/data/attributes/paginationQueryParameter');
+        $this->addError('region.subreportQueryParameterNotSameAsReportParameter', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/paginationQueryParameter');
       }
 
       $itemsPerPage = $subRegion['itemsPerPage'];
@@ -238,14 +238,14 @@ class ReportAndDetailViewValidator extends Validator {
       $viewSchema = trim($subRegion['viewSchema']);
       $viewName = ($subRegion['viewName']);
       if ($viewSchema === '' || $viewName === '') {
-        $this->addError('region.viewIsMandatory', '/data/attributes/view');
+        $this->addError('region.viewIsMandatory', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/view');
       }
 
       if ($subRegion['linkedColumn'] === '') {
-        $this->addError('region.linkedColumnIsMandatory', '/data/attributes/linkedColumn');
+        $this->addError('region.linkedColumnIsMandatory', '/data/attributes/' . $subRegion['addSubregionFormName'] . '/linkedColumn');
       }
 
-      $this->validateColumns($subRegion['columns']);
+      $this->validateColumns($subRegion['columns'], $subRegion['addSubregionFormName']);
     }
   }
 

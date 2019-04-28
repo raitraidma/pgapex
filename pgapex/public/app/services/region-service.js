@@ -119,7 +119,7 @@
                                                                     detailViewSequence, detailViewRegionTemplate,
                                                                     detailViewIsVisible, detailViewTemplate, detailViewPageId,
                                                                     reportColumns, detailViewColumns, pageTemplateDisplayPointId,
-                                                                    subRegions) {
+                                                                    subRegions, addReportColumnsFormName, addDetailViewColumnsFormName) {
     let attributes = {
       'viewSchema': viewSchema,
       'viewName': viewName,
@@ -144,7 +144,9 @@
       'reportColumns': reportColumns,
       'detailViewColumns': detailViewColumns,
       'pageTemplateDisplayPointId': pageTemplateDisplayPointId,
-      'subRegions': subRegions
+      'subRegions': subRegions,
+      'addReportColumnsFormName': addReportColumnsFormName,
+      'addDetailViewColumnsFormName': addDetailViewColumnsFormName
     };
 
     let request = this.apiService.createApiRequest()
@@ -188,7 +190,7 @@
                                                             name, sequence, isVisible, tabularFormTemplate, viewSchema,
                                                             viewName, showHeader, itemsPerPage,
                                                             paginationQueryParameter, uniqueId, tabularFormColumns,
-                                                            tabularFormButtons) {
+                                                            tabularFormButtons, addTabularFormColumnsFormName) {
     let attributes = {
       "pageId": pageId,
       "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
@@ -205,7 +207,8 @@
       "paginationQueryParameter": paginationQueryParameter,
       "uniqueId": uniqueId,
       "tabularFormColumns": tabularFormColumns,
-      "tabularFormButtons": tabularFormButtons
+      "tabularFormButtons": tabularFormButtons,
+      "addTabularFormColumnsFormName": addTabularFormColumnsFormName
     };
 
     let request = this.apiService.createApiRequest()
