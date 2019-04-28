@@ -60,6 +60,11 @@ a.toggle {
   margin-bottom: 1em;
 }
 
+.add-button .add-button__item__checkbox {
+  margin-left: auto;
+  padding-left: 1em;
+}
+
 .cell--fit-content {
   white-space: nowrap;
   width: 1%;

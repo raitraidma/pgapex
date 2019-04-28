@@ -131,6 +131,7 @@
     "buttons": "Buttons",
     "atLeastOneButtonMustBeAdded": "At least one button must be added",
     "deleteTabularFormButton": "Delete tabular form button",
+    "addAppUserAsParameter": "APP_USER as second function parameter",
     "successMessageIsMandatory": "Success message is mandatory.",
     "errorMessageIsMandatory": "Error message is mandatory.",
     "addDetailViewColumn": "Add detail view column",

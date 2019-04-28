@@ -58,7 +58,7 @@
         </a>
       </div>
     </div>
-    <div class="row">
+    <div class="row add-button__item">
       <div class="col-md-5">
         <input
             ng-class="{'has-error': formError.showErrors(addButtonForm.successMessage, 'addButton/' + $index + '/successMessage')}"
@@ -70,6 +70,14 @@
             ng-class="{'has-error': formError.showErrors(addButtonForm.errorMessage, 'addButton/' + $index + '/errorMessage')}"
             required ng-model="button.errorMessage" name="errorMessage" type="text" class="form-control"
             placeholder="{{'region.errorMessage'|translate}} *">
+      </div>
+    </div>
+    <div class="row add-button__item__checkbox">
+      <div class="col-md-12">
+        <div class="form-group" ng-class="{'has-error': formError.showErrors(manageRegionForm.addUserAsSecondParameter, 'addUserAsSecondParameter')}">
+          <input id="addAppUserAsParameter{{::$id}}" name="addUserAsSecondParameter" ng-model="button.appUserParameter" type="checkbox">
+          <label for="addAppUserAsParameter{{::$id}}">{{'region.addAppUserAsParameter'|translate}}</label>
+        </div>
       </div>
     </div>
 

@@ -1668,13 +1668,14 @@ SET search_path = pgapex, public, pg_temp;
 ----------
 
 CREATE OR REPLACE FUNCTION pgapex.f_region_create_tabularform_region_function(
-    i_region_id INT
-  , i_button_template_id INT
-  , v_function_name VARCHAR ( 64 )
-  , v_button_label VARCHAR ( 255 )
-  , i_sequence INT
-  , v_success_message VARCHAR ( 255 )
-  , v_error_message VARCHAR ( 255 )
+    i_region_id           INT
+  , i_button_template_id  INT
+  , v_function_name       VARCHAR ( 64 )
+  , v_button_label        VARCHAR ( 255 )
+  , i_sequence            INT
+  , v_success_message     VARCHAR ( 255 )
+  , v_error_message       VARCHAR ( 255 )
+  , b_app_user            BOOLEAN
 )
   RETURNS boolean AS $$
 DECLARE
@@ -1682,9 +1683,9 @@ DECLARE
 BEGIN
   SELECT nextval('pgapex.tabularform_function_tabularform_function_id_seq') INTO i_tabularform_function_id;
   INSERT INTO pgapex.tabularform_function (tabularform_function_id, region_id, template_id, function_name, button_label,
-   sequence, success_message, error_message)
+   sequence, success_message, error_message, app_user)
   VALUES (i_tabularform_function_id, i_region_id, i_button_template_id, v_function_name, v_button_label, i_sequence,
-  v_success_message, v_error_message);
+  v_success_message, v_error_message, b_app_user);
 
   RETURN FOUND;
 END
@@ -1702,33 +1703,6 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_delete_tabularform_region_functions(
     DELETE FROM pgapex.tabularform_function WHERE region_id = i_region_id;
     RETURN FOUND;
   END
-$$ LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = pgapex, public, pg_temp;
-
-----------
-
-CREATE OR REPLACE FUNCTION pgapex.f_region_create_tabularform_region_function(
-    i_region_id INT
-  , i_button_template_id INT
-  , v_function_name VARCHAR ( 64 )
-  , v_button_label VARCHAR ( 255 )
-  , i_sequence INT
-  , v_success_message VARCHAR ( 255 )
-  , v_error_message VARCHAR ( 255 )
-)
-  RETURNS boolean AS $$
-DECLARE
-  i_tabularform_function_id INT;
-BEGIN
-  SELECT nextval('pgapex.tabularform_function_tabularform_function_id_seq') INTO i_tabularform_function_id;
-  INSERT INTO pgapex.tabularform_function (tabularform_function_id, region_id, template_id, function_name, button_label,
-   sequence, success_message, error_message)
-  VALUES (i_tabularform_function_id, i_region_id, i_button_template_id, v_function_name, v_button_label, i_sequence,
-  v_success_message, v_error_message);
-
-  RETURN FOUND;
-END
 $$ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pgapex, public, pg_temp;
@@ -2320,7 +2294,8 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_tabularform_region(
             'label', tff.button_label,
             'function', tff.function_name,
             'successMessage', tff.success_message,
-            'errorMessage', tff.error_message
+            'errorMessage', tff.error_message,
+            'appUserParameter', tff.app_user
           )
         )
         FROM pgapex.tabularform_function tff

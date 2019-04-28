@@ -155,7 +155,8 @@
         'label': tabularFormButton.label,
         'functionName': tabularFormButton.function,
         'successMessage': tabularFormButton.successMessage,
-        'errorMessage': tabularFormButton.errorMessage
+        'errorMessage': tabularFormButton.errorMessage,
+        'appUserParameter': tabularFormButton.appUserParameter
       };
     });
   };

@@ -893,9 +893,10 @@ DECLARE
   v_function_name     VARCHAR;
   v_success_message   VARCHAR;
   v_error_message     VARCHAR;
-  v_redirect_url      VARCHAR;
+  b_app_user          BOOLEAN;
   t_function_params   TEXT[];
   t_function_param    TEXT;
+  t_app_user_param    TEXT  := '';
   t_function_call     TEXT;
   i_function_response INT;
 BEGIN
@@ -906,11 +907,15 @@ BEGIN
     PERFORM pgapex.f_app_add_error_message('Region does not exist');
   END IF;
 
-  SELECT tfr.schema_name, tff.function_name, tff.success_message, tff.error_message, tff.redirect_url
-  INTO v_schema_name, v_function_name, v_success_message, v_error_message, v_redirect_url
+  SELECT tfr.schema_name, tff.function_name, tff.success_message, tff.error_message, tff.app_user
+  INTO v_schema_name, v_function_name, v_success_message, v_error_message, b_app_user
   FROM pgapex.tabularform_function tff
   INNER JOIN pgapex.tabularform_region tfr ON tff.region_id = tfr.region_id
   WHERE tff.region_id = i_region_id AND tff.tabularform_function_id = (j_post_params->>'PGAPEX_BUTTON')::int;
+
+  IF b_app_user IS TRUE THEN
+    t_app_user_param := ', ' || quote_literal((SELECT pgapex.f_app_get_setting('username')));
+  END IF;
 
   SELECT ARRAY(SELECT quote_literal(argument) FROM json_array_elements_text((j_post_params->>'#UNIQUE_ID_COLUMN#')::json) AS argument)
   INTO t_function_params;
@@ -918,15 +923,12 @@ BEGIN
   BEGIN
     FOREACH t_function_param IN ARRAY t_function_params
     LOOP
-      t_function_call := 'SELECT ' || v_schema_name || '.' || v_function_name || '(' || t_function_param || ');';
+      t_function_call := 'SELECT ' || v_schema_name || '.' || v_function_name || '(' || t_function_param || t_app_user_param || ');';
       SELECT res_func INTO i_function_response FROM dblink(pgapex.f_app_get_dblink_connection_name(), t_function_call, TRUE) AS ( res_func int );
     END LOOP;
 
     IF v_success_message IS NOT NULL THEN
       PERFORM pgapex.f_app_add_success_message(v_success_message);
-    END IF;
-    IF v_redirect_url IS NOT NULL THEN
-      PERFORM pgapex.f_app_set_header('location', pgapex.f_app_replace_system_variables(v_redirect_url));
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
