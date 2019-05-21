@@ -20,22 +20,22 @@ class TabularFormRegionValidator extends RegionValidator {
     $this->validateColumns($request, $request->getApiAttribute('addTabularFormColumnsFormName'));
   }
 
-  private function validateTabularFormTemplate($request) {
+  protected function validateTabularFormTemplate($request) {
     $template = $request->getApiAttribute('tabularFormTemplate');
     if (!$this->isValidNumericId($template)) {
       $this->addError('region.tabularFormTemplateIsMandatory', '/data/attributes/tabularFormTemplate');
     }
   }
 
-  private function validateView($request) {
+  protected function validateView($request) {
     $viewSchema = trim($request->getApiAttribute('viewSchema'));
     $viewName = ($request->getApiAttribute('viewName'));
-    if ($viewSchema === '' || $viewName === '') {
+    if ($viewSchema === '' || $viewName === '' || $viewSchema === null || $viewName === null) {
       $this->addError('region.viewIsMandatory', '/data/attributes/view');
     }
   }
 
-  private function validateItemsPerPage($request) {
+  protected function validateItemsPerPage($request) {
     $itemsPerPage = $request->getApiAttribute('itemsPerPage');
     $pointer = '/data/attributes/itemsPerPage';
     if ($itemsPerPage === null || !is_int($itemsPerPage)) {
@@ -45,7 +45,7 @@ class TabularFormRegionValidator extends RegionValidator {
     }
   }
 
-  private function validatePaginationQueryParameter($request) {
+  protected function validatePaginationQueryParameter($request) {
     $paginationQueryParameter = $request->getApiAttribute('paginationQueryParameter');
     $pointer = '/data/attributes/paginationQueryParameter';
     if (trim($paginationQueryParameter) === '') {
@@ -55,7 +55,7 @@ class TabularFormRegionValidator extends RegionValidator {
     }
   }
 
-  private function validateButtons($request) {
+  protected function validateButtons($request) {
     $buttons = $request->getApiAttribute('tabularFormButtons');
     $sequences = [];
 
@@ -92,7 +92,7 @@ class TabularFormRegionValidator extends RegionValidator {
     }
   }
 
-  private function validateColumns($request, $formName) {
+  protected function validateColumns($request, $formName) {
     $columns = $request->getApiAttribute('tabularFormColumns');
     $sequences = [];
 

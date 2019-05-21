@@ -32,50 +32,50 @@ class ReportAndDetailViewValidator extends Validator {
     $this->validateSubRegions($request);
   }
 
-  private function validateView($request) {
+  protected function validateView($request) {
     $viewSchema = trim($request->getApiAttribute('viewSchema'));
     $viewName = ($request->getApiAttribute('viewName'));
-    if ($viewSchema === '' || $viewName === '') {
+    if ($viewSchema === '' || $viewName === '' || $viewSchema === null || $viewName === null) {
       $this->addError('region.viewIsMandatory', '/data/attributes/view');
     }
   }
 
-  private function validateUniqueId($request) {
+  protected function validateUniqueId($request) {
     $uniqueId = trim($request->getApiAttribute('uniqueId'));
     if ($uniqueId === '') {
       $this->addError('region.uniqueIdIsMandatory', '/data/attributes/uniqueId');
     }
   }
 
-  private function validateReportName($request) {
+  protected function validateReportName($request) {
     $name = trim($request->getApiAttribute('reportName', ''));
-    if ($name === '') {
+    if ($name === '' || $name === null) {
       $this->addError('region.nameIsMandatory', '/data/attributes/reportName');
     }
   }
 
-  private function validateDetailViewName($request) {
+  protected function validateDetailViewName($request) {
     $name = trim($request->getApiAttribute('detailViewName', ''));
     if ($name === '') {
       $this->addError('region.nameIsMandatory', '/data/attributes/detailViewName');
     }
   }
 
-  private function validateReportRegionTemplate($request) {
+  protected function validateReportRegionTemplate($request) {
     $template = $request->getApiAttribute('reportRegionTemplate');
     if (!$this->isValidNumericId($template)) {
       $this->addError('page.regionTemplateIsMandatory', '/data/attributes/reportRegionTemplate');
     }
   }
 
-  private function validateDetailViewRegionTemplate($request) {
+  protected function validateDetailViewRegionTemplate($request) {
     $template = $request->getApiAttribute('detailViewRegionTemplate');
     if (!$this->isValidNumericId($template)) {
       $this->addError('page.regionTemplateIsMandatory', '/data/attributes/detailViewRegionTemplate');
     }
   }
 
-  private function validateReportSequence($request) {
+  protected function validateReportSequence($request) {
     $regionId = $request->getApiAttribute('reportRegionId');
     $pageId = $request->getApiAttribute('reportPageId');
     $pageTemplateDisplayPointId = $request->getApiAttribute('pageTemplateDisplayPointId');
@@ -90,7 +90,7 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
-  private function validateDetailViewSequence($request) {
+  protected function validateDetailViewSequence($request) {
     $regionId = $request->getApiAttribute('detailViewRegionId');
     $pageId = $request->getApiAttribute('detailViewPageId');
     $pageTemplateDisplayPointId = $request->getApiAttribute('pageTemplateDisplayPointId');
@@ -116,21 +116,21 @@ class ReportAndDetailViewValidator extends Validator {
     return $statement->fetchColumn() === true;
   }
 
-  private function validateReportTemplate($request) {
+  protected function validateReportTemplate($request) {
     $template = $request->getApiAttribute('reportTemplate');
     if (!$this->isValidNumericId($template)) {
       $this->addError('region.reportTemplateIsMandatory', '/data/attributes/reportTemplate');
     }
   }
 
-  private function validateDetailViewTemplate($request) {
+  protected function validateDetailViewTemplate($request) {
     $template = $request->getApiAttribute('detailViewTemplate');
     if (!$this->isValidNumericId($template)) {
       $this->addError('region.detailViewTemplateIsMandatory', '/data/attributes/detailViewTemplate');
     }
   }
 
-  private function validateItemsPerPage($request) {
+  protected function validateItemsPerPage($request) {
     $itemsPerPage = $request->getApiAttribute('reportItemsPerPage');
     $pointer = '/data/attributes/reportItemsPerPage';
     if ($itemsPerPage === null || !is_int($itemsPerPage)) {
@@ -140,7 +140,7 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
-  private function validatePaginationQueryParameter($request) {
+  protected function validatePaginationQueryParameter($request) {
     $paginationQueryParameter = $request->getApiAttribute('reportPaginationQueryParameter');
     $pointer = '/data/attributes/reportPaginationQueryParameter';
     if (trim($paginationQueryParameter) === '') {
@@ -150,14 +150,14 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
-  public function validateDetailViewPageId($request) {
+  protected function validateDetailViewPageId($request) {
     $pageId = $request->getApiAttribute('detailViewPageId');
     if (!$this->isValidNumericId($pageId)) {
       $this->addError('region.pageIsMandatory', '/data/attributes/detailViewPageId');
     }
   }
 
-  private function validateColumns($columns, $formName) {
+  protected function validateColumns($columns, $formName) {
     $sequences = [];
 
     for ($i = 0; $i < count($columns); $i++) {
@@ -189,7 +189,7 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
-  private function validateSubRegions($request) {
+  protected function validateSubRegions($request) {
     $subRegions = $request->getApiAttribute('subRegions');
     $sequences = [];
     $paginationQueryParameters = [];
