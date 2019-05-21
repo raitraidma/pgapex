@@ -652,8 +652,6 @@ DECLARE
   v_display_point         VARCHAR;
   t_region_template       TEXT;
   t_region_content        TEXT;
-  v_url                   TEXT;
-  i_homepage_id           INT;
 BEGIN
   SELECT authentication_scheme_id <> 'NO_AUTHENTICATION' INTO b_is_app_auth_required FROM pgapex.application WHERE application_id = i_application_id;
   SELECT is_authentication_required INTO b_is_page_auth_required FROM pgapex.page WHERE page_id = i_page_id;
@@ -701,14 +699,6 @@ BEGIN
     ) LOOP
       t_response := replace(t_response, '#' || v_display_point || '#', COALESCE(pgapex.f_app_get_display_point_content(v_display_point), ''));
     END LOOP;
-  END IF;
-
-  SELECT page_id INTO i_homepage_id FROM pgapex.page WHERE application_id = i_application_id AND is_homepage = true;
-  IF i_homepage_id IS NOT NULL THEN
-    SELECT pgapex.f_app_get_setting('application_root') || '/app/' || pgapex.f_app_get_setting('application_id') || '/' INTO v_url;
-    t_response := replace(t_response, '#APPLICATION_HOMEPAGE_LINK#', v_url || (i_homepage_id)::varchar);
-  ELSE
-    t_response := replace(t_response, '#APPLICATION_HOMEPAGE_LINK#', '#');
   END IF;
 
   t_response := replace(t_response, '#APPLICATION_NAME#', (SELECT name FROM pgapex.application WHERE application_id = i_application_id));

@@ -113,7 +113,7 @@ INSERT INTO pgapex.page_template (template_id, page_type_id, header, body, foote
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#APPLICATION_HOMEPAGE_LINK#">#APPLICATION_NAME#</a>
+          <a class="navbar-brand" href="#">#APPLICATION_NAME#</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
         #POSITION_1#
