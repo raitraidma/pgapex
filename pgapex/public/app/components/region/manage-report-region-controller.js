@@ -22,7 +22,8 @@
     this.$scope.region = {
       'showHeader': true,
       'itemsPerPage': 15,
-      'reportColumns': []
+      'reportColumns': [],
+      'paginationQueryParameter': 'report_page'
     };
     this.$scope.viewColumns = [];
     this.$scope.regionTemplates = [];

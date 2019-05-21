@@ -24,7 +24,8 @@
       'reportItemsPerPage': 15,
       'reportColumns': [],
       'detailViewColumns': [],
-      'subRegions': []
+      'subRegions': [],
+      'reportPaginationQueryParameter': 'report_for_detail_view_page'
     };
 
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';

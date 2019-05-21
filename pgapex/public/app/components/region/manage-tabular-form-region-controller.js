@@ -23,7 +23,8 @@
       'showHeader': true,
       'itemsPerPage': 15,
       'tabularFormColumns': [],
-      'tabularFormButtons': []
+      'tabularFormButtons': [],
+      'paginationQueryParameter': 'tabularform_page'
     };
 
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
