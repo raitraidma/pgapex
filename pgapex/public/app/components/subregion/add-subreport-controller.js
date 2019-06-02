@@ -15,6 +15,7 @@
   }
 
   AddSubReportController.prototype.init = function () {
+    this.$scope.lastSequenceOfColumns = 0;
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
     this.$scope.subReport.index = this.$scope.index;
     this.$scope.subReport.paginationQueryParameter = 'subreport_page';
@@ -51,6 +52,12 @@
         }
       };
       this.setViewColumns();
+
+      this.$scope.subReport.columns.forEach(columns => {
+        if (columns.attributes.sequence > this.$scope.lastSequenceOfColumns) {
+          this.$scope.lastSequenceOfColumns = columns.attributes.sequence;
+        }
+      });
     }
   };
 

@@ -18,7 +18,8 @@
   };
 
   AddButtonController.prototype.addButton = function () {
-    this.$scope.buttons.push({'appUserParameter': false});
+    this.$scope.lastSequence++;
+    this.$scope.buttons.push({'appUserParameter': false, 'sequence': this.$scope.lastSequence});
   };
 
   AddButtonController.prototype.deleteButton = function (buttonPosition) {

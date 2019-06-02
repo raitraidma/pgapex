@@ -19,7 +19,11 @@
   ManageTabularFormRegionController.prototype.init = function() {
     this.$scope.tabularFormAppId = this.getApplicationId();
 
+    this.$scope.lastSequenceOfTabularFormColumns = 0;
+    this.$scope.lastSequenceOfTabularFormButtons = 0;
+
     this.$scope.region = {
+      'sequence': 1,
       'showHeader': true,
       'itemsPerPage': 15,
       'tabularFormColumns': [],
@@ -200,6 +204,19 @@
       region['view'] = {'attributes': {'schema': region.viewSchema, 'name': region.viewName}};
       this.$scope.region = region;
       this.setViewColumns();
+
+      this.$scope.region.tabularFormColumns.forEach(tabularFormColumn => {
+        if (tabularFormColumn.attributes.sequence > this.$scope.lastSequenceOfTabularFormColumns) {
+          this.$scope.lastSequenceOfTabularFormColumns = tabularFormColumn.attributes.sequence;
+        }
+      });
+
+      this.$scope.region.tabularFormButtons.forEach(tabularFormButton => {
+        if (tabularFormButton.sequence > this.$scope.lastSequenceOfTabularFormButtons) {
+          this.$scope.lastSequenceOfTabularFormButtons = tabularFormButton.sequence;
+        }
+      });
+
     }.bind(this));
   };
 

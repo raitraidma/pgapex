@@ -18,8 +18,11 @@
   }
 
   ManageReportRegionController.prototype.init = function() {
+    this.$scope.lastSequenceOfReportColumns = 0;
+
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.region = {
+      'sequence': 1,
       'showHeader': true,
       'itemsPerPage': 15,
       'reportColumns': [],
@@ -115,7 +118,8 @@
   };
 
   ManageReportRegionController.prototype.addReportColumn = function(type) {
-    this.$scope.region.reportColumns.push({'attributes': {'type': type, 'isTextEscaped': true}});
+    this.$scope.lastSequenceOfReportColumns++;
+    this.$scope.region.reportColumns.push({'attributes': {'type': type, 'isTextEscaped': true, 'sequence': this.$scope.lastSequenceOfReportColumns}});
   };
 
   ManageReportRegionController.prototype.deleteReportColumn = function(reportColumnPosition) {
@@ -189,6 +193,13 @@
       region['view'] = {'attributes': {'schema': region.schemaName, 'name': region.viewName}};
       this.$scope.region = region;
       this.setViewColumns();
+
+      this.$scope.region.reportColumns.forEach(reportColumn => {
+        if (reportColumn.attributes.sequence > this.$scope.lastSequenceOfReportColumns) {
+          this.$scope.lastSequenceOfReportColumns = reportColumn.attributes.sequence;
+        }
+      });
+
     }.bind(this));
   };
 

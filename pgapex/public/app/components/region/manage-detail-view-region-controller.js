@@ -19,10 +19,16 @@
   ManageDetailViewRegionController.prototype.init = function () {
     this.$scope.detailViewAppId = this.getApplicationId();
 
+    this.$scope.lastSequenceOfReportColumns = 0;
+    this.$scope.lastSequenceOfDetailViewColumns = 0;
+    this.$scope.lastSequenceOfSubRegions = 0;
+
     this.$scope.region = {
+      'reportSequence': 1,
       'reportShowHeader': true,
       'reportItemsPerPage': 15,
       'reportColumns': [],
+      'detailViewSequence': 1,
       'detailViewColumns': [],
       'subRegions': [],
       'reportPaginationQueryParameter': 'report_for_detail_view_page'
@@ -310,6 +316,24 @@
       if (this.$scope.region.detailViewColumns === null) {
         this.$scope.region.detailViewColumns = [];
       }
+
+      this.$scope.region.reportColumns.forEach(reportColumn => {
+        if (reportColumn.attributes.sequence > this.$scope.lastSequenceOfReportColumns) {
+          this.$scope.lastSequenceOfReportColumns = reportColumn.attributes.sequence;
+        }
+      });
+
+      this.$scope.region.detailViewColumns.forEach(detailViewColumns => {
+        if (detailViewColumns.attributes.sequence > this.$scope.lastSequenceOfDetailViewColumns) {
+          this.$scope.lastSequenceOfDetailViewColumns = detailViewColumns.attributes.sequence;
+        }
+      });
+
+      this.$scope.region.subRegions.forEach(subRegion => {
+        if (subRegion.sequence > this.$scope.lastSequenceOfSubRegions) {
+          this.$scope.lastSequenceOfSubRegions = subRegion.sequence;
+        }
+      });
 
       this.setViewColumns();
     }.bind(this));

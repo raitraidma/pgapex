@@ -9,6 +9,7 @@
         buttons: '=',
         buttonTemplates: '=',
         formError: '=',
+        lastSequence: '=',
         title: '@',
         attributeTitle: '@'
       },

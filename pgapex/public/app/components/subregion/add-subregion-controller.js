@@ -18,7 +18,8 @@
   };
 
   AddSubRegionController.prototype.addSubRegion = function (type) {
-    this.$scope.subRegions.push({'type': type, 'columns': [], 'view': {'attributes': {}}});
+    this.$scope.lastSequence++;
+    this.$scope.subRegions.push({'type': type, 'columns': [], 'view': {'attributes': {}}, 'sequence': this.$scope.lastSequence});
   };
 
   AddSubRegionController.prototype.deleteSubRegion = function (position) {

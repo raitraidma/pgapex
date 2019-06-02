@@ -161,7 +161,7 @@
         </div>
       </div>
       <add-column-link title="region.reportColumns" attribute-title="region.addReportColumn" form-error="formError" view-columns="viewColumns" name="reportColumns"
-                       columns="region.reportColumns"></add-column-link>
+                       columns="region.reportColumns" last-sequence="lastSequenceOfReportColumns"></add-column-link>
 
       <!-- CREATE DETAIL VIEW REGION -->
       <div class="row">
@@ -256,11 +256,11 @@
       </div>
       <add-column-link title="region.detailViewColumns" attribute-title="region.addDetailViewColumn" name="detailViewColumns"
                        view-columns="viewColumns" form-error="formError"
-                       columns="region.detailViewColumns"></add-column-link>
+                       columns="region.detailViewColumns" last-sequence="lastSequenceOfDetailViewColumns"></add-column-link>
 
       <!-- CREATE SUBREGION -->
       <add-sub-region mode="mode" sub-regions="region.subRegions" application-id="detailViewAppId" form-error="formError"
-                      detail-view-region-id="region.detailViewRegionId"></add-sub-region>
+                      detail-view-region-id="region.detailViewRegionId" last-sequence="lastSequenceOfSubRegions"></add-sub-region>
 
     </div>
 

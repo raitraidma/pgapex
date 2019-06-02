@@ -15,7 +15,8 @@
   };
 
   AddColumnLinkController.prototype.addColumn = function (type) {
-    this.$scope.columns.push({'attributes': {'type': type, 'isTextEscaped': true}});
+    this.$scope.lastSequence++;
+    this.$scope.columns.push({'attributes': {'type': type, 'isTextEscaped': true, 'sequence': this.$scope.lastSequence}});
   };
 
   AddColumnLinkController.prototype.deleteColumn = function (columnPosition) {

@@ -18,7 +18,9 @@
 
   ManageNavigationRegionController.prototype.init = function() {
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
-    this.$scope.region = {};
+    this.$scope.region = {
+      'sequence': 1
+    };
     this.$scope.regionTemplates = [];
     this.$scope.navigationTemplates = [];
     this.$scope.navigations = [];

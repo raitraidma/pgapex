@@ -9,7 +9,8 @@
         subRegions: '=',
         formError: '=',
         applicationId: '=',
-        detailViewRegionId: '='
+        detailViewRegionId: '=',
+        lastSequence: '='
       },
       controller: 'pgApexApp.region.AddSubRegionController',
       templateUrl: 'app/partials/subregion/add-subregion.html',

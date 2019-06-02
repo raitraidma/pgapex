@@ -8,6 +8,7 @@
         columns: '=',
         viewColumns: '=',
         formError: '=',
+        lastSequence: '=',
         name: '@',
         title: '@',
         attributeTitle: '@'

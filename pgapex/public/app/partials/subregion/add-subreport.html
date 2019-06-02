@@ -69,5 +69,5 @@
   <span ng-repeat="error in formError.getErrors('subreport/' + index + '/linkedColumn')" class="help-block has-error">{{error|translate}}</span>
 
   <add-column-link title="region.reportColumns" attribute-title="region.addReportColumn" name="{{'subreport/' + index}}"
-                   view-columns="viewColumns"  form-error="formError" columns="subReport.columns"></add-column-link>
+                   view-columns="viewColumns"  form-error="formError" columns="subReport.columns" last-sequence="lastSequenceOfColumns"></add-column-link>
 </ng-form>
