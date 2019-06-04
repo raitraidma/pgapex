@@ -2,7 +2,7 @@
 (function (window) {
   var angular = window.angular;
   var modules = ['pascalprecht.translate', 'frapontillo.bootstrap-duallistbox', 'angular-loading-bar',
-                'ui.bootstrap', 'ngRoute', 'pgApexApp.auth', 'pgApexApp.application',
+                'ui.bootstrap', 'ngRoute', 'ngSanitize', 'pgApexApp.auth', 'pgApexApp.application',
                 'pgApexApp.page', 'pgApexApp.template', 'pgApexApp.workspace',
                 'pgApexApp.user', 'pgApexApp.navigation', 'pgApexApp.region'];
 

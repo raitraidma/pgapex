@@ -19,6 +19,7 @@
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
     this.$scope.subReport.index = this.$scope.index;
     this.$scope.subReport.paginationQueryParameter = 'subreport_page';
+    this.$scope.subReport.itemsPerPage = 15;
 
     this.$scope.trackView = function(view) {
       if (!view || !view.attributes) { return view; }

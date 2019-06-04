@@ -2,10 +2,11 @@
 (function (window) {
   let module = window.angular.module('pgApexApp.page');
 
-  function AddSubRegionController($scope, databaseService, regionService) {
+  function AddSubRegionController($scope, databaseService, regionService, helperService) {
     this.$scope = $scope;
     this.databaseService = databaseService;
     this.regionService = regionService;
+    this.$scope.helper = helperService;
 
     this.init();
   }
@@ -33,7 +34,8 @@
   };
 
   function init() {
-    module.controller('pgApexApp.region.AddSubRegionController', ['$scope', 'databaseService', 'regionService', AddSubRegionController]);
+    module.controller('pgApexApp.region.AddSubRegionController', ['$scope', 'databaseService', 'regionService',
+      'helperService', AddSubRegionController]);
   }
 
   init();

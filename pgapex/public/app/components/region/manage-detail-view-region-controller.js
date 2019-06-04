@@ -3,7 +3,7 @@
   let module = window.angular.module('pgApexApp.page');
 
   function ManageDetailViewRegionController($scope, $location, $routeParams, regionService, pageService,
-                                            templateService, databaseService, formErrorService) {
+                                            templateService, databaseService, formErrorService, helperService) {
     this.$scope = $scope;
     this.$location = $location;
     this.$routeParams = $routeParams;
@@ -12,6 +12,7 @@
     this.templateService = templateService;
     this.databaseService = databaseService;
     this.formErrorService = formErrorService;
+    this.$scope.helper = helperService;
 
     this.init();
   }
@@ -341,7 +342,8 @@
 
   function init() {
     module.controller('pgApexApp.region.ManageDetailViewRegionController', ['$scope', '$location', '$routeParams',
-      'regionService', 'pageService', 'templateService', 'databaseService', 'formErrorService', ManageDetailViewRegionController]);
+      'regionService', 'pageService', 'templateService', 'databaseService', 'formErrorService', 'helperService',
+      ManageDetailViewRegionController]);
   }
 
   init();

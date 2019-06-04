@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-xs-10">
-    <h3>{{title|translate}}</h3>
+    <h3>{{title|translate}}
+      <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.buttonsHelpText')"></span>
+    </h3>
   </div>
   <div class="col-xs-2 text-right">
     <button type="button" title="{{attributeTitle|translate}}" ng-click="addButton()"

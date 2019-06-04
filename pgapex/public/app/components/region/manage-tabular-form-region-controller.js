@@ -5,13 +5,13 @@
   function ManageTabularFormRegionController($scope, $location, $routeParams, regionService, templateService,
                                              databaseService, formErrorService, helperService) {
     this.$scope = $scope;
-    this.$scope.helper = helperService;
     this.$location = $location;
     this.$routeParams = $routeParams;
     this.regionService = regionService;
     this.templateService = templateService;
     this.databaseService = databaseService;
     this.formErrorService = formErrorService;
+    this.$scope.helper = helperService;
 
     this.init();
   }
@@ -221,9 +221,9 @@
   };
 
   function init() {
-    module.controller('pgApexApp.region.ManageTabularFormRegionController',
-      ['$scope', '$location', '$routeParams', 'regionService',
-        'templateService', 'databaseService', 'formErrorService', ManageTabularFormRegionController]);
+    module.controller('pgApexApp.region.ManageTabularFormRegionController', ['$scope', '$location', '$routeParams',
+      'regionService', 'templateService', 'databaseService', 'formErrorService', 'helperService',
+      ManageTabularFormRegionController]);
   }
 
   init();

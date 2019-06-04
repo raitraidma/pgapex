@@ -2,10 +2,11 @@
 (function (window) {
   let module = window.angular.module('pgApexApp.page');
 
-  function AddButtonController($scope, databaseService, formErrorService) {
+  function AddButtonController($scope, databaseService, formErrorService, helperService) {
     this.$scope = $scope;
     this.databaseService = databaseService;
     this.formErrorService = formErrorService;
+    this.$scope.helper = helperService;
 
     this.init();
   }
@@ -56,7 +57,7 @@
 
   function init() {
     module.controller('pgApexApp.region.AddButtonController', ['$scope', 'databaseService', 'formErrorService',
-      AddButtonController]);
+      'helperService', AddButtonController]);
   }
 
   init();

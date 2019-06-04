@@ -1,7 +1,11 @@
 <div class="row subregion-form">
   <div class="col-xs-10">
-    <h3 class="heading" ng-show="mode === 'create'">{{'region.createSubRegions'|translate}}</h3>
-    <h3 class="heading" ng-show="mode === 'edit'">{{'region.editSubRegions'|translate}}</h3>
+    <h3 class="heading" ng-show="mode === 'create'">{{'region.createSubRegions'|translate}}
+      <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.subRegionHelpText')"></span>
+    </h3>
+    <h3 class="heading" ng-show="mode === 'edit'">{{'region.editSubRegions'|translate}}
+      <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.subRegionHelpText')"></span>
+    </h3>
   </div>
   <div class="col-xs-2 text-right">
     <div class="dropdown">

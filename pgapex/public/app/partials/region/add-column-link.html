@@ -1,6 +1,8 @@
 <div class="row add-column-link">
   <div class="col-xs-10">
-    <h3 class="add-column-link__heading">{{title|translate}}</h3>
+    <h3 class="add-column-link__heading">{{title|translate}}
+      <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.columnsHelpText')"></span>
+    </h3>
   </div>
   <div class="col-xs-2 text-right">
     <div class="dropdown">

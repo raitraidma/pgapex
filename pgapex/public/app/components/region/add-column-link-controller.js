@@ -2,9 +2,10 @@
 (function (window) {
   let module = window.angular.module('pgApexApp.page');
   
-  function AddColumnLinkController($scope, formErrorService) {
+  function AddColumnLinkController($scope, formErrorService, helperService) {
     this.$scope = $scope;
     this.formErrorService = formErrorService;
+    this.$scope.helper = helperService;
 
     this.init();
   }
@@ -25,7 +26,8 @@
   };
 
   function init() {
-    module.controller('pgApexApp.region.AddColumnLinkController', ['$scope', 'formErrorService', AddColumnLinkController]);
+    module.controller('pgApexApp.region.AddColumnLinkController', ['$scope', 'formErrorService', 'helperService',
+      AddColumnLinkController]);
   }
 
   init();
