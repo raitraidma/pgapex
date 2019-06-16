@@ -49,7 +49,7 @@
         <select
             ng-class="{'has-error': formError.showErrors(addButtonForm.function, 'addButton/' + $index + '/function')}"
             id="function" name="function" ng-model="button.function" class="form-control" required
-            ng-options="function.attributes.name as function.attributes.displayText for function in functions">
+            ng-options="function as function.attributes.displayText for function in functions track by trackFunction(function)">
           <option value="" disabled>-- {{'region.function'|translate}} * --</option>
         </select>
       </div>

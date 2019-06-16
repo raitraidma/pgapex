@@ -44,6 +44,7 @@
     this.initRegionTemplates();
     this.initTabularFormTemplates();
     this.initTabularFormButtonTemplates();
+    this.initFunctions();
     this.initViewsWithColumns();
   };
 
@@ -79,16 +80,31 @@
     }.bind(this));
   };
 
-  ManageTabularFormRegionController.prototype.initViewsWithColumns = function() {
-    this.databaseService.getViewsWithColumns(this.getApplicationId()).then(function (response) {
-      this.$scope.viewsWithColumns = response.getDataOrDefault([]);
-      this.setViewColumns();
-    }.bind(this));
+  ManageTabularFormRegionController.prototype.addDisplayTextToFunction = function(functionWithParameter) {
+    let displayText = functionWithParameter.attributes.schema;
+    displayText += '.';
+    displayText += functionWithParameter.attributes.name;
+    displayText += '(';
+    displayText += functionWithParameter.attributes.parameters.map(function(parameter) {
+      return [parameter.attributes.name, parameter.attributes.argumentType].join(' ');
+    }).join(', ');
+    displayText += ')';
+    functionWithParameter.attributes.displayText = displayText;
   };
 
-  ManageTabularFormRegionController.prototype.changeViewColumns = function() {
-    this.setViewColumns();
-    this.resetColumnsSelection();
+  ManageTabularFormRegionController.prototype.initFunctions = function() {
+    this.databaseService.getFunctionsWithParameters(this.$scope.tabularFormAppId).then(function (response) {
+      let functions = response.getDataOrDefault([]);
+      functions.forEach(function (functionWithParameter) {
+        functionWithParameter.attributes.parameters.sort(function(firstParameter, secondParameter) {
+          return firstParameter.attributes.ordinalPosition - secondParameter.attributes.ordinalPosition;
+        });
+      });
+      functions.forEach(function(functionWithParameter) {
+        this.addDisplayTextToFunction(functionWithParameter);
+      }.bind(this));
+      this.$scope.functions = functions;
+    }.bind(this));
   };
 
   ManageTabularFormRegionController.prototype.setViewColumns = function() {
@@ -108,6 +124,18 @@
         tabularFormColumns.attributes.column = '';
       }
     });
+  };
+
+  ManageTabularFormRegionController.prototype.changeViewColumns = function() {
+    this.setViewColumns();
+    this.resetColumnsSelection();
+  };
+
+  ManageTabularFormRegionController.prototype.initViewsWithColumns = function() {
+    this.databaseService.getViewsWithColumns(this.getApplicationId()).then(function (response) {
+      this.$scope.viewsWithColumns = response.getDataOrDefault([]);
+      this.setViewColumns();
+    }.bind(this));
   };
 
   ManageTabularFormRegionController.prototype.getPageId = function() {
@@ -158,7 +186,8 @@
         'templateId': tabularFormButton.buttonTemplateId,
         'sequence': tabularFormButton.sequence,
         'label': tabularFormButton.label,
-        'functionName': tabularFormButton.function,
+        'functionSchema': tabularFormButton.function.attributes.schema,
+        'functionName': tabularFormButton.function.attributes.name,
         'successMessage': tabularFormButton.successMessage,
         'errorMessage': tabularFormButton.errorMessage,
         'appUserParameter': tabularFormButton.appUserParameter

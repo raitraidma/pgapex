@@ -461,10 +461,11 @@ class Region extends Model {
       $statement->execute();
 
       $buttonStatement = $connection->prepare('SELECT pgapex.f_region_create_tabularform_region_function(:regionId, '
-        . ':buttonTemplateId, :functionName, :buttonLabel, :sequence, :successMessage, :errorMessage, :appUserParameter)');
+        . ':buttonTemplateId, :functionSchema, :functionName, :buttonLabel, :sequence, :successMessage, :errorMessage, :appUserParameter)');
       foreach ($request->getApiAttribute('tabularFormButtons') as $tabularFormButton) {
         $buttonStatement->bindValue(':regionId',          $regionId,                              PDO::PARAM_INT);
         $buttonStatement->bindValue(':buttonTemplateId',  $tabularFormButton['templateId'],       PDO::PARAM_INT);
+        $buttonStatement->bindValue(':functionSchema',    $tabularFormButton['functionSchema'],   PDO::PARAM_STR);
         $buttonStatement->bindValue(':functionName',      $tabularFormButton['functionName'],     PDO::PARAM_STR);
         $buttonStatement->bindValue(':buttonLabel',       $tabularFormButton['label'],            PDO::PARAM_STR);
         $buttonStatement->bindValue(':sequence',          $tabularFormButton['sequence'],         PDO::PARAM_INT);

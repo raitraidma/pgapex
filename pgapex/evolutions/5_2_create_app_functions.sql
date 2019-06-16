@@ -917,10 +917,9 @@ BEGIN
     PERFORM pgapex.f_app_add_error_message('Region does not exist');
   END IF;
 
-  SELECT tfr.schema_name, tff.function_name, tff.success_message, tff.error_message, tff.app_user
+  SELECT tff.schema_name, tff.function_name, tff.success_message, tff.error_message, tff.app_user
   INTO v_schema_name, v_function_name, v_success_message, v_error_message, b_app_user
   FROM pgapex.tabularform_function tff
-  INNER JOIN pgapex.tabularform_region tfr ON tff.region_id = tfr.region_id
   WHERE tff.region_id = i_region_id AND tff.tabularform_function_id = (j_post_params->>'PGAPEX_BUTTON')::int;
 
   IF b_app_user IS TRUE THEN
@@ -1855,7 +1854,7 @@ BEGIN
   SELECT ARRAY(
       SELECT ROW(tff.tabularform_function_id::text, tff.button_label, tfbt.template)
       FROM pgapex.tabularform_function tff
-	    INNER JOIN pgapex.tabularform_button_template tfbt ON tff.template_id=tfbt.template_id
+	    INNER JOIN pgapex.tabularform_button_template tfbt ON tff.button_template_id=tfbt.template_id
 	    WHERE tff.region_id = i_region_id
 	    ORDER BY tff.sequence
   ) INTO r_tabularform_buttons;

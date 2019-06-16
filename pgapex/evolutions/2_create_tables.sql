@@ -351,7 +351,7 @@ CREATE INDEX idx_tabularform_region_schema_name ON pgapex.tabularform_region (sc
 CREATE INDEX idx_tabularform_region_template_id ON pgapex.tabularform_region (template_ID );
 CREATE TABLE pgapex.html_region (
 	region_ID INTEGER NOT NULL,
-	content VARCHAR ( 255 ),
+	content TEXT,
 	CONSTRAINT pk_html_region PRIMARY KEY (region_ID)
 	);
 CREATE TABLE pgapex.database (
@@ -537,13 +537,14 @@ CREATE TABLE pgapex.tabularform_function (
   tabularform_function_ID SERIAL NOT NULL,
   region_ID INTEGER NOT NULL,
   button_template_ID INTEGER NOT NULL,
+  schema_name VARCHAR ( 64 ) NOT NULL,
   function_name VARCHAR ( 64 ) NOT NULL,
   button_label VARCHAR ( 255 ) NOT NULL,
   sequence INT NOT NULL,
   success_message VARCHAR ( 255 ) NOT NULL,
 	error_message VARCHAR ( 255 ) NOT NULL,
 	app_user BOOLEAN DEFAULT FALSE,
-  CONSTRAINT pk_tabularform_function PRIMARY KEY (tabularform_function_ID)
+  CONSTRAINT pk_tabularform_function PRIMARY KEY (tabularform_function_ID),
   CONSTRAINT chk_tabularform_function_sequence_must_be_not_negative CHECK (sequence >= 0)
   );
 CREATE TABLE pgapex.tabularform_button_template (

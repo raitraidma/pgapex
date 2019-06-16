@@ -16,7 +16,7 @@ INSERT INTO pgapex.template (template_id, name) VALUES (15, 'Tabular form templa
 INSERT INTO pgapex.template (template_id, name) VALUES (16, 'Default button');
 INSERT INTO pgapex.template (template_id, name) VALUES (17, 'Green button');
 INSERT INTO pgapex.template (template_id, name) VALUES (18, 'Red button');
-INSERT INTO pgapex.template (template_id, name) VALUES (19, 'Default detail view table');
+INSERT INTO pgapex.template (template_id, name) VALUES (19, 'Report with links template');
 INSERT INTO pgapex.template (template_id, name) VALUES (20, 'Default detail view page');
 INSERT INTO pgapex.template (template_id, name) VALUES (21, 'Subregion template');
 
@@ -204,7 +204,7 @@ VALUES (19, '<div><table class="table table-bordered">', '</table>#PAGINATION#</
 '<tbody>', '<tr>', '<td class="cell--fit-content"><a href="#PATH#?#UNIQUE_ID#=#UNIQUE_ID_VALUE#"><span class="glyphicon glyphicon-list"></span></td>', '<td>#CELL_CONTENT#</td>', '</tr>', '</tbody>',
 '<nav><ul class="pagination">', '</ul></nav>', '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>', '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
 
-INSERT INTO pgapex.detailview_template (template_ID, detailview_page_begin, detailview_page_end, column_heading,
+INSERT INTO pgapex.detailview_template (template_ID, detailview_begin, detailview_end, column_heading,
 column_content)
 VALUES (20, '<dl class="dl-horizontal">', '</dl>', '<dt>#COLUMN_HEADING#</dt>',
 '<dd style="margin-bottom: 2em">#COLUMN_CONTENT#</dd>');

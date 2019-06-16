@@ -121,3 +121,7 @@ a.toggle {
 .add-column-link__heading {
   margin-top: 0;
 }
+
+.dl-horizontal dt {
+  white-space: unset;
+}

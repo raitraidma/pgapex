@@ -1670,6 +1670,7 @@ SET search_path = pgapex, public, pg_temp;
 CREATE OR REPLACE FUNCTION pgapex.f_region_create_tabularform_region_function(
     i_region_id           INT
   , i_button_template_id  INT
+  , v_function_schema     VARCHAR ( 64 )
   , v_function_name       VARCHAR ( 64 )
   , v_button_label        VARCHAR ( 255 )
   , i_sequence            INT
@@ -1682,9 +1683,9 @@ DECLARE
   i_tabularform_function_id INT;
 BEGIN
   SELECT nextval('pgapex.tabularform_function_tabularform_function_id_seq') INTO i_tabularform_function_id;
-  INSERT INTO pgapex.tabularform_function (tabularform_function_id, region_id, template_id, function_name, button_label,
+  INSERT INTO pgapex.tabularform_function (tabularform_function_id, region_id, button_template_id, schema_name, function_name, button_label,
    sequence, success_message, error_message, app_user)
-  VALUES (i_tabularform_function_id, i_region_id, i_button_template_id, v_function_name, v_button_label, i_sequence,
+  VALUES (i_tabularform_function_id, i_region_id, i_button_template_id, v_function_schema, v_function_name, v_button_label, i_sequence,
   v_success_message, v_error_message, b_app_user);
 
   RETURN FOUND;
@@ -2289,10 +2290,15 @@ CREATE OR REPLACE FUNCTION pgapex.f_region_get_tabularform_region(
         SELECT json_agg(
           json_build_object(
             'id', tff.tabularform_function_id,
-            'buttonTemplateId', tff.template_id,
+            'buttonTemplateId', tff.button_template_id,
             'sequence', tff.sequence,
             'label', tff.button_label,
-            'function', tff.function_name,
+            'function', json_build_object(
+              'attributes', json_build_object(
+                  'schema', tff.schema_name,
+                  'name', tff.function_name
+              )
+            ),
             'successMessage', tff.success_message,
             'errorMessage', tff.error_message,
             'appUserParameter', tff.app_user
@@ -2353,7 +2359,7 @@ RETURNS json AS $$
 DECLARE
   j_result        JSON;
 BEGIN
-  SELECT json_agg(json_build_object(a)) INTO j_result FROM (SELECT
+  SELECT json_agg((row_to_json(a)->>'json_build_object')::json) INTO j_result FROM (SELECT
     json_build_object(
       'type', 'SUBREPORT',
       'subRegionId', sr.subregion_id,

@@ -7,6 +7,7 @@
       scope: {
         applicationId: '=',
         buttons: '=',
+        functions: '=',
         buttonTemplates: '=',
         formError: '=',
         lastSequence: '=',
