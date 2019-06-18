@@ -2,7 +2,7 @@
 
 PROJECT="pgapex"
 DB_NAME="pgapex"
-POSTGRESQL_VERSION="9.4"
+POSTGRESQL_VERSION="9.6"
 
 # PHP
 add-apt-repository -y ppa:ondrej/php5-5.6
