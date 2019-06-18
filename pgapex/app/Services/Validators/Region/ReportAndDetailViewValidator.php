@@ -75,6 +75,20 @@ class ReportAndDetailViewValidator extends Validator {
     }
   }
 
+  protected function validateReportAndDetailViewSameSequenceSamePage($request) {
+    $reportSequence = $request->getApiAttribute('reportSequence');
+    $reportPageId = $request->getApiAttribute('reportPageId');
+
+    $detailViewSequence = $request->getApiAttribute('detailViewSequence');
+    $detailViewPageId = $request->getApiAttribute('detailViewPageId');
+
+    if ($reportPageId === $detailViewPageId) {
+      if ($reportSequence === $detailViewSequence) {
+        $this->addError('region.sequenceAlreadyExists', '/data/attributes/reportSequence');
+      }
+    }
+  }
+
   protected function validateReportSequence($request) {
     $regionId = $request->getApiAttribute('reportRegionId');
     $pageId = $request->getApiAttribute('reportPageId');
