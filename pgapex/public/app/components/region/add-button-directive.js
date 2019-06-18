@@ -5,7 +5,6 @@
   function AddButtonDirective() {
     return {
       scope: {
-        applicationId: '=',
         buttons: '=',
         functions: '=',
         buttonTemplates: '=',

@@ -33,9 +33,6 @@
     this.$scope.reportTemplates = [];
     this.$scope.viewsWithColumns = [];
     this.$scope.formError = this.formErrorService.empty();
-    
-    this.$scope.addReportColumn = this.addReportColumn.bind(this);
-    this.$scope.deleteReportColumn = this.deleteReportColumn.bind(this);
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
     this.$scope.saveRegion = this.saveRegion.bind(this);
 
@@ -115,16 +112,6 @@
   
   ManageReportRegionController.prototype.getApplicationId = function() {
     return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
-  };
-
-  ManageReportRegionController.prototype.addReportColumn = function(type) {
-    this.$scope.lastSequenceOfReportColumns++;
-    this.$scope.region.reportColumns.push({'attributes': {'type': type, 'isTextEscaped': true, 'sequence': this.$scope.lastSequenceOfReportColumns}});
-  };
-
-  ManageReportRegionController.prototype.deleteReportColumn = function(reportColumnPosition) {
-    this.$scope.region.reportColumns.splice(reportColumnPosition, 1);
-    this.$scope.formError = this.formErrorService.empty();
   };
 
   ManageReportRegionController.prototype.saveRegion = function() {
