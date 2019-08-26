@@ -115,7 +115,6 @@
     "paginationQueryParameterMayConsistOfCharsAndUnderscores": "Lehekülgede numeratsiooni parameeter võib koosneda tähtedest a-z A-Z ja _.",
     "preFillFieldsMustBeFilled": "Vormi eeltäitmise väljad peavad olema täidetud.",
     "conditionValueMustHaveSameNameWithFormInputName": "Eeltäitmise välja väärtus peab ühtima vormi välja nimega.",
-
     "repeatLastLevelHelpText": "Kui navigatsiooni sügavamatele elementidele pole loodud vastavat malli, siis kasuta viimast navigatsioonipunkti malli, et kuvada need navigatsioonipunktid. Vastasel juhul jäävad need kuvamata.",
     "preFillFormHelpText": "Kui tahad, et vorm oleks eelnevalt täidetud, siis vali vaade, mille põhjal vorm täidetakse ja lisa vähemalt üks tingimus, mille abil letakse vaatest õige rida. Tingimus peab olema URL parameeter. Nt kui sa lood lingi, mis viitab lehele ja lisad  '?param_name=param_value' siis lisa param_name tingimuse välja. Sellisel juhul kasutatakse param_value-t vaatest otsimiseks.",
     "paginationQueryParameterHelpText": "URL parameeter, mida kasutatakse lehtedele jaotamisel. Võib sisaldada märke a-z A-Z ja _.",
@@ -125,6 +124,6 @@
     "buttonsHelpText": "Nupp, millele vajutades käivitub arendaja poolt andmebaasi funktsioon. Funktsioon võib sisaldada maksimaalselt 2 parameetrit: esimene parameeter on tabeli veeru unikaalne ID (varem defineeritud) ja teine on süsteemne muutuja APP_USER, mis võrdneb kasutajanimele.",
     "detailViewUniqueIdHelpText": "Tabeli veeru unikaalne ID, mis seob raportit ja detailvaadet.",
     "subRegionHelpText": "Detailvaade võib sisaldada 0 või rohkem alamregioone. Alamregioon võib olla seotud ülemregiooniga lingi veeru abil: lingi veeru väärtus peab olema võrdne ülemregiooni unikaalse ID-na. Lehekülgede numeratsiooni parameeter on URL parameeter, mida kasutatakse lehtedele jaotamisel. Võib sisaldada märke a-z A-Z ja _.",
-    "htmlRegionContentHelpText": "Kasutage <strong>#APP_USER#</strong>, et kuvada praegu sisselogitud kasutaja kasutajanimi."
+    "htmlRegionContentHelpText": "Kasutage #APP_USER#, et kuvada praegu sisselogitud kasutaja kasutajanimi."
   }
 }
