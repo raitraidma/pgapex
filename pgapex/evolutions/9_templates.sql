@@ -179,11 +179,11 @@ buttons_row_content, buttons_row_end, table_begin, table_header_begin, table_hea
 table_header_cell, table_header_row_end, table_header_end, table_body_begin, table_body_row_begin,
 table_body_row_checkbox, table_body_row_cell, table_body_row_end, table_body_end, table_end, form_end, pagination_begin,
 pagination_end, previous_page, next_page, active_page, inactive_page)
-VALUES (15, '<div>', '#PAGINATION#</div></div>', '<form><input type="hidden" name="PGAPEX_TABULARFORM" value="#TABULARFORM_FUNCTION_ID#">',
+VALUES (15, '<div>', '#PAGINATION#</div></div>', '<form method="POST" name="custom" action><input type="hidden" name="PGAPEX_TABULARFORM" value="#TABULARFORM_FUNCTION_ID#">',
 '<div class="form-group pull-right">', '#SUBMIT_BUTTON#',
 '</div>', '<div class="form-group"><table class="table table-bordered">', '<thead>', '</tr>',
 '<th class="cell--fit-content"><input type="checkbox" onclick="checkAll(this)"></th>', '<th>#CELL_CONTENT#</th>', '</tr>', '</thead>',
-'<tbody>', '<tr>', '<td class="cell--fit-content"><input type="checkbox" name="#UNIQUE_ID_COLUMN#" value="#UNIQUE_ID_VALUE#"></td>',
+'<tbody>', '<tr>', '<td class="cell--fit-content"><input type="checkbox" name="#UNIQUE_ID_COLUMN#[]" value="#UNIQUE_ID_VALUE#"></td>',
 '<td>#CELL_CONTENT#</td>', '</td>', '</tbody>', '</table>', '</form>', '<nav><ul class="pagination">', '</ul></nav>',
 '<li><a href="#LINK#">&laquo;</a></li>', '<li><a href="#LINK#">&raquo;</a></li>',
 '<li class="active"><a href="#LINK#">#NUMBER#</a></li>', '<li><a href="#LINK#">#NUMBER#</a></li>');
