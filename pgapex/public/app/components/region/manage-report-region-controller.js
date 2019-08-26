@@ -18,8 +18,6 @@
   }
 
   ManageReportRegionController.prototype.init = function() {
-    this.$scope.lastSequenceOfReportColumns = 0;
-
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.region = {
       'sequence': 1,
@@ -173,20 +171,24 @@
     }
   };
 
+  ManageReportRegionController.prototype.setLastSequences = function() {
+    var lastSequenceOfReportColumns = Math.max.apply(Math,
+      this.$scope.region.reportColumns.map(function (reportColumn) {
+        return reportColumn.attributes.sequence;
+      }));
+
+    this.$scope.lastSequenceOfReportColumns = isFinite(lastSequenceOfReportColumns) ? lastSequenceOfReportColumns : 0;
+  };
+
   ManageReportRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
     this.regionService.getRegion(this.getRegionId()).then(function (response) {
       var region = response.getDataOrDefault({'attributes': {}}).attributes;
       region['view'] = {'attributes': {'schema': region.schemaName, 'name': region.viewName}};
       this.$scope.region = region;
+
       this.setViewColumns();
-
-      this.$scope.region.reportColumns.forEach(reportColumn => {
-        if (reportColumn.attributes.sequence > this.$scope.lastSequenceOfReportColumns) {
-          this.$scope.lastSequenceOfReportColumns = reportColumn.attributes.sequence;
-        }
-      });
-
+      this.setLastSequences();
     }.bind(this));
   };
 

@@ -1,6 +1,6 @@
 'use strict';
 (function (window) {
-  let module = window.angular.module('pgApexApp.page');
+  var module = window.angular.module('pgApexApp.page');
 
   function ManageTabularFormRegionController($scope, $location, $routeParams, regionService, templateService,
                                              databaseService, formErrorService, helperService) {
@@ -18,9 +18,6 @@
 
   ManageTabularFormRegionController.prototype.init = function() {
     this.$scope.tabularFormAppId = this.getApplicationId();
-
-    this.$scope.lastSequenceOfTabularFormColumns = 0;
-    this.$scope.lastSequenceOfTabularFormButtons = 0;
 
     this.$scope.region = {
       'sequence': 1,
@@ -81,7 +78,7 @@
   };
 
   ManageTabularFormRegionController.prototype.addDisplayTextToFunction = function(functionWithParameter) {
-    let displayText = functionWithParameter.attributes.schema;
+    var displayText = functionWithParameter.attributes.schema;
     displayText += '.';
     displayText += functionWithParameter.attributes.name;
     displayText += '(';
@@ -94,7 +91,7 @@
 
   ManageTabularFormRegionController.prototype.initFunctions = function() {
     this.databaseService.getFunctionsWithParameters(this.$scope.tabularFormAppId).then(function (response) {
-      let functions = response.getDataOrDefault([]);
+      var functions = response.getDataOrDefault([]);
       functions.forEach(function (functionWithParameter) {
         functionWithParameter.attributes.parameters.sort(function(firstParameter, secondParameter) {
           return firstParameter.attributes.ordinalPosition - secondParameter.attributes.ordinalPosition;
@@ -109,7 +106,7 @@
 
   ManageTabularFormRegionController.prototype.setViewColumns = function() {
     if (!this.$scope.region.view) { return; }
-    const view = this.$scope.viewsWithColumns.filter(function (view) {
+    var view = this.$scope.viewsWithColumns.filter(function (view) {
       return view.attributes.schema === this.$scope.region.view.attributes.schema &&
         view.attributes.name === this.$scope.region.view.attributes.name;
     }.bind(this));
@@ -226,26 +223,30 @@
     }
   };
 
+  ManageTabularFormRegionController.prototype.setLastSequences = function() {
+    var lastSequenceOfTabularFormColumns = Math.max.apply(Math,
+      this.$scope.region.tabularFormColumns.map(function (tabularFormColumn) {
+        return tabularFormColumn.attributes.sequence;
+      }));
+
+    var lastSequenceOfTabularFormButtons = Math.max.apply(Math,
+      this.$scope.region.tabularFormButtons.map(function (tabularFormButton) {
+        return tabularFormButton.sequence;
+      }));
+
+    this.$scope.lastSequenceOfTabularFormColumns = isFinite(lastSequenceOfTabularFormColumns) ? lastSequenceOfTabularFormColumns : 0;
+    this.$scope.lastSequenceOfTabularFormButtons = isFinite(lastSequenceOfTabularFormButtons) ? lastSequenceOfTabularFormButtons : 0;
+  };
+
   ManageTabularFormRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
     this.regionService.getRegion(this.getRegionId()).then(function (response) {
       var region = response.getDataOrDefault({'attributes': {}}).attributes;
       region['view'] = {'attributes': {'schema': region.viewSchema, 'name': region.viewName}};
       this.$scope.region = region;
+
       this.setViewColumns();
-
-      this.$scope.region.tabularFormColumns.forEach(tabularFormColumn => {
-        if (tabularFormColumn.attributes.sequence > this.$scope.lastSequenceOfTabularFormColumns) {
-          this.$scope.lastSequenceOfTabularFormColumns = tabularFormColumn.attributes.sequence;
-        }
-      });
-
-      this.$scope.region.tabularFormButtons.forEach(tabularFormButton => {
-        if (tabularFormButton.sequence > this.$scope.lastSequenceOfTabularFormButtons) {
-          this.$scope.lastSequenceOfTabularFormButtons = tabularFormButton.sequence;
-        }
-      });
-
+      this.setLastSequences();
     }.bind(this));
   };
 

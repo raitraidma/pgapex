@@ -120,7 +120,7 @@
                                                                     detailViewIsVisible, detailViewTemplate, detailViewPageId,
                                                                     reportColumns, detailViewColumns, pageTemplateDisplayPointId,
                                                                     subRegions, addReportColumnsFormName, addDetailViewColumnsFormName) {
-    let attributes = {
+    var attributes = {
       'viewSchema': viewSchema,
       'viewName': viewName,
       'uniqueId': uniqueId,
@@ -149,7 +149,7 @@
       'addDetailViewColumnsFormName': addDetailViewColumnsFormName
     };
 
-    let request = this.apiService.createApiRequest()
+    var request = this.apiService.createApiRequest()
       .setAttributes(attributes)
       .getRequest();
 
@@ -191,7 +191,7 @@
                                                             viewName, showHeader, itemsPerPage,
                                                             paginationQueryParameter, uniqueId, tabularFormColumns,
                                                             tabularFormButtons, addTabularFormColumnsFormName) {
-    let attributes = {
+    var attributes = {
       "pageId": pageId,
       "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
       "regionId": regionId,
@@ -211,7 +211,7 @@
       "addTabularFormColumnsFormName": addTabularFormColumnsFormName
     };
 
-    let request = this.apiService.createApiRequest()
+    var request = this.apiService.createApiRequest()
       .setAttributes(attributes)
       .getRequest();
 

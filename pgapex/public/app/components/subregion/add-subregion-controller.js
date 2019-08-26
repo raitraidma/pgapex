@@ -1,6 +1,6 @@
 'use strict';
 (function (window) {
-  let module = window.angular.module('pgApexApp.page');
+  var module = window.angular.module('pgApexApp.page');
 
   function AddSubRegionController($scope, databaseService, regionService, helperService) {
     this.$scope = $scope;

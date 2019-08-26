@@ -1,6 +1,6 @@
 'use strict';
 (function (window) {
-  let module = window.angular.module('pgApexApp.page');
+  var module = window.angular.module('pgApexApp.page');
 
   function AddSubReportController($scope, databaseService, formErrorService) {
     this.$scope = $scope;
@@ -15,7 +15,6 @@
   }
 
   AddSubReportController.prototype.init = function () {
-    this.$scope.lastSequenceOfColumns = 0;
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
     this.$scope.subReport.index = this.$scope.index;
     this.$scope.subReport.paginationQueryParameter = 'subreport_page';
@@ -31,7 +30,7 @@
 
   AddSubReportController.prototype.setViewColumns = function() {
     if (!this.$scope.subReport.view) { return; }
-    const view = this.$scope.viewsWithColumns.filter(function (view) {
+    var view = this.$scope.viewsWithColumns.filter(function (view) {
       return view.attributes.schema === this.$scope.subReport.view.attributes.schema &&
         view.attributes.name === this.$scope.subReport.view.attributes.name;
     }.bind(this));
@@ -44,6 +43,14 @@
     this.setViewColumns();
   };
 
+  AddSubReportController.prototype.setLastSequences = function() {
+    var lastSequenceOfColumns = Math.max.apply(Math, this.$scope.subReport.columns.map(function (column) {
+      return column.attributes.sequence;
+    }));
+
+    this.$scope.lastSequenceOfColumns = isFinite(lastSequenceOfColumns) ? lastSequenceOfColumns : 0;
+  };
+
   AddSubReportController.prototype.loadSubReport = function() {
     if (this.$scope.mode === 'edit') {
       this.$scope.subReport.view = {'attributes':
@@ -53,12 +60,7 @@
         }
       };
       this.setViewColumns();
-
-      this.$scope.subReport.columns.forEach(columns => {
-        if (columns.attributes.sequence > this.$scope.lastSequenceOfColumns) {
-          this.$scope.lastSequenceOfColumns = columns.attributes.sequence;
-        }
-      });
+      this.setLastSequences();
     }
   };
 

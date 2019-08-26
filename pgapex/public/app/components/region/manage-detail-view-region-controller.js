@@ -1,6 +1,6 @@
 'use strict';
 (function (window) {
-  let module = window.angular.module('pgApexApp.page');
+  var module = window.angular.module('pgApexApp.page');
 
   function ManageDetailViewRegionController($scope, $location, $routeParams, regionService, pageService,
                                             templateService, databaseService, formErrorService, helperService) {
@@ -19,10 +19,6 @@
 
   ManageDetailViewRegionController.prototype.init = function () {
     this.$scope.detailViewAppId = this.getApplicationId();
-
-    this.$scope.lastSequenceOfReportColumns = 0;
-    this.$scope.lastSequenceOfDetailViewColumns = 0;
-    this.$scope.lastSequenceOfSubRegions = 0;
 
     this.$scope.region = {
       'reportSequence': 1,
@@ -105,7 +101,7 @@
 
   ManageDetailViewRegionController.prototype.setViewColumns = function() {
     if (!this.$scope.region.view) { return; }
-    const view = this.$scope.viewsWithColumns.filter(function (view) {
+    var view = this.$scope.viewsWithColumns.filter(function (view) {
       return view.attributes.schema === this.$scope.region.view.attributes.schema &&
         view.attributes.name === this.$scope.region.view.attributes.name;
     }.bind(this));
@@ -303,10 +299,31 @@
     }
   };
 
+  ManageDetailViewRegionController.prototype.setLastSequences = function() {
+    var lastSequenceOfReportColumns = Math.max.apply(Math,
+      this.$scope.region.reportColumns.map(function (reportColumn) {
+        return reportColumn.attributes.sequence;
+    }));
+
+    var lastSequenceOfDetailViewColumns = Math.max.apply(Math,
+      this.$scope.region.detailViewColumns.map(function (detailViewColumns) {
+        return detailViewColumns.attributes.sequence;
+    }));
+
+    var lastSequenceOfSubRegions = Math.max.apply(Math,
+      this.$scope.region.subRegions.map(function (subRegion) {
+        return subRegion.sequence;
+    }));
+
+    this.$scope.lastSequenceOfReportColumns = isFinite(lastSequenceOfReportColumns) ? lastSequenceOfReportColumns : 0;
+    this.$scope.lastSequenceOfDetailViewColumns = isFinite(lastSequenceOfDetailViewColumns) ? lastSequenceOfDetailViewColumns : 0;
+    this.$scope.lastSequenceOfSubRegions = isFinite(lastSequenceOfSubRegions) ? lastSequenceOfSubRegions : 0;
+  };
+
   ManageDetailViewRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
     this.regionService.getRegion(this.getRegionId()).then(function (response) {
-      let region = response.getDataOrDefault({'attributes': {}});
+      var region = response.getDataOrDefault({'attributes': {}});
       region.view = {'attributes': {'schema': region.viewSchema, 'name': region.viewName}};
       this.$scope.region = region;
 
@@ -318,24 +335,7 @@
         this.$scope.region.detailViewColumns = [];
       }
 
-      this.$scope.region.reportColumns.forEach(reportColumn => {
-        if (reportColumn.attributes.sequence > this.$scope.lastSequenceOfReportColumns) {
-          this.$scope.lastSequenceOfReportColumns = reportColumn.attributes.sequence;
-        }
-      });
-
-      this.$scope.region.detailViewColumns.forEach(detailViewColumns => {
-        if (detailViewColumns.attributes.sequence > this.$scope.lastSequenceOfDetailViewColumns) {
-          this.$scope.lastSequenceOfDetailViewColumns = detailViewColumns.attributes.sequence;
-        }
-      });
-
-      this.$scope.region.subRegions.forEach(subRegion => {
-        if (subRegion.sequence > this.$scope.lastSequenceOfSubRegions) {
-          this.$scope.lastSequenceOfSubRegions = subRegion.sequence;
-        }
-      });
-
+      this.setLastSequences();
       this.setViewColumns();
     }.bind(this));
   };
