@@ -36,10 +36,14 @@ $app->group('/api', function () {
     $this->get('/template/region-templates', '\App\Http\Controllers\TemplateController:getRegionTemplates');
     $this->get('/template/navigation-templates', '\App\Http\Controllers\TemplateController:getNavigationTemplates');
     $this->get('/template/report-templates', '\App\Http\Controllers\TemplateController:getReportTemplates');
+    $this->get('/template/report-link-templates', '\App\Http\Controllers\TemplateController:getReportLinkTemplates');
+    $this->get('/template/detail-view-templates', '\App\Http\Controllers\TemplateController:getDetailViewTemplates');
     $this->get('/template/form-templates', '\App\Http\Controllers\TemplateController:getFormTemplates');
+    $this->get('/template/tabularform-templates', '\App\Http\Controllers\TemplateController:getTabularFormTemplates');
     $this->get('/template/button-templates', '\App\Http\Controllers\TemplateController:getButtonTemplates');
     $this->get('/template/textarea-templates', '\App\Http\Controllers\TemplateController:getTextareaTemplates');
     $this->get('/template/drop-down-templates', '\App\Http\Controllers\TemplateController:getDropDownTemplates');
+    $this->get('/template/tabularform-button-templates', '\App\Http\Controllers\TemplateController:getTabularFormButtonTemplates');
     $this->get('/template/input-templates/{inputType}', '\App\Http\Controllers\TemplateController:getInputTemplates');
 
     $this->get('/page/pages/{applicationId}', '\App\Http\Controllers\PageController:getPages');
@@ -63,7 +67,9 @@ $app->group('/api', function () {
     $this->post('/region/region/html/save', '\App\Http\Controllers\RegionController:saveHtmlRegion');
     $this->post('/region/region/navigation/save', '\App\Http\Controllers\RegionController:saveNavigationRegion');
     $this->post('/region/region/report/save', '\App\Http\Controllers\RegionController:saveReportRegion');
+    $this->post('/region/region/report-and-detailview/save', '\App\Http\Controllers\RegionController:saveReportAndDetailViewRegion');
     $this->post('/region/region/form/save', '\App\Http\Controllers\RegionController:saveFormRegion');
+    $this->post('/region/region/tabularform/save', '\App\Http\Controllers\RegionController:saveTabularFormRegion');
   })->add(new AuthMiddleware($this->getContainer()));
 
 })->add(new ApiMiddleware($app->getContainer()));

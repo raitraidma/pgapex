@@ -2,7 +2,7 @@
 
 PROJECT="pgapex"
 DB_NAME="pgapex"
-POSTGRESQL_VERSION="9.4"
+POSTGRESQL_VERSION="9.6"
 
 # PHP
 add-apt-repository -y ppa:ondrej/php5-5.6
@@ -37,7 +37,7 @@ mv phpunit.phar /usr/local/bin/phpunit
 apt-get install -y git
 
 # Nodejs
-curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 apt-get install -y nodejs
 
 # Postgresql (postgres:postgres)

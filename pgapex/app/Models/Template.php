@@ -42,9 +42,30 @@ class Template extends Model {
     return $statement->fetchColumn();
   }
 
+  public function getReportLinkTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_report_link_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getDetailViewTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_detailview_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
   public function getFormTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_form_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getTabularFormTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_tabularform_templates()');
     $statement->execute();
     return $statement->fetchColumn();
   }
@@ -66,6 +87,13 @@ class Template extends Model {
   public function getDropDownTemplates() {
     $connection = $this->getDb()->getConnection();
     $statement = $connection->prepare('SELECT pgapex.f_template_get_drop_down_templates()');
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  public function getTabularFormButtonTemplates() {
+    $connection = $this->getDb()->getConnection();
+    $statement = $connection->prepare('SELECT pgapex.f_template_get_tabularform_button_templates()');
     $statement->execute();
     return $statement->fetchColumn();
   }

@@ -111,6 +111,51 @@
     return this.apiService.post('region/region/report/save', request);
   };
 
+  RegionService.prototype.saveReportAndDetailViewRegion = function (viewSchema, viewName, uniqueId, reportRegionId,
+                                                                    reportName, reportSequence, reportRegionTemplate,
+                                                                    reportIsVisible, reportTemplate, reportShowHeader,
+                                                                    reportItemsPerPage, reportPaginationQueryParameter,
+                                                                    reportPageId, detailViewRegionId, detailViewName,
+                                                                    detailViewSequence, detailViewRegionTemplate,
+                                                                    detailViewIsVisible, detailViewTemplate, detailViewPageId,
+                                                                    reportColumns, detailViewColumns, pageTemplateDisplayPointId,
+                                                                    subRegions, addReportColumnsFormName, addDetailViewColumnsFormName) {
+    var attributes = {
+      'viewSchema': viewSchema,
+      'viewName': viewName,
+      'uniqueId': uniqueId,
+      'reportRegionId': reportRegionId,
+      'reportName': reportName,
+      'reportSequence': reportSequence,
+      'reportRegionTemplate': reportRegionTemplate,
+      'reportIsVisible': reportIsVisible,
+      'reportTemplate': reportTemplate,
+      'reportShowHeader': reportShowHeader,
+      'reportItemsPerPage': reportItemsPerPage,
+      'reportPaginationQueryParameter': reportPaginationQueryParameter,
+      'reportPageId': reportPageId,
+      'detailViewRegionId': detailViewRegionId,
+      'detailViewName': detailViewName,
+      'detailViewSequence': detailViewSequence,
+      'detailViewRegionTemplate': detailViewRegionTemplate,
+      'detailViewIsVisible': detailViewIsVisible,
+      'detailViewTemplate': detailViewTemplate,
+      'detailViewPageId': detailViewPageId,
+      'reportColumns': reportColumns,
+      'detailViewColumns': detailViewColumns,
+      'pageTemplateDisplayPointId': pageTemplateDisplayPointId,
+      'subRegions': subRegions,
+      'addReportColumnsFormName': addReportColumnsFormName,
+      'addDetailViewColumnsFormName': addDetailViewColumnsFormName
+    };
+
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+
+    return this.apiService.post('region/region/report-and-detailview/save', request);
+  };
+
   RegionService.prototype.saveFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, name, sequence, regionTemplate, isVisible,
                                                         formTemplate, buttonTemplate, buttonLabel, successMessage,
                                                         errorMessage, redirectUrl, functionSchema, functionName, formPreFill,
@@ -139,6 +184,38 @@
       .setAttributes(attributes)
       .getRequest();
     return this.apiService.post('region/region/form/save', request);
+  };
+  
+  RegionService.prototype.saveTabularFormRegion = function (pageId, pageTemplateDisplayPointId, regionId, regionTemplate,
+                                                            name, sequence, isVisible, tabularFormTemplate, viewSchema,
+                                                            viewName, showHeader, itemsPerPage,
+                                                            paginationQueryParameter, uniqueId, tabularFormColumns,
+                                                            tabularFormButtons, addTabularFormColumnsFormName) {
+    var attributes = {
+      "pageId": pageId,
+      "pageTemplateDisplayPointId": pageTemplateDisplayPointId,
+      "regionId": regionId,
+      "regionTemplate": regionTemplate,
+      "name": name,
+      "sequence": sequence,
+      "isVisible": isVisible,
+      "tabularFormTemplate": tabularFormTemplate,
+      "viewSchema": viewSchema,
+      "viewName": viewName,
+      "showHeader": showHeader,
+      "itemsPerPage": itemsPerPage,
+      "paginationQueryParameter": paginationQueryParameter,
+      "uniqueId": uniqueId,
+      "tabularFormColumns": tabularFormColumns,
+      "tabularFormButtons": tabularFormButtons,
+      "addTabularFormColumnsFormName": addTabularFormColumnsFormName
+    };
+
+    var request = this.apiService.createApiRequest()
+      .setAttributes(attributes)
+      .getRequest();
+
+    return this.apiService.post('region/region/tabularform/save', request);
   };
 
   function init() {

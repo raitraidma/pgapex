@@ -39,6 +39,26 @@
     .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/form/:regionId/edit', {
       controller: 'pgApexApp.region.ManageFormRegionController',
       templateUrl: 'app/partials/region/manage-form-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/tabular-form/create', {
+      controller: 'pgApexApp.region.ManageTabularFormRegionController',
+      templateUrl: 'app/partials/region/manage-tabular-form-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/tabular-form/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageTabularFormRegionController',
+      templateUrl: 'app/partials/region/manage-tabular-form-region.html'
+    })
+    .when( '/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report-and-detail-view/create', {
+      controller: 'pgApexApp.region.ManageDetailViewRegionController',
+      templateUrl: 'app/partials/region/manage-detail-view-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/detail-view/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageDetailViewRegionController',
+      templateUrl: 'app/partials/region/manage-detail-view-region.html'
+    })
+    .when('/application-builder/app/:applicationId/pages/:pageId/regions/:displayPoint/report-for-detail-view/:regionId/edit', {
+      controller: 'pgApexApp.region.ManageDetailViewRegionController',
+      templateUrl: 'app/partials/region/manage-detail-view-region.html'
     });
   }
 

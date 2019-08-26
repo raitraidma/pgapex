@@ -1,0 +1,116 @@
+<div class="row add-column-link">
+  <div class="col-xs-10">
+    <h3 class="add-column-link__heading">{{title|translate}}
+      <span class="glyphicon glyphicon-info-sign help-text" ng-click="helper.info('region.columnsHelpText')"></span>
+    </h3>
+  </div>
+  <div class="col-xs-2 text-right">
+    <div class="dropdown">
+      <button title="{{attributeTitle|translate}}" class="btn btn-sm btn-primary dropdown-toggle"
+              type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="" ng-click="addColumn('COLUMN')">{{'region.column'|translate}}</a></li>
+        <li><a href="" ng-click="addColumn('LINK')">{{'region.link'|translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row form-group hidden-xs hidden-sm">
+  <div class="col-md-2">{{'region.heading'|translate}}</div>
+  <div class="col-md-1">{{'region.sequence'|translate}}</div>
+  <div class="col-md-1">{{'region.isTextEscaped'|translate}}</div>
+</div>
+
+<div class="alert alert-info" ng-show="columns.length < 1">
+  {{'region.atLeastOneColumnMustBeAdded'|translate}}
+</div>
+
+<div class="form-group form-group-striped" ng-repeat="column in columns">
+  <ng-form name="addColumnLinkForm">
+    <div class="row add-column-link__column-row">
+      <div class="col-md-2"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.heading, 'addColumnLink/' + name + '/' + $index + '/heading')}">
+        <input required ng-model="column.attributes.heading" name="heading" type="text" class="form-control"
+               placeholder="{{'region.heading'|translate}} *">
+      </div>
+      <div class="col-md-1"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.sequence, 'addColumnLink/' + name + '/' + $index + '/sequence')}">
+        <input required ng-model="column.attributes.sequence" name="sequence" type="number" min="0" class="form-control"
+               placeholder="{{'region.sequence'|translate}} *">
+      </div>
+      <div class="col-md-1"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.isTextEscaped, 'addColumnLink/' + name + '/' + $index + '/isTextEscaped')}">
+        <label>
+          <input ng-model="column.attributes.isTextEscaped" type="checkbox"
+                 title="{{'region.isTextEscaped'|translate}}">
+          <span class="visible-xs-inline-block visible-sm-inline-block">{{'region.isTextEscaped'|translate}}</span>
+        </label>
+      </div>
+      <!-- COLUMN -->
+      <div class="col-md-7" ng-show="column.attributes.type === 'COLUMN'"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.column, 'addColumnLink/' + name + '/' + $index + '/column')}">
+        <select class="form-control" name="column" ng-required="column.attributes.type === 'COLUMN'"
+                ng-model="column.attributes.column"
+                ng-options="viewColumn.attributes.name as viewColumn.attributes.name for viewColumn in viewColumns">
+          <option value="">-- {{'region.column'|translate}} * --</option>
+        </select>
+      </div>
+      <!-- LINK -->
+      <div class="col-md-3" ng-show="column.attributes.type === 'LINK'"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.linkUrl, 'addColumnLink/' + name + '/' + $index + '/linkUrl')}">
+        <input ng-required="column.attributes.type === 'LINK'" name="linkUrl" ng-model="column.attributes.linkUrl"
+               type="text" class="form-control" placeholder="{{'region.url'|translate}}">
+      </div>
+      <div class="col-md-2" ng-show="column.attributes.type === 'LINK'"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.linkText, 'addColumnLink/' + name + '/' + $index + '/linkText')}">
+        <input ng-required="column.attributes.type === 'LINK'" name="linkText" ng-model="column.attributes.linkText"
+               type="text" class="form-control" placeholder="{{'region.text'|translate}}">
+      </div>
+      <div class="col-md-2" ng-show="column.attributes.type === 'LINK'"
+           ng-class="{'has-error': formError.showErrors(addColumnLinkForm.linkAttributes, 'addColumnLink/' + name + '/' + $index + '/linkAttributes')}">
+        <input ng-model="column.attributes.linkAttributes" name="linkAttributes" type="text" class="form-control"
+               placeholder="{{'region.attributes'|translate}}">
+      </div>
+
+      <div class="col-md-1 text-right">
+        <a title="{{'region.deleteTabularFormColumn'|translate}}" ng-click="deleteColumn($index)"
+           class="btn btn-sm btn-danger">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row has-error add-column-link__column-row" ng-show="
+        formError.showErrors(addColumnLinkForm.heading, 'addColumnLink/' + name + '/' + $index + '/heading') ||
+        formError.showErrors(addColumnLinkForm.sequence, 'addColumnLink/' + name + '/' + $index + '/sequence') ||
+        formError.showErrors(addColumnLinkForm.column, 'addColumnLink/' + name + '/' + $index + '/column') ||
+        formError.showErrors(addColumnLinkForm.linkUrl, 'addColumnLink/' + name + '/' + $index + '/linkUrl') ||
+        formError.showErrors(addColumnLinkForm.linkText, 'addColumnLink/' + name + '/' + $index + '/linkText') ||
+        formError.showErrors(addColumnLinkForm.linkAttributes, 'addColumnLink/' + name + '/' + $index + '/linkAttributes')
+       ">
+      <div class="col-sm-12">
+        <span ng-show="addColumnLinkForm.heading.$touched && addColumnLinkForm.heading.$error.required"
+              class="help-block">{{'region.headingIsMandatory'|translate}}</span>
+        <span ng-show="addColumnLinkForm.sequence.$touched && addColumnLinkForm.sequence.$error.required"
+              class="help-block">{{'region.sequenceIsMandatory'|translate}}</span>
+        <span ng-show="addColumnLinkForm.column.$touched && addColumnLinkForm.column.$error.required"
+              class="help-block">{{'region.columnIsMandatory'|translate}}</span>
+        <span ng-show="addColumnLinkForm.linkUrl.$touched && addColumnLinkForm.linkUrl.$error.required"
+              class="help-block">{{'region.linkUrlIsMandatory'|translate}}</span>
+        <span ng-show="addColumnLinkForm.linkText.$touched && addColumnLinkForm.linkText.$error.required"
+              class="help-block">{{'region.linkTextIsMandatory'|translate}}</span>
+
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/heading')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/sequence')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/column')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/linkUrl')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/linkText')" class="help-block">{{error|translate}}</span>
+        <span ng-repeat="error in formError.getErrors('addColumnLink/' + name + '/' + $index + '/linkAttributes')"
+              class="help-block">{{error|translate}}</span>
+      </div>
+    </div>
+  </ng-form>
+</div>

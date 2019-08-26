@@ -20,18 +20,17 @@
   ManageReportRegionController.prototype.init = function() {
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.region = {
+      'sequence': 1,
       'showHeader': true,
       'itemsPerPage': 15,
-      'reportColumns': []
+      'reportColumns': [],
+      'paginationQueryParameter': 'report_page'
     };
     this.$scope.viewColumns = [];
     this.$scope.regionTemplates = [];
     this.$scope.reportTemplates = [];
     this.$scope.viewsWithColumns = [];
     this.$scope.formError = this.formErrorService.empty();
-    
-    this.$scope.addReportColumn = this.addReportColumn.bind(this);
-    this.$scope.deleteReportColumn = this.deleteReportColumn.bind(this);
     this.$scope.changeViewColumns = this.changeViewColumns.bind(this);
     this.$scope.saveRegion = this.saveRegion.bind(this);
 
@@ -113,15 +112,6 @@
     return this.$routeParams.applicationId ? parseInt(this.$routeParams.applicationId) : null;
   };
 
-  ManageReportRegionController.prototype.addReportColumn = function(type) {
-    this.$scope.region.reportColumns.push({'attributes': {'type': type, 'isTextEscaped': true}});
-  };
-
-  ManageReportRegionController.prototype.deleteReportColumn = function(reportColumnPosition) {
-    this.$scope.region.reportColumns.splice(reportColumnPosition, 1);
-    this.$scope.formError = this.formErrorService.empty();
-  };
-
   ManageReportRegionController.prototype.saveRegion = function() {
     this.regionService.saveReportRegion(
       this.getPageId(),
@@ -181,13 +171,24 @@
     }
   };
 
+  ManageReportRegionController.prototype.setLastSequences = function() {
+    var lastSequenceOfReportColumns = Math.max.apply(Math,
+      this.$scope.region.reportColumns.map(function (reportColumn) {
+        return reportColumn.attributes.sequence;
+      }));
+
+    this.$scope.lastSequenceOfReportColumns = isFinite(lastSequenceOfReportColumns) ? lastSequenceOfReportColumns : 0;
+  };
+
   ManageReportRegionController.prototype.loadRegion = function() {
     if (!this.isEditPage()) { return; }
     this.regionService.getRegion(this.getRegionId()).then(function (response) {
       var region = response.getDataOrDefault({'attributes': {}}).attributes;
       region['view'] = {'attributes': {'schema': region.schemaName, 'name': region.viewName}};
       this.$scope.region = region;
+
       this.setViewColumns();
+      this.setLastSequences();
     }.bind(this));
   };
 

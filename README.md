@@ -5,7 +5,7 @@ pgApex
 
 pgApex requirements
 ------------------
-* Postgresql 9.4
+* Postgresql 9.6
 * PHP 5.5
 
 Prerequisites

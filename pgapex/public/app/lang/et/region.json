@@ -8,6 +8,7 @@
     "navigation": "Menüü",
     "report": "Raport",
     "form": "Vorm",
+    "tabularForm": "Tabelivorm",
     "HTML": "HTML",
     "NAVIGATION": "MENÜÜ",
     "REPORT": "RAPORT",
@@ -114,11 +115,15 @@
     "paginationQueryParameterMayConsistOfCharsAndUnderscores": "Lehekülgede numeratsiooni parameeter võib koosneda tähtedest a-z A-Z ja _.",
     "preFillFieldsMustBeFilled": "Vormi eeltäitmise väljad peavad olema täidetud.",
     "conditionValueMustHaveSameNameWithFormInputName": "Eeltäitmise välja väärtus peab ühtima vormi välja nimega.",
-
     "repeatLastLevelHelpText": "Kui navigatsiooni sügavamatele elementidele pole loodud vastavat malli, siis kasuta viimast navigatsioonipunkti malli, et kuvada need navigatsioonipunktid. Vastasel juhul jäävad need kuvamata.",
     "preFillFormHelpText": "Kui tahad, et vorm oleks eelnevalt täidetud, siis vali vaade, mille põhjal vorm täidetakse ja lisa vähemalt üks tingimus, mille abil letakse vaatest õige rida. Tingimus peab olema URL parameeter. Nt kui sa lood lingi, mis viitab lehele ja lisad  '?param_name=param_value' siis lisa param_name tingimuse välja. Sellisel juhul kasutatakse param_value-t vaatest otsimiseks.",
     "paginationQueryParameterHelpText": "URL parameeter, mida kasutatakse lehtedele jaotamisel. Võib sisaldada märke a-z A-Z ja _.",
     "columnsHelpText": "Raport peab sisaldama vähemalt ühte veergu. Ohututes veergudes ei kuvata HTML vorminguga teksti. Järjekord peab olema veergude piires unikaalne. Lingi URL võib sisaldada spetsiaalseid muutujaid &APPLICATION_ROOT& ja &APPLICATION_ID&. Lingi URL ja tekst võivad sisaldada spetsiaalseid muutujaid %veeru_nimi% mis asendatakse veerus 'veeru_nimi' oleva väärtusega. Näiteks, kui soovid lisada URL-i, mis viitab praeguses rakenduses olevale lehele 'minu_vorm' ja annab edasi päringu parameetri 'p', mille väärtuseks oleks veerus 'id' olev väärtus,  siis sa pead lisama: &APPLICATION_ROOT&/app/&APPLICATION_ID&/minu_vorm?p=%id%",
-    "redirectUrlHelpText": "Ümbersuunamise URL võib sisaldsada spetsiaalseid muutujaid &APPLICATION_ROOT& ja &APPLICATION_ID&. Näiteks, kui soovid lisada URL-i, mis suunab praeguses rakenduses olevale lehele 'minu_leht', siis sa pead sisestama: &APPLICATION_ROOT&/app/&APPLICATION_ID&/minu_leht"
+    "redirectUrlHelpText": "Ümbersuunamise URL võib sisaldsada spetsiaalseid muutujaid &APPLICATION_ROOT& ja &APPLICATION_ID&. Näiteks, kui soovid lisada URL-i, mis suunab praeguses rakenduses olevale lehele 'minu_leht', siis sa pead sisestama: &APPLICATION_ROOT&/app/&APPLICATION_ID&/minu_leht",
+    "tabularFormUniqueIdHelpText": "Tabeli veeru unikaalne ID, mis võrdneb funktsiooni esimese parameetrina.",
+    "buttonsHelpText": "Nupp, millele vajutades käivitub arendaja poolt andmebaasi funktsioon. Funktsioon võib sisaldada maksimaalselt 2 parameetrit: esimene parameeter on tabeli veeru unikaalne ID (varem defineeritud) ja teine on süsteemne muutuja APP_USER, mis võrdneb kasutajanimele.",
+    "detailViewUniqueIdHelpText": "Tabeli veeru unikaalne ID, mis seob raportit ja detailvaadet.",
+    "subRegionHelpText": "Detailvaade võib sisaldada 0 või rohkem alamregioone. Alamregioon võib olla seotud ülemregiooniga lingi veeru abil: lingi veeru väärtus peab olema võrdne ülemregiooni unikaalse ID-na. Lehekülgede numeratsiooni parameeter on URL parameeter, mida kasutatakse lehtedele jaotamisel. Võib sisaldada märke a-z A-Z ja _.",
+    "htmlRegionContentHelpText": "Kasutage #APP_USER#, et kuvada praegu sisselogitud kasutaja kasutajanimi."
   }
 }

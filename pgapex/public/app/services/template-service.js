@@ -37,8 +37,20 @@
     return this.apiService.get('template/report-templates');
   };
 
+  TemplateService.prototype.getReportLinkTemplates = function () {
+    return this.apiService.get('template/report-link-templates');
+  };
+
+  TemplateService.prototype.getDetailViewTemplates = function () {
+    return this.apiService.get('template/detail-view-templates');
+  };
+
   TemplateService.prototype.getFormTemplates = function () {
     return this.apiService.get('template/form-templates');
+  };
+
+  TemplateService.prototype.getTabularFormTemplates = function() {
+    return this.apiService.get('template/tabularform-templates');
   };
 
   TemplateService.prototype.getButtonTemplates = function () {
@@ -67,6 +79,10 @@
 
   TemplateService.prototype.getDropDownTemplates = function () {
     return this.apiService.get('template/drop-down-templates');
+  };
+
+  TemplateService.prototype.getTabularFormButtonTemplates = function () {
+    return this.apiService.get('template/tabularform-button-templates');
   };
 
   function init() {

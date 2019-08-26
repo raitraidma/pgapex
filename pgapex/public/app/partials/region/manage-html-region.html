@@ -10,6 +10,7 @@
       <label for="content" class="col-sm-3 control-label">{{'region.content'|translate}}</label>
       <div class="col-sm-8">
         <textarea class="form-control" rows="9" name="content" ng-model="region.content" id="content"></textarea>
+        <div class="content-help-text">{{'region.htmlRegionContentHelpText'|translate}}</div>
         <div ng-show="formError.showErrors(manageRegionForm.content, 'content')">
           <span ng-repeat="error in formError.getErrors('content')" class="help-block">{{error|translate}}</span>
         </div>

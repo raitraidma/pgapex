@@ -21,6 +21,7 @@
     this.$scope.mode = this.isCreatePage() ? 'create' : 'edit';
     this.$scope.formError = this.formErrorService.empty();
     this.$scope.region = {
+      'sequence': 1,
       'functionParameters': [],
       'formPreFillColumns': [],
       'function': {'attributes': {'parameters': []}}
